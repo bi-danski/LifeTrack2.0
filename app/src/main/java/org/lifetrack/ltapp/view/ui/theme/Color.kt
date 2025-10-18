@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.view.theme
+package org.lifetrack.ltapp.view.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

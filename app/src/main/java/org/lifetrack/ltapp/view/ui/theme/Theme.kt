@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.view.theme
+package org.lifetrack.ltapp.view.ui.theme
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -9,14 +9,15 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val LightColors = lightColorScheme(
-    primary = androidx.compose.ui.graphics.Color(0xFF4CAF50), // Green
-    onPrimary = androidx.compose.ui.graphics.Color.White,
-    secondary = androidx.compose.ui.graphics.Color(0xFF0288D1), // Blue
-    background = androidx.compose.ui.graphics.Color(0xFFF5F5F5), // Light gray
-    surface = androidx.compose.ui.graphics.Color(0xFFE0E0E0)
+    primary = Color(0xFF4CAF50), // Green
+    onPrimary = Color.White,
+    secondary = Color(0xFF0288D1), // Blue
+    background = Color(0xFFF5F5F5), // Light gray
+    surface = Color(0xFFE0E0E0)
 )
 
 private val DarkColors = darkColorScheme(

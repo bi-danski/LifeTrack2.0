@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.view.ui.screens.patient
+package org.lifetrack.ltapp.view.ui.screens.patient.telemed_screen
 
 //noinspection SuspiciousImport
 import android.R
@@ -31,16 +31,16 @@ import androidx.navigation.NavController
 import org.lifetrack.ltapp.model.data.DoctorProfile
 import org.lifetrack.ltapp.model.data.Premium
 import kotlinx.coroutines.delay
-import org.lifetrack.ltapp.view.theme.AvailableColor
-import org.lifetrack.ltapp.view.theme.BusyColor
-import org.lifetrack.ltapp.view.theme.CardBackground
-import org.lifetrack.ltapp.view.theme.DisabledColor
-import org.lifetrack.ltapp.view.theme.GradientEnd
-import org.lifetrack.ltapp.view.theme.GradientStart
-import org.lifetrack.ltapp.view.theme.PremiumGold
-import org.lifetrack.ltapp.view.theme.PremiumPurple
-import org.lifetrack.ltapp.view.theme.PremiumTeal
-import org.lifetrack.ltapp.view.theme.RatingColor
+import org.lifetrack.ltapp.view.ui.theme.AvailableColor
+import org.lifetrack.ltapp.view.ui.theme.BusyColor
+import org.lifetrack.ltapp.view.ui.theme.CardBackground
+import org.lifetrack.ltapp.view.ui.theme.DisabledColor
+import org.lifetrack.ltapp.view.ui.theme.GradientEnd
+import org.lifetrack.ltapp.view.ui.theme.GradientStart
+import org.lifetrack.ltapp.view.ui.theme.PremiumGold
+import org.lifetrack.ltapp.view.ui.theme.PremiumPurple
+import org.lifetrack.ltapp.view.ui.theme.PremiumTeal
+import org.lifetrack.ltapp.view.ui.theme.RatingColor
 
 
 @OptIn(ExperimentalMaterial3Api::class)

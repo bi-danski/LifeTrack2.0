@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -23,7 +22,7 @@ import org.lifetrack.ltapp.R
 import kotlinx.coroutines.delay
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
-import org.lifetrack.ltapp.view.theme.Purple80
+import org.lifetrack.ltapp.view.ui.theme.Purple80
 
 @Composable
 fun LTBrandAppBar(modifier: Modifier = Modifier) {

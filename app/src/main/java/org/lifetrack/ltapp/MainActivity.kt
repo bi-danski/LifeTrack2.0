@@ -15,7 +15,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import org.lifetrack.ltapp.view.navigation.AppNavigation
-import org.lifetrack.ltapp.view.theme.LTAppTheme
+import org.lifetrack.ltapp.view.ui.theme.LTAppTheme
 
 
 //@AndroidEntryPoint

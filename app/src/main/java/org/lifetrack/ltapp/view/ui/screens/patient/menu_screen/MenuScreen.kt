@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.view.ui.screens.patient
+package org.lifetrack.ltapp.view.ui.screens.patient.menu_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

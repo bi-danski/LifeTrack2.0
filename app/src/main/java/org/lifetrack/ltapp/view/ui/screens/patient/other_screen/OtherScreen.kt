@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.view.ui.screens.patient
+package org.lifetrack.ltapp.view.ui.screens.patient.other_screen
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -34,6 +34,7 @@ val FeatureOrange = Color(0xFFFF7043)
 
 data class FeatureItem(
     val id: Int,
+
     val title: String,
     val description: String,
     val icon: ImageVector,
@@ -43,7 +44,7 @@ data class FeatureItem(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AdditionalFeaturesScreen(navController: NavController) {
+fun OtherScreen(navController: NavController) {
     var isVisible by remember { mutableStateOf(false) }
 
     val features = listOf(

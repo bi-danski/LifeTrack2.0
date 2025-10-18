@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.view.ui.screens.patient
+package org.lifetrack.ltapp.view.ui.screens.patient.home_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -29,8 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 //import com.example.lifetrack.ui.components.pulsate
-import org.lifetrack.ltapp.view.theme.Purple40
-import org.lifetrack.ltapp.view.theme.Purple80
+import org.lifetrack.ltapp.view.ui.theme.Purple40
+import org.lifetrack.ltapp.view.ui.theme.Purple80
 
 
 @OptIn(ExperimentalMaterial3Api::class)

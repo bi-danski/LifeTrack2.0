@@ -83,6 +83,11 @@ dependencies {
     testImplementation(libs.androidx.ui.test.junit4)
     implementation(libs.androidx.ui.viewbinding)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.datetime)
+
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.content.negotiation)
+    implementation(libs.ktor.logging)
 
     testImplementation(libs.junit)
     debugImplementation(libs.androidx.ui.tooling)

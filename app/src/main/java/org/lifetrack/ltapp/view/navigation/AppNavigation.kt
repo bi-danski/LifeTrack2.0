@@ -1,26 +1,20 @@
 package org.lifetrack.ltapp.view.navigation
 
-import android.os.Build
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import org.lifetrack.ltapp.view.ui.screens.patient.AboutScreen
-import org.lifetrack.ltapp.view.ui.screens.patient.AdditionalFeaturesScreen
-import org.lifetrack.ltapp.view.ui.screens.patient.BHPScreen
-import org.lifetrack.ltapp.view.ui.screens.patient.HelpSupportScreen
-import org.lifetrack.ltapp.view.ui.screens.patient.HomeScreen
-import org.lifetrack.ltapp.view.ui.screens.patient.MenuScreen
-import org.lifetrack.ltapp.view.ui.screens.patient.ProfileScreen
-import org.lifetrack.ltapp.view.ui.screens.patient.SplashScreen
-import org.lifetrack.ltapp.view.ui.screens.patient.TelemedicineScreen
+import org.lifetrack.ltapp.view.ui.screens.patient.about_screen.AboutScreen
+import org.lifetrack.ltapp.view.ui.screens.patient.other_screen.OtherScreen
+import org.lifetrack.ltapp.view.ui.screens.patient.guide_screen.HelpSupportScreen
+import org.lifetrack.ltapp.view.ui.screens.patient.home_screen.HomeScreen
+import org.lifetrack.ltapp.view.ui.screens.patient.menu_screen.MenuScreen
+import org.lifetrack.ltapp.view.ui.screens.patient.profile_screen.ProfileScreen
+import org.lifetrack.ltapp.view.ui.screens.SplashScreen
+import org.lifetrack.ltapp.view.ui.screens.patient.telemed_screen.TelemedicineScreen
 
 @Composable
 fun AppNavigation(scope: CoroutineScope) {
@@ -131,12 +125,9 @@ fun AppNavigation(scope: CoroutineScope) {
         composable("telemedicine") { TelemedicineScreen(navController) }
 //        composable("epidemic_alert") { EpidemicAlertScreen(navController) }
 //        composable("info_hub") { InfoHubScreen(navController) }
-        composable("additional_features") { AdditionalFeaturesScreen(navController) }
+        composable("other") { OtherScreen(navController) }
         composable("help_support") {
              HelpSupportScreen(navController)
-        }
-        composable("bhp"){
-            BHPScreen(navController)
         }
         composable("about"){
             AboutScreen(navController)
