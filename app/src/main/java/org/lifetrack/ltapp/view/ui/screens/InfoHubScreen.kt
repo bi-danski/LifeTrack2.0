@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.view.ui.screens.patient.otherscreen
+package org.lifetrack.ltapp.view.ui.screens
 //
 //import android.os.Build
 //import androidx.annotation.RequiresApi

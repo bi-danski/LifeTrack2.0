@@ -7,20 +7,20 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.CoroutineScope
-import org.lifetrack.ltapp.view.ui.screens.patient.aboutscreen.AboutScreen
-import org.lifetrack.ltapp.view.ui.screens.patient.otherscreen.OtherScreen
-import org.lifetrack.ltapp.view.ui.screens.patient.guidescreen.HelpSupportScreen
-import org.lifetrack.ltapp.view.ui.screens.patient.homescreen.HomeScreen
-import org.lifetrack.ltapp.view.ui.screens.patient.menuscreen.MenuScreen
-import org.lifetrack.ltapp.view.ui.screens.patient.profilescreen.ProfileScreen
+import org.lifetrack.ltapp.view.ui.screens.AboutScreen
+import org.lifetrack.ltapp.view.ui.screens.OtherScreen
+import org.lifetrack.ltapp.view.ui.screens.HelpSupportScreen
+import org.lifetrack.ltapp.view.ui.screens.HomeScreen
+import org.lifetrack.ltapp.view.ui.screens.MenuScreen
+import org.lifetrack.ltapp.view.ui.screens.ProfileScreen
 import org.lifetrack.ltapp.view.ui.screens.SplashScreen
-import org.lifetrack.ltapp.view.ui.screens.patient.telemedscreen.TelemedicineScreen
+import org.lifetrack.ltapp.view.ui.screens.TelemedicineScreen
 
 @Composable
 fun AppNavigation(scope: CoroutineScope) {
     val navController = rememberNavController()
-    val context = LocalContext.current
-    val coroutineScope = rememberCoroutineScope()
+//    val context = LocalContext.current
+//    val coroutineScope = rememberCoroutineScope()
 //    val userRepository = UserRepositoryImpl()
 //    val authRepository = AuthRepositoryImpl()
 //    val authPresenter = AuthPresenter(

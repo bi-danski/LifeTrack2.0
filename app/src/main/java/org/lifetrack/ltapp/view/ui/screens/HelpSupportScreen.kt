@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.view.ui.screens.patient.guidescreen
+package org.lifetrack.ltapp.view.ui.screens
 
 import android.content.Context
 import android.content.Intent

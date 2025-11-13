@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.view.ui.screens.practitioner
+package org.lifetrack.ltapp.view.ui.screens
 //
 //import android.annotation.SuppressLint
 //import androidx.compose.foundation.BorderStroke
