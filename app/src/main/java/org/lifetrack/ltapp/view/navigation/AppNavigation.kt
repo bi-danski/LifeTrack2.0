@@ -1,62 +1,59 @@
 package org.lifetrack.ltapp.view.navigation
 
+import android.widget.Toast
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.CoroutineScope
-import org.lifetrack.ltapp.view.ui.screens.AboutScreen
-import org.lifetrack.ltapp.view.ui.screens.OtherScreen
-import org.lifetrack.ltapp.view.ui.screens.HelpSupportScreen
-import org.lifetrack.ltapp.view.ui.screens.HomeScreen
-import org.lifetrack.ltapp.view.ui.screens.MenuScreen
-import org.lifetrack.ltapp.view.ui.screens.ProfileScreen
-import org.lifetrack.ltapp.view.ui.screens.SplashScreen
-import org.lifetrack.ltapp.view.ui.screens.TelemedicineScreen
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import org.lifetrack.ltapp.model.repository.AuthRepositoryImpl
+import org.lifetrack.ltapp.presenter.AuthPresenter
+import org.lifetrack.ltapp.view.AuthView
+import org.lifetrack.ltapp.view.ui.screens.*
 
 @Composable
 fun AppNavigation(scope: CoroutineScope) {
     val navController = rememberNavController()
-//    val context = LocalContext.current
+    val context = LocalContext.current
 //    val coroutineScope = rememberCoroutineScope()
 //    val userRepository = UserRepositoryImpl()
-//    val authRepository = AuthRepositoryImpl()
-//    val authPresenter = AuthPresenter(
-//        view = object : AuthView {
-//            override fun showLoading(isLoading: Boolean, message: String?) {
-//                coroutineScope.launch {
-//                    if (isLoading) {
-//                        val defaultMessage = "Loading, please wait..."
-//                        Toast.makeText(context, message ?: defaultMessage, Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//            }
-//            override fun showError(message: String) {
-//                Toast.makeText(context, "Error: $message", Toast.LENGTH_LONG).show()
-//            }
-//
-//            override fun onAuthSuccess() {
-//                navController.navigate("home") {
-//                    popUpTo("login") { inclusive = true }
-//                }
-//            }
-//            override fun onAuthSuccessWithData(data: String) {
-//                navController.navigate("home") {
-//                    popUpTo("login") { inclusive = true }
-//                }
-//            }
-//
-//        },
-//        repository = authRepository,
-//        scope = scope
-//    )
-//    val client = KtorClientFactory().create()
-//    val apiService = ApiService()
-//    val chatPresenter = ChatPresenter(
-//        apiService = apiService
-//    )
+    val authRepository = AuthRepositoryImpl()
+    val authPresenter = AuthPresenter(
+        view = object : AuthView {
+            override fun showLoading(isLoading: Boolean, msg: String?) {
+                scope.launch {
+                    if (isLoading) {
+                        val defaultMessage = "Loading, please wait..."
+                        Toast.makeText(context, msg ?: defaultMessage, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
+            override fun showError(msg: String) {
+                scope.launch {
+                    Toast.makeText(context, "Error: $msg", Toast.LENGTH_LONG).show()
+                }
+            }
+
+            override fun onAuthSuccess() {
+                navController.navigate("home") {
+                    popUpTo("login") { inclusive = true }
+                }
+            }
+
+            override fun onAuthSuccessWithData(data: String) {
+                navController.navigate("home") {
+                    popUpTo("login") { inclusive = true }
+                }
+            }
+
+        },
+        authRepository = authRepository,
+    )
+
     NavHost(
         navController = navController,
         startDestination = "home"
@@ -69,12 +66,12 @@ fun AppNavigation(scope: CoroutineScope) {
 //            LoginScreen(navController, authPresenter)
 //        }
 
-//        composable("signup") {
-//            RegistrationScreen(
-//                navController = navController,
-//                presenter = authPresenter
-//            )
-//        }
+        composable("signup") {
+            RegistrationScreen(
+                navController = navController,
+                presenter = authPresenter
+            )
+        }
 
         composable("home") {
             HomeScreen(
@@ -111,12 +108,11 @@ fun AppNavigation(scope: CoroutineScope) {
             )
         }
 
-//        composable("reset") {
-//            RestoreScreen(
-//                navController = navController,
-//                userRepository = userRepository
-//            )
-//        }
+        composable("reset") {
+            RestoreScreen(
+                navController = navController
+            )
+        }
 //        composable ("kiongozi"){
 //            AdminScreen(navController)
 //        }

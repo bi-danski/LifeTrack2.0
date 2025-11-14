@@ -1,6 +1,8 @@
 package org.lifetrack.ltapp.view.components
 
 //import android.health.connect.datatypes.units.Temperature
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,6 +27,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import org.lifetrack.ltapp.view.ui.theme.LTAppTheme
 
 @Composable
 fun HealthSummaryCard (
@@ -74,8 +77,11 @@ private fun HealthMetric(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.S)
 @Preview
 @Composable
 fun PreviewHealthSummaryCard() {
-    HealthSummaryCard()
+    LTAppTheme {
+        HealthSummaryCard()
+    }
 }

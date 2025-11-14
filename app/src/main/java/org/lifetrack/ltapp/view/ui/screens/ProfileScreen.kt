@@ -1,31 +1,40 @@
 package org.lifetrack.ltapp.view.ui.screens
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowForwardIos
 import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
+import org.lifetrack.ltapp.view.components.profilescreen.CustomProfileMenuItem
+import org.lifetrack.ltapp.view.components.profilescreen.ProfileMenuItem
+import org.lifetrack.ltapp.view.ui.theme.LTAppTheme
 
 @Composable
 fun ProfileScreen(navController: NavController) {
     val colorScheme = MaterialTheme.colorScheme
+    val userFullName = remember { mutableStateOf("Admin Kamau") }
+    val userPhoneNumber = remember { mutableStateOf("+254790938365") }
 
     Scaffold(
         containerColor = colorScheme.primary
@@ -51,15 +60,16 @@ fun ProfileScreen(navController: NavController) {
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Admin Dokwako",
+                    text = userFullName.value,
                     color = colorScheme.onPrimary,
-                    fontSize = 18.sp,
+                    fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "+254712346789",
-                    color = colorScheme.onPrimary.copy(alpha = 0.7f),
-                    fontSize = 14.sp
+                    text = userPhoneNumber.value,
+                    color = colorScheme.onPrimary.copy(alpha = 0.8f),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
                 )
             }
 
@@ -86,75 +96,35 @@ fun ProfileScreen(navController: NavController) {
 //                    ProfileMenuItem(icon = Icons.Default.Refresh, title = "Refund")
                     ProfileMenuItem(icon = Icons.Default.Lock, title = "Change Password", onClick = {})
                     ProfileMenuItem(icon = Icons.Default.Language, title = "Change Language", onClick = {})
-                    ProfileMenuItemNoArrows(icon = Icons.Default.Delete, title = "Delete My Account", onClick = {})
-//                    ProfileMenuItemNoArrows(icon = Icons.AutoMirrored.Filled.Logout, title = "Logout", onClick = {navController.navigate("login")})
+                    CustomProfileMenuItem(
+                        icon = Icons.Default.Delete,
+                        leftIconColor = colorScheme.primary,
+                        title = "Delete My Account",
+                        onClick = {
+
+                            navController.navigate("login")
+                        }
+                    )
+                    CustomProfileMenuItem(
+                        icon = Icons.AutoMirrored.Filled.Logout,
+                        leftIconColor = Color.Red,
+                        title = "Logout",
+                        onClick = { navController.navigate("login")}
+                    )
                 }
             }
         }
     }
 }
 
-@Composable
-fun ProfileMenuItem(icon: ImageVector, title: String, onClick: () -> Unit) {
-    val colorScheme = MaterialTheme.colorScheme
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onClick() }
-            .padding(vertical = 12.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = title,
-            tint = colorScheme.primary,
-            modifier = Modifier.size(24.dp)
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        Text(
-            text = title,
-            fontSize = 15.sp,
-            color = colorScheme.onBackground,
-            modifier = Modifier.weight(1f)
-        )
-        Icon(
-            imageVector = Icons.AutoMirrored.Filled.ArrowForwardIos,
-            contentDescription = "Arrow",
-            tint = Color.Gray,
-            modifier = Modifier.size(16.dp)
-        )
-    }
-}
-@Composable
-fun ProfileMenuItemNoArrows(icon: ImageVector, title: String, onClick: () -> Unit) {
-    val colorScheme = MaterialTheme.colorScheme
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onClick() }
-            .padding(vertical = 12.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = title,
-            tint = colorScheme.primary,
-            modifier = Modifier.size(24.dp)
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        Text(
-            text = title,
-            fontSize = 15.sp,
-            color = colorScheme.onBackground,
-            modifier = Modifier.weight(1f)
-        )
-//        Icon(
-//            imageVector = Icons.Default.ArrowForwardIos,
-//            contentDescription = "Arrow",
-//            tint = Color.Gray,
-//            modifier = Modifier.size(16.dp)
+//@RequiresApi(Build.VERSION_CODES.S)
+//@Preview
+//@Composable
+//fun PreviewProfileScreen() {
+//    val navController = rememberNavController()
+//    LTAppTheme {
+//        ProfileScreen(
+//            navController
 //        )
-    }
-}
+//    }
+//}

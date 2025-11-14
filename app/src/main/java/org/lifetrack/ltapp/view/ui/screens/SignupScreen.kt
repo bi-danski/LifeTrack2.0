@@ -51,6 +51,7 @@ fun RegistrationScreen(
     var telNumber by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisibility by remember { mutableStateOf(false) }
+
     var uiState by remember { mutableStateOf<UIState>(UIState.Idle) }
     var isVisible by remember { mutableStateOf(previewMode) }
 
@@ -266,13 +267,13 @@ fun RegistrationScreen(
     }
 }
 
-val mockPresenter = AuthPresenter(null, AuthRepositoryImpl())
-
-@RequiresApi(Build.VERSION_CODES.S)
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun PreviewRegistrationScreen() {
-    LTAppTheme {
-        RegistrationScreen(rememberNavController(), mockPresenter, previewMode = true)
-    }
-}
+//val mockPresenter = AuthPresenter(null, AuthRepositoryImpl())
+//
+//@RequiresApi(Build.VERSION_CODES.S)
+//@Preview(showBackground = true, showSystemUi = true)
+//@Composable
+//fun PreviewRegistrationScreen() {
+//    LTAppTheme {
+//        RegistrationScreen(rememberNavController(), mockPresenter, previewMode = true)
+//    }
+//}
