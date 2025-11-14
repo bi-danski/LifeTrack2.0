@@ -2,8 +2,10 @@ package org.lifetrack.ltapp.presenter
 
 import androidx.lifecycle.ViewModel
 import org.lifetrack.ltapp.model.repository.AuthRepository
+import org.lifetrack.ltapp.view.AuthView
 
 class AuthPresenter(
+    var view: AuthView?,
     val authRepository: AuthRepository
 ): ViewModel() {
 
@@ -11,9 +13,16 @@ class AuthPresenter(
         return  authRepository.getTokenId()
     }
 
-    suspend fun logout() {
+    fun logout() {
         authRepository.logout()
     }
 
+    fun login(email: String, password: String){
+
+    }
+
+    fun signUp(email: String, password: String, telNumber: String, fullName: String){
+
+    }
 
 }

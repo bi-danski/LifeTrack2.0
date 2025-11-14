@@ -19,8 +19,8 @@ import org.lifetrack.ltapp.view.ui.screens.TelemedicineScreen
 @Composable
 fun AppNavigation(scope: CoroutineScope) {
     val navController = rememberNavController()
-    val context = LocalContext.current
-    val coroutineScope = rememberCoroutineScope()
+//    val context = LocalContext.current
+//    val coroutineScope = rememberCoroutineScope()
 //    val userRepository = UserRepositoryImpl()
 //    val authRepository = AuthRepositoryImpl()
 //    val authPresenter = AuthPresenter(

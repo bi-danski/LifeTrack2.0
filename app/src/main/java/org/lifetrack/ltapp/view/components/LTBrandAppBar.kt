@@ -1,6 +1,7 @@
 package org.lifetrack.ltapp.view.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
@@ -22,7 +23,8 @@ import org.lifetrack.ltapp.R
 import kotlinx.coroutines.delay
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+//import androidx.compose.ui.tooling.preview.Preview
+import org.lifetrack.ltapp.view.ui.theme.Purple40
 import org.lifetrack.ltapp.view.ui.theme.Purple80
 
 @Composable
@@ -60,7 +62,7 @@ fun LTBrandAppBar(modifier: Modifier = Modifier) {
             text = "LifeTrack",
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
-            color = Purple80
+            color = if (isSystemInDarkTheme()) Purple80 else Purple40
         )
         Text(
             text = "Better Healthcare, Simplified",

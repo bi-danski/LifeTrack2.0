@@ -1,5 +1,7 @@
 package org.lifetrack.ltapp.view.ui.theme
 
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
 
 val Purple80 = Color(0xFFD0BCFF)
@@ -20,3 +22,18 @@ val PremiumGold = Color(0xFFFDD835)    // Gold accent
 val PremiumPurple = Color(0xFFAB47BC)  // Purple accent
 val GradientStart = Color(0xFFE0F7FA)  // Light gradient start
 val GradientEnd = Color(0xFF80DEEA)    // Teal gradient end
+
+
+val LightColors = lightColorScheme(
+    primary = Color(0xFF4CAF50), // Green
+    onPrimary = Color.White,
+    secondary = Color(0xFF0288D1), // Blue
+    background = Color(0xFFF5F5F5), // Light gray
+    surface = Color(0xFFE0E0E0)
+)
+
+val DarkColors = darkColorScheme(
+    primary = Purple80,
+    secondary = PurpleGrey80,
+    tertiary = Pink80
+)
