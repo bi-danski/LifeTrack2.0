@@ -1,8 +1,10 @@
 package org.lifetrack.ltapp.view.ui.screens
 
-//import android.os.Build
-//import androidx.annotation.RequiresApi
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,32 +22,51 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
-//import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-//import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import org.lifetrack.ltapp.view.components.profilescreen.CustomProfileMenuItem
 import org.lifetrack.ltapp.view.components.profilescreen.ProfileMenuItem
-//import org.lifetrack.ltapp.view.ui.theme.LTAppTheme
+import org.lifetrack.ltapp.view.ui.theme.LTAppTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(navController: NavController) {
     val colorScheme = MaterialTheme.colorScheme
-    val userFullName = remember { mutableStateOf("Admin Kamau") }
-    val userPhoneNumber = remember { mutableStateOf("+254790938365") }
+    val userFullName = remember { mutableStateOf("Dr. Najma") }
+    val userPhoneNumber = remember { mutableStateOf("+(254)7 9093 8365") }
 
     Scaffold(
-        containerColor = colorScheme.primary
+        containerColor = colorScheme.primary,
+        topBar = {
+            TopAppBar(
+                {
+                    Text(text = "")
+                },
+                navigationIcon = {
+                    IconButton({ navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowCircleLeft,
+                            contentDescription = "Back"
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = colorScheme.primary
+                )
+            )
+        }
     ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .background(if(isSystemInDarkTheme()) colorScheme.primary.copy(0.1f) else colorScheme.primary)
         ) {
-            Spacer(modifier = Modifier.height(40.dp))
-
+//            Spacer(modifier = Modifier.height(40.dp))
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth()
@@ -116,14 +137,14 @@ fun ProfileScreen(navController: NavController) {
     }
 }
 
-//@RequiresApi(Build.VERSION_CODES.S)
-//@Preview
-//@Composable
-//fun PreviewProfileScreen() {
-//    val navController = rememberNavController()
-//    LTAppTheme {
-//        ProfileScreen(
-//            navController
-//        )
-//    }
-//}
+@RequiresApi(Build.VERSION_CODES.S)
+@Preview
+@Composable
+fun PreviewProfileScreen() {
+    val navController = rememberNavController()
+    LTAppTheme {
+        ProfileScreen(
+            navController
+        )
+    }
+}

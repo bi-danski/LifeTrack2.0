@@ -55,7 +55,7 @@ fun ChatScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Coral Healthcare Assistant") },
+                title = { Text("ALMA Healthcare Assistant") },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")

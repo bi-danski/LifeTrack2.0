@@ -78,7 +78,7 @@ fun FeatureGrid(navController: NavController) {
             GlassActionCard(
                 "Help & Support",
                 Icons.AutoMirrored.Filled.HelpCenter){
-                navController.navigate("") }
+                navController.navigate("support") }
         }
     }
 }

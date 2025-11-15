@@ -97,9 +97,6 @@ fun AppNavigation(scope: CoroutineScope) {
         composable("home") {
             HomeScreen(
                 navController = navController
-//                onEmergency = { navController.navigate("emergency") },
-//                onSearch = { navController.navigate("search")},
-//                onAlma = { navController.navigate("alma") }
             )
         }
 
@@ -134,7 +131,7 @@ fun AppNavigation(scope: CoroutineScope) {
 //        composable("epidemic_alert") { EpidemicAlertScreen(navController) }
 //        composable("info_hub") { InfoHubScreen(navController) }
         composable("other") { OtherScreen(navController) }
-        composable("help_support") {
+        composable("support") {
              SupportScreen(navController)
         }
         composable("about"){
