@@ -1,5 +1,6 @@
 package org.lifetrack.ltapp.view.navigation
 
+import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
@@ -13,6 +14,7 @@ import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.view.AuthView
 import org.lifetrack.ltapp.view.ui.screens.*
 
+@SuppressLint("ViewModelConstructorInComposable")
 @Composable
 fun AppNavigation(scope: CoroutineScope) {
     val navController = rememberNavController()
