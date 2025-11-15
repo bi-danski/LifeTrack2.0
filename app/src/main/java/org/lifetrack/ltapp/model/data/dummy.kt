@@ -1,6 +1,7 @@
 package org.lifetrack.ltapp.model.data
 
 import org.lifetrack.ltapp.R
+import java.time.LocalDate
 
 val epidemicAlerts = listOf(
     EpidemicAlert(
@@ -62,5 +63,53 @@ val epidemicAlerts = listOf(
         ),
         status = "Contained",
         localImageRes = R.drawable.alerts
+    )
+)
+
+val medicalVisits = listOf(
+    MedicalVisit(
+        id = 1,
+        date = LocalDate.of(2025, 6, 15),
+        diagnosis = "Upper Respiratory Infection",
+        treatment = "Antibiotics (Amoxicillin), Rest",
+        notes = "Follow-up recommended in 2 weeks",
+        doctor = "Hilary Otieno",
+        hospital = "Nakuru General Hospital"
+    ),
+    MedicalVisit(
+        id = 2,
+        date = LocalDate.of(2025, 7, 10),
+        diagnosis = "Mild Hypertension",
+        treatment = "Lifestyle changes, Monitor BP",
+        notes = "Referral to cardiologist pending",
+        doctor = "Mercy Baraka",
+        hospital = "Rift Valley Provincial Hospital"
+    ),
+    MedicalVisit(
+        id = 3,
+        date = LocalDate.of(2025, 7, 20),
+        diagnosis = "Allergic Rhinitis",
+        treatment = "Antihistamines, Avoid allergens",
+        notes = "Symptoms improved, continue treatment",
+        doctor = "Tabitha Kerry",
+        hospital = "Kabarak Mission Hospital"
+    ),
+    MedicalVisit(
+        id = 4,
+        date = LocalDate.of(2025, 7, 25),
+        diagnosis = "Vitamin D Deficiency",
+        treatment = "Supplements, Sun Exposure",
+        notes = "Revisit in one month",
+        doctor = "Hilary Otieno",
+        hospital = "Nakuru General Hospital"
+    ),
+    MedicalVisit(
+        id = 5,
+        date = LocalDate.of(2025, 7, 28),
+        diagnosis = "Minor Laceration",
+        treatment = "Stitches, Antibiotics",
+        notes = "Keep wound clean, follow-up if infected",
+        doctor = "Mercy Baraka",
+        hospital = "Rift Valley Provincial Hospital"
     )
 )

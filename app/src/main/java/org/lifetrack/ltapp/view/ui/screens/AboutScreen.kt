@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import org.lifetrack.ltapp.view.components.aboutscreen.FeatureItem
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutScreen(navController: NavController) {
@@ -216,14 +217,13 @@ fun AboutScreen(navController: NavController) {
                         )
                     }
 //                  Spacer(modifier = Modifier.height(10.dp))
-
-                    Text(
-                        text = "        © 2023 LifeTrack. All rights reserved.",
-                        style = MaterialTheme.typography.bodySmall.copy(
-                            color = Color(0xFF6C757D)
-                        )
-                    )
                 }
+                Text(
+                    text = "        © 2023 LifeTrack. All rights reserved.",
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        color = Color(0xFF6C757D)
+                    )
+                )
             }
         }
     }

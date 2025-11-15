@@ -31,6 +31,7 @@ import coil.compose.rememberAsyncImagePainter
 import org.lifetrack.ltapp.view.components.profilescreen.CustomProfileMenuItem
 import org.lifetrack.ltapp.view.components.profilescreen.ProfileMenuItem
 import org.lifetrack.ltapp.view.ui.theme.LTAppTheme
+import org.lifetrack.ltapp.view.ui.theme.Purple40
 import org.lifetrack.ltapp.view.ui.theme.Purple80
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -38,7 +39,7 @@ import org.lifetrack.ltapp.view.ui.theme.Purple80
 fun ProfileScreen(navController: NavController) {
     val colorScheme = MaterialTheme.colorScheme
     val userFullName = remember { mutableStateOf("Dr. Najma") }
-    val userPhoneNumber = remember { mutableStateOf("+(254)7 9093 8365") }
+    val userPhoneNumber = remember { mutableStateOf("+(254) 79093 8365") }
 
     Scaffold(
         containerColor = colorScheme.primary,
@@ -52,12 +53,12 @@ fun ProfileScreen(navController: NavController) {
                         Icon(
                             imageVector = Icons.Default.ArrowCircleLeft,
                             contentDescription = "Back",
-                            tint = if (isSystemInDarkTheme()) Color.Black else LocalContentColor.current
+                            tint = Color.Black
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = colorScheme.primary
+                    containerColor = if(isSystemInDarkTheme()) colorScheme.primary.copy(0.1f) else Purple40, //colorScheme.primary
                 )
             )
         }
@@ -66,9 +67,8 @@ fun ProfileScreen(navController: NavController) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .background(if(isSystemInDarkTheme()) colorScheme.primary.copy(0.1f) else colorScheme.primary)
+                .background(if(isSystemInDarkTheme()) colorScheme.primary.copy(0.1f) else Purple40)
         ) {
-//            Spacer(modifier = Modifier.height(40.dp))
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth()
@@ -88,6 +88,7 @@ fun ProfileScreen(navController: NavController) {
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
+                Spacer(modifier = Modifier.height(3.dp))
                 Text(
                     text = userPhoneNumber.value,
                     color = colorScheme.onPrimary.copy(alpha = 0.8f),

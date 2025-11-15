@@ -31,7 +31,7 @@ fun FeatureGrid(navController: NavController) {
             GlassActionCard(
                 "Medical Timeline",
                 Icons.Filled.BarChart
-            ) { navController.navigate("med_timeline") }
+            ) { navController.navigate("timeline") }
         }
         item {
             GlassActionCard(

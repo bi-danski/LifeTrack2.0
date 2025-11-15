@@ -24,11 +24,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import org.lifetrack.ltapp.model.data.MedicalVisit
 import org.lifetrack.ltapp.model.data.medicalVisits
 import kotlinx.coroutines.delay
 import org.lifetrack.ltapp.view.ui.theme.Purple40
-import java.time.LocalDate
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

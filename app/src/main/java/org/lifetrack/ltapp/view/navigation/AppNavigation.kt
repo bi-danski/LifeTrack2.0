@@ -120,7 +120,7 @@ fun AppNavigation(scope: CoroutineScope) {
 //            AdminScreen(navController)
 //        }
 //        composable("expert") { ExpertScreen(navController) }
-//        composable("med_timeline") { MedicalTimelineScreen(navController) }
+        composable("timeline") { TimeLineScreen(navController) }
         composable("telemedicine") { TelemedicineScreen(navController) }
         composable("alerts") { AlertScreen(navController) }
 //        composable("info_hub") { InfoHubScreen(navController) }
