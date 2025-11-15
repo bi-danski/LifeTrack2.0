@@ -1,6 +1,7 @@
 package org.lifetrack.ltapp.view.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -20,6 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import org.lifetrack.ltapp.view.components.aboutscreen.FeatureItem
+import org.lifetrack.ltapp.view.ui.theme.Purple40
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,10 +33,8 @@ fun AboutScreen(navController: NavController) {
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        "About LifeTrack",
-                        style = MaterialTheme.typography.headlineSmall.copy(
-                            color = Color(0xFF2E5EAA)
-                        )
+                        "", //  "About LifeTrack",
+                        style = MaterialTheme.typography.headlineSmall.copy()
                     )
                 },
                 navigationIcon = {
@@ -47,7 +47,9 @@ fun AboutScreen(navController: NavController) {
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = colorScheme.primary
+                    containerColor = colorScheme.background, //colorScheme.primaryContainer,
+                    titleContentColor = colorScheme.onPrimaryContainer,
+                    navigationIconContentColor = colorScheme.onPrimaryContainer
                 )
             )
         },
@@ -216,15 +218,16 @@ fun AboutScreen(navController: NavController) {
                             style = MaterialTheme.typography.bodyMedium
                         )
                     }
-//                  Spacer(modifier = Modifier.height(10.dp))
+//
                 }
-                Text(
-                    text = "        © 2023 LifeTrack. All rights reserved.",
-                    style = MaterialTheme.typography.bodySmall.copy(
-                        color = Color(0xFF6C757D)
-                    )
-                )
             }
+            Text(
+                text = "        © 2023 LifeTrack. All rights reserved.",
+                style = MaterialTheme.typography.bodySmall.copy(
+                    color = Color(0xFF6C757D)
+                )
+            )
+            Spacer(modifier = Modifier.height(15.dp))
         }
     }
 }

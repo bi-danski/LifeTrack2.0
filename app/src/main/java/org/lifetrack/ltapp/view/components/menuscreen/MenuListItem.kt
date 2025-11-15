@@ -13,12 +13,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import org.lifetrack.ltapp.view.ui.theme.Purple40
+import org.lifetrack.ltapp.view.ui.theme.Purple80
 
 @Composable
 fun MenuListItem(
     icon: ImageVector,
     title: String,
-    color: Color = Purple40,
+    color: Color = Color(0xFF0288D1),
     onClick: () -> Unit
 ) {
     Card(
