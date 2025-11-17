@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.view.components
+package org.lifetrack.ltapp.view.components.other
 
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat

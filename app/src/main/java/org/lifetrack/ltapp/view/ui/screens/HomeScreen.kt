@@ -22,11 +22,13 @@ import org.lifetrack.ltapp.view.components.homescreen.*
 fun HomeScreen(navController: NavController) {
     Scaffold(
         floatingActionButton = {
-            GlassFloatingActionButton(onClick = { /* next ni hapa */ }) {
+            GlassFloatingActionButton(onClick = { navController.navigate("alma") }) {
                 Icon(Icons.AutoMirrored.Filled.Chat, contentDescription = "Quick Chat")
             }
         },
-        bottomBar = { AppBottomBar() },
+        bottomBar = {
+            AppBottomBar(navController)
+        },
         containerColor = MaterialTheme.colorScheme.background
     ) { innerPadding ->
         Column(

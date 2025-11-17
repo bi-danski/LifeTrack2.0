@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.view.components
+package org.lifetrack.ltapp.view.components.loginscreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme

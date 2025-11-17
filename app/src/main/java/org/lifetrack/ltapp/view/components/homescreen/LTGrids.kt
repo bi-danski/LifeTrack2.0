@@ -31,7 +31,7 @@ fun FeatureGrid(navController: NavController) {
             GlassActionCard(
                 "Medical Timeline",
                 Icons.Filled.BarChart
-            ) { navController.navigate("med_timeline") }
+            ) { navController.navigate("timeline") }
         }
         item {
             GlassActionCard(
@@ -49,7 +49,7 @@ fun FeatureGrid(navController: NavController) {
             GlassActionCard(
                 "Emergency Alerts",
                 Icons.Filled.Notifications
-            ) { navController.navigate("") }
+            ) { navController.navigate("alerts") }
         }
         item {
             GlassActionCard("Messaging & Referrals",
@@ -78,7 +78,7 @@ fun FeatureGrid(navController: NavController) {
             GlassActionCard(
                 "Help & Support",
                 Icons.AutoMirrored.Filled.HelpCenter){
-                navController.navigate("") }
+                navController.navigate("support") }
         }
     }
 }

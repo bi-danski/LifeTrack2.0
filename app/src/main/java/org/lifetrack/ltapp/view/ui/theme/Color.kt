@@ -23,6 +23,11 @@ val PremiumPurple = Color(0xFFAB47BC)  // Purple accent
 val GradientStart = Color(0xFFE0F7FA)  // Light gradient start
 val GradientEnd = Color(0xFF80DEEA)    // Teal gradient end
 
+val CriticalAlert = Color(0xFFD32F2F)
+val HighAlert = Color(0xFFFFA000)
+val MediumAlert = Color(0xFFFFC107)
+val LowAlert = Color(0xFF388E3C)
+
 
 val LightColors = lightColorScheme(
     primary = Color(0xFF4CAF50), // Green

@@ -1,5 +1,6 @@
 package org.lifetrack.ltapp.view.navigation
 
+import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
@@ -9,10 +10,13 @@ import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.model.repository.AuthRepositoryImpl
+import org.lifetrack.ltapp.presenter.AlmaPresenter
 import org.lifetrack.ltapp.presenter.AuthPresenter
+import org.lifetrack.ltapp.view.AlmaView
 import org.lifetrack.ltapp.view.AuthView
 import org.lifetrack.ltapp.view.ui.screens.*
 
+@SuppressLint("ViewModelConstructorInComposable")
 @Composable
 fun AppNavigation(scope: CoroutineScope) {
     val navController = rememberNavController()
@@ -52,6 +56,24 @@ fun AppNavigation(scope: CoroutineScope) {
         },
         authRepository = authRepository,
     )
+    val almaPresenter = AlmaPresenter(
+        view = object: AlmaView {
+            override fun displayAlmaResponse() {
+
+            }
+            override fun showError() {
+
+            }
+
+            override fun showLoading() {
+
+            }
+
+            override fun hideLoading() {
+
+            }
+        }
+    )
 
     NavHost(
         navController = navController,
@@ -60,54 +82,36 @@ fun AppNavigation(scope: CoroutineScope) {
         composable("splash") {
             SplashScreen(navController)
         }
-
-//        composable("login") {
-//            LoginScreen(navController, authPresenter)
-//        }
-
+        composable("login") {
+            LoginScreen(navController, authPresenter)
+        }
         composable("signup") {
             RegistrationScreen(
                 navController = navController,
                 presenter = authPresenter
             )
         }
-
         composable("home") {
             HomeScreen(
                 navController = navController
-//                onEmergency = { navController.navigate("emergency") },
-//                onSearch = { navController.navigate("search")},
-//                onAlma = { navController.navigate("alma") }
             )
         }
-
-//        composable("chat"){
-//            ChatScreen(
-//                navController = navController,
-//                presenter = chatPresenter)
-//        }
+        composable("alma"){
+            ChatScreen(
+                navController = navController,
+                presenter = almaPresenter)
+        }
         composable("profile"){
             ProfileScreen(
                 navController = navController,
-//                userRepository = userRepository,
-//                onLogout = {
-//                    scope.launch {
-//                        authRepository.logout()
-//                        navController.navigate("login") {
-//                            popUpTo("home") { inclusive = true }
-//                        }
-//                    }
-//                }
             )
         }
-
         composable("menu"){
             MenuScreen(
                 navController = navController
             )
         }
-
-        composable("reset") {
+        composable("restore") {
             RestoreScreen(
                 navController = navController
             )
@@ -116,12 +120,12 @@ fun AppNavigation(scope: CoroutineScope) {
 //            AdminScreen(navController)
 //        }
 //        composable("expert") { ExpertScreen(navController) }
-//        composable("med_timeline") { MedicalTimelineScreen(navController) }
+        composable("timeline") { TimeLineScreen(navController) }
         composable("telemedicine") { TelemedicineScreen(navController) }
-//        composable("epidemic_alert") { EpidemicAlertScreen(navController) }
+        composable("alerts") { AlertScreen(navController) }
 //        composable("info_hub") { InfoHubScreen(navController) }
         composable("other") { OtherScreen(navController) }
-        composable("help_support") {
+        composable("support") {
              SupportScreen(navController)
         }
         composable("about"){

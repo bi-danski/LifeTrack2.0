@@ -70,16 +70,7 @@ fun GlassActionCard(title: String, icon: ImageVector, onClick: () -> Unit) {
             .height(65.dp)
 //            .width(170.dp)
             .clip(shape)
-            .background(
-                color = MaterialTheme.colorScheme.background.copy(0.08f),
-//                brush = Brush.verticalGradient(
-//                    listOf(
-//                        MaterialTheme.colorScheme.primary.copy(alpha = 0.4f),
-//                        MaterialTheme.colorScheme.primary.copy(alpha = 0.05f)
-//                    )
-//                ),
-//                shape = shape
-            ),
+            .background( color = MaterialTheme.colorScheme.background.copy(0.08f) ),
         colors = CardDefaults.cardColors(
             MaterialTheme.colorScheme.primary.copy(0.1f)),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)

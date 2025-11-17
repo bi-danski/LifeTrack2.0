@@ -3,6 +3,8 @@ package org.lifetrack.ltapp.view.ui.screens
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,23 +31,44 @@ import coil.compose.rememberAsyncImagePainter
 import org.lifetrack.ltapp.view.components.profilescreen.CustomProfileMenuItem
 import org.lifetrack.ltapp.view.components.profilescreen.ProfileMenuItem
 import org.lifetrack.ltapp.view.ui.theme.LTAppTheme
+import org.lifetrack.ltapp.view.ui.theme.Purple40
+//import org.lifetrack.ltapp.view.ui.theme.Purple80
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(navController: NavController) {
     val colorScheme = MaterialTheme.colorScheme
-    val userFullName = remember { mutableStateOf("Admin Kamau") }
-    val userPhoneNumber = remember { mutableStateOf("+254790938365") }
+    val userFullName = remember { mutableStateOf("Dr. Najma") }
+    val userPhoneNumber = remember { mutableStateOf("+(254) 79093 8365") }
 
     Scaffold(
-        containerColor = colorScheme.primary
+        containerColor = colorScheme.primary,
+        topBar = {
+            TopAppBar(
+                {
+                    Text(text = "")
+                },
+                navigationIcon = {
+                    IconButton({ navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowCircleLeft,
+                            contentDescription = "Back",
+                            tint = Color.Black
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = if(isSystemInDarkTheme()) colorScheme.primary.copy(0.1f) else Purple40, //colorScheme.primary
+                )
+            )
+        }
     ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .background(if(isSystemInDarkTheme()) colorScheme.primary.copy(0.1f) else Purple40)
         ) {
-            Spacer(modifier = Modifier.height(40.dp))
-
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth()
@@ -65,6 +88,7 @@ fun ProfileScreen(navController: NavController) {
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
+                Spacer(modifier = Modifier.height(3.dp))
                 Text(
                     text = userPhoneNumber.value,
                     color = colorScheme.onPrimary.copy(alpha = 0.8f),
@@ -94,14 +118,13 @@ fun ProfileScreen(navController: NavController) {
                     ProfileMenuItem(icon = Icons.Default.Person, title = "Personal Information", onClick = {})
                     ProfileMenuItem(icon = Icons.AutoMirrored.Filled.List, title = "My Medical History", onClick = {})
 //                    ProfileMenuItem(icon = Icons.Default.Refresh, title = "Refund")
-                    ProfileMenuItem(icon = Icons.Default.Lock, title = "Change Password", onClick = {})
+                    ProfileMenuItem(icon = Icons.Default.Lock, title = "Change Password", onClick = { navController.navigate("restore") })
                     ProfileMenuItem(icon = Icons.Default.Language, title = "Change Language", onClick = {})
                     CustomProfileMenuItem(
                         icon = Icons.Default.Delete,
                         leftIconColor = colorScheme.primary,
                         title = "Delete My Account",
                         onClick = {
-
                             navController.navigate("login")
                         }
                     )
@@ -117,14 +140,14 @@ fun ProfileScreen(navController: NavController) {
     }
 }
 
-//@RequiresApi(Build.VERSION_CODES.S)
-//@Preview
-//@Composable
-//fun PreviewProfileScreen() {
-//    val navController = rememberNavController()
-//    LTAppTheme {
-//        ProfileScreen(
-//            navController
-//        )
-//    }
-//}
+@RequiresApi(Build.VERSION_CODES.S)
+@Preview
+@Composable
+fun PreviewProfileScreen() {
+    val navController = rememberNavController()
+    LTAppTheme {
+        ProfileScreen(
+            navController
+        )
+    }
+}

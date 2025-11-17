@@ -35,11 +35,11 @@ fun FAQItem(question: String, answer: String) {
             .fillMaxWidth()
             .clickable { expanded = !expanded },
         colors = CardDefaults.cardColors(
-            containerColor = if (expanded) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f)
+            containerColor = if (expanded) MaterialTheme.colorScheme.primaryContainer //.copy(alpha = 0.2f)
             else MaterialTheme.colorScheme.surface
         ),
         shape = RoundedCornerShape(12.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = if (expanded) 4.dp else 1.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)// if (expanded) 4.dp else 1.dp)
     ) {
         Column(
             modifier = Modifier.padding(16.dp)

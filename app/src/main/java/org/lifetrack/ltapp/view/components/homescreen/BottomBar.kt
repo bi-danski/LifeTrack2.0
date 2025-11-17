@@ -23,10 +23,13 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import org.lifetrack.ltapp.view.ui.theme.Purple40
 
 @Composable
-fun AppBottomBar() {
+fun AppBottomBar(
+    navController: NavController
+) {
     var selected by remember { mutableIntStateOf(0) }
     val shape = RoundedCornerShape(24.dp)
     NavigationBar(
@@ -62,7 +65,7 @@ fun AppBottomBar() {
         )
         NavigationBarItem(
             selected = selected == 1,
-            onClick = { selected = 1},
+            onClick = { navController.navigate("profile") },
             icon = { Icon(Icons.Filled.AccountCircle, contentDescription = "Profile") },
             label = { Text("Profile") }
         )

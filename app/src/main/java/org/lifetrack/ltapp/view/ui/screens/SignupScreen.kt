@@ -1,7 +1,7 @@
 package org.lifetrack.ltapp.view.ui.screens
 
-import android.os.Build
-import androidx.annotation.RequiresApi
+//import android.os.Build
+//import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -24,18 +24,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
+//import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+//import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.lifetrack.ltapp.model.repository.AuthRepositoryImpl
+//import org.lifetrack.ltapp.model.repository.AuthRepositoryImpl
 import org.lifetrack.ltapp.presenter.AuthPresenter
-import org.lifetrack.ltapp.presenter.state.UIState
+import org.lifetrack.ltapp.view.ui.state.UIState
 import org.lifetrack.ltapp.view.AuthView
-import org.lifetrack.ltapp.view.ui.theme.LTAppTheme
+//import org.lifetrack.ltapp.view.ui.theme.LTAppTheme
 
 @Composable
 fun RegistrationScreen(

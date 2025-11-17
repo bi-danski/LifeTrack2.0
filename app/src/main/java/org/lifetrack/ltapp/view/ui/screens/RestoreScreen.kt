@@ -125,7 +125,7 @@ fun RestoreScreen(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.Start
         ) {
-            TextButton(onClick = { navController.navigate("login") }
+            TextButton(onClick = { navController.popBackStack() }
             ) {
                 Icon(
                     imageVector = Icons.Default.ArrowCircleLeft,

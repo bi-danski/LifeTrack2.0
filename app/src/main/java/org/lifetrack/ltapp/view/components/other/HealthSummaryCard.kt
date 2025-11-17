@@ -1,6 +1,5 @@
-package org.lifetrack.ltapp.view.components
+package org.lifetrack.ltapp.view.components.other
 
-//import android.health.connect.datatypes.units.Temperature
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
