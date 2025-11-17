@@ -7,7 +7,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.model.repository.AuthRepositoryImpl
 import org.lifetrack.ltapp.presenter.AuthPresenter
@@ -123,7 +122,7 @@ fun AppNavigation(scope: CoroutineScope) {
 //        composable("info_hub") { InfoHubScreen(navController) }
         composable("other") { OtherScreen(navController) }
         composable("help_support") {
-             HelpSupportScreen(navController)
+             SupportScreen(navController)
         }
         composable("about"){
             AboutScreen(navController)
