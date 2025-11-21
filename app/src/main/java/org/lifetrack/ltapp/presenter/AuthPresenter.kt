@@ -2,7 +2,7 @@ package org.lifetrack.ltapp.presenter
 
 import androidx.lifecycle.ViewModel
 import org.lifetrack.ltapp.model.repository.AuthRepository
-import org.lifetrack.ltapp.view.AuthView
+import org.lifetrack.ltapp.ui.view.AuthView
 
 class AuthPresenter(
     var view: AuthView?,

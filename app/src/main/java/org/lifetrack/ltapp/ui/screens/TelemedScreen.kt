@@ -31,16 +31,16 @@ import androidx.navigation.NavController
 import org.lifetrack.ltapp.model.data.DoctorProfile
 import org.lifetrack.ltapp.model.data.Premium
 import kotlinx.coroutines.delay
-import org.lifetrack.ltapp.view.ui.theme.AvailableColor
-import org.lifetrack.ltapp.view.ui.theme.BusyColor
-import org.lifetrack.ltapp.view.ui.theme.CardBackground
-import org.lifetrack.ltapp.view.ui.theme.DisabledColor
-import org.lifetrack.ltapp.view.ui.theme.GradientEnd
-import org.lifetrack.ltapp.view.ui.theme.GradientStart
-import org.lifetrack.ltapp.view.ui.theme.PremiumGold
-import org.lifetrack.ltapp.view.ui.theme.PremiumPurple
-import org.lifetrack.ltapp.view.ui.theme.PremiumTeal
-import org.lifetrack.ltapp.view.ui.theme.RatingColor
+import org.lifetrack.ltapp.ui.theme.AvailableColor
+import org.lifetrack.ltapp.ui.theme.BusyColor
+import org.lifetrack.ltapp.ui.theme.CardBackground
+import org.lifetrack.ltapp.ui.theme.DisabledColor
+import org.lifetrack.ltapp.ui.theme.GradientEnd
+import org.lifetrack.ltapp.ui.theme.GradientStart
+import org.lifetrack.ltapp.ui.theme.PremiumGold
+import org.lifetrack.ltapp.ui.theme.PremiumPurple
+import org.lifetrack.ltapp.ui.theme.PremiumTeal
+import org.lifetrack.ltapp.ui.theme.RatingColor
 
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -24,8 +24,8 @@ import kotlinx.coroutines.delay
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 //import androidx.compose.ui.tooling.preview.Preview
-import org.lifetrack.ltapp.view.ui.theme.Purple40
-import org.lifetrack.ltapp.view.ui.theme.Purple80
+import org.lifetrack.ltapp.ui.theme.Purple40
+import org.lifetrack.ltapp.ui.theme.Purple80
 
 @Composable
 fun LTBrandAppBar(modifier: Modifier = Modifier) {

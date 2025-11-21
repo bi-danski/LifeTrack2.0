@@ -18,7 +18,10 @@ import org.lifetrack.ltapp.ui.screens.*
 
 @SuppressLint("ViewModelConstructorInComposable")
 @Composable
-fun AppNavigation(scope: CoroutineScope) {
+fun AppNavigation(
+    scope: CoroutineScope,
+//    presenter: AuthPresenter
+) {
     val navController = rememberNavController()
     val context = LocalContext.current
 //    val coroutineScope = rememberCoroutineScope()

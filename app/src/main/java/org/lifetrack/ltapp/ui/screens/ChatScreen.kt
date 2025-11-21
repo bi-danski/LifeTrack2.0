@@ -1,6 +1,8 @@
 package org.lifetrack.ltapp.ui.screens
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -129,6 +131,7 @@ fun ChatScreen(
 }
 
 
+@RequiresApi(Build.VERSION_CODES.S)
 @Preview
 @Composable
 fun PreviewChatScreen() {

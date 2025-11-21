@@ -28,31 +28,31 @@ fun FeatureGrid(navController: NavController) {
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         item {
-            _root_ide_package_.org.lifetrack.ltapp.view.ui.components.homescreen.GlassActionCard(
+            _root_ide_package_.org.lifetrack.ltapp.ui.components.homescreen.GlassActionCard(
                 "Medical Timeline",
                 Icons.Filled.BarChart
             ) { navController.navigate("timeline") }
         }
         item {
-            _root_ide_package_.org.lifetrack.ltapp.view.ui.components.homescreen.GlassActionCard(
+            _root_ide_package_.org.lifetrack.ltapp.ui.components.homescreen.GlassActionCard(
                 "Appointments",
                 Icons.Filled.CalendarMonth
             ) { navController.navigate("") }
         }
         item {
-            _root_ide_package_.org.lifetrack.ltapp.view.ui.components.homescreen.GlassActionCard(
+            _root_ide_package_.org.lifetrack.ltapp.ui.components.homescreen.GlassActionCard(
                 "Follow Ups & Visits",
                 Icons.AutoMirrored.Filled.MultilineChart
             ) { navController.navigate("") }
         }
         item {
-            _root_ide_package_.org.lifetrack.ltapp.view.ui.components.homescreen.GlassActionCard(
+            _root_ide_package_.org.lifetrack.ltapp.ui.components.homescreen.GlassActionCard(
                 "Emergency Alerts",
                 Icons.Filled.Notifications
             ) { navController.navigate("alerts") }
         }
         item {
-            _root_ide_package_.org.lifetrack.ltapp.view.ui.components.homescreen.GlassActionCard(
+            _root_ide_package_.org.lifetrack.ltapp.ui.components.homescreen.GlassActionCard(
                 "Messaging & Referrals",
                 Icons.AutoMirrored.Filled.Message
             ) {
@@ -60,13 +60,13 @@ fun FeatureGrid(navController: NavController) {
             }
         }
         item {
-            _root_ide_package_.org.lifetrack.ltapp.view.ui.components.homescreen.GlassActionCard(
+            _root_ide_package_.org.lifetrack.ltapp.ui.components.homescreen.GlassActionCard(
                 "E-Prescriptions",
                 Icons.Filled.LocalHospital
             ) { navController.navigate("") }
         }
         item {
-            _root_ide_package_.org.lifetrack.ltapp.view.ui.components.homescreen.GlassActionCard(
+            _root_ide_package_.org.lifetrack.ltapp.ui.components.homescreen.GlassActionCard(
                 "Reports & Analytics",
                 Icons.Filled.DataExploration
             ) {
@@ -74,7 +74,7 @@ fun FeatureGrid(navController: NavController) {
             }
         }
         item {
-            _root_ide_package_.org.lifetrack.ltapp.view.ui.components.homescreen.GlassActionCard(
+            _root_ide_package_.org.lifetrack.ltapp.ui.components.homescreen.GlassActionCard(
                 "Health Campaigns",
                 Icons.Filled.Campaign
             ) {
@@ -82,7 +82,7 @@ fun FeatureGrid(navController: NavController) {
             }
         }
         item {
-            _root_ide_package_.org.lifetrack.ltapp.view.ui.components.homescreen.GlassActionCard(
+            _root_ide_package_.org.lifetrack.ltapp.ui.components.homescreen.GlassActionCard(
                 "Help & Support",
                 Icons.AutoMirrored.Filled.HelpCenter
             ) {

@@ -10,8 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import org.lifetrack.ltapp.view.ui.theme.Purple40
-import org.lifetrack.ltapp.view.ui.theme.Purple80
+import org.lifetrack.ltapp.ui.theme.Purple40
+import org.lifetrack.ltapp.ui.theme.Purple80
 
 @Composable
 fun GlassFloatingActionButton(onClick: () -> Unit, content: @Composable () -> Unit) {

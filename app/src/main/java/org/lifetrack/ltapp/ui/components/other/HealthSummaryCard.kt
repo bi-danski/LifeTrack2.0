@@ -26,7 +26,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import org.lifetrack.ltapp.view.ui.theme.LTAppTheme
+import org.lifetrack.ltapp.ui.theme.LTAppTheme
 
 @Composable
 fun HealthSummaryCard (
@@ -54,17 +54,17 @@ fun HealthSummaryCard (
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                _root_ide_package_.org.lifetrack.ltapp.view.ui.components.other.HealthMetric(
+                _root_ide_package_.org.lifetrack.ltapp.ui.components.other.HealthMetric(
                     "BP",
                     bloodPressure,
                     Icons.Default.MonitorHeart
                 )
-                _root_ide_package_.org.lifetrack.ltapp.view.ui.components.other.HealthMetric(
+                _root_ide_package_.org.lifetrack.ltapp.ui.components.other.HealthMetric(
                     "BPM",
                     heartRate,
                     Icons.Default.Favorite
                 )
-                _root_ide_package_.org.lifetrack.ltapp.view.ui.components.other.HealthMetric(
+                _root_ide_package_.org.lifetrack.ltapp.ui.components.other.HealthMetric(
                     "Temp",
                     temperature,
                     Icons.Default.Thermostat

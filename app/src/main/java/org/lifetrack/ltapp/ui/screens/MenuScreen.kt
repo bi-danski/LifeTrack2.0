@@ -27,8 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import org.lifetrack.ltapp.model.data.MenuItemData
-import org.lifetrack.ltapp.view.components.menuscreen.MenuListItem
-import org.lifetrack.ltapp.view.ui.theme.LTAppTheme
+import org.lifetrack.ltapp.ui.components.menuscreen.MenuListItem
+import org.lifetrack.ltapp.ui.theme.LTAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -22,10 +22,10 @@ import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.model.repository.AuthRepositoryImpl
 import org.lifetrack.ltapp.presenter.AuthPresenter
-import org.lifetrack.ltapp.view.ui.state.UIState
-import org.lifetrack.ltapp.view.AuthView
-import org.lifetrack.ltapp.view.components.loginscreen.LTBrandAppBar
-import org.lifetrack.ltapp.view.ui.theme.LTAppTheme
+import org.lifetrack.ltapp.ui.state.UIState
+import org.lifetrack.ltapp.ui.view.AuthView
+import org.lifetrack.ltapp.ui.components.loginscreen.LTBrandAppBar
+import org.lifetrack.ltapp.ui.theme.LTAppTheme
 
 @Composable
 fun LoginScreen(navController: NavController, presenter: AuthPresenter) {

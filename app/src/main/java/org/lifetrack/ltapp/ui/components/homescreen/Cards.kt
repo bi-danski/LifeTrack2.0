@@ -35,8 +35,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.lifetrack.ltapp.view.ui.theme.Purple40
-import org.lifetrack.ltapp.view.ui.theme.Purple80
+import org.lifetrack.ltapp.ui.theme.Purple40
+import org.lifetrack.ltapp.ui.theme.Purple80
 
 @Composable
 fun GlassCard(shape: Shape, modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
@@ -111,7 +111,7 @@ fun GlassActionCard(title: String, icon: ImageVector, onClick: () -> Unit) {
 
 @Composable
 fun TodayScheduleCard() {
-    _root_ide_package_.org.lifetrack.ltapp.view.ui.components.homescreen.GlassCard(
+    _root_ide_package_.org.lifetrack.ltapp.ui.components.homescreen.GlassCard(
         shape = RoundedCornerShape(22.dp),
         modifier = Modifier.fillMaxWidth()
     ) {

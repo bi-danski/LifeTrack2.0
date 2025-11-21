@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.view.ui.screens
+package org.lifetrack.ltapp.ui.screens
 //
 //import androidx.compose.foundation.layout.*
 //import androidx.compose.foundation.lazy.LazyColumn

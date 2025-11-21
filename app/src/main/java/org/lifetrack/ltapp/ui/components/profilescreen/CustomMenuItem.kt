@@ -25,7 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.lifetrack.ltapp.view.ui.theme.LTAppTheme
+import org.lifetrack.ltapp.ui.theme.LTAppTheme
 
 @Composable
 fun CustomProfileMenuItem(icon: ImageVector, leftIconColor: Color, title: String, onClick: () -> Unit) {

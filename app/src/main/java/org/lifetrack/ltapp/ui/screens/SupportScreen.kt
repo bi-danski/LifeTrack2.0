@@ -25,10 +25,10 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import org.lifetrack.ltapp.utils.openDialer
 import org.lifetrack.ltapp.utils.openEmail
-import org.lifetrack.ltapp.view.components.supportscreen.ContactItem
-import org.lifetrack.ltapp.view.components.supportscreen.FAQItem
-import org.lifetrack.ltapp.view.components.supportscreen.SectionCard
-import org.lifetrack.ltapp.view.ui.theme.LTAppTheme
+import org.lifetrack.ltapp.ui.components.supportscreen.ContactItem
+import org.lifetrack.ltapp.ui.components.supportscreen.FAQItem
+import org.lifetrack.ltapp.ui.components.supportscreen.SectionCard
+import org.lifetrack.ltapp.ui.theme.LTAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

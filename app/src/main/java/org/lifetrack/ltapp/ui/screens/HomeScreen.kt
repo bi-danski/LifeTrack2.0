@@ -14,7 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import org.lifetrack.ltapp.view.components.homescreen.*
+import org.lifetrack.ltapp.ui.components.homescreen.*
 
 //import
 @OptIn(ExperimentalMaterial3Api::class)

@@ -28,11 +28,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
-import org.lifetrack.ltapp.view.components.profilescreen.CustomProfileMenuItem
-import org.lifetrack.ltapp.view.components.profilescreen.ProfileMenuItem
-import org.lifetrack.ltapp.view.ui.theme.LTAppTheme
-import org.lifetrack.ltapp.view.ui.theme.Purple40
-//import org.lifetrack.ltapp.view.ui.theme.Purple80
+import org.lifetrack.ltapp.ui.components.profilescreen.CustomProfileMenuItem
+import org.lifetrack.ltapp.ui.components.profilescreen.ProfileMenuItem
+import org.lifetrack.ltapp.ui.theme.LTAppTheme
+import org.lifetrack.ltapp.ui.theme.Purple40
+//import org.lifetrack.ltapp.ui.theme.Purple80
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

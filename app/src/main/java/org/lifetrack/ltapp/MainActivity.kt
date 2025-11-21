@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.ui.navigation.AppNavigation
 import org.lifetrack.ltapp.ui.theme.LTAppTheme
 
@@ -32,6 +33,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     AppNavigation(scope = scope)
+//                        presenter = getV(),)
 //                }
                 }
             }
