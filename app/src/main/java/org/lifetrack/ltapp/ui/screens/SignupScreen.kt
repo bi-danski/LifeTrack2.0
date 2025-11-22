@@ -64,34 +64,34 @@ fun RegistrationScreen(
     }
 
     // Presenter Callbacks
-    LaunchedEffect(presenter) {
-        presenter.view = object : AuthView {
-            override fun showLoading(isLoading: Boolean, msg: String?) {
-                uiState = if (isLoading) UIState.Loading else UIState.Idle
-            }
-
-            override fun showError(msg: String) {
-                coroutineScope.launch { snackbarHostState.showSnackbar(msg) }
-            }
-
-            override fun onAuthSuccess() {
-                coroutineScope.launch {
-                    snackbarHostState.showSnackbar(
-                        message = "Signup successful! Redirecting to login...",
-                        duration = SnackbarDuration.Short
-                    )
-                    delay(1500)
-                    navController.navigate("login") {
-                        popUpTo("signup") { inclusive = true }
-                    }
-                }
-            }
-
-            override fun onAuthSuccessWithData(data: String) {
-                coroutineScope.launch { snackbarHostState.showSnackbar(data) }
-            }
-        }
-    }
+//    LaunchedEffect(presenter) {
+//        presenter.view = object : AuthView {
+//            override fun showLoading(isLoading: Boolean, msg: String?) {
+//                uiState = if (isLoading) UIState.Loading else UIState.Idle
+//            }
+//
+//            override fun showError(msg: String) {
+//                coroutineScope.launch { snackbarHostState.showSnackbar(msg) }
+//            }
+//
+//            override fun onAuthSuccess() {
+//                coroutineScope.launch {
+//                    snackbarHostState.showSnackbar(
+//                        message = "Signup successful! Redirecting to login...",
+//                        duration = SnackbarDuration.Short
+//                    )
+//                    delay(1500)
+//                    navController.navigate("login") {
+//                        popUpTo("signup") { inclusive = true }
+//                    }
+//                }
+//            }
+//
+//            override fun onAuthSuccessWithData(data: String) {
+//                coroutineScope.launch { snackbarHostState.showSnackbar(data) }
+//            }
+//        }
+//    }
 
     Scaffold(
         snackbarHost = {

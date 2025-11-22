@@ -14,7 +14,7 @@ class AuthPresenter(
     }
 
     fun logout(navController: NavController) {
-        authRepository.logout()
+//        authRepository.logout()
         navController.navigate("login"){
             popUpTo(0) {
                 inclusive = true
@@ -23,7 +23,7 @@ class AuthPresenter(
     }
 
     fun login(email: String, password: String, navController: NavController){
-        //
+        // zetu zetu apo ku verify
         navController.navigate("home")
     }
 
