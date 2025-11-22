@@ -1,58 +1,30 @@
 package org.lifetrack.ltapp.ui.navigation
 
-import android.annotation.SuppressLint
-import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import org.lifetrack.ltapp.model.repository.AuthRepositoryImpl
+import org.koin.androidx.compose.koinViewModel
 import org.lifetrack.ltapp.presenter.AlmaPresenter
 import org.lifetrack.ltapp.presenter.AuthPresenter
-import org.lifetrack.ltapp.ui.view.AlmaView
-import org.lifetrack.ltapp.ui.view.AuthView
 import org.lifetrack.ltapp.ui.screens.*
 
-@SuppressLint("ViewModelConstructorInComposable")
+//@SuppressLint("ViewModelConstructorInComposable")
 @Composable
 fun AppNavigation(
     scope: CoroutineScope,
-//    presenter: AuthPresenter
 ) {
     val navController = rememberNavController()
     val context = LocalContext.current
-//    val coroutineScope = rememberCoroutineScope()
-//    val userRepository = UserRepositoryImpl()
-    val authRepository = AuthRepositoryImpl()
-    val authPresenter = AuthPresenter(
-       authRepository = authRepository,
-//        navController = rememberNavController()
-    )
-    val almaPresenter = AlmaPresenter(
-        view = object: AlmaView {
-            override fun displayAlmaResponse() {
-
-            }
-            override fun showError() {
-
-            }
-
-            override fun showLoading() {
-
-            }
-
-            override fun hideLoading() {
-
-            }
-        }
-    )
+//    val authRepository = koinInject<AuthRepository>()
+    val authPresenter = koinViewModel<AuthPresenter>()
+    val almaPresenter = koinViewModel<AlmaPresenter>()
 
     NavHost(
         navController = navController,
-        startDestination = "home"
+        startDestination = "home" // splash
     ) {
         composable("splash") {
             SplashScreen(navController)

@@ -25,6 +25,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 //import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -81,32 +83,38 @@ fun AppTopBar(navController: NavController) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LifeTrackTopBar(
+    title: String,
+    navigationIcon: ImageVector,
     modifier: Modifier = Modifier,
-    onMenuClick: () -> Unit,
-    onProfileClick: () -> Unit
+    backCallback: () -> Unit,
+    actionIcon: ImageVector? = null,
+    actionCallback: () -> Unit
 ) {
+
     TopAppBar(
         title = {
             Text(
-                text = "LifeTrack",
+                text = title,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold
             )
         },
         navigationIcon = {
-            IconButton(onClick = onMenuClick) {
+            IconButton(onClick = backCallback) {
                 Icon(
-                    imageVector = Icons.Filled.Menu,
-                    contentDescription = "Menu"
+                    imageVector = navigationIcon,
+                    contentDescription = "Back"
                 )
             }
         },
         actions = {
-            IconButton(onClick = onProfileClick) {
-                Icon(
-                    imageVector = Icons.Filled.Person,
-                    contentDescription = "Profile"
-                )
+            if (actionIcon != null) {
+                IconButton(onClick = actionCallback) {
+                    Icon(
+                        imageVector = actionIcon,
+                        contentDescription = "Profile"
+                    )
+                }
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
@@ -115,6 +123,7 @@ fun LifeTrackTopBar(
             navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
             actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
         ),
-        modifier = modifier
+        modifier = modifier,
+//        scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     )
 }
