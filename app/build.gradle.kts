@@ -89,6 +89,9 @@ dependencies {
     implementation(libs.ktor.content.negotiation)
     implementation(libs.ktor.logging)
 
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.core)
+
     testImplementation(libs.junit)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)

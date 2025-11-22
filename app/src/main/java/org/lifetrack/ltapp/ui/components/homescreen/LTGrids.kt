@@ -1,0 +1,93 @@
+package org.lifetrack.ltapp.ui.components.homescreen
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.HelpCenter
+import androidx.compose.material.icons.automirrored.filled.Message
+import androidx.compose.material.icons.automirrored.filled.MultilineChart
+import androidx.compose.material.icons.filled.BarChart
+import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.filled.Campaign
+import androidx.compose.material.icons.filled.DataExploration
+import androidx.compose.material.icons.filled.LocalHospital
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+
+@Composable
+fun FeatureGrid(navController: NavController) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        modifier = Modifier.fillMaxHeight(),
+        verticalArrangement = Arrangement.spacedBy(15.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        item {
+            _root_ide_package_.org.lifetrack.ltapp.ui.components.homescreen.GlassActionCard(
+                "Medical Timeline",
+                Icons.Filled.BarChart
+            ) { navController.navigate("timeline") }
+        }
+        item {
+            _root_ide_package_.org.lifetrack.ltapp.ui.components.homescreen.GlassActionCard(
+                "Appointments",
+                Icons.Filled.CalendarMonth
+            ) { navController.navigate("") }
+        }
+        item {
+            _root_ide_package_.org.lifetrack.ltapp.ui.components.homescreen.GlassActionCard(
+                "Follow Ups & Visits",
+                Icons.AutoMirrored.Filled.MultilineChart
+            ) { navController.navigate("") }
+        }
+        item {
+            _root_ide_package_.org.lifetrack.ltapp.ui.components.homescreen.GlassActionCard(
+                "Emergency Alerts",
+                Icons.Filled.Notifications
+            ) { navController.navigate("alerts") }
+        }
+        item {
+            _root_ide_package_.org.lifetrack.ltapp.ui.components.homescreen.GlassActionCard(
+                "Messaging & Referrals",
+                Icons.AutoMirrored.Filled.Message
+            ) {
+                navController.navigate("")
+            }
+        }
+        item {
+            _root_ide_package_.org.lifetrack.ltapp.ui.components.homescreen.GlassActionCard(
+                "E-Prescriptions",
+                Icons.Filled.LocalHospital
+            ) { navController.navigate("") }
+        }
+        item {
+            _root_ide_package_.org.lifetrack.ltapp.ui.components.homescreen.GlassActionCard(
+                "Reports & Analytics",
+                Icons.Filled.DataExploration
+            ) {
+                navController.navigate("")
+            }
+        }
+        item {
+            _root_ide_package_.org.lifetrack.ltapp.ui.components.homescreen.GlassActionCard(
+                "Health Campaigns",
+                Icons.Filled.Campaign
+            ) {
+                navController.navigate("")
+            }
+        }
+        item {
+            _root_ide_package_.org.lifetrack.ltapp.ui.components.homescreen.GlassActionCard(
+                "Help & Support",
+                Icons.AutoMirrored.Filled.HelpCenter
+            ) {
+                navController.navigate("support")
+            }
+        }
+    }
+}

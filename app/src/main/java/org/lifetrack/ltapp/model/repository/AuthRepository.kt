@@ -1,6 +1,6 @@
 package org.lifetrack.ltapp.model.repository
 
-import org.lifetrack.ltapp.model.data.dto.AuthResult
+import org.lifetrack.ltapp.model.dto.AuthResult
 
 interface AuthRepository {
     suspend fun login(email: String, password: String): AuthResult
