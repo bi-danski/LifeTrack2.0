@@ -1,6 +1,5 @@
 package org.lifetrack.ltapp
 
-//import android.os.Build
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -18,8 +17,6 @@ import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.ui.navigation.AppNavigation
 import org.lifetrack.ltapp.ui.theme.LTAppTheme
 
-
-//@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     @RequiresApi(Build.VERSION_CODES.S)
@@ -32,9 +29,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AppNavigation(scope = scope)
-//                        presenter = getV(),)
-//                }
+                    AppNavigation(
+//                        scope = scope
+                    )
                 }
             }
         }

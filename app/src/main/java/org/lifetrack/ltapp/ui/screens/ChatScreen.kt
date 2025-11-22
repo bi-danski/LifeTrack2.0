@@ -3,7 +3,6 @@ package org.lifetrack.ltapp.ui.screens
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.OverscrollEffect
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,7 +14,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,7 +23,6 @@ import androidx.navigation.compose.rememberNavController
 import org.koin.androidx.compose.koinViewModel
 import org.lifetrack.ltapp.presenter.AlmaPresenter
 import org.lifetrack.ltapp.ui.components.chatscreen.ChatBubble
-import org.lifetrack.ltapp.ui.components.homescreen.LifeTrackTopBar
 import org.lifetrack.ltapp.ui.theme.LTAppTheme
 
 
