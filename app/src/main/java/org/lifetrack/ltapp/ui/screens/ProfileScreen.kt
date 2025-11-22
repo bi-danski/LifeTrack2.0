@@ -28,6 +28,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
+import org.koin.androidx.compose.koinViewModel
+import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.ui.components.profilescreen.CustomProfileMenuItem
 import org.lifetrack.ltapp.ui.components.profilescreen.ProfileMenuItem
 import org.lifetrack.ltapp.ui.theme.LTAppTheme
@@ -37,6 +39,7 @@ import org.lifetrack.ltapp.ui.theme.Purple40
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(navController: NavController) {
+    val authPresenter: AuthPresenter = koinViewModel<AuthPresenter>()
     val colorScheme = MaterialTheme.colorScheme
     val userFullName = remember { mutableStateOf("Dr. Najma") }
     val userPhoneNumber = remember { mutableStateOf("+(254) 79093 8365") }
@@ -132,7 +135,7 @@ fun ProfileScreen(navController: NavController) {
                         icon = Icons.AutoMirrored.Filled.Logout,
                         leftIconColor = Color.Red,
                         title = "Logout",
-                        onClick = { navController.navigate("login")}
+                        onClick = { authPresenter.logout(navController) }
                     )
                 }
             }

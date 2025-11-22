@@ -28,36 +28,8 @@ fun AppNavigation(
 //    val userRepository = UserRepositoryImpl()
     val authRepository = AuthRepositoryImpl()
     val authPresenter = AuthPresenter(
-        view = object : AuthView {
-            override fun showLoading(isLoading: Boolean, msg: String?) {
-                scope.launch {
-                    if (isLoading) {
-                        val defaultMessage = "Loading, please wait..."
-                        Toast.makeText(context, msg ?: defaultMessage, Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-
-            override fun showError(msg: String) {
-                scope.launch {
-                    Toast.makeText(context, "Error: $msg", Toast.LENGTH_LONG).show()
-                }
-            }
-
-            override fun onAuthSuccess() {
-                navController.navigate("home") {
-                    popUpTo("login") { inclusive = true }
-                }
-            }
-
-            override fun onAuthSuccessWithData(data: String) {
-                navController.navigate("home") {
-                    popUpTo("login") { inclusive = true }
-                }
-            }
-
-        },
-        authRepository = authRepository,
+       authRepository = authRepository,
+//        navController = rememberNavController()
     )
     val almaPresenter = AlmaPresenter(
         view = object: AlmaView {

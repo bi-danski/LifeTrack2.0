@@ -40,7 +40,7 @@ fun SplashScreen(navController: NavController) {
 
     LaunchedEffect(Unit) {
         delay(1000)
-        navController.navigate("home") {
+        navController.navigate("login") {
             popUpTo("splash") { inclusive = true }
         }
     }
