@@ -38,8 +38,11 @@ import org.lifetrack.ltapp.ui.theme.Purple40
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileScreen(navController: NavController) {
-    val authPresenter: AuthPresenter = koinViewModel<AuthPresenter>()
+fun ProfileScreen(
+    navController: NavController,
+    presenter: AuthPresenter
+    ) {
+//    val authPresenter: AuthPresenter = koinViewModel<AuthPresenter>()
     val colorScheme = MaterialTheme.colorScheme
     val userFullName = remember { mutableStateOf("Dr. Najma") }
     val userPhoneNumber = remember { mutableStateOf("+(254) 79093 8365") }
@@ -117,25 +120,37 @@ fun ProfileScreen(navController: NavController) {
                         color = colorScheme.onBackground
                     )
                     Spacer(modifier = Modifier.height(20.dp))
-
-                    ProfileMenuItem(icon = Icons.Default.Person, title = "Personal Information", onClick = {})
-                    ProfileMenuItem(icon = Icons.AutoMirrored.Filled.List, title = "My Medical History", onClick = {})
-//                    ProfileMenuItem(icon = Icons.Default.Refresh, title = "Refund")
-                    ProfileMenuItem(icon = Icons.Default.Lock, title = "Change Password", onClick = { navController.navigate("restore") })
-                    ProfileMenuItem(icon = Icons.Default.Language, title = "Change Language", onClick = {})
+                    ProfileMenuItem(
+                        icon = Icons.Default.Person,
+                        title = "Personal Information",
+                        onClick = {}
+                    )
+                    ProfileMenuItem(
+                        icon = Icons.AutoMirrored.Filled.List,
+                        title = "My Medical History",
+                        onClick = {}
+                    )
+                    ProfileMenuItem(icon = Icons.Default.Lock,
+                        title = "Change Password",
+                        onClick = { navController.navigate("restore")
+                        }
+                    )
+                    ProfileMenuItem(
+                        icon = Icons.Default.Language,
+                        title = "Change Language",
+                        onClick = {}
+                    )
                     CustomProfileMenuItem(
                         icon = Icons.Default.Delete,
                         leftIconColor = colorScheme.primary,
                         title = "Delete My Account",
-                        onClick = {
-                            navController.navigate("login")
-                        }
+                        onClick = { navController.navigate("login") }
                     )
                     CustomProfileMenuItem(
                         icon = Icons.AutoMirrored.Filled.Logout,
                         leftIconColor = Color.Red,
                         title = "Logout",
-                        onClick = { authPresenter.logout(navController) }
+                        onClick = { presenter.logout(navController) }
                     )
                 }
             }
@@ -147,10 +162,10 @@ fun ProfileScreen(navController: NavController) {
 @Preview
 @Composable
 fun PreviewProfileScreen() {
-    val navController = rememberNavController()
     LTAppTheme {
         ProfileScreen(
-            navController
+            navController = rememberNavController(),
+            presenter = koinViewModel<AuthPresenter>()
         )
     }
 }

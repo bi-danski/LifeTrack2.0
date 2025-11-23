@@ -1,6 +1,7 @@
 package org.lifetrack.ltapp.ui.components.aboutscreen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -51,7 +52,7 @@ fun FeatureItem(
                 text = title,
                 style = MaterialTheme.typography.bodyLarge.copy(
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF2E5EAA)
+                    color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color(0xFF2E5EAA)
                 )
             )
             Text(

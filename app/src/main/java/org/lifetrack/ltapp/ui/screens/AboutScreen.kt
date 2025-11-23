@@ -1,6 +1,7 @@
 package org.lifetrack.ltapp.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -84,7 +85,7 @@ fun AboutScreen(navController: NavController) {
             Text(
                 text = "LifeTrack Health Companion",
                 style = MaterialTheme.typography.headlineMedium.copy(
-                    color = Color(0xFF2E5EAA),
+                    color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color(0xFF2E5EAA),
                     textAlign = TextAlign.Center
                 )
             )
@@ -113,12 +114,12 @@ fun AboutScreen(navController: NavController) {
                     modifier = Modifier.padding(24.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    Text(
-                        text = "About LifeTrack",
-                        style = MaterialTheme.typography.titleLarge.copy(
-                            color = Color(0xFF2E5EAA)
-                        )
-                    )
+//                    Text(
+//                        text = "About LifeTrack",
+//                        style = MaterialTheme.typography.titleLarge.copy(
+//                            color = Color(0xFF2E5EAA)
+//                        )
+//                    )
                     Text(
                         text = "LifeTrack is a cutting-edge, comprehensive health management app designed to empower you with seamless control over your medical history, appointments, and wellness journey.",
                         style = MaterialTheme.typography.bodyMedium
@@ -133,32 +134,32 @@ fun AboutScreen(navController: NavController) {
                     Text(
                         text = "Key Features",
                         style = MaterialTheme.typography.titleLarge.copy(
-                            color = Color(0xFF2E5EAA)
+                            color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color(0xFF2E5EAA)
                         )
                     )
 
                     FeatureItem(
-                        iconColor = Color(0xFF4A90E2),
+                        iconColor =if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color(0xFF4A90E2),
                         title = "Medical Timeline & Records",
                         description = "Organize and access your medical history with ease"
                     )
                     FeatureItem(
-                        iconColor = Color(0xFF4A90E2),
+                        iconColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color(0xFF4A90E2),
                         title = "Telemedicine Appointments",
                         description = "Connect with healthcare professionals from home"
                     )
                     FeatureItem(
-                        iconColor = Color(0xFF4A90E2),
+                        iconColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color(0xFF4A90E2),
                         title = "Medication Reminders",
                         description = "Never miss a dose with customizable alerts"
                     )
                     FeatureItem(
-                        iconColor = Color(0xFF4A90E2),
+                        iconColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color(0xFF4A90E2),
                         title = "Emergency Alerts",
                         description = "Instantly notify contacts in urgent situations"
                     )
                     FeatureItem(
-                        iconColor = Color(0xFF4A90E2),
+                        iconColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color(0xFF4A90E2),
                         title = "Health Information Hub",
                         description = "Access reliable health resources and articles"
                     )
@@ -172,7 +173,7 @@ fun AboutScreen(navController: NavController) {
                     Text(
                         text = "Developed By",
                         style = MaterialTheme.typography.titleLarge.copy(
-                            color = Color(0xFF2E5EAA)
+                            color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color(0xFF2E5EAA)
                         )
                     )
                     Text(
@@ -197,14 +198,14 @@ fun AboutScreen(navController: NavController) {
                             .background(
                                 color = colorScheme.background,
                                 shape = MaterialTheme.shapes.medium
-                            )
-                            .padding(16.dp),
+                            ),
+//                            .padding(16.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Text(
                             text = "Contact Us:",
                             style = MaterialTheme.typography.labelLarge.copy(
-                                color = Color(0xFF2E5EAA)
+                                color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color(0xFF2E5EAA)
                             )
                         )
                         Text(

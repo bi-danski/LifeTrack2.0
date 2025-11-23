@@ -1,6 +1,5 @@
 package org.lifetrack.ltapp.ui.screens
 
-import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
@@ -15,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -23,52 +21,28 @@ import androidx.navigation.compose.rememberNavController
 import org.koin.androidx.compose.koinViewModel
 import org.lifetrack.ltapp.presenter.AlmaPresenter
 import org.lifetrack.ltapp.ui.components.chatscreen.ChatBubble
+import org.lifetrack.ltapp.ui.components.homescreen.LifeTrackTopBar
 import org.lifetrack.ltapp.ui.theme.LTAppTheme
+import androidx.compose.runtime.collectAsState
 
 
-@SuppressLint("MutableCollectionMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatScreen(
     navController: NavController,
     presenter: AlmaPresenter
 ) {
-//    val coroutineScope = rememberCoroutineScope()
     val userInput = presenter.userInput
-    val messages = presenter.messages
+    val messages = presenter.allChats.collectAsState().value
     val isLoading = presenter.isLoading
 
     Scaffold(
         topBar = {
-//            LifeTrackTopBar(
-//                title = "ALMA Healthcare Assistant",
-//                Icons.Default.ArrowCircleLeft,
-//                backCallback = { navController.popBackStack() },
-//                actionCallback = {}
-//            )
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        "ALMA Healthcare Assistant ",
-                        style = MaterialTheme.typography.titleLarge.copy(),
-                        fontWeight = FontWeight.Bold
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(
-                            Icons.Default.ArrowCircleLeft,
-                            contentDescription = "Back",
-//                            tint = Color(0xFF2E5EAA)
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                )
+            LifeTrackTopBar(
+                title = "ALMA Healthcare Assistant",
+                Icons.Default.ArrowCircleLeft,
+                backCallback = { navController.popBackStack() },
+                actionCallback = {}
             )
         },
         bottomBar = {
@@ -109,7 +83,6 @@ fun ChatScreen(
             if (isLoading) {
                 LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
             }
-
             LazyColumn(
                 modifier = Modifier
                     .weight(1f)

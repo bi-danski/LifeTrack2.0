@@ -1,6 +1,5 @@
 package org.lifetrack.ltapp.ui.screens
 
-//import com.example.lifetrack.ui.components.pulsate
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Chat
@@ -16,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import org.lifetrack.ltapp.ui.components.homescreen.*
 
-//import
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavController) {
