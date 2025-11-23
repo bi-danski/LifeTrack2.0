@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import org.koin.androidx.compose.koinViewModel
 import org.lifetrack.ltapp.presenter.AlmaPresenter
 import org.lifetrack.ltapp.presenter.AuthPresenter
