@@ -14,6 +14,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
@@ -32,8 +33,8 @@ fun BBarMessage(
         horizontalArrangement = Arrangement.Center
     ) {
         TextField(
-            value = presenter.messageInput,
-            onValueChange = presenter::onMessageInput,
+            value = presenter.messageInput.collectAsState().value,
+            onValueChange = { presenter.onMessageInput(it) },
             modifier = Modifier
                 .weight(1f)
                 .padding(end = 8.dp),

@@ -176,6 +176,6 @@ val dummyMessages = mutableListOf(
     Message("2", "Any fever or dizziness?", false, "10:32 AM"),
     Message("3", "No fever but some dizziness", true, "10:35 AM"),
     Message("4", "Since when have you been feeling like that", false, "10:36 AM"),
-    Message("5", "Come see me at my place of work at 2:00 PM", false,"10:36 AM")
-
+    Message("5", "Come see me at my place of work at 2:00 PM", false,"10:36 AM"),
+    Message("6", "Okay, i'll be there on time", true,"10:39 AM")
 )

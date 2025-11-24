@@ -23,7 +23,7 @@ fun ChatScreen(
     navController: NavController,
     presenter: ChatPresenter
 ) {
-    val chatMessages = presenter.messages
+    val chatMessages by presenter.messages.collectAsState()
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
 
