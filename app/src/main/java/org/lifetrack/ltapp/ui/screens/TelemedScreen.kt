@@ -1,7 +1,6 @@
 package org.lifetrack.ltapp.ui.screens
 
 //noinspection SuspiciousImport
-import android.R
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -14,7 +13,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -28,167 +29,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import org.lifetrack.ltapp.model.data.DoctorProfile
-import org.lifetrack.ltapp.model.data.Premium
 import kotlinx.coroutines.delay
-import org.lifetrack.ltapp.ui.theme.AvailableColor
-import org.lifetrack.ltapp.ui.theme.BusyColor
-import org.lifetrack.ltapp.ui.theme.CardBackground
-import org.lifetrack.ltapp.ui.theme.DisabledColor
-import org.lifetrack.ltapp.ui.theme.GradientEnd
-import org.lifetrack.ltapp.ui.theme.GradientStart
-import org.lifetrack.ltapp.ui.theme.PremiumGold
-import org.lifetrack.ltapp.ui.theme.PremiumPurple
-import org.lifetrack.ltapp.ui.theme.PremiumTeal
-import org.lifetrack.ltapp.ui.theme.RatingColor
+import org.lifetrack.ltapp.model.data.dummyDoctors
+import org.lifetrack.ltapp.model.data.dummyPremiums
+import org.lifetrack.ltapp.ui.theme.*
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TelemedicineScreen(navController: NavController) {
     var isVisible by remember { mutableStateOf(false) }
-
-    val doctors = listOf(
-        DoctorProfile(
-            id = 1,
-            name = "Dr. Hilary Otieno",
-            specialty = "General Practitioner",
-            status = "Available",
-            imageRes = R.drawable.ic_menu_gallery,
-            experienceYears = 8,
-            availability = "9:00 AM - 1:00 PM",
-            rating = 4.7f,
-            hospital = "Nakuru General Hospital",
-            waitTime = "5-10 mins"
-        ),
-        DoctorProfile(
-            id = 2,
-            name = "Dr. Mercy Baraka",
-            specialty = "Cardiologist",
-            status = "Busy",
-            imageRes = R.drawable.ic_menu_gallery,
-            experienceYears = 12,
-            availability = "1:00 PM - 5:00 PM",
-            rating = 4.9f,
-            hospital = "Rift Valley Provincial Hospital",
-            waitTime = "15-20 mins"
-        ),
-        DoctorProfile(
-            id = 3,
-            name = "Dr. Tabitha Kerry",
-            specialty = "Allergist",
-            status = "Available",
-            imageRes = R.drawable.ic_menu_gallery,
-            experienceYears = 6,
-            availability = "10:00 AM - 2:00 PM",
-            rating = 4.5f,
-            hospital = "Kabarak Mission Hospital",
-            waitTime = "10-15 mins"
-        ),
-        DoctorProfile(
-            id = 4,
-            name = "Dr. James Mwangi",
-            specialty = "Pediatrician",
-            status = "Available",
-            imageRes = R.drawable.ic_menu_gallery,
-            experienceYears = 10,
-            availability = "9:00 AM - 12:00 PM",
-            rating = 4.6f,
-            hospital = "Nairobi City Hospital",
-            waitTime = "5-10 mins"
-        ),
-        DoctorProfile(
-            id = 5,
-            name = "Dr. Amina Hassan",
-            specialty = "Dermatologist",
-            status = "Busy",
-            imageRes = R.drawable.ic_menu_gallery,
-            experienceYears = 7,
-            availability = "2:00 PM - 6:00 PM",
-            rating = 4.8f,
-            hospital = "Mombasa Medical Center",
-            waitTime = "20-25 mins"
-        ),
-        DoctorProfile(
-            id = 6,
-            name = "Dr. Mitchell Akinyi",
-            specialty = "Neurologist",
-            status = "Available",
-            imageRes = R.drawable.ic_menu_gallery,
-            experienceYears = 9,
-            availability = "8:00 AM - 12:00 PM",
-            rating = 4.6f,
-            hospital = "Kisumu Referral Hospital",
-            waitTime = "10-15 mins"
-        ),
-        DoctorProfile(
-            id = 7,
-            name = "Dr. Kingsley Coman",
-            specialty = "Orthopedist",
-            status = "Busy",
-            imageRes = R.drawable.ic_menu_gallery,
-            experienceYears = 11,
-            availability = "1:00 PM - 4:00 PM",
-            rating = 4.7f,
-            hospital = "Eldoret Teaching Hospital",
-            waitTime = "15-20 mins"
-        ),
-        DoctorProfile(
-            id = 8,
-            name = "Dr. Emmanuel Mutubi",
-            specialty = "Endocrinologist",
-            status = "Available",
-            imageRes = R.drawable.ic_menu_gallery,
-            experienceYears = 5,
-            availability = "10:00 AM - 3:00 PM",
-            rating = 4.4f,
-            hospital = "Thika Level 5 Hospital",
-            waitTime = "5-10 mins"
-        ),
-        DoctorProfile(
-            id = 9,
-            name = "Dr. Curtis Roy",
-            specialty = "Ophthalmologist",
-            status = "Available",
-            imageRes = R.drawable.ic_menu_gallery,
-            experienceYears = 13,
-            availability = "2:00 PM - 6:00 PM",
-            rating = 4.9f,
-            hospital = "Kenyatta National Hospital",
-            waitTime = "20-25 mins"
-        )
-    )
-
-    val premiums = listOf(
-        Premium(
-            id = 1,
-            title = "Priority Access",
-            description = "Skip the queue with immediate consultation slots",
-            icon = { Icon(Icons.Filled.FlashOn, contentDescription = null, tint = PremiumTeal) },
-            accentColor = PremiumTeal
-        ),
-        Premium(
-            id = 2,
-            title = "Extended Sessions",
-            description = "30-minute consultations with in-depth care",
-            icon = { Icon(Icons.Filled.Schedule, contentDescription = null, tint = PremiumGold) },
-            accentColor = PremiumGold
-        ),
-        Premium(
-            id = 3,
-            title = "Specialist Priority",
-            description = "Access top-rated specialists first",
-            icon = { Icon(Icons.Filled.Star, contentDescription = null, tint = PremiumPurple) },
-            accentColor = PremiumPurple
-        ),
-        Premium(
-            id = 4,
-            title = "Personal Health Insights",
-            description = "Get detailed health analytics and trends",
-            icon = { Icon(Icons.Filled.Insights, contentDescription = null, tint = PremiumTeal) },
-            accentColor = PremiumTeal
-        )
-    )
 
     LaunchedEffect(Unit) {
         delay(300)
@@ -257,7 +107,7 @@ fun TelemedicineScreen(navController: NavController) {
                 }
             }
 
-            items(doctors) { doctor ->
+            items(dummyDoctors) { doctor ->
                 AnimatedVisibility(
                     visible = isVisible,
                     enter = fadeIn(animationSpec = tween(700 + doctor.id * 100))
@@ -456,7 +306,7 @@ fun TelemedicineScreen(navController: NavController) {
                                 modifier = Modifier.padding(bottom = 16.dp)
                             )
 
-                            premiums.forEach { feature ->
+                            dummyPremiums.forEach { feature ->
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically,
                                     modifier = Modifier
@@ -509,7 +359,6 @@ fun TelemedicineScreen(navController: NavController) {
                                 )
                             }
 
-                            // Call-to-Action Badge
                             Box(
                                 modifier = Modifier
                                     .align(Alignment.End)

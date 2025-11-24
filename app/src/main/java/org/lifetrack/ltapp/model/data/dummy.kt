@@ -1,7 +1,16 @@
 package org.lifetrack.ltapp.model.data
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FlashOn
+import androidx.compose.material.icons.filled.Insights
+import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Icon
 import org.lifetrack.ltapp.R
 import org.lifetrack.ltapp.model.dto.Message
+import org.lifetrack.ltapp.ui.theme.PremiumGold
+import org.lifetrack.ltapp.ui.theme.PremiumPurple
+import org.lifetrack.ltapp.ui.theme.PremiumTeal
 import java.time.LocalDate
 import java.util.Date
 
@@ -178,4 +187,146 @@ val dummyMessages = mutableListOf(
     Message("4", "Since when have you been feeling like that", false, "10:36 AM"),
     Message("5", "Come see me at my place of work at 2:00 PM", false,"10:36 AM"),
     Message("6", "Okay, i'll be there on time", true,"10:39 AM")
+)
+
+val dummyDoctors = listOf(
+    DoctorProfile(
+        id = 1,
+        name = "Dr. Hilary Otieno",
+        specialty = "General Practitioner",
+        status = "Available",
+        imageRes = android.R.drawable.ic_menu_gallery,
+        experienceYears = 8,
+        availability = "9:00 AM - 1:00 PM",
+        rating = 4.7f,
+        hospital = "Nakuru General Hospital",
+        waitTime = "5-10 mins"
+    ),
+    DoctorProfile(
+        id = 2,
+        name = "Dr. Mercy Baraka",
+        specialty = "Cardiologist",
+        status = "Busy",
+        imageRes = android.R.drawable.ic_menu_gallery,
+        experienceYears = 12,
+        availability = "1:00 PM - 5:00 PM",
+        rating = 4.9f,
+        hospital = "Rift Valley Provincial Hospital",
+        waitTime = "15-20 mins"
+    ),
+    DoctorProfile(
+        id = 3,
+        name = "Dr. Tabitha Kerry",
+        specialty = "Allergist",
+        status = "Available",
+        imageRes = android.R.drawable.ic_menu_gallery,
+        experienceYears = 6,
+        availability = "10:00 AM - 2:00 PM",
+        rating = 4.5f,
+        hospital = "Kabarak Mission Hospital",
+        waitTime = "10-15 mins"
+    ),
+    DoctorProfile(
+        id = 4,
+        name = "Dr. James Mwangi",
+        specialty = "Pediatrician",
+        status = "Available",
+        imageRes = android.R.drawable.ic_menu_gallery,
+        experienceYears = 10,
+        availability = "9:00 AM - 12:00 PM",
+        rating = 4.6f,
+        hospital = "Nairobi City Hospital",
+        waitTime = "5-10 mins"
+    ),
+    DoctorProfile(
+        id = 5,
+        name = "Dr. Amina Hassan",
+        specialty = "Dermatologist",
+        status = "Busy",
+        imageRes = android.R.drawable.ic_menu_gallery,
+        experienceYears = 7,
+        availability = "2:00 PM - 6:00 PM",
+        rating = 4.8f,
+        hospital = "Mombasa Medical Center",
+        waitTime = "20-25 mins"
+    ),
+    DoctorProfile(
+        id = 6,
+        name = "Dr. Mitchell Akinyi",
+        specialty = "Neurologist",
+        status = "Available",
+        imageRes = android.R.drawable.ic_menu_gallery,
+        experienceYears = 9,
+        availability = "8:00 AM - 12:00 PM",
+        rating = 4.6f,
+        hospital = "Kisumu Referral Hospital",
+        waitTime = "10-15 mins"
+    ),
+    DoctorProfile(
+        id = 7,
+        name = "Dr. Kingsley Coman",
+        specialty = "Orthopedist",
+        status = "Busy",
+        imageRes = android.R.drawable.ic_menu_gallery,
+        experienceYears = 11,
+        availability = "1:00 PM - 4:00 PM",
+        rating = 4.7f,
+        hospital = "Eldoret Teaching Hospital",
+        waitTime = "15-20 mins"
+    ),
+    DoctorProfile(
+        id = 8,
+        name = "Dr. Emmanuel Mutubi",
+        specialty = "Endocrinologist",
+        status = "Available",
+        imageRes = android.R.drawable.ic_menu_gallery,
+        experienceYears = 5,
+        availability = "10:00 AM - 3:00 PM",
+        rating = 4.4f,
+        hospital = "Thika Level 5 Hospital",
+        waitTime = "5-10 mins"
+    ),
+    DoctorProfile(
+        id = 9,
+        name = "Dr. Curtis Roy",
+        specialty = "Ophthalmologist",
+        status = "Available",
+        imageRes = android.R.drawable.ic_menu_gallery,
+        experienceYears = 13,
+        availability = "2:00 PM - 6:00 PM",
+        rating = 4.9f,
+        hospital = "Kenyatta National Hospital",
+        waitTime = "20-25 mins"
+    )
+)
+
+val dummyPremiums = listOf(
+    Premium(
+        id = 1,
+        title = "Priority Access",
+        description = "Skip the queue with immediate consultation slots",
+        icon = { Icon(Icons.Filled.FlashOn, contentDescription = null, tint = PremiumTeal) },
+        accentColor = PremiumTeal
+    ),
+    Premium(
+        id = 2,
+        title = "Extended Sessions",
+        description = "30-minute consultations with in-depth care",
+        icon = { Icon(Icons.Filled.Schedule, contentDescription = null, tint = PremiumGold) },
+        accentColor = PremiumGold
+    ),
+    Premium(
+        id = 3,
+        title = "Specialist Priority",
+        description = "Access top-rated specialists first",
+        icon = { Icon(Icons.Filled.Star, contentDescription = null, tint = PremiumPurple) },
+        accentColor = PremiumPurple
+    ),
+    Premium(
+        id = 4,
+        title = "Personal Health Insights",
+        description = "Get detailed health analytics and trends",
+        icon = { Icon(Icons.Filled.Insights, contentDescription = null, tint = PremiumTeal) },
+        accentColor = PremiumTeal
+    )
 )
