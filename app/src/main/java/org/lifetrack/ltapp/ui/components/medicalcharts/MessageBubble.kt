@@ -17,20 +17,20 @@ import androidx.compose.ui.unit.dp
 import org.lifetrack.ltapp.model.dto.Message
 
 @Composable
-fun MessageBubble(message: Message) {  // Fixed: Proper parameter definition
+fun MessageBubble(message: Message) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(4.dp),
-        contentAlignment = if (message.isFromPatient) Alignment.CenterStart else Alignment.CenterEnd
+        contentAlignment = if (message.isFromPatient) Alignment.CenterEnd else Alignment.CenterStart
     ) {
         Card(
             shape = RoundedCornerShape(12.dp),
             colors = CardDefaults.cardColors(
                 containerColor = if (message.isFromPatient)
-                    Color(0xFFE3F2FD)
+                    Color(0xFFE3F2FD).copy(0.2f)
                 else
-                    Color(0xFFDCEDC8)
+                    Color(0xFFDCEDC8).copy(0.2f)
             )
         ) {
             Column(

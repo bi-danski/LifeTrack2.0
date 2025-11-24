@@ -18,11 +18,10 @@ class AlmaPresenter(
 
     var userInput by mutableStateOf("")
         private set
+
     var chats: MutableList<AlmaMessage> = mutableStateListOf()
         private set
 
-//    private val _allChats = MutableStateFlow(mutableListOf<AlmaMessage>())
-//    val allChats = _allChats.asStateFlow()
     var isLoading by mutableStateOf(false)
         private set
 

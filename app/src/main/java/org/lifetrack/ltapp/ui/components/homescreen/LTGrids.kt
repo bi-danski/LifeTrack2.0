@@ -56,7 +56,7 @@ fun FeatureGrid(navController: NavController) {
                 "Messaging & Referrals",
                 Icons.AutoMirrored.Filled.Message
             ) {
-                navController.navigate("")
+                navController.navigate("ltChats")
             }
         }
         item {

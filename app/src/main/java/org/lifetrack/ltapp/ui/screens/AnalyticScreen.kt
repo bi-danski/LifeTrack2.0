@@ -29,7 +29,6 @@ fun AnalyticScreen(navController: NavController) {
     val bpData = remember { bPressureData }
     val labTests = remember { dummyLabTests }
     val prescriptions = remember { dummyPrescriptions }
-    val messages = remember { dummyMessages }
 
     Scaffold(
         topBar = {
@@ -126,11 +125,6 @@ fun AnalyticScreen(navController: NavController) {
                         PrescriptionItem(prescription)
                         Spacer(modifier = Modifier.height(8.dp))
                     }
-                }
-            }
-            item {
-                MedicalCard(title = "PATIENT COMMUNICATION") {
-                    ChatPanel(messages)
                 }
             }
         }

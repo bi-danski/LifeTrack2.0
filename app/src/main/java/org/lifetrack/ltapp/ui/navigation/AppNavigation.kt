@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import org.koin.androidx.compose.koinViewModel
 import org.lifetrack.ltapp.presenter.AlmaPresenter
 import org.lifetrack.ltapp.presenter.AuthPresenter
+import org.lifetrack.ltapp.presenter.ChatPresenter
 import org.lifetrack.ltapp.presenter.SupportPresenter
 import org.lifetrack.ltapp.ui.screens.*
 
@@ -45,7 +46,7 @@ fun AppNavigation(navController: NavHostController) {
             val presenter: AlmaPresenter =
                 koinViewModel<AlmaPresenter>(viewModelStoreOwner = backStackEntry)
 
-            ChatScreen(
+            AlmaScreen(
                 navController = navController,
                 presenter = presenter
             )
@@ -60,6 +61,13 @@ fun AppNavigation(navController: NavHostController) {
 
         composable("menu") {
             MenuScreen(navController = navController)
+        }
+
+        composable("ltChats"){
+            ChatScreen(
+                navController = navController,
+                presenter = koinViewModel<ChatPresenter>()
+            )
         }
 
         composable("restore") {
