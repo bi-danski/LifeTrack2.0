@@ -37,11 +37,6 @@ class ChatPresenter(
         messageInput = value
     }
 
-    private fun now(): String {
-        val formatter = DateTimeFormatter.ofPattern("HH:mm")
-        return LocalTime.now().format(formatter)
-    }
-
     fun onNewMessage() {
         if (messageInput.isBlank()) return
 
@@ -61,5 +56,10 @@ class ChatPresenter(
     override fun onCleared() {
         savedStateHandle["myChats"] = messages
         super.onCleared()
+    }
+
+    private fun now(): String {
+        val formatter = DateTimeFormatter.ofPattern("HH:mm")
+        return LocalTime.now().format(formatter)
     }
 }
