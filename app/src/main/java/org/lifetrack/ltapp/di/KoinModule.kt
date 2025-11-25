@@ -2,6 +2,7 @@ package org.lifetrack.ltapp.di
 
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
+import org.lifetrack.ltapp.model.network.KtorHttpClient
 import org.lifetrack.ltapp.model.repository.AuthRepository
 import org.lifetrack.ltapp.model.repository.AuthRepositoryImpl
 import org.lifetrack.ltapp.presenter.AlmaPresenter
@@ -13,10 +14,14 @@ val koinModule = module {
     single<AuthRepository> {
         AuthRepositoryImpl()
     }
-
+    single{
+        KtorHttpClient.create()
+    }
     viewModelOf(::AlmaPresenter)
     viewModelOf(::AuthPresenter)
     viewModelOf(::SupportPresenter)
     viewModelOf(::ChatPresenter)
+
+
 }
 

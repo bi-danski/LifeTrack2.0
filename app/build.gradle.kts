@@ -88,6 +88,8 @@ dependencies {
     implementation(libs.kotlinx.datetime)
 
     implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.android)
+    implementation(libs.ktor.serialization.json)
     implementation(libs.ktor.content.negotiation)
     implementation(libs.ktor.logging)
 
@@ -99,8 +101,6 @@ dependencies {
 
     implementation(libs.charts)
     implementation(libs.mpandroidchart)
-//    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
-
 
     testImplementation(libs.junit)
     debugImplementation(libs.androidx.ui.tooling)
