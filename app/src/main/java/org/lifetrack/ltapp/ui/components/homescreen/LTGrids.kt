@@ -63,7 +63,7 @@ fun FeatureGrid(navController: NavController) {
             GlassActionCard(
                 "E-Prescriptions",
                 Icons.Filled.LocalHospital
-            ) { navController.navigate("") }
+            ) { navController.navigate("prescriptions") }
         }
         item {
             GlassActionCard(

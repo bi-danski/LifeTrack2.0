@@ -13,6 +13,8 @@ import org.lifetrack.ltapp.ui.theme.PremiumPurple
 import org.lifetrack.ltapp.ui.theme.PremiumTeal
 import java.time.LocalDate
 import java.util.Date
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 val epidemicAlerts = listOf(
     EpidemicAlert(
@@ -135,9 +137,9 @@ val bPressureData = sortedMapOf(
         Date() to 180f
     )
 
-val emmaPatient = Patient(
+val dPatient = Patient(
         id = "LT997654321",
-        name = "Emma Johnson",
+        name = "Dr. Najma",
         age = 45,
         gender = "Female",
         bloodPressure = "190/120",
@@ -145,7 +147,7 @@ val emmaPatient = Patient(
         condition = "Hypertensive Crisis"
     )
 
-val dummyLabTests = listOf(
+val dLabTests = listOf(
     LabTest(
         name = "Complete Blood Count",
         date = "Apr 20, 2024",
@@ -165,14 +167,17 @@ val dummyLabTests = listOf(
     )
 )
 
-val dummyPrescriptions = listOf(
+@OptIn(ExperimentalUuidApi::class)
+val dPrescriptions = mutableListOf(
     Prescription(
+        id = Uuid.random().toHexString(),
         medication = "Lisinopril 10mg",
         dosage = "Once daily",
         duration = "30 days",
         notes = "For blood pressure control"
     ),
     Prescription(
+        id = Uuid.random().toHexString(),
         medication = "Metformin 500mg",
         dosage = "Twice daily",
         duration = "90 days",

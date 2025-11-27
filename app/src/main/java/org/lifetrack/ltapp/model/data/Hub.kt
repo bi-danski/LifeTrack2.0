@@ -3,6 +3,8 @@ package org.lifetrack.ltapp.model.data
 import androidx.compose.ui.graphics.vector.ImageVector
 import org.lifetrack.ltapp.R
 import java.time.LocalDate
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 data class MissionItem(
     val id: Int,
@@ -47,7 +49,8 @@ data class LabTest(
     val results: Map<String, String>
 )
 
-data class Prescription(
+data class Prescription (
+    val id: String,
     val medication: String,
     val dosage: String,
     val duration: String,

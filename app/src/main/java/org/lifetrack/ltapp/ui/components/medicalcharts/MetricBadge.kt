@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun MetricBadge(
@@ -30,12 +31,13 @@ fun MetricBadge(
                     color = if (isCritical) Color(0x30E53935) else MaterialTheme.colorScheme.primaryContainer,
                     shape = CircleShape
                 )
-                .size(48.dp)
+                .size(50.dp)
         ) {
             Text(
                 text = value,
                 color = if (isCritical) Color(0xFFE53935) else MaterialTheme.colorScheme.onPrimaryContainer,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                fontSize = 14.sp,
             )
         }
         Spacer(modifier = Modifier.height(4.dp))

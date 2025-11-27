@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import org.koin.androidx.compose.koinViewModel
 import org.lifetrack.ltapp.presenter.AlmaPresenter
+import org.lifetrack.ltapp.presenter.AnalyticPresenter
 import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.presenter.ChatPresenter
 import org.lifetrack.ltapp.presenter.SupportPresenter
@@ -14,10 +15,11 @@ import org.lifetrack.ltapp.ui.screens.*
 @Composable
 fun AppNavigation(navController: NavHostController) {
     val authPresenter = koinViewModel<AuthPresenter>()
+    val analyticPresenter = koinViewModel<AnalyticPresenter>()
 
     NavHost(
         navController = navController,
-        startDestination = "home" // or splash
+        startDestination = "home" // usisahau to revert to splash
     ) {
 
         composable("splash") {
@@ -75,7 +77,10 @@ fun AppNavigation(navController: NavHostController) {
         }
 
         composable("analytics") {
-            AnalyticScreen(navController = navController)
+            AnalyticScreen(
+                navController = navController,
+                presenter = analyticPresenter
+            )
         }
 
         composable("timeline") {
@@ -83,7 +88,14 @@ fun AppNavigation(navController: NavHostController) {
         }
 
         composable("telemedicine") {
-            TelemedicineScreen(navController)
+            TelemedicineScreen(navController = navController)
+        }
+
+        composable("prescriptions") {
+            PrescriptScreen(
+                navController = navController,
+                presenter = analyticPresenter
+                )
         }
 
         composable("alerts") {
