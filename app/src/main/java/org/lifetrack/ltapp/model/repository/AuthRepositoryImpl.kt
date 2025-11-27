@@ -1,6 +1,6 @@
 package org.lifetrack.ltapp.model.repository
 
-import org.lifetrack.ltapp.model.data.AuthResult
+import org.lifetrack.ltapp.model.data.dclass.AuthResult
 
 class AuthRepositoryImpl: AuthRepository {
     override suspend fun login(

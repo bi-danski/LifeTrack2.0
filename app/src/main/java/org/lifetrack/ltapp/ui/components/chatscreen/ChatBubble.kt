@@ -13,7 +13,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.lifetrack.ltapp.model.data.AlmaMessage
+import org.lifetrack.ltapp.model.data.dto.AlmaMessage
+import org.lifetrack.ltapp.utils.formatTimestamp
 
 @Composable
 fun ChatBubble(message: AlmaMessage) {
@@ -21,7 +22,7 @@ fun ChatBubble(message: AlmaMessage) {
     val textColor = if (message.isUser) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
     val shape = if (message.isUser) RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp, bottomStart = 16.dp, bottomEnd = 4.dp) else
             RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp, bottomStart = 4.dp, bottomEnd = 16.dp)
-
+//    val formattedTime = formatTimestamp()
     Row(
         modifier = Modifier
             .fillMaxWidth()

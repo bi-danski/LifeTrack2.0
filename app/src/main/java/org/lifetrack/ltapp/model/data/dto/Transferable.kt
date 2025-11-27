@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.model.dto
+package org.lifetrack.ltapp.model.data.dto
 
 import kotlinx.serialization.Serializable
 
@@ -36,5 +36,5 @@ data class Message(
     val id: String,
     val text: String,
     val isFromPatient: Boolean,
-    val timestamp: String
+    val timestamp: Long = System.currentTimeMillis()
 )

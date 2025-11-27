@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.model.dto
+package org.lifetrack.ltapp.model.data.dto
 
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable

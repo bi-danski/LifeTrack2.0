@@ -17,7 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.lifetrack.ltapp.model.data.User
+import org.lifetrack.ltapp.model.data.dclass.User
 
 @Composable
 fun PatientCard(user: User, onDelete: () -> Unit, onUpdate: () -> Unit) {

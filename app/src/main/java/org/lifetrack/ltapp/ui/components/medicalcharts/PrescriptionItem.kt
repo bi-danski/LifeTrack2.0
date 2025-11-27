@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import org.lifetrack.ltapp.model.data.Prescription
+import org.lifetrack.ltapp.model.data.dclass.Prescription
 
 @Composable
 fun PrescriptionItem(prescription: Prescription) {

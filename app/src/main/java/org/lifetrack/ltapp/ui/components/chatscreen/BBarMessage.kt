@@ -33,7 +33,7 @@ fun BBarMessage(
         horizontalArrangement = Arrangement.Center
     ) {
         TextField(
-            value = presenter.messageInput.collectAsState().value,
+            value = presenter.chatInput.collectAsState().value,
             onValueChange = { presenter.onMessageInput(it) },
             modifier = Modifier
                 .weight(1f)

@@ -35,7 +35,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.lifetrack.ltapp.R
-import org.lifetrack.ltapp.model.data.EpidemicAlert
+import org.lifetrack.ltapp.model.data.dclass.EpidemicAlert
 import org.lifetrack.ltapp.ui.theme.CriticalAlert
 import org.lifetrack.ltapp.ui.theme.HighAlert
 import org.lifetrack.ltapp.ui.theme.MediumAlert

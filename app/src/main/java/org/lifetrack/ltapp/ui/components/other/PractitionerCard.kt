@@ -17,7 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.lifetrack.ltapp.model.data.Practitioner
+import org.lifetrack.ltapp.model.data.dclass.Practitioner
 
 @Composable
 fun PractitionerCard(user: Practitioner, onDelete: () -> Unit, onUpdate: () -> Unit) {

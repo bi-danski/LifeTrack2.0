@@ -2,56 +2,66 @@ package org.lifetrack.ltapp.presenter
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.model.data.dummyMessages
-import org.lifetrack.ltapp.model.dto.Message
+import org.lifetrack.ltapp.model.data.dto.Message
+import org.lifetrack.ltapp.model.repository.ChatRepository
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 
 class ChatPresenter(
+    private val chatRepository: ChatRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _messages = MutableStateFlow<List<Message>>(emptyList())
-    val messages = _messages.asStateFlow()
+//    private val _messages = MutableStateFlow<List<Message>>(emptyList())
+//    val messages = _messages.asStateFlow()
 
-    var messageInput = MutableStateFlow("")
+//    init {
+//        val savedStateHandleChats = savedStateHandle.get<List<Message>>("myChats")
+//        myChats.value.ifEmpty { this.myChats.value.toMutableList().addAll(savedStateHandleChats) }
+//    }
 
-    init {
-        val saved = savedStateHandle.get<List<Message>>("myChats")
-        _messages.value = saved ?: dummyMessages
-    }
+    val chatInput = MutableStateFlow("")
+
+    val myChats: StateFlow<List<Message>> =
+        chatRepository.chatsFlow.stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
+            emptyList()
+        )
 
     fun onMessageInput(value: String) {
-        messageInput.value = value
+        chatInput.value= value
     }
 
     fun sendUserMessage() {
-        val text = messageInput.value
-        if (text.isBlank()) return
-
-        val newMessage = Message(
-            (_messages.value.size + 1).toString(),
-            text,
-            true,
-            now()
-        )
-
-        val updated = _messages.value + newMessage
-        _messages.value = updated
-        savedStateHandle["myChats"] = updated
-        messageInput.value = ""
+        if(chatInput.value.isBlank()) return
+        viewModelScope.launch {
+            chatRepository.addChat(
+                Message(
+                    text = chatInput.value,
+                    isFromPatient = true,
+//                    timestamp = now()
+                )
+            )
+        }
+        chatInput.value = ""
     }
 
     override fun onCleared() {
-        savedStateHandle["myChats"] = _messages.value
+//        savedStateHandle["myChats"] = _messages.value
     }
 
-    private fun now(): String {
-        return LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
-    }
+
 }
 
 

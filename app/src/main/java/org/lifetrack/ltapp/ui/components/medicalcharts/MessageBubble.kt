@@ -14,7 +14,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import org.lifetrack.ltapp.model.dto.Message
+import org.lifetrack.ltapp.model.data.dto.Message
+import org.lifetrack.ltapp.utils.formatTimestamp
 
 @Composable
 fun MessageBubble(message: Message) {
@@ -41,7 +42,7 @@ fun MessageBubble(message: Message) {
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Text(
-                    text = message.timestamp,
+                    text = formatTimestamp(message.timestamp),
                     style = MaterialTheme.typography.labelSmall,
                     color = Color.Gray
                 )

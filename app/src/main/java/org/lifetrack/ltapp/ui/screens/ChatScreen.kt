@@ -3,6 +3,7 @@ package org.lifetrack.ltapp.ui.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowCircleLeft
@@ -23,7 +24,7 @@ fun ChatScreen(
     navController: NavController,
     presenter: ChatPresenter
 ) {
-    val chatMessages by presenter.messages.collectAsState()
+    val chatMessages by presenter.myChats.collectAsState()
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
 
@@ -56,10 +57,10 @@ fun ChatScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            items(
+            itemsIndexed(
                 chatMessages,
-                key = { it.id }
-            ) { message ->
+//                key = { it.id }
+            ) { _, message ->
                 MessageBubble(message)
                 Spacer(modifier = Modifier.height(4.dp))
             }

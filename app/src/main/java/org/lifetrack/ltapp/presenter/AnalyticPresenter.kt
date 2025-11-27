@@ -2,9 +2,8 @@ package org.lifetrack.ltapp.presenter
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.mutableStateSetOf
 import androidx.lifecycle.ViewModel
-import org.lifetrack.ltapp.model.data.Prescription
+import org.lifetrack.ltapp.model.data.dclass.Prescription
 import org.lifetrack.ltapp.model.data.bPressureData
 import org.lifetrack.ltapp.model.data.dLabTests
 import org.lifetrack.ltapp.model.data.dPatient

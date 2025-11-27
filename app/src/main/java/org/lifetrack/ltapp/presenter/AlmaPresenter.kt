@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.lifetrack.ltapp.model.data.AlmaMessage
+import org.lifetrack.ltapp.model.data.dto.AlmaMessage
 
 
 class AlmaPresenter(

@@ -1,10 +1,8 @@
-package org.lifetrack.ltapp.model.data
+package org.lifetrack.ltapp.model.data.dclass
 
 import androidx.compose.ui.graphics.vector.ImageVector
 import org.lifetrack.ltapp.R
 import java.time.LocalDate
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
 data class MissionItem(
     val id: Int,

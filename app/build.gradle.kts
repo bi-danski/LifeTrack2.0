@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kapt)
     id("kotlin-parcelize")
 
 }
@@ -101,6 +102,10 @@ dependencies {
 
     implementation(libs.charts)
     implementation(libs.mpandroidchart)
+
+    implementation(libs.room.ktx)
+    implementation(libs.room.runtime)
+    implementation(libs.room.compiler)
 
     testImplementation(libs.junit)
     debugImplementation(libs.androidx.ui.tooling)

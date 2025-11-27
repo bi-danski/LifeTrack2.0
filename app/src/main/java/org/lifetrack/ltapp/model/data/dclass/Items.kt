@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.model.data
+package org.lifetrack.ltapp.model.data.dclass
 
 import androidx.compose.ui.graphics.vector.ImageVector
 

@@ -24,7 +24,7 @@ ktor = "3.3.2"
 koin-bom = "4.1.1"
 mpchart = "3.1.0"
 charts = "2.0.1"
-
+room = "2.8.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -75,10 +75,15 @@ koin-androidx-compose-navigation = { module = "io.insert-koin:koin-androidx-comp
 charts = {module = "io.github.dautovicharis:charts-android", version.ref = "charts"}
 mpandroidchart = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mpchart" }
 
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kapt = { id = "org.jetbrains.kotlin.kapt" }
 
