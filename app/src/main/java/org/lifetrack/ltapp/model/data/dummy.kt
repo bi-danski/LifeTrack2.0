@@ -14,6 +14,7 @@ import org.lifetrack.ltapp.model.data.dclass.MedicalVisit
 import org.lifetrack.ltapp.model.data.dclass.Patient
 import org.lifetrack.ltapp.model.data.dclass.Premium
 import org.lifetrack.ltapp.model.data.dclass.Prescription
+import org.lifetrack.ltapp.model.data.dto.Message
 import org.lifetrack.ltapp.ui.theme.PremiumGold
 import org.lifetrack.ltapp.ui.theme.PremiumPurple
 import org.lifetrack.ltapp.ui.theme.PremiumTeal
@@ -191,13 +192,13 @@ val dPrescriptions = mutableListOf(
     )
 )
 
-//val dummyMessages = mutableListOf(
-//    Message( "I've been having headaches", true, "10:30 AM"),
-//    Message( "Any fever or dizziness?", false, "10:32 AM"),
-//    Message("No fever but some dizziness", true, "10:35 AM"),
-//    Message( "Since when have you been feeling like that", false, "10:36 AM"),
-//    Message( "Come see me at my place of work at 2:00 PM", false,"10:36 AM"),
-//    Message( "Okay, i'll be there on time", true,"10:39 AM")
+//val dummyMessages = listOf(
+//    Message( 1,"I've been having headaches", true, System.currentTimeMillis() - 120L),
+//    Message( 2,"Any fever or dizziness?", false, System.currentTimeMillis() - 100L),
+//    Message(3,"No fever but some dizziness", true, System.currentTimeMillis() - 70L),
+//    Message( 4,"Since when have you been feeling like that", false, System.currentTimeMillis() - 50L),
+//    Message( 5,"Come see me at my place of work at 2:00 PM", false,System.currentTimeMillis() - 30L),
+//    Message(6,"Okay, i'll be there on time", true, System.currentTimeMillis() - 10L)
 //)
 
 val dummyDoctors = listOf(

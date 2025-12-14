@@ -12,7 +12,10 @@ import org.lifetrack.ltapp.model.data.dto.Message
 interface ChatDao {
     @Query("SELECT * FROM demChats ORDER BY timestamp DESC")
     fun getAllChats(): Flow<List<Message>>
-//    @Query("INSERT INTO demChats (id, text, isFromPatient, timestamp) VALUES ( :chat.id, :text, :isFromPatient, :timestamp)")
+
+    @Query("SELECT * FROM demChats WHERE type = :chatType ORDER BY timestamp DESC")
+    fun getChatsByType(chatType: String): Flow<List<Message>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertChat(chat: MessageEntity)
 

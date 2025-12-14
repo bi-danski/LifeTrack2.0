@@ -14,17 +14,17 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
-import org.lifetrack.ltapp.presenter.ChatPresenter
 
 @Composable
 fun BBarMessage(
-    presenter: ChatPresenter
-    ){
+    value: String,
+    onValueChange: (String) -> Unit,
+    onSend: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -33,20 +33,22 @@ fun BBarMessage(
         horizontalArrangement = Arrangement.Center
     ) {
         TextField(
-            value = presenter.chatInput.collectAsState().value,
-            onValueChange = { presenter.onMessageInput(it) },
+            value = value,
+            onValueChange = onValueChange,
             modifier = Modifier
                 .weight(1f)
                 .padding(end = 8.dp),
-            placeholder = { Text("", fontStyle = FontStyle.Italic) },
+            placeholder = { Text("Type a message...", fontStyle = FontStyle.Italic) },
             shape = RoundedCornerShape(20.dp),
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
                 unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant
-            )
+            ),
+            singleLine = true
         )
         IconButton(
-            onClick = presenter::sendUserMessage
+            onClick = onSend,
+            enabled = value.isNotBlank()
         ) {
             Icon(Icons.AutoMirrored.Filled.Send, contentDescription = "Send")
         }

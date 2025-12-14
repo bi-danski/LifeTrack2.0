@@ -19,8 +19,9 @@ data class ChatMessage(
 
 @Serializable
 data class Message(
-    val id: String,
+    val id: Long,
     val text: String,
     val isFromPatient: Boolean,
-    val timestamp: Long = System.currentTimeMillis()
+    val timestamp: Long = System.currentTimeMillis(),
+    val type: String
 )

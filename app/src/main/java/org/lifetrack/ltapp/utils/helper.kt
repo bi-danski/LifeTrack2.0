@@ -9,5 +9,6 @@ fun Message.toEntity(): MessageEntity{
         text = this.text,
         isFromPatient = this.isFromPatient,
         timestamp = this.timestamp,
+        type = this.type
     )
 }

@@ -8,7 +8,12 @@ import org.lifetrack.ltapp.utils.toEntity
 class ChatRepository(
     private var dao: ChatDao
 ) {
-    val chatsFlow: Flow<List<Message>> = dao.getAllChats()
+    private val chatsFlow: Flow<List<Message>> = dao.getAllChats()
+    private var chatCounts: Int = 0
+
+    fun getChatFlow(type: String): Flow<List<Message>> {
+        return dao.getChatsByType(type)
+    }
 
     suspend fun addChat(chat: Message){
         dao.insertChat(chat.toEntity())
@@ -17,4 +22,12 @@ class ChatRepository(
     suspend fun deleteAllChats(){
         dao.deleteAllChats()
     }
+
+    suspend fun getChatCounts():Int {
+        chatsFlow.collect {
+            chatCounts = it.size
+        }
+        return chatCounts
+    }
+
 }
