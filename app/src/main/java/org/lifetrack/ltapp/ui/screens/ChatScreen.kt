@@ -29,7 +29,8 @@ fun ChatScreen(
 
     LaunchedEffect(chatMessages.size) {
         scope.launch {
-            listState.animateScrollToItem(chatMessages.size - 1)
+            listState.animateScrollToItem(chatMessages.size)
+//            chatMessages.size - 1)
         }
     }
 

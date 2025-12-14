@@ -10,9 +10,9 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.model.data.dto.Message
 import org.lifetrack.ltapp.model.repository.ChatRepository
+import org.lifetrack.ltapp.utils.toEntity
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
-
 
 class ChatPresenter(
     private val chatRepository: ChatRepository,
@@ -45,7 +45,6 @@ class ChatPresenter(
             )
         }
         chatInput.value = ""
-
     }
 
     override fun onCleared() {

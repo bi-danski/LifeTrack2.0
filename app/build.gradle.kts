@@ -5,9 +5,9 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.kapt)
+//    alias(libs.plugins.kapt)
+    alias(libs.plugins.ksp)
     id("kotlin-parcelize")
-
 }
 
 android {
@@ -121,9 +121,8 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.room.compiler)
     implementation(libs.mpandroidchart)
+    ksp(libs.room.compiler)
 
-//    implementation(libs.accompanist.pager)
-//    implementation(libs.accompanist.pager.indicators)
     implementation(libs.accompanist.systemuicontroller)
     implementation(libs.accompanist.navigation.animation)
 

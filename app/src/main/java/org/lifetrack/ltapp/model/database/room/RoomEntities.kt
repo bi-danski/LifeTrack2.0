@@ -1,12 +1,13 @@
-package org.lifetrack.ltapp.model.data.dclass
+package org.lifetrack.ltapp.model.database.room
 
 import androidx.room.PrimaryKey
 import androidx.room.Entity
 
 @Entity(tableName = "demChats")
 data class MessageEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true)
+    val id: String,
     val text: String,
-    val isUser: Boolean,
+    val isFromPatient: Boolean,
     val timestamp: Long = System.currentTimeMillis()
 )

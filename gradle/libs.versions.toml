@@ -9,22 +9,24 @@ appcompat = "1.7.1"
 material = "1.13.0"
 material-icons = "1.7.8"
 material3Lint = "1.4.0"
-compose = "1.9.5"
+compose = "1.10.0"
 navCompose = "2.9.6"
-activityCompose = "1.12.0"
+activityCompose = "1.12.1"
 coil-compose = "2.7.0"
-composeBom = "2025.11.01"
+composeBom = "2025.12.00"
 coroutines = "1.10.2"
 lifecycleRuntimeKtx = "2.10.0"
 work-runtime-ktx  = "2.11.0"
 kotlin-serialization-json = "1.9.0"
-ui-viewbinding = "1.9.5"
+ui-viewbinding = "1.10.0"
 kotlinx-datetime = "0.7.1"
 ktor = "3.3.2"
 koin-bom = "4.1.1"
 mpchart = "3.1.0"
 charts = "2.0.1"
 room = "2.8.4"
+#ksp = "2.2.10-2.0.2"
+ksp = "2.3.0"
 accompanist= "0.36.0"
 
 [libraries]
@@ -92,5 +94,5 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-kapt = { id = "org.jetbrains.kotlin.kapt" }
-
+#kapt = { id = "org.jetbrains.kotlin.kapt" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp"}
