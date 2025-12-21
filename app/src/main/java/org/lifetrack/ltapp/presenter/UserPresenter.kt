@@ -26,6 +26,8 @@ class UserPresenter : ViewModel() {
         private set
     var emailNotificationToggleState by mutableStateOf(false)
         private set
+    var patientInfoConsentToggleState by mutableStateOf(false)
+        private set
 
     init {
         menuItems.addAll(menuListItems)
@@ -63,5 +65,9 @@ class UserPresenter : ViewModel() {
 
     fun onEmailNotificationsUpdate() {
         emailNotificationToggleState = !emailNotificationToggleState
+    }
+
+    fun onPatientInfoConsentUpdate(){
+        patientInfoConsentToggleState = !patientInfoConsentToggleState
     }
 }

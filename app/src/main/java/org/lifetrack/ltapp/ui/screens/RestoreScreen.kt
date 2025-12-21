@@ -1,21 +1,43 @@
 package org.lifetrack.ltapp.ui.screens
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowCircleLeft
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.LockReset
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.ui.components.homescreen.LifeTrackTopBar
+import org.lifetrack.ltapp.ui.theme.Purple80
 
 @Composable
 fun RestoreScreen(
@@ -32,12 +54,11 @@ fun RestoreScreen(
     Scaffold(
         topBar = {
             LifeTrackTopBar(
-                "",
+                "Reset Password",
                 navigationIcon = Icons.Default.ArrowCircleLeft,
-                backCallback = { navController.popBackStack() }
-            ) {
-
-            }
+                backCallback = { navController.popBackStack() },
+                actionCallback = {}
+            )
         },
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) }
     ) { paddingValues ->
@@ -54,12 +75,12 @@ fun RestoreScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = "Reset Password",
-                    style = MaterialTheme.typography.headlineLarge,
-                    color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.ExtraBold,
-                    fontSize = 42.sp
+                Icon (
+                    imageVector = Icons.Filled.LockReset,
+                    contentDescription = "Password Reset",
+                    modifier = Modifier
+                        .size(60.dp),
+                    tint = Purple80
                 )
                 Spacer(modifier = Modifier.height(40.dp))
 
@@ -70,7 +91,6 @@ fun RestoreScreen(
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
-
                 Spacer(modifier = Modifier.height(40.dp))
 
                 Button(
@@ -122,29 +142,8 @@ fun RestoreScreen(
                 }
 
                 Spacer(modifier = Modifier.height(20.dp))
-
             }
-
         }
-//        Column(
-//            modifier = Modifier
-//                .fillMaxWidth(),
-////                .padding(16.dp),
-//            verticalArrangement = Arrangement.Top,
-//            horizontalAlignment = Alignment.Start
-//        ) {
-//
-//        }
-
     }
 }
 
-//@RequiresApi(Build.VERSION_CODES.S)
-//@Preview
-//@Composable
-//fun PreviewRestoreScreen(){
-//    val navController = NavController(LocalContext.current)
-//    LTAppTheme {
-//        RestoreScreen(navController)
-//    }
-//}

@@ -58,7 +58,8 @@ fun FeatureItem(
             Text(
                 text = description,
                 style = MaterialTheme.typography.bodyMedium.copy(
-                    color = Color(0xFF6C757D)
+                    color = Color(0xFF6C757D),
+                    fontWeight = FontWeight.SemiBold
                 )
             )
         }

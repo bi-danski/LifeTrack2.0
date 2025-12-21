@@ -1,6 +1,7 @@
 package org.lifetrack.ltapp.model.data.dclass
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DisabledVisible
 import androidx.compose.material.icons.filled.Emergency
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.MedicalServices
@@ -20,8 +21,7 @@ data class ToggleItemData(
 )
 
 val menuListItems: Collection<MenuItemData> = mutableListOf(
-    MenuItemData("Health Records", Icons.Filled.MedicalServices, "medical_timeline", rightIcon = null),
-    MenuItemData("Medications", Icons.Filled.Medication, "additional_features", rightIcon = null),
+//    MenuItemData("Medications", Icons.Filled.Medication, "additional_features", rightIcon = null),
     MenuItemData("Emergency Contacts", Icons.Filled.Emergency, "epidemic_alert", rightIcon = null),
     MenuItemData("About LifeTrack", Icons.Filled.Info, "about", rightIcon = null)
 )

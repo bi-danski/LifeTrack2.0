@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowCircleLeft
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -43,7 +44,7 @@ fun AnalyticScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
+                        Icon(Icons.Default.ArrowCircleLeft, "Back")
                     }
                 },
                 actions = {
@@ -60,6 +61,7 @@ fun AnalyticScreen(
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier
+                .padding(top = 20.dp)
                 .fillMaxSize(),
             contentPadding = innerPadding,
             verticalArrangement = Arrangement.spacedBy(12.dp)

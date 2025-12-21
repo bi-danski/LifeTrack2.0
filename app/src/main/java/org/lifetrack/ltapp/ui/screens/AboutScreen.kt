@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import org.lifetrack.ltapp.ui.components.aboutscreen.FeatureItem
 
@@ -27,6 +28,7 @@ import org.lifetrack.ltapp.ui.components.aboutscreen.FeatureItem
 @Composable
 fun AboutScreen(navController: NavController) {
     val colorScheme = MaterialTheme.colorScheme
+    val thatOneColor = Color(0xFF6C757D)
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -64,7 +66,6 @@ fun AboutScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(16.dp))
-
             Box(
                 modifier = Modifier
                     .size(80.dp)
@@ -79,9 +80,7 @@ fun AboutScreen(navController: NavController) {
                     modifier = Modifier.size(40.dp)
                 )
             }
-
             Spacer(modifier = Modifier.height(24.dp))
-
             Text(
                 text = "LifeTrack Health Companion",
                 fontWeight = FontWeight.SemiBold,
@@ -90,9 +89,7 @@ fun AboutScreen(navController: NavController) {
                     textAlign = TextAlign.Center
                 )
             )
-
             Spacer(modifier = Modifier.height(8.dp))
-
             Text(
                 text = "Your complete health management solution",
                 style = MaterialTheme.typography.titleMedium.copy(
@@ -100,7 +97,6 @@ fun AboutScreen(navController: NavController) {
                     textAlign = TextAlign.Center
                 )
             )
-
             Spacer(modifier = Modifier.height(32.dp))
 
             Card(
@@ -118,15 +114,16 @@ fun AboutScreen(navController: NavController) {
                     Text(
                         text = "LifeTrack is a cutting-edge, comprehensive health management app designed to empower you with seamless control over your medical history, appointments, and wellness journey.",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = Color(0xFF6C757D)
+//                        color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else thatOneColor,
+                        fontWeight = FontWeight.SemiBold,
+                        color = thatOneColor,
+                        fontSize = 16.sp
                     )
-
                     HorizontalDivider(
                         modifier = Modifier.padding(vertical = 8.dp),
                         thickness = 1.dp,
                         color = colorScheme.background
                     )
-
                     Text(
                         text = "Key Features",
                         fontWeight = FontWeight.SemiBold,
@@ -177,17 +174,18 @@ fun AboutScreen(navController: NavController) {
                     Text(
                         text = "LifeTrack Health Solutions",
                         style = MaterialTheme.typography.bodyLarge.copy(
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            color = thatOneColor
                         )
                     )
                     Text(
                         text = "Innovating for Your Well-Being",
                         style = MaterialTheme.typography.bodyMedium.copy(
                             fontStyle = FontStyle.Italic,
-                            color = Color(0xFF6C757D)
+                            fontWeight = FontWeight.SemiBold,
+                            color = thatOneColor
                         )
                     )
-
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Column(
@@ -197,7 +195,6 @@ fun AboutScreen(navController: NavController) {
                                 color = colorScheme.background,
                                 shape = MaterialTheme.shapes.medium
                             ),
-//                            .padding(10.dp),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Text(
@@ -209,11 +206,15 @@ fun AboutScreen(navController: NavController) {
                         )
                         Text(
                             text = "contact@lifetrack.org",
-                            style = MaterialTheme.typography.bodyMedium
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.SemiBold,
+                            color = thatOneColor
                         )
                         Text(
                             text = "www.lifetrack.org",
-                            style = MaterialTheme.typography.bodyMedium
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.SemiBold,
+                            color = thatOneColor
                         )
                     }
 //
@@ -222,7 +223,8 @@ fun AboutScreen(navController: NavController) {
             Text(
                 text = "        © 2023 LifeTrack. All rights reserved.",
                 style = MaterialTheme.typography.bodySmall.copy(
-                    color = Color(0xFF6C757D)
+                    color = Color(0xFF6C757D),
+                    fontWeight = FontWeight.Bold
                 )
             )
             Spacer(modifier = Modifier.height(15.dp))

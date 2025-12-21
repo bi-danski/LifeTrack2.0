@@ -1,7 +1,13 @@
 package org.lifetrack.ltapp.presenter
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import org.lifetrack.ltapp.model.data.dclass.LoginInfo
+import org.lifetrack.ltapp.model.data.dto.LoginRequest
 import org.lifetrack.ltapp.model.repository.AuthRepository
 
 
@@ -9,8 +15,20 @@ class AuthPresenter(
     val authRepository: AuthRepository,
 ): ViewModel() {
 
+    private val _loginInfo = MutableStateFlow(LoginInfo())
+    val loginInfo = _loginInfo.asStateFlow()
+
     suspend fun getTokenId(): String{
         return  authRepository.getTokenId()
+    }
+
+    fun onLoginInfoUpdate(value: LoginInfo){
+        viewModelScope.launch {
+            _loginInfo.value = LoginInfo(
+                emailAddress = value.emailAddress,
+                password = value.password
+            )
+        }
     }
 
     fun logout(navController: NavController) {

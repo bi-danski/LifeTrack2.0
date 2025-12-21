@@ -1,6 +1,7 @@
 package org.lifetrack.ltapp.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -10,7 +11,14 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowCircleLeft
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -23,10 +31,10 @@ import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.presenter.ChatPresenter
 import org.lifetrack.ltapp.ui.components.chatscreen.BBarMessage
-import org.lifetrack.ltapp.ui.components.homescreen.LifeTrackTopBar
 import org.lifetrack.ltapp.ui.components.medicalcharts.MessageBubble
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatScreen(
     navController: NavController,
@@ -47,14 +55,34 @@ fun ChatScreen(
 
     Scaffold(
         topBar = {
-            LifeTrackTopBar(
-                title = "Messages & Referrals",
-                navigationIcon = Icons.Default.ArrowCircleLeft,
-                modifier = Modifier,
-                backCallback = { navController.popBackStack() },
-                actionIcon = null,
-                actionCallback = {}
-            )
+                CenterAlignedTopAppBar(
+                    title = {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = "Dr. Najma",
+                                style = MaterialTheme.typography.titleLarge
+                            )
+                            Text(
+                                "Offline",
+                                style = MaterialTheme.typography.labelSmall
+                            )
+                        }
+                    },
+                    navigationIcon = {
+                        IconButton(onClick = { navController.popBackStack() }) {
+                            Icon(Icons.Default.ArrowCircleLeft, "Back")
+                        }
+                    },
+                    actions = {
+//                        IconButton(onClick = { /* Export */ }) {
+//                            Icon(Icons.Default.Share, "Export")
+//                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                )
         },
         bottomBar = {
             BBarMessage(
@@ -62,7 +90,9 @@ fun ChatScreen(
                 onValueChange = { presenter.onMessageInput(it) },
                 onSend = { presenter.sendUserMessageToDoctor() }
             )
-        }
+        },
+        
+        containerColor = MaterialTheme.colorScheme.background
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier

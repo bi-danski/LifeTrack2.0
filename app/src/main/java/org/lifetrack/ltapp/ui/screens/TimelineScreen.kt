@@ -3,6 +3,7 @@ package org.lifetrack.ltapp.ui.screens
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -21,12 +22,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import org.lifetrack.ltapp.model.data.medicalVisits
 import kotlinx.coroutines.delay
 import org.lifetrack.ltapp.ui.theme.Purple40
+import org.lifetrack.ltapp.ui.theme.Purple80
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,18 +45,18 @@ fun TimeLineScreen(navController: NavController) {
 
     Scaffold(
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        "Medical Timeline",
-                        style = MaterialTheme.typography.headlineSmall,
+                        "Medical History",
+                        style = MaterialTheme.typography.titleLarge,
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth(),
-                        color = MaterialTheme.colorScheme.onPrimary
+                        fontWeight = FontWeight.SemiBold,
+                        color = if (isSystemInDarkTheme()) Purple80 else MaterialTheme.colorScheme.onPrimary
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Purple40,
+                    containerColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primaryContainer else Purple40,
                     titleContentColor = MaterialTheme.colorScheme.onPrimary
                 ),
                 navigationIcon = {
@@ -76,21 +79,21 @@ fun TimeLineScreen(navController: NavController) {
             verticalArrangement = Arrangement.spacedBy(12.dp),
             contentPadding = PaddingValues(vertical = 16.dp)
         ) {
-            item {
-                AnimatedVisibility(
-                    visible = isVisible,
-                    enter = fadeIn(animationSpec = tween(600))
-                ) {
-                    Text(
-                        text = "Medical History",
-                        style = MaterialTheme.typography.headlineMedium,
-                        color = MaterialTheme.colorScheme.tertiary,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 16.dp)
-                    )
-                }
-            }
+//            item {
+//                AnimatedVisibility(
+//                    visible = isVisible,
+//                    enter = fadeIn(animationSpec = tween(600))
+//                ) {
+//                    Text(
+//                        text = "Medical History",
+//                        style = MaterialTheme.typography.headlineMedium,
+//                        color = MaterialTheme.colorScheme.tertiary,
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .padding(bottom = 16.dp)
+//                    )
+//                }
+//            }
             items(medicalVisits) { visit ->
                 AnimatedVisibility(
                     visible = isVisible,

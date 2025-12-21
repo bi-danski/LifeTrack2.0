@@ -1,8 +1,12 @@
 package org.lifetrack.ltapp.ui.screens
-
-import android.os.Build
-import androidx.annotation.RequiresApi
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Chat
@@ -12,31 +16,35 @@ import androidx.compose.material.icons.filled.ArrowCircleLeft
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Phone
-import androidx.compose.material3.*
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import org.koin.androidx.compose.koinViewModel
-import org.lifetrack.ltapp.presenter.SupportPresenter
-import org.lifetrack.ltapp.utils.openDialer
-import org.lifetrack.ltapp.utils.openEmail
+import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.ui.components.supportscreen.ContactItem
 import org.lifetrack.ltapp.ui.components.supportscreen.FAQItem
 import org.lifetrack.ltapp.ui.components.supportscreen.SectionCard
-import org.lifetrack.ltapp.ui.theme.LTAppTheme
+import org.lifetrack.ltapp.utils.openDialer
+import org.lifetrack.ltapp.utils.openEmail
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SupportScreen(
     navController: NavController,
-    presenter: SupportPresenter
+    presenter: SharedPresenter
     ) {
     val context = LocalContext.current
 
@@ -180,18 +188,4 @@ fun SupportScreen(
             }
         }
     }
-}
-
-@RequiresApi(Build.VERSION_CODES.S)
-@Preview
-@Composable
-fun PreviewSupportScreen(){
-    val navController = rememberNavController()
-    LTAppTheme {
-        SupportScreen(
-            navController = navController,
-            koinViewModel<SupportPresenter>()
-        )
-    }
-
 }

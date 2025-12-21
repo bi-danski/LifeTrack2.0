@@ -49,6 +49,7 @@ import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.ui.components.profilescreen.CustomProfileMenuItem
 import org.lifetrack.ltapp.ui.components.profilescreen.ProfileMenuItem
 import org.lifetrack.ltapp.ui.theme.Purple40
+import org.lifetrack.ltapp.ui.theme.Purple80
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -57,7 +58,6 @@ fun ProfileScreen(
     navController: NavController,
     authPresenter: AuthPresenter,
     userPresenter: UserPresenter
-
     ) {
     val colorScheme = MaterialTheme.colorScheme
     val profileInfo = userPresenter.profileInfo.collectAsState()
@@ -73,7 +73,7 @@ fun ProfileScreen(
                         Icon(
                             imageVector = Icons.Default.ArrowCircleLeft,
                             contentDescription = "Back",
-                            tint = Color.Black
+                            tint = if (isSystemInDarkTheme()) Purple80 else MaterialTheme.colorScheme.primary
                         )
                     }
                 },
@@ -101,14 +101,14 @@ fun ProfileScreen(
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = profileInfo.value.userName,
-                color = colorScheme.onPrimary,
+                color = if (isSystemInDarkTheme()) Purple80 else colorScheme.onPrimary,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(4.5.dp))
             Text(
                 text = profileInfo.value.userPhoneNumber,
-                color = colorScheme.onPrimary.copy(alpha = 0.8f),
+                color = if (isSystemInDarkTheme()) Purple80 else colorScheme.onPrimary.copy(alpha = 0.8f),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold
             )

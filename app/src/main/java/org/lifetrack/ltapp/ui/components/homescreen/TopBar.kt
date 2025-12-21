@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import org.lifetrack.ltapp.ui.theme.Purple40
 
 @Composable
 fun AppTopBar(navController: NavController) {
@@ -32,7 +33,9 @@ fun AppTopBar(navController: NavController) {
                     .size(50.dp)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.background)
-                    .border(width = 2.dp, color = MaterialTheme.colorScheme.primary, shape = CircleShape),
+                    .border(width = 2.dp,
+                        color = MaterialTheme.colorScheme.primary, //Purple40
+                        shape = CircleShape),
                 contentAlignment = Alignment.Center
 
             ) {
@@ -40,16 +43,16 @@ fun AppTopBar(navController: NavController) {
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.background))
                 {
-                    Icon(Icons.Filled.Menu, contentDescription = "") }
+                    Icon(Icons.Filled.Menu, contentDescription = "", tint = Purple40) }
             }
             Spacer(Modifier.width(10.dp))
             Text(
                 text = "LIFETRACK",
                 style = MaterialTheme.typography.titleMedium.copy(
-                    fontWeight = FontWeight.SemiBold,
+                    fontWeight = FontWeight.Bold,
                     letterSpacing = 2.sp
                 ),
-                color = MaterialTheme.colorScheme.primary
+                color =  MaterialTheme.colorScheme.primary
             )
         }
         Column(horizontalAlignment = Alignment.End) {
@@ -104,7 +107,8 @@ fun LifeTrackTopBar(
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            containerColor = Purple40,
+//                    MaterialTheme.colorScheme.primaryContainer,
             titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
             navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
             actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer

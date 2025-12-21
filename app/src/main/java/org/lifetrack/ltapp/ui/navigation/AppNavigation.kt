@@ -9,7 +9,7 @@ import org.lifetrack.ltapp.presenter.AnalyticPresenter
 import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.presenter.ChatPresenter
 import org.lifetrack.ltapp.presenter.HomePresenter
-import org.lifetrack.ltapp.presenter.SupportPresenter
+import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.ui.screens.*
 
@@ -20,10 +20,11 @@ fun AppNavigation(navController: NavHostController) {
     val analyticPresenter = koinViewModel<AnalyticPresenter>()
     val chatPresenter = koinViewModel<ChatPresenter>()
     val userPresenter = koinViewModel<UserPresenter>()
+    val sharedPresenter = koinViewModel<SharedPresenter>()
 
     NavHost(
         navController = navController,
-        startDestination = "menu"
+        startDestination = "home"
     ) {
 
         composable("splash") {
@@ -33,14 +34,15 @@ fun AppNavigation(navController: NavHostController) {
         composable("login") {
             LoginScreen(
                 navController = navController,
-                presenter = authPresenter
+                presenter = authPresenter,
+                sharedPresenter = sharedPresenter
             )
         }
 
         composable("signup") {
             RegistrationScreen(
                 navController = navController,
-                presenter = authPresenter
+                presenter = authPresenter,
             )
         }
 
@@ -69,7 +71,8 @@ fun AppNavigation(navController: NavHostController) {
         composable("menu") {
             MenuScreen(
                 navController = navController,
-                presenter = userPresenter
+                userPresenter = userPresenter,
+                sharedPresenter = sharedPresenter
             )
         }
 
@@ -114,18 +117,23 @@ fun AppNavigation(navController: NavHostController) {
             OtherScreen(navController)
         }
 
-        composable("support") { backStackEntry ->
-            val presenter: SupportPresenter =
-                koinViewModel(viewModelStoreOwner = backStackEntry)
-
+        composable("support") {
             SupportScreen(
                 navController = navController,
-                presenter = presenter
+                presenter = sharedPresenter
             )
         }
 
         composable("about") {
             AboutScreen(navController)
+        }
+
+        composable("appointments"){
+            AppointScreen(navController)
+        }
+
+        composable("FUV"){
+            FollowUpScreen(navController)
         }
     }
 }

@@ -18,52 +18,6 @@ import org.lifetrack.ltapp.model.data.dclass.ToggleItemData
 
 
 @Composable
-fun MenuListItem(
-    menuItemData: MenuItemData,
-    color: Color,
-    onClick: () -> Unit,
-) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp)
-            .clickable(onClick = onClick),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface,
-            contentColor = color
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
-        shape = RoundedCornerShape(12.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            Icon(
-                imageVector = menuItemData.icon,
-                contentDescription = menuItemData.title,
-                modifier = Modifier.size(24.dp),
-                tint = color
-            )
-            Text(
-                text = menuItemData.title,
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.weight(1f)
-            )
-            Icon(
-                imageVector = menuItemData.rightIcon ?: Icons.Default.ChevronRight,
-                contentDescription = "Navigate",
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.size(20.dp),
-            )
-        }
-    }
-}
-
-@Composable
 fun ToggleMenuListItem(
     color: Color,
     toggleItem: ToggleItemData,
@@ -74,18 +28,16 @@ fun ToggleMenuListItem(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp),
-//            .clickable(onClick = onToggle),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
             contentColor = color
         ),
-//        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
         shape = RoundedCornerShape(12.dp)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(6.dp)
+                .padding(10.dp)
                 .clickable(
                     onClick = onToggle
                 ),
@@ -107,10 +59,57 @@ fun ToggleMenuListItem(
                 Icon(
                     imageVector = if (toggleState) Icons.Default.ToggleOn else Icons.Default.ToggleOff,
                     contentDescription = "Toggle",
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    tint = if (toggleState) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.size(32.dp),
                 )
             }
+        }
+    }
+}
+
+
+@Composable
+fun MenuListItem(
+    menuItemData: MenuItemData,
+    color: Color,
+    onClick: () -> Unit,
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp)
+            .clickable(onClick = onClick),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface,
+            contentColor = color
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+        shape = RoundedCornerShape(12.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Icon(
+                imageVector = menuItemData.icon,
+                contentDescription = menuItemData.title,
+                modifier = Modifier.size(28.dp),
+                tint = color
+            )
+            Text(
+                text = menuItemData.title,
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.weight(1f)
+            )
+            Icon(
+                imageVector = menuItemData.rightIcon ?: Icons.Default.ChevronRight,
+                contentDescription = "Navigate",
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.size(36.dp),
+            )
         }
     }
 }

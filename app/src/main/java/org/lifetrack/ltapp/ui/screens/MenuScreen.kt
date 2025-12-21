@@ -17,9 +17,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Animation
 import androidx.compose.material.icons.filled.ArrowCircleLeft
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.MedicalInformation
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -35,10 +37,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import org.lifetrack.ltapp.model.data.dclass.ToggleItemData
+import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.ui.components.menuscreen.MenuListItem
 import org.lifetrack.ltapp.ui.components.menuscreen.ToggleMenuListItem
@@ -48,9 +50,10 @@ import org.lifetrack.ltapp.ui.theme.Purple40
 @Composable
 fun MenuScreen(
     navController: NavController,
-    presenter: UserPresenter
+    userPresenter: UserPresenter,
+    sharedPresenter: SharedPresenter
     ) {
-    val userProfileInfo = presenter.profileInfo.collectAsState()
+    val userProfileInfo = userPresenter.profileInfo.collectAsState()
 
     Scaffold(
         topBar = {
@@ -71,7 +74,7 @@ fun MenuScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.primaryContainer,
+                    containerColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.background else Purple40,
                     titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             )
@@ -103,10 +106,10 @@ fun MenuScreen(
                         Text(
                             text = userProfileInfo.value.userInitials,
                             style = MaterialTheme.typography.headlineMedium,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                            fontWeight = FontWeight.SemiBold
                         )
                     }
-
                     Column {
                         Text(
                             text = userProfileInfo.value.userName,
@@ -114,13 +117,12 @@ fun MenuScreen(
                         )
                         Text(
                             text = userProfileInfo.value.userEmail,
+                            fontWeight = FontWeight.SemiBold,
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
-
                     Spacer(modifier = Modifier.weight(1f))
-
                     Icon(
                         Icons.Filled.ChevronRight,
                         contentDescription = "Go to profile",
@@ -132,27 +134,51 @@ fun MenuScreen(
             item {
                 ToggleMenuListItem(
                     color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40,
-                    toggleItem = ToggleItemData("App Notifications", Icons.Default.Notifications),
+                    toggleItem = ToggleItemData("Email Notifications", Icons.Default.Email),
                     onToggle = {
-                        presenter.onUserNotificationsUpdate()
+                        userPresenter.onEmailNotificationsUpdate()
                     },
-                    toggleState = presenter.appNotificationToggleState
+                    toggleState = userPresenter.emailNotificationToggleState
                 )
             }
+
             item {
                 ToggleMenuListItem(
                     color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40,
-                    toggleItem = ToggleItemData("Email Notifications", Icons.Default.Email),
+                    toggleItem = ToggleItemData("App Animations", Icons.Default.Animation),
                     onToggle = {
-                        presenter.onEmailNotificationsUpdate()
+                        sharedPresenter.onAppAnimationsUpdate()
                     },
-                    toggleState = presenter.emailNotificationToggleState
+                    toggleState = sharedPresenter.appAnimationsToggleState
                 )
             }
-            items(presenter.menuItems) { item ->
+
+            item {
+                ToggleMenuListItem(
+                    color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40,
+                    toggleItem = ToggleItemData("App Notifications", Icons.Default.Notifications),
+                    onToggle = {
+                        userPresenter.onUserNotificationsUpdate()
+                    },
+                    toggleState = userPresenter.appNotificationToggleState
+                )
+            }
+
+            item {
+                ToggleMenuListItem(
+                    color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40,
+                    toggleItem = ToggleItemData("Patient Data Consent", Icons.Filled.MedicalInformation),
+                    onToggle = {
+                        userPresenter.onPatientInfoConsentUpdate()
+                    },
+                    toggleState = userPresenter.patientInfoConsentToggleState
+                )
+            }
+
+            items(userPresenter.menuItems) { item ->
                 MenuListItem(
                     onClick = {
-                        presenter.onMenuItemAction(
+                        userPresenter.onMenuItemAction(
                             navController = navController,
                             route = item.route,
                         )

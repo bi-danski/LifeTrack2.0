@@ -57,6 +57,7 @@ data class Hospital(
     val hospitalName: String,
     val hospitalLocation: String
 )
+
 data class DoctorProfile(
     val id: Int,
     val name: String,
@@ -83,4 +84,9 @@ data class ProfileInfo(
     val userEmail: String = "",
     val userInitials: String = "",
     val userPhoneNumber: String = ""
+)
+
+data class LoginInfo(
+    val emailAddress: String = "",
+    val password: String = ""
 )

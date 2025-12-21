@@ -37,13 +37,13 @@ fun FeatureGrid(navController: NavController) {
             GlassActionCard(
                 "Appointments",
                 Icons.Filled.CalendarMonth
-            ) { navController.navigate("") }
+            ) { navController.navigate("appointments") }
         }
         item {
             GlassActionCard(
                 "Follow Ups & Visits",
                 Icons.AutoMirrored.Filled.MultilineChart
-            ) { navController.navigate("") }
+            ) { navController.navigate("FUV") }
         }
         item {
             GlassActionCard(

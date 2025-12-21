@@ -23,16 +23,17 @@ import org.lifetrack.ltapp.R
 import kotlinx.coroutines.delay
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
+import org.lifetrack.ltapp.presenter.SharedPresenter
 //import androidx.compose.ui.tooling.preview.Preview
 import org.lifetrack.ltapp.ui.theme.Purple40
 import org.lifetrack.ltapp.ui.theme.Purple80
 
 @Composable
-fun LTBrandAppBar(modifier: Modifier = Modifier) {
+fun LTBrandAppBar(modifier: Modifier = Modifier, sharedPresenter: SharedPresenter) {
     var scale by remember { mutableFloatStateOf(1f) }
 
     LaunchedEffect(Unit) {
-        while (true) {
+        while (sharedPresenter.appAnimationsToggleState) {
             scale = 1.02f
             delay(500)
             scale = 1f
@@ -72,9 +73,3 @@ fun LTBrandAppBar(modifier: Modifier = Modifier) {
         )
     }
 }
-
-//@Preview
-//@Composable
-//fun LTBrandAppBarPreview() {
-//    LTBrandAppBar()
-//}

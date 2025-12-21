@@ -1,12 +1,19 @@
 package org.lifetrack.ltapp.ui.screens
 
-//import android.os.Build
-//import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -16,86 +23,58 @@ import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Password
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Phone
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-//import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-//import androidx.navigation.compose.rememberNavController
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-//import org.lifetrack.ltapp.model.repository.AuthRepositoryImpl
 import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.ui.state.UIState
-import org.lifetrack.ltapp.ui.view.AuthView
-//import org.lifetrack.ltapp.ui.theme.LTAppTheme
+
 
 @Composable
 fun RegistrationScreen(
     navController: NavController,
     presenter: AuthPresenter,
-    previewMode: Boolean = false
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val snackbarHostState = remember { SnackbarHostState() }
-
+    val snackBarHostState = remember { SnackbarHostState() }
     var fullName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var telNumber by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisibility by remember { mutableStateOf(false) }
-
     var uiState by remember { mutableStateOf<UIState>(UIState.Idle) }
-    var isVisible by remember { mutableStateOf(previewMode) }
+    var isVisible by remember { mutableStateOf(true) }
 
-    // Only animate when not in preview
-    LaunchedEffect(Unit) {
-        if (!previewMode) {
-            delay(300)
-            isVisible = true
-        }
-    }
-
-    // Presenter Callbacks
-//    LaunchedEffect(presenter) {
-//        presenter.view = object : AuthView {
-//            override fun showLoading(isLoading: Boolean, msg: String?) {
-//                uiState = if (isLoading) UIState.Loading else UIState.Idle
-//            }
-//
-//            override fun showError(msg: String) {
-//                coroutineScope.launch { snackbarHostState.showSnackbar(msg) }
-//            }
-//
-//            override fun onAuthSuccess() {
-//                coroutineScope.launch {
-//                    snackbarHostState.showSnackbar(
-//                        message = "Signup successful! Redirecting to login...",
-//                        duration = SnackbarDuration.Short
-//                    )
-//                    delay(1500)
-//                    navController.navigate("login") {
-//                        popUpTo("signup") { inclusive = true }
-//                    }
-//                }
-//            }
-//
-//            override fun onAuthSuccessWithData(data: String) {
-//                coroutineScope.launch { snackbarHostState.showSnackbar(data) }
-//            }
-//        }
-//    }
 
     Scaffold(
         snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState) {
+            SnackbarHost(hostState = snackBarHostState) {
                 Snackbar(
                     snackbarData = it,
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -209,7 +188,7 @@ fun RegistrationScreen(
                             }
                         } else {
                             coroutineScope.launch {
-                                snackbarHostState.showSnackbar("All fields are required.")
+                                snackBarHostState.showSnackbar("All fields are required.")
                             }
                         }
                     },
@@ -267,13 +246,3 @@ fun RegistrationScreen(
     }
 }
 
-//val mockPresenter = AuthPresenter(null, AuthRepositoryImpl())
-//
-//@RequiresApi(Build.VERSION_CODES.S)
-//@Preview(showBackground = true, showSystemUi = true)
-//@Composable
-//fun PreviewRegistrationScreen() {
-//    LTAppTheme {
-//        RegistrationScreen(rememberNavController(), mockPresenter, previewMode = true)
-//    }
-//}

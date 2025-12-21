@@ -14,6 +14,7 @@ data class UserDataResponse @OptIn(ExperimentalTime::class) constructor(
     @Contextual val createdAt: Instant
 )
 
+@Serializable
 data class LoginRequest(
     val emailAddress: String,
     val password: String
