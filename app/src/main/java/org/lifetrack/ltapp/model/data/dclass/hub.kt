@@ -67,3 +67,16 @@ data class EpidemicAlert(
     val imageUrl: String = "",
     val localImageRes: Int = R.drawable.ic_medical_placeholder
 )
+
+data class HospitalVisit(
+    val hospitalName: String,
+    val department: String,
+    val subVisits: List<String>
+)
+
+data class Appointment(
+    val doctor: String,
+    val date: String,
+    val time: String,
+    val hospital: String
+)

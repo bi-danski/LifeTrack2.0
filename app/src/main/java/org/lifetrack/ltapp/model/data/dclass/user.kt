@@ -52,6 +52,7 @@ data class Kiongozi(
     var passwordHash: String = "",
     var phoneNumber: String = ""
 )
+
 data class Hospital(
     val hospitalId: String,
     val hospitalName: String,
@@ -90,3 +91,5 @@ data class LoginInfo(
     val emailAddress: String = "",
     val password: String = ""
 )
+
+

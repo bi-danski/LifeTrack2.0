@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowCircleLeft
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.MedicalServices
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -21,12 +22,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.ui.components.aboutscreen.FeatureItem
+import org.lifetrack.ltapp.ui.components.supportscreen.SectionCard
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AboutScreen(navController: NavController) {
+fun AboutScreen(
+    navController: NavController,
+    sharedPresenter: SharedPresenter
+) {
     val colorScheme = MaterialTheme.colorScheme
     val thatOneColor = Color(0xFF6C757D)
     Scaffold(
@@ -108,17 +114,47 @@ fun AboutScreen(navController: NavController) {
                 elevation = CardDefaults.cardElevation(4.dp)
             ) {
                 Column(
-                    modifier = Modifier.padding(24.dp),
+                    modifier = Modifier.padding(0.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    Text(
-                        text = "LifeTrack is a cutting-edge, comprehensive health management app designed to empower you with seamless control over your medical history, appointments, and wellness journey.",
-                        style = MaterialTheme.typography.bodyMedium,
-//                        color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else thatOneColor,
-                        fontWeight = FontWeight.SemiBold,
-                        color = thatOneColor,
-                        fontSize = 16.sp
-                    )
+                    SectionCard(
+                        title = "About LifeTrack",
+                        icon = Icons.Filled.Info
+                    ) {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = "LifeTrack is your digital health companion app providing telemedicine, health tracking, and emergency alerts. Our mission is to empower patients with accessible health data and real-time medical assistance.",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+//                            fontSize = 12.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = "Version",
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                            Text(
+                                text = sharedPresenter.version,
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                        }
+                    }
+
+//                    Text(
+//                        text = "LifeTrack is a cutting-edge, comprehensive health management app designed to empower you with seamless control over your medical history, appointments, and wellness journey.",
+//                        style = MaterialTheme.typography.bodyMedium,
+////                        color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else thatOneColor,
+//                        fontWeight = FontWeight.SemiBold,
+//                        color = thatOneColor,
+//                        fontSize = 16.sp
+//                    )
                     HorizontalDivider(
                         modifier = Modifier.padding(vertical = 8.dp),
                         thickness = 1.dp,

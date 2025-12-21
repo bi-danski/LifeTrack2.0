@@ -111,7 +111,8 @@ fun RegistrationScreen(
                     fontSize = 28.sp,
                     fontWeight = FontWeight.ExtraBold,
                     color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(bottom = 24.dp)
+                    modifier = Modifier.padding(bottom = 24.dp),
+                    maxLines = 1
                 )
             }
 

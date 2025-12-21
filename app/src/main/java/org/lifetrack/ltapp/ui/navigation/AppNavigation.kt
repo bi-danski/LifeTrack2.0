@@ -8,6 +8,7 @@ import org.koin.androidx.compose.koinViewModel
 import org.lifetrack.ltapp.presenter.AnalyticPresenter
 import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.presenter.ChatPresenter
+import org.lifetrack.ltapp.presenter.FUVPresenter
 import org.lifetrack.ltapp.presenter.HomePresenter
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.presenter.UserPresenter
@@ -125,15 +126,24 @@ fun AppNavigation(navController: NavHostController) {
         }
 
         composable("about") {
-            AboutScreen(navController)
+            AboutScreen(
+                navController = navController,
+                sharedPresenter = sharedPresenter
+            )
         }
 
         composable("appointments"){
-            AppointScreen(navController)
+            AppointScreen(
+                navController = navController,
+                userPresenter = userPresenter
+            )
         }
 
         composable("FUV"){
-            FollowUpScreen(navController)
+            FollowUpScreen(
+                navController = navController,
+                fuvPresenter = koinViewModel<FUVPresenter>()
+            )
         }
     }
 }

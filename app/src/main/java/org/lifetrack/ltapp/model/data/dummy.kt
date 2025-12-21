@@ -7,8 +7,10 @@ import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import org.lifetrack.ltapp.R
+import org.lifetrack.ltapp.model.data.dclass.Appointment
 import org.lifetrack.ltapp.model.data.dclass.DoctorProfile
 import org.lifetrack.ltapp.model.data.dclass.EpidemicAlert
+import org.lifetrack.ltapp.model.data.dclass.HospitalVisit
 import org.lifetrack.ltapp.model.data.dclass.LabTest
 import org.lifetrack.ltapp.model.data.dclass.MedicalVisit
 import org.lifetrack.ltapp.model.data.dclass.Patient
@@ -192,15 +194,6 @@ val dPrescriptions = mutableListOf(
     )
 )
 
-//val dummyMessages = listOf(
-//    Message( 1,"I've been having headaches", true, System.currentTimeMillis() - 120L),
-//    Message( 2,"Any fever or dizziness?", false, System.currentTimeMillis() - 100L),
-//    Message(3,"No fever but some dizziness", true, System.currentTimeMillis() - 70L),
-//    Message( 4,"Since when have you been feeling like that", false, System.currentTimeMillis() - 50L),
-//    Message( 5,"Come see me at my place of work at 2:00 PM", false,System.currentTimeMillis() - 30L),
-//    Message(6,"Okay, i'll be there on time", true, System.currentTimeMillis() - 10L)
-//)
-
 val dummyDoctors = listOf(
     DoctorProfile(
         id = 1,
@@ -341,4 +334,33 @@ val dummyPremiums = listOf(
         icon = { Icon(Icons.Filled.Insights, contentDescription = null, tint = PremiumTeal) },
         accentColor = PremiumTeal
     )
+)
+
+val dummyHospitalData = listOf(
+    HospitalVisit(
+        "Mama Lucy Kibaki Hospital",
+        "Oncology",
+        listOf("Chemotherapy - Oct 12", "Physiotherapy - Nov 10")
+    ),
+    HospitalVisit(
+        "Mbagathi County Referral",
+        "Infectious Diseases",
+        listOf("Lab Results Review - Dec 01")
+    ),
+    HospitalVisit(
+        "Metropolitan Hospital",
+        "Cardiology",
+        listOf("ECG Scan - Nov 20", "Consultation - Nov 22")
+    ),
+    HospitalVisit(
+        "Avenue Hospital",
+        "General Surgery",
+        listOf("Post-Op Checkup - Dec 05")
+    )
+)
+
+val dummyAppointments = listOf(
+    Appointment("Dr. Anya Sharma", "Mon, Oct 26", "10:00 AM", "Nairobi West Hospital"),
+    Appointment("Dr. Ben Carter", "Tue, Oct 27", "10:00 AM", "Mama Lucy Kibaki"),
+    Appointment("Dr. Ben Carter", "Tue, Oct 27", "12:30 PM", "Nairobi West Hospital")
 )

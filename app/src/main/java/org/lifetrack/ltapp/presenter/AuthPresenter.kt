@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.model.data.dclass.LoginInfo
-import org.lifetrack.ltapp.model.data.dto.LoginRequest
 import org.lifetrack.ltapp.model.repository.AuthRepository
 
 

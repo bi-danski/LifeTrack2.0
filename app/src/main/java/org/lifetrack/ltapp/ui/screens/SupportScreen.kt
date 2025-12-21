@@ -147,31 +147,31 @@ fun SupportScreen(
 
             item {
                 SectionCard(
-                    title = "About LifeTrack",
+                    title = "About Patient Data Consent",
                     icon = Icons.Filled.Info
                 ) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "LifeTrack is your digital health companion app providing telemedicine, health tracking, and emergency alerts. Our mission is to empower patients with accessible health data and real-time medical assistance.",
+                        text = "In this case you allow Alma A.I Assistant and the Doctors assigned to have access to all your health records information, for better guidance and treatment",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Spacer(modifier = Modifier.height(16.dp))
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(
-                            text = "Version",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        Text(
-                            text = presenter.version,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                    }
+//                    Row(
+//                        modifier = Modifier.fillMaxWidth(),
+//                        horizontalArrangement = Arrangement.SpaceBetween
+//                    ) {
+//                        Text(
+//                            text = "Version",
+//                            style = MaterialTheme.typography.bodyMedium,
+//                            color = MaterialTheme.colorScheme.onSurfaceVariant
+//                        )
+//                        Text(
+//                            text = presenter.version,
+//                            style = MaterialTheme.typography.bodyMedium,
+//                            color = MaterialTheme.colorScheme.onSurface
+//                        )
+//                    }
                 }
             }
 
