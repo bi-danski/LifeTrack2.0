@@ -16,7 +16,6 @@ import org.lifetrack.ltapp.model.data.dclass.MedicalVisit
 import org.lifetrack.ltapp.model.data.dclass.Patient
 import org.lifetrack.ltapp.model.data.dclass.Premium
 import org.lifetrack.ltapp.model.data.dclass.Prescription
-import org.lifetrack.ltapp.model.data.dto.Message
 import org.lifetrack.ltapp.ui.theme.PremiumGold
 import org.lifetrack.ltapp.ui.theme.PremiumPurple
 import org.lifetrack.ltapp.ui.theme.PremiumTeal

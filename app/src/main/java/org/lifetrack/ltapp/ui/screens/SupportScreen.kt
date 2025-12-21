@@ -1,7 +1,6 @@
 package org.lifetrack.ltapp.ui.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,7 +31,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.ui.components.supportscreen.ContactItem
 import org.lifetrack.ltapp.ui.components.supportscreen.FAQItem
 import org.lifetrack.ltapp.ui.components.supportscreen.SectionCard
@@ -44,7 +42,6 @@ import org.lifetrack.ltapp.utils.openEmail
 @Composable
 fun SupportScreen(
     navController: NavController,
-    presenter: SharedPresenter
     ) {
     val context = LocalContext.current
 

@@ -121,7 +121,6 @@ fun AppNavigation(navController: NavHostController) {
         composable("support") {
             SupportScreen(
                 navController = navController,
-                presenter = sharedPresenter
             )
         }
 
