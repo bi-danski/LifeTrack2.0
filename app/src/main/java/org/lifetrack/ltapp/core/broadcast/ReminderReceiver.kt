@@ -1,7 +1,6 @@
 package org.lifetrack.ltapp.core.broadcast
 
 import android.Manifest
-import android.R
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -18,7 +17,7 @@ class ReminderReceiver : BroadcastReceiver() {
         val medName = intent.getStringExtra("MED_NAME") ?: "Medication"
 
         val builder = NotificationCompat.Builder(context, "MED_REMINDER_CH")
-            .setSmallIcon(R.drawable.ic_dialog_info)
+            .setSmallIcon(android.R.drawable.ic_dialog_info)
             .setContentTitle("Medication Reminder")
             .setContentText("It's time to take your $medName.")
             .setPriority(NotificationCompat.PRIORITY_HIGH)

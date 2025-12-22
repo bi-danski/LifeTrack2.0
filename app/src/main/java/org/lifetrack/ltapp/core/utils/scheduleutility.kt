@@ -32,7 +32,6 @@ object ScheduleUtility {
 
         val calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            // Example: Logic to set time to 20:00:00
              set(Calendar.HOUR_OF_DAY, 20)
              set(Calendar.MINUTE, 0)
              if (before(Calendar.getInstance())) { add(Calendar.DATE, 1) }
