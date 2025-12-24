@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="purple_40">#FF6650a4</color>
+    <color name="teal_gradient_end">#FF80DEEA</color>
+    <color name="premium_purple">#FFAB47BC</color>
 </resources>
