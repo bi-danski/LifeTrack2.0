@@ -1,5 +1,6 @@
 package org.lifetrack.ltapp.ui.components.homescreen
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -48,7 +49,7 @@ import org.lifetrack.ltapp.ui.theme.Purple80
 fun GlassCard(
     shape: Shape,
     color: CardColors = CardDefaults.cardColors( containerColor = Color.Transparent ),
-    modifier: Modifier = Modifier,
+    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit
 ) {
     Card(
