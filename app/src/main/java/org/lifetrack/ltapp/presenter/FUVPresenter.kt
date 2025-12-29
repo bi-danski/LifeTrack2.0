@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.lifetrack.ltapp.model.data.dclass.*
-import org.lifetrack.ltapp.model.data.ltMockData
+import org.lifetrack.ltapp.model.data.LtMockData
 
 class FUVPresenter : ViewModel() {
 
@@ -29,8 +29,8 @@ class FUVPresenter : ViewModel() {
     }
 
     private fun loadData() {
-        _hospitalData.value = ltMockData.allVisitsData
-        _upcomingVisits.value = ltMockData.upcomingData
+        _hospitalData.value = LtMockData.allHospitalVisits
+        _upcomingVisits.value = LtMockData.upcomingData
     }
 
     fun toggleUpcomingExpansion() = _isUpcomingExpanded.update { !it }

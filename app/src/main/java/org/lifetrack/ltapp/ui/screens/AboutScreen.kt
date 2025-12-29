@@ -129,7 +129,7 @@ fun AboutScreen(
                 colors = CardDefaults.cardColors(
                     containerColor = colorScheme.background
                 ),
-                elevation = CardDefaults.cardElevation(4.dp)
+                elevation = CardDefaults.cardElevation(0.dp)
             ) {
                 Column(
                     modifier = Modifier.padding(0.dp),
@@ -227,6 +227,7 @@ fun AboutScreen(
                     )
                     Text(
                         text = "LifeTrack Health Solutions",
+                        modifier = Modifier.padding(horizontal = 16.dp),
                         style = MaterialTheme.typography.bodyLarge.copy(
                             fontWeight = FontWeight.Bold,
                             color = thatOneColor
@@ -234,6 +235,7 @@ fun AboutScreen(
                     )
                     Text(
                         text = "Innovating for Your Well-Being",
+                        modifier = Modifier.padding(horizontal = 16.dp),
                         style = MaterialTheme.typography.bodyMedium.copy(
                             fontStyle = FontStyle.Italic,
                             fontWeight = FontWeight.SemiBold,
@@ -260,27 +262,39 @@ fun AboutScreen(
                         )
                         Text(
                             text = "contact@lifetrack.org",
+                            modifier = Modifier.padding(horizontal = 16.dp),
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.SemiBold,
                             color = thatOneColor
                         )
                         Text(
                             text = "www.lifetrack.org",
+                            modifier = Modifier.padding(horizontal = 16.dp),
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.SemiBold,
                             color = thatOneColor
                         )
+                        Spacer(modifier = Modifier.height(15.dp)
+                        )
                     }
-//
+
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    ){
+                        Text(
+                            text = "© 2023 LifeTrack. All rights reserved.",
+                            style = MaterialTheme.typography.bodySmall.copy(
+                                color = Color(0xFF6C757D),
+                                fontWeight = FontWeight.Bold
+                            ),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+
                 }
             }
-            Text(
-                text = "        © 2023 LifeTrack. All rights reserved.",
-                style = MaterialTheme.typography.bodySmall.copy(
-                    color = Color(0xFF6C757D),
-                    fontWeight = FontWeight.Bold
-                )
-            )
+
             Spacer(modifier = Modifier.height(15.dp))
         }
     }

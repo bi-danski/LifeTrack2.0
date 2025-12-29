@@ -77,7 +77,8 @@ fun MenuScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.primaryContainer,
+                    containerColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.background
+                    else Purple40, //MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             )
@@ -103,7 +104,7 @@ fun MenuScreen(
                         modifier = Modifier
                             .size(64.dp)
                             .clip(CircleShape)
-                            .background(MaterialTheme.colorScheme.primaryContainer),
+                            .background(if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primaryContainer else Purple40),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(

@@ -39,7 +39,10 @@ data class MedicalVisit(
     val treatment: String,
     val notes: String,
     val doctor: String,
-    val hospital: String
+    val hospital: String,
+    val status: VisitStatus,
+    val attachments: List<Attachment> = emptyList(),
+    val verified: Boolean = true
 )
 
 data class LabTest(
@@ -47,14 +50,6 @@ data class LabTest(
     val date: String,
     val results: Map<String, String>
 )
-
-//data class Prescription (
-//    val id: String,
-//    val medication: String,
-//    val dosage: String,
-//    val duration: String,
-//    val notes: String?
-//)
 
 data class EpidemicAlert(
     val id: Int,
@@ -86,18 +81,6 @@ data class UpcomingVisit(
     val timestamp: LocalDateTime
 )
 
-sealed class VisitFilter(val displayName: String) {
-    object Recent : VisitFilter("Recent Visits")
-    object Oldest : VisitFilter("Oldest First")
-    object Alphabetical : VisitFilter("Hospital A-Z")
-}
-
-val filterOptions = listOf(
-    VisitFilter.Recent,
-    VisitFilter.Oldest,
-    VisitFilter.Alphabetical
-)
-
 data class Appointment(
     val doctor: String,
     val date: String,
@@ -116,4 +99,11 @@ data class Prescription(
     val endDate: String,
     val status: String, // "Active", "Completed", "Refill Due"
     val refillProgress: Float = 0f // 0.0 to 1.0
+)
+
+data class Attachment(
+    val id: Int,
+    val name: String,
+    val type: AttachmentType,
+    val uri: String // Uri later
 )

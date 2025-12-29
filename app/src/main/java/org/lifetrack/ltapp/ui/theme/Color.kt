@@ -34,6 +34,7 @@ val SuccessGreen = Color(0xFF4CAF50)
 val WarningYellow = Color(0xFFFFC107)
 
 
+
 val LightColors = lightColorScheme(
     primary = Color(0xFF4CAF50), // Green
     onPrimary = Color.White,

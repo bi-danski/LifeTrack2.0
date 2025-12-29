@@ -144,8 +144,8 @@ fun FollowUpScreen(
             ModalBottomSheet(
                 onDismissRequest = { fuvPresenter.setFilterSheetVisibility(false) },
                 sheetState = sheetState,
-                containerColor = if (isSystemInDarkTheme()) Color(0xFF1E1E1E)
-                else Purple40
+//                containerColor = if (isSystemInDarkTheme()) Color(0xFF1E1E1E)
+//                else Purple40
             ) {
                 Column(
                     modifier = Modifier
@@ -157,19 +157,19 @@ fun FollowUpScreen(
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(bottom = 16.dp),
-                        color = Color.White
+//                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
 
                     filterOptions.forEach { filter ->
                         ListItem(
-                            headlineContent = { Text(filter.displayName, color = Color.White, fontWeight = FontWeight.SemiBold) },
+                            headlineContent = { Text(filter.displayName, fontWeight = FontWeight.SemiBold) },
                             leadingContent = {
                                 RadioButton(
                                     selected = (filter == activeFilter),
                                     onClick = { },
                                     colors = RadioButtonDefaults.colors(
-                                        selectedColor = Color.Green,
-                                        unselectedColor = Color.White
+                                        selectedColor = if (isSystemInDarkTheme()) Color.Green else Purple40,
+//                                        unselectedColor = Color.Black
                                     )
 
                                 )
@@ -178,8 +178,8 @@ fun FollowUpScreen(
 //                                .background(MaterialTheme.colorScheme.background)
                                 .clickable { fuvPresenter.onFilterSelected(filter) },
                             colors = ListItemDefaults.colors(
-                                containerColor = if (isSystemInDarkTheme()) Color(0xFF1E1E1E)
-                                else Purple40
+                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+//                                    if (isSystemInDarkTheme()) Color(0xFF1E1E1E) else Purple40
                             )
                         )
                     }

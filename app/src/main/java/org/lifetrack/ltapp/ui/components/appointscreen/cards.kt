@@ -54,9 +54,12 @@ fun AppointmentCard(appointment: Appointment) {
                 )
                 Text(
                     text = appointment.hospital,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontWeight = FontWeight.SemiBold
+                    ),
                     fontWeight = FontWeight.Medium,
-                    color = if (isSystemInDarkTheme()) Color(0xFF9E9E9E) else Color(0xFF5F6368)
+                    color = if (isSystemInDarkTheme()) Color(0xFFB39DDB) else Purple40
+//                        if (isSystemInDarkTheme()) Color(0xFF9E9E9E) else Color(0xFF5F6368)
                 )
             }
             Icon(

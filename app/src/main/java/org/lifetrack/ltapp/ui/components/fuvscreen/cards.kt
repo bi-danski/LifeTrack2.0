@@ -150,7 +150,9 @@ fun HospitalVisitNode(visit: HospitalVisit) {
                     )
                     Text(
                         text = visit.department,
-                        style = MaterialTheme.typography.bodySmall,
+                        style = MaterialTheme.typography.bodySmall.copy(
+                            fontWeight = FontWeight.SemiBold
+                        ),
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }

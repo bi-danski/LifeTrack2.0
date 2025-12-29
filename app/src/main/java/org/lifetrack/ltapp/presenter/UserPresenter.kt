@@ -6,7 +6,7 @@ import androidx.navigation.NavController
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.model.data.dclass.*
-import org.lifetrack.ltapp.model.data.dummyAppointments
+import org.lifetrack.ltapp.model.data.LtMockData
 
 
 class UserPresenter : ViewModel() {
@@ -14,7 +14,7 @@ class UserPresenter : ViewModel() {
     private val _profileInfo = MutableStateFlow(ProfileInfo())
     val profileInfo = _profileInfo.asStateFlow()
 
-    private val _allAppointments = MutableStateFlow(dummyAppointments)
+    private val _allAppointments = MutableStateFlow(LtMockData.dummyAppointments)
 
     val nextUpcomingAppointment = _allAppointments.map { list ->
         list.filter { it.status.equals("Upcoming", ignoreCase = true) }.minByOrNull { it.time }

@@ -87,54 +87,6 @@ val epidemicAlerts = listOf(
     )
 )
 
-val medicalVisits = listOf(
-    MedicalVisit(
-        id = 1,
-        date = LocalDate.of(2025, 6, 15),
-        diagnosis = "Upper Respiratory Infection",
-        treatment = "Antibiotics (Amoxicillin), Rest",
-        notes = "Follow-up recommended in 2 weeks",
-        doctor = "Hilary Otieno",
-        hospital = "Nakuru General Hospital"
-    ),
-    MedicalVisit(
-        id = 2,
-        date = LocalDate.of(2025, 7, 10),
-        diagnosis = "Mild Hypertension",
-        treatment = "Lifestyle changes, Monitor BP",
-        notes = "Referral to cardiologist pending",
-        doctor = "Mercy Baraka",
-        hospital = "Rift Valley Provincial Hospital"
-    ),
-    MedicalVisit(
-        id = 3,
-        date = LocalDate.of(2025, 7, 20),
-        diagnosis = "Allergic Rhinitis",
-        treatment = "Antihistamines, Avoid allergens",
-        notes = "Symptoms improved, continue treatment",
-        doctor = "Tabitha Kerry",
-        hospital = "Kabarak Mission Hospital"
-    ),
-    MedicalVisit(
-        id = 4,
-        date = LocalDate.of(2025, 7, 25),
-        diagnosis = "Vitamin D Deficiency",
-        treatment = "Supplements, Sun Exposure",
-        notes = "Revisit in one month",
-        doctor = "Hilary Otieno",
-        hospital = "Nakuru General Hospital"
-    ),
-    MedicalVisit(
-        id = 5,
-        date = LocalDate.of(2025, 7, 28),
-        diagnosis = "Minor Laceration",
-        treatment = "Stitches, Antibiotics",
-        notes = "Keep wound clean, follow-up if infected",
-        doctor = "Mercy Baraka",
-        hospital = "Rift Valley Provincial Hospital"
-    )
-)
-
 val bPressureData = sortedMapOf(
         Date(System.currentTimeMillis() - 6 * 86400000L) to 150f,
         Date(System.currentTimeMillis() - 5 * 86400000L) to 145f,
@@ -387,8 +339,8 @@ val dummyPremiums = listOf(
 )
 
 
-object ltMockData {
-    val allVisitsData = listOf(
+object LtMockData {
+    val allHospitalVisits = listOf(
         HospitalVisit(
             hospitalName = "Mama Lucy Kibaki Hospital",
             department = "Oncology",
@@ -438,12 +390,99 @@ object ltMockData {
             timestamp = LocalDateTime(2026, 1, 5, 9, 30)
         )
     )
+
+    val allMedicalVisits = listOf(
+        MedicalVisit(
+            id = 1,
+            date = LocalDate.of(2025, 6, 15),
+            diagnosis = "Upper Respiratory Infection",
+            treatment = "Antibiotics (Amoxicillin), Rest",
+            notes = "Follow-up recommended in 2 weeks",
+            doctor = "Dr. Hilary Otieno",
+            hospital = "Nakuru General Hospital",
+            status = VisitStatus.COMPLETED,
+            attachments = listOf(
+                Attachment(
+                    id = 1,
+                    name = "Lab Report.pdf",
+                    type = AttachmentType.PDF,
+                    uri = "uri://labreport1"
+                ),
+                Attachment(
+                    id = 2,
+                    name = "X-Ray.png",
+                    type = AttachmentType.IMAGE,
+                    uri = "uri://xray1"
+                )
+            )
+        ),
+        MedicalVisit(
+            id = 2,
+            date = LocalDate.of(2025, 7, 10),
+            diagnosis = "Mild Hypertension",
+            treatment = "Lifestyle changes, Monitor BP",
+            notes = "Referral to cardiologist pending",
+            doctor = "Dr. Mercy Baraka",
+            hospital = "Rift Valley Provincial Hospital",
+            status = VisitStatus.ONGOING,
+            attachments = emptyList()
+        ),
+        MedicalVisit(
+            id = 3,
+            date = LocalDate.of(2025, 7, 20),
+            diagnosis = "Allergic Rhinitis",
+            treatment = "Antihistamines, Avoid allergens",
+            notes = "Symptoms improved, continue treatment",
+            doctor = "Dr. Tabitha Kerry",
+            hospital = "Kabarak Mission Hospital",
+            status = VisitStatus.COMPLETED,
+            attachments = listOf(
+                Attachment(
+                    id = 3,
+                    name = "Allergy Test.pdf",
+                    type = AttachmentType.PDF,
+                    uri = "uri://allergytest"
+                )
+            )
+        ),
+        MedicalVisit(
+            id = 4,
+            date = LocalDate.of(2025, 7, 25),
+            diagnosis = "Vitamin D Deficiency",
+            treatment = "Supplements, Sun Exposure",
+            notes = "Revisit in one month",
+            doctor = "Dr. Hilary Otieno",
+            hospital = "Nakuru General Hospital",
+            status = VisitStatus.FOLLOW_UP,
+            attachments = emptyList()
+        ),
+        MedicalVisit(
+            id = 5,
+            date = LocalDate.of(2025, 7, 28),
+            diagnosis = "Minor Laceration",
+            treatment = "Stitches, Antibiotics",
+            notes = "Keep wound clean, follow-up if infected",
+            doctor = "Dr. Mercy Baraka",
+            hospital = "Rift Valley Provincial Hospital",
+            status = VisitStatus.COMPLETED,
+            attachments = listOf(
+                Attachment(
+                    id = 4,
+                    name = "Wound Photo.png",
+                    type = AttachmentType.IMAGE,
+                    uri = "uri://woundphoto"
+                )
+            )
+        )
+    )
+
+    val dummyAppointments = listOf(
+        Appointment("Dr. Anya Sharma", "Mon, Oct 26", "10:00 AM", "Nairobi West Hospital", "Upcoming"),
+        Appointment("Dr. Ben Carter", "Tue, Oct 27", "10:00 AM", "Mama Lucy Kibaki", "Attended"),
+        Appointment("Dr. Hilary Otieno", "Wed, Oct 28", "09:00 AM", "Nakuru General", "Rescheduled"),
+        Appointment("Dr. Tabitha Kerry", "Thu, Oct 29", "11:30 AM", "Kabarak Mission", "Dismissed"),
+        Appointment("Dr. James Mwangi", "Fri, Oct 30", "02:00 PM", "Nairobi City", "Upcoming")
+    )
+
 }
 
-val dummyAppointments = listOf(
-    Appointment("Dr. Anya Sharma", "Mon, Oct 26", "10:00 AM", "Nairobi West Hospital", "Upcoming"),
-    Appointment("Dr. Ben Carter", "Tue, Oct 27", "10:00 AM", "Mama Lucy Kibaki", "Attended"),
-    Appointment("Dr. Hilary Otieno", "Wed, Oct 28", "09:00 AM", "Nakuru General", "Rescheduled"),
-    Appointment("Dr. Tabitha Kerry", "Thu, Oct 29", "11:30 AM", "Kabarak Mission", "Dismissed"),
-    Appointment("Dr. James Mwangi", "Fri, Oct 30", "02:00 PM", "Nairobi City", "Upcoming")
-)

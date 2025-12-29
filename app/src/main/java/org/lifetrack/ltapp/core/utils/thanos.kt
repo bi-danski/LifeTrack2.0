@@ -4,8 +4,11 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.toJavaLocalDateTime
 import java.time.Instant
 import java.time.LocalDate
+import java.time.YearMonth
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
+import java.util.Locale
 
 fun formatTimestamp(timestamp: Long): String {
     val date = Instant.ofEpochMilli(timestamp).atZone(ZoneId.systemDefault()).toLocalDate()
@@ -21,7 +24,6 @@ fun formatTimestamp(timestamp: Long): String {
         else -> date.format(DateTimeFormatter.ofPattern("dd MMM yyyy")) + " • $time"
     }
 }
-
 //    fun now(): String {
 //        return LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
 //    }
@@ -29,4 +31,11 @@ fun formatTimestamp(timestamp: Long): String {
 fun LocalDateTime.customFormat(pattern: String): String {
     val formatter = DateTimeFormatter.ofPattern(pattern)
     return this.toJavaLocalDateTime().format(formatter)
+}
+
+fun LocalDate.toYearMonth(): YearMonth = YearMonth.from(this)
+
+fun YearMonth.formatMonthYear(): String {
+    val month = month.getDisplayName(TextStyle.FULL, Locale.getDefault())
+    return "$month $year"
 }
