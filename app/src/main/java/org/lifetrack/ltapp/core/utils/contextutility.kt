@@ -47,23 +47,39 @@ fun Context.openSMS(phone: String, message: String? = null) {
         }
         startActivity(intent)
     } catch (_: Exception) {
-        Toast.makeText(this, "No SMS app found", Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            this,
+            "No SMS app found",
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }
 
 fun Context.makeAutoCall(phone: String = "911") {
-    if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+    val hasPermission = ContextCompat.checkSelfPermission(
+        this,
+        Manifest.permission.CALL_PHONE
+    ) == PackageManager.PERMISSION_GRANTED
+
+    if (hasPermission) {
         try {
             val intent = Intent(Intent.ACTION_CALL).apply {
                 data = "tel:$phone".toUri()
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             startActivity(intent)
-        } catch (_: Exception) {
-            Toast.makeText(this, "Auto-call failed", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            openDialer(phone)
+            println(mapOf(
+                "msg" to e.message,
+                "traceback" to e.stackTrace
+            ))
         }
     } else {
-        Toast.makeText(this, "Permission required for auto-call", Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            this,
+            "Direct Calling Permission Required \uD83C\uDF32",
+            Toast.LENGTH_SHORT).show()
         openDialer(phone)
     }
 }

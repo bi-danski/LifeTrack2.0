@@ -1,5 +1,10 @@
 package org.lifetrack.ltapp.ui.screens
 
+//import org.lifetrack.ltapp.ui.components.homescreen.FeatureGrid
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,16 +22,19 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
+import org.lifetrack.ltapp.core.utils.openDialer
 import org.lifetrack.ltapp.presenter.HomePresenter
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.ui.components.carousels.LtHomeCarousel
 import org.lifetrack.ltapp.ui.components.homescreen.AppBottomBar
 import org.lifetrack.ltapp.ui.components.homescreen.AppTopBar
-//import org.lifetrack.ltapp.ui.components.homescreen.FeatureGrid
 import org.lifetrack.ltapp.ui.components.homescreen.GlassFloatingActionButton
 import org.lifetrack.ltapp.ui.components.homescreen.featureGridContent
 
@@ -42,6 +50,17 @@ fun HomeScreen(
     val autoRotate2NextCard = presenter.autoRotate2NextCard
     val caroItemsCount = presenter.caroItemsCount
     val homeScreenContextInstance = LocalContext.current
+    val hapticFeedbackContextInstance = LocalHapticFeedback.current
+    val callPermissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) {
+        permissionGrantedOrNot ->
+        if(permissionGrantedOrNot) {
+            sharedPresenter.handleEmergencyCall(homeScreenContextInstance)
+        }else{
+            homeScreenContextInstance.openDialer(phone = "911")
+        }
+    }
 
     Scaffold(
         floatingActionButton = {
@@ -72,9 +91,20 @@ fun HomeScreen(
                         itemsCount = caroItemsCount,
                         userPresenter = userPresenter,
                         onEmergencyClickAction = {
-                            sharedPresenter.handleEmergencyCall(
-                                homeScreenContextInstance
+                            hapticFeedbackContextInstance.performHapticFeedback(
+                                HapticFeedbackType.LongPress
                             )
+                            val permissionCheck = ContextCompat.checkSelfPermission(
+                                homeScreenContextInstance,
+                                Manifest.permission.CALL_PHONE
+                            )
+                            if(permissionCheck == PackageManager.PERMISSION_GRANTED) {
+                                sharedPresenter.handleEmergencyCall(
+                                    homeScreenContextInstance
+                                )
+                            }else{
+                                callPermissionLauncher.launch(Manifest.permission.CALL_PHONE)
+                            }
                         }
                     )
                     Spacer(Modifier.height(18.dp))

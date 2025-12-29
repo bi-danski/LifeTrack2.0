@@ -134,56 +134,6 @@ fun GlassActionCard(title: String, icon: ImageVector, onClick: () -> Unit) {
 }
 
 @Composable
-fun HealthSummaryCard (
-    bloodPressure: String ="120/80",
-    heartRate: String = "78 bpm",
-    temperature: String ="98.6 F"
-) {
-    GlassCard(
-        shape = RoundedCornerShape(22.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
-    ){
-        Column(Modifier.padding(16.dp)) {
-            Text(
-                "Health Summary",
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 24.sp,
-                style = MaterialTheme.typography.titleMedium,
-                color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40
-            )
-
-            Spacer(Modifier.height(20.dp))
-
-            Row(
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                HealthMetric(
-                    "BP",
-                    bloodPressure,
-                    Icons.Default.MonitorHeart
-                )
-                Spacer(Modifier.width(10.dp))
-                HealthMetric(
-                    "BPM",
-                    heartRate,
-                    Icons.Default.Favorite
-                )
-                Spacer(Modifier.width(10.dp))
-                HealthMetric(
-                    "Temp",
-                    temperature,
-                    Icons.Default.Thermostat
-                )
-            }
-        }
-    }
-}
-
-
-@Composable
 fun TodayScheduleCard(
     appointmentCount: Int,
     nextAppointment: Appointment?,
@@ -354,11 +304,67 @@ fun TodayScheduleCard(
                         )
                         Text(
                             text = "Appointments",
-                            fontSize = 14.sp,
+                            fontSize = 13.sp,
+                            maxLines = 1,
                             fontWeight = FontWeight.Bold,
-                            color = highlightColor
+                            color = highlightColor,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun HealthSummaryCard(
+    bloodPressure: String = "120/80",
+    heartRate: String = "78 bpm",
+    temperature: String = "98.6 F"
+) {
+    val themeColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40
+
+    GlassCard(
+        shape = RoundedCornerShape(22.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+//            .wrapContentHeight()
+    ) {
+        Column(Modifier.padding(0.dp)) {
+            Text(
+                text = "Health Summary",
+                fontWeight = FontWeight.Black,
+                fontSize = 22.sp,
+                style = MaterialTheme.typography.titleMedium,
+                color = themeColor
+            )
+
+            Spacer(Modifier.height(24.dp))
+
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(themeColor.copy(alpha = 0.05f))
+                    .padding(vertical = 12.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(modifier = Modifier.weight(1f)) {
+                    HealthMetric("BP", bloodPressure, Icons.Default.MonitorHeart)
+                }
+
+                Box(modifier = Modifier.width(1.dp).height(30.dp).background(themeColor.copy(0.1f)))
+
+                Box(modifier = Modifier.weight(1f)) {
+                    HealthMetric("BPM", heartRate, Icons.Default.Favorite)
+                }
+
+                Box(modifier = Modifier.width(1.dp).height(30.dp).background(themeColor.copy(0.1f)))
+
+                Box(modifier = Modifier.weight(1f)) {
+                    HealthMetric("Temp", temperature, Icons.Default.Thermostat)
                 }
             }
         }
