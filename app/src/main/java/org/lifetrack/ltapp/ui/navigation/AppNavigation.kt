@@ -75,7 +75,8 @@ fun AppNavigation(navController: NavHostController) {
             HomeScreen(
                 navController = navController,
                 presenter = koinViewModel<HomePresenter>(),
-                userPresenter = userPresenter
+                userPresenter = userPresenter,
+                sharedPresenter = sharedPresenter
             )
         }
 

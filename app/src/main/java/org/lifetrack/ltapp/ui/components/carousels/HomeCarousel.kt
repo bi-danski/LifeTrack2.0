@@ -1,5 +1,6 @@
 package org.lifetrack.ltapp.ui.components.carousels
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
@@ -17,18 +18,21 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.model.data.dclass.AppointmentStatus
+import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.ui.components.homescreen.HealthSummaryCard
 import kotlin.math.absoluteValue
 import org.lifetrack.ltapp.ui.components.homescreen.TodayScheduleCard
 
 
+@SuppressLint("FrequentlyChangingValue")
 @Composable
 fun LtHomeCarousel(
     autoRotate: Boolean,
     itemsCount: Int,
     rotationInterval: Long = 5000L,
-    userPresenter: UserPresenter
+    userPresenter: UserPresenter,
+    onEmergencyClickAction: () -> Unit
 ) {
     val pagerState = rememberPagerState(
         initialPage = 0,
@@ -85,7 +89,8 @@ fun LtHomeCarousel(
                 when (page) {
                     0 -> TodayScheduleCard(
                         appointmentCount = totalCount,
-                        nextAppointment = nextUp
+                        nextAppointment = nextUp,
+                        onEmergencyClick = onEmergencyClickAction
                     )
                     1 -> HealthSummaryCard()
                 }

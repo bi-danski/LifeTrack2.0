@@ -17,9 +17,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import org.lifetrack.ltapp.presenter.HomePresenter
+import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.ui.components.carousels.LtHomeCarousel
 import org.lifetrack.ltapp.ui.components.homescreen.AppBottomBar
@@ -34,10 +36,12 @@ import org.lifetrack.ltapp.ui.components.homescreen.featureGridContent
 fun HomeScreen(
     navController: NavController,
     presenter: HomePresenter,
-    userPresenter: UserPresenter
+    userPresenter: UserPresenter,
+    sharedPresenter: SharedPresenter
 ) {
     val autoRotate2NextCard = presenter.autoRotate2NextCard
     val caroItemsCount = presenter.caroItemsCount
+    val homeScreenContextInstance = LocalContext.current
 
     Scaffold(
         floatingActionButton = {
@@ -63,7 +67,16 @@ fun HomeScreen(
                     Spacer(Modifier.height(8.dp))
                     AppTopBar(navController)
                     Spacer(Modifier.height(18.dp))
-                    LtHomeCarousel(autoRotate = autoRotate2NextCard, itemsCount = caroItemsCount, userPresenter = userPresenter)
+                    LtHomeCarousel(
+                        autoRotate = autoRotate2NextCard,
+                        itemsCount = caroItemsCount,
+                        userPresenter = userPresenter,
+                        onEmergencyClickAction = {
+                            sharedPresenter.handleEmergencyCall(
+                                homeScreenContextInstance
+                            )
+                        }
+                    )
                     Spacer(Modifier.height(18.dp))
                 }
             }
