@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -18,9 +19,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.EventAvailable
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.MonitorHeart
 import androidx.compose.material.icons.filled.Thermostat
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
@@ -36,7 +39,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+//import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -125,7 +128,8 @@ fun GlassActionCard(title: String, icon: ImageVector, onClick: () -> Unit) {
 @Composable
 fun TodayScheduleCard(
     appointmentCount: Int,
-    nextAppointment: Appointment?
+    nextAppointment: Appointment?,
+    onEmergencyClick: () -> Unit = {}
 ) {
     val themeColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40
     val subTextColor = if (isSystemInDarkTheme()) Color.Gray else Color(0xFF5F6368)
@@ -136,93 +140,134 @@ fun TodayScheduleCard(
             .fillMaxWidth()
             .height(200.dp)
     ) {
-        Row(
+        Column(
             modifier = Modifier
-                .padding(20.dp)
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+                .padding(0.dp)
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.Center
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1.1f)
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(themeColor.copy(alpha = 0.08f))
+                    .padding(horizontal = 12.dp, vertical = 8.dp)
             ) {
-                Text(
-                    text = "TODAY'S SCHEDULE",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 18.sp,
-                    color = themeColor
-                )
-
-                Spacer(modifier = Modifier.height(10.dp))
-
-                Text(
-                    text = appointmentCount.toString(),
-                    fontSize = 64.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    color = themeColor,
-                    modifier = Modifier.padding(start = 20.dp)
-                )
-
-                Text(
-                    text = "Appointments",
-                    fontWeight = FontWeight.SemiBold,
-                    color = themeColor
-                )
-            }
-
-            Spacer(modifier = Modifier.width(20.dp))
-
-            Column(
-                modifier = Modifier.weight(1.2f),
-                horizontalAlignment = Alignment.End
-            ) {
-                Text(
-                    text = "NEXT UP",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = if (isSystemInDarkTheme()) subTextColor else MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.Bold,
-                    letterSpacing = 1.sp
-                )
-
-                Spacer(modifier = Modifier.height(20.dp))
-
                 if (nextAppointment != null) {
-                    Text(
-                        text = nextAppointment.dateTime.customFormat("hh:mm a"),
-                        fontSize = 28.sp,
-                        fontWeight = FontWeight.Black,
-                        color = themeColor,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        softWrap = false
-                    )
-                    Text(
-                        text = nextAppointment.doctor,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp,
-                        textAlign = TextAlign.End,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        color = themeColor
-                    )
-                    Text(
-                        text = nextAppointment.hospital,
-                        fontSize = 14.sp,
-                        textAlign = TextAlign.End,
-                        color = if (isSystemInDarkTheme()) subTextColor else MaterialTheme.colorScheme.primary,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        fontWeight = FontWeight.Bold
-                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .weight(0.6f)
+                                .padding(top = 10.dp, start = 5.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.EventAvailable,
+                                contentDescription = null,
+                                tint = themeColor,
+                                modifier = Modifier
+                                    .size(26.dp)
+                                    .padding(start = 2.dp)
+                            )
+                            Text(
+                                "NEXT",
+                                fontSize = 13.5.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = themeColor
+                            )
+                            Text(
+                                "UP",
+                                fontSize = 13.5.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = themeColor,
+                                modifier = Modifier.padding(start = 3.dp)
+                            )
+                        }
+                        Column(
+                            horizontalAlignment = Alignment.End,
+                            modifier = Modifier.weight(1.6f)) {
+                            Text(
+                                text = nextAppointment.doctor,
+                                fontWeight = FontWeight.ExtraBold,
+                                fontSize = 18.sp,
+                                color = themeColor,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                            Text(
+                                text = nextAppointment.hospital,
+                                fontSize = 12.sp,
+                                color = if (isSystemInDarkTheme()) Color.Green else MaterialTheme.colorScheme.secondary,
+                                fontWeight = FontWeight.SemiBold,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                            Text(
+                                text = nextAppointment.dateTime.customFormat("hh:mm a"),
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Black,
+                                color = themeColor
+                            )
+                        }
+                    }
                 } else {
                     Text(
-                        text = "All Caught Up!",
-                        fontSize = 18.sp,
+                        text = "No Appointments Today",
+                        modifier = Modifier.align(Alignment.Center),
                         fontWeight = FontWeight.Bold,
-                        color = Color(0xFF4CAF50),
-                        modifier = Modifier.padding(top = 8.dp)
+                        color = subTextColor
                     )
+                }
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(0.9f),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Card(
+                    onClick = onEmergencyClick,
+                    modifier = Modifier.weight(1.3f).fillMaxHeight(),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(containerColor = Color(0xFFE74C3C))
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Icon(Icons.Default.Warning, contentDescription = null, tint = Color.White, modifier = Modifier.size(20.dp))
+                        Spacer(Modifier.width(8.dp))
+                        Text("EMERGENCY", color = Color.White, fontSize = 12.sp, fontWeight = FontWeight.Black)
+                    }
+                }
+
+                Box(
+                    modifier = Modifier
+                        .weight(0.7f)
+                        .fillMaxHeight()
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(if (isSystemInDarkTheme()) Color.White.copy(0.05f) else Color.Black.copy(0.04f)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            text = appointmentCount.toString(),
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = themeColor
+                        )
+                        Text(
+                            text = "Appointments",
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = if (isSystemInDarkTheme()) Color.Green else MaterialTheme.colorScheme.secondary
+                        )
+                    }
                 }
             }
         }
@@ -250,7 +295,7 @@ fun HealthSummaryCard (
                 color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40
             )
 
-            Spacer(Modifier.height(32.dp))
+            Spacer(Modifier.height(20.dp))
 
             Row(
                 horizontalArrangement = Arrangement.SpaceEvenly,
