@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.model.data.dclass.AppointmentStatus
-import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.ui.components.homescreen.HealthSummaryCard
 import kotlin.math.absoluteValue
