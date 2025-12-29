@@ -112,6 +112,7 @@ fun AppointScreen(
                     style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier.padding(horizontal = 16.dp),
                     overflow = TextOverflow.Ellipsis,
+                    maxLines = 1,
                     color = if (isDark) MaterialTheme.colorScheme.primary else Purple40
                 )
             }
