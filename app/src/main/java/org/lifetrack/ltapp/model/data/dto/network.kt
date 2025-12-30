@@ -19,3 +19,31 @@ data class LoginRequest(
     val emailAddress: String,
     val password: String
 )
+
+@Serializable
+data class SignUpRequest(
+    val fullName: String,
+    val userName: String,
+    val password: String,
+    val emailAddress: String,
+    val phoneNumber: Long,
+)
+
+@Serializable
+data class SignUpResponse(
+    val fullName: String?,
+    val phoneNumber: Long,
+    val userName: String,
+    val emailAddress: String,
+    val createdAt: Instant
+)
+
+@Serializable
+data class PwdRestoreRequest(
+    val emailAddress: String
+)
+
+//@Serializable
+//data class PwdRestoreResponse(
+//    val message: String
+//)

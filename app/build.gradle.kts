@@ -107,6 +107,7 @@ dependencies {
     implementation(libs.kotlinx.datetime)
 
     implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.auth)
     implementation(libs.ktor.client.android)
     implementation(libs.ktor.serialization.json)
     implementation(libs.ktor.content.negotiation)

@@ -34,7 +34,7 @@ import org.lifetrack.ltapp.ui.screens.OtherScreen
 import org.lifetrack.ltapp.ui.screens.PDetailScreen
 import org.lifetrack.ltapp.ui.screens.PrescriptScreen
 import org.lifetrack.ltapp.ui.screens.ProfileScreen
-import org.lifetrack.ltapp.ui.screens.RegistrationScreen
+import org.lifetrack.ltapp.ui.screens.SignupScreen
 import org.lifetrack.ltapp.ui.screens.RestoreScreen
 import org.lifetrack.ltapp.ui.screens.SplashScreen
 import org.lifetrack.ltapp.ui.screens.SupportScreen
@@ -48,7 +48,6 @@ fun AppNavigation(
     scope: CoroutineScope = koinInject()
 ) {
     val authPresenter = koinViewModel<AuthPresenter>()
-    val session by authPresenter.sessionState.collectAsState()
     val analyticPresenter = koinViewModel<AnalyticPresenter>()
     val chatPresenter = koinViewModel<ChatPresenter>()
     val userPresenter = koinViewModel<UserPresenter>()
@@ -57,7 +56,7 @@ fun AppNavigation(
 
     NavHost(
         navController = navController,
-        startDestination = if (session.accessToken != null) "home" else "login"
+        startDestination = if (authPresenter.isAuthenticated()) "home" else "login"
     ) {
 
         composable("splash") {
@@ -69,12 +68,12 @@ fun AppNavigation(
                 navController = navController,
                 presenter = authPresenter,
                 sharedPresenter = sharedPresenter,
-                ltScope = scope
+//                ltScope = scope
             )
         }
 
         composable("signup") {
-            RegistrationScreen(
+            SignupScreen(
                 navController = navController,
                 presenter = authPresenter,
             )

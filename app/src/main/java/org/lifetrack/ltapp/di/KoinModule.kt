@@ -28,6 +28,7 @@ import org.lifetrack.ltapp.presenter.HomePresenter
 import org.lifetrack.ltapp.presenter.SettingsPresenter
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.presenter.UserPresenter
+import org.lifetrack.ltapp.ui.components.other.SnackbarManager
 
 
 private val Context.tokenDataStore by dataStore(
@@ -39,7 +40,6 @@ private val Context.ltDataStore by dataStore(
     fileName = "lt_preferences.json",
     serializer = LTPreferenceSerializer
 )
-
 
 val koinModule = module {
     single { CoroutineScope(SupervisorJob() + Dispatchers.Main) }
@@ -53,8 +53,8 @@ val koinModule = module {
             get()
         )
     }
-    single<AuthRepository> { AuthRepositoryImpl() }
-    single{ KtorHttpClient.create() }
+    single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
+    single{ KtorHttpClient.create(get()) }
     single {
         Room.databaseBuilder(
             androidContext(),
@@ -66,6 +66,7 @@ val koinModule = module {
         get<LTRoomDatabase>().chatDao()
     }
     single { ChatRepository(get()) }
+    single { SnackbarManager() }
 
     viewModelOf(::AuthPresenter)
     viewModelOf(::HomePresenter)

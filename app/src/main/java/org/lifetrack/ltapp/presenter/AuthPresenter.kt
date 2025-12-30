@@ -8,14 +8,18 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import org.lifetrack.ltapp.model.data.dclass.AuthResult
 import org.lifetrack.ltapp.model.data.dclass.LoginInfo
+import org.lifetrack.ltapp.model.data.dclass.SignUpInfo
 import org.lifetrack.ltapp.model.data.dclass.TokenPreferences
 import org.lifetrack.ltapp.model.repository.AuthRepository
 import org.lifetrack.ltapp.model.repository.PreferenceRepository
-
+import org.lifetrack.ltapp.ui.components.other.SnackbarManager
+import org.lifetrack.ltapp.ui.state.UIState
 
 class AuthPresenter(
-    val authRepository: AuthRepository,
+    private val authRepository: AuthRepository,
+    private val snackbarManager: SnackbarManager,
     private val prefRepository: PreferenceRepository
 ): ViewModel() {
 
@@ -26,84 +30,83 @@ class AuthPresenter(
             TokenPreferences()
         )
 
+    private val _uiState = MutableStateFlow<UIState>(UIState.Idle)
+    val uiState = _uiState.asStateFlow()
+
     private val _loginInfo = MutableStateFlow(LoginInfo())
     val loginInfo = _loginInfo.asStateFlow()
 
-    suspend fun getTokenId(): String{
-        return  authRepository.getTokenId()
+    private val _signupInfo = MutableStateFlow(SignUpInfo())
+    val signupInfo = _signupInfo.asStateFlow()
+
+
+    fun onLoginInfoUpdate(loginInfo: LoginInfo) {
+        _loginInfo.value = loginInfo
     }
 
-    fun onLoginInfoUpdate(email: String, pwd: String){
+    fun onSignupInfoUpdate(signupInfo: SignUpInfo) {
+        _signupInfo.value = signupInfo
+    }
+
+    fun login(navController: NavController) {
         viewModelScope.launch {
-            _loginInfo.value = LoginInfo(
-                emailAddress = email,
-                password = pwd
-            )
-        }
-    }
+            _uiState.value = UIState.Loading
 
-    fun logout(navController: NavController) {
-//        authRepository.logout()
-        navController.navigate("login"){
-            popUpTo(0) {
-                inclusive = true
+            when (val result = authRepository.login(_loginInfo.value)) {
+                is AuthResult.Success -> {
+                    _uiState.value = UIState.Success("Welcome back!")
+                    navController.navigate("home") {
+                        popUpTo("login") { inclusive = true }
+                    }
+                }
+                is AuthResult.SuccessWithData<*> -> {
+                    _uiState.value = UIState.Success("Great to see you again")
+                    navController.navigate("home") {
+                        popUpTo("login") { inclusive = true }
+                    }
+                }
+                is AuthResult.Error -> {
+                    _uiState.value = UIState.Error(result.message)
+                }
+                else -> { _uiState.value = UIState.Idle }
             }
         }
     }
 
-    fun login(email: String, password: String, navController: NavController){
-        // zetu zetu apo ku verify
-        navController.navigate("home")
+    fun signUp(navController: NavController) {
+        viewModelScope.launch {
+            _uiState.value = UIState.Loading
+
+            when (val result = authRepository.signUp(_signupInfo.value)) {
+                is AuthResult.Success -> {
+                    _uiState.value = UIState.Success("Account created successfully! Now Login")
+                    navController.navigate("login") {
+                        popUpTo("signup") { inclusive = true }
+                    }
+//                    login(navController)
+                }
+                is AuthResult.Error -> {
+                    _uiState.value = UIState.Error(result.message)
+                }
+                else -> _uiState.value = UIState.Idle
+            }
+        }
     }
 
-    fun signUp(email: String, password: String, telNumber: String, fullName: String){
-
+    fun logout(navController: NavController) {
+        viewModelScope.launch {
+            authRepository.logout()
+            _uiState.value = UIState.Idle
+            _loginInfo.value = LoginInfo()
+            _signupInfo.value = SignUpInfo()
+            navController.navigate("login") {
+                popUpTo(0) { inclusive = true }
+            }
+        }
     }
 
+    fun isAuthenticated(): Boolean {
+        val token = sessionState.value.accessToken
+        return !token.isNullOrBlank()
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//        view = object : AuthView {
-//            override fun showLoading(isLoading: Boolean, msg: String?) {
-//                scope.launch {
-//                    if (isLoading) {
-//                        val defaultMessage = "Loading, please wait..."
-//                        Toast.makeText(context, msg ?: defaultMessage, Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//            }
-//
-//            override fun showError(msg: String) {
-//                scope.launch {
-//                    Toast.makeText(context, "Error: $msg", Toast.LENGTH_LONG).show()
-//                }
-//            }
-//
-//            override fun onAuthSuccess() {
-//                navController.navigate("home") {
-//                    popUpTo("login") { inclusive = true }
-//                }
-//            }
-//
-//            override fun onAuthSuccessWithData(data: String) {
-//                navController.navigate("home") {
-//                    popUpTo("login") { inclusive = true }
-//                }
-//            }
-//
-//        },
