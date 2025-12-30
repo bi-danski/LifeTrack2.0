@@ -1,8 +1,6 @@
 package org.lifetrack.ltapp.ui.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -34,8 +32,8 @@ import org.lifetrack.ltapp.ui.screens.OtherScreen
 import org.lifetrack.ltapp.ui.screens.PDetailScreen
 import org.lifetrack.ltapp.ui.screens.PrescriptScreen
 import org.lifetrack.ltapp.ui.screens.ProfileScreen
-import org.lifetrack.ltapp.ui.screens.SignupScreen
 import org.lifetrack.ltapp.ui.screens.RestoreScreen
+import org.lifetrack.ltapp.ui.screens.SignupScreen
 import org.lifetrack.ltapp.ui.screens.SplashScreen
 import org.lifetrack.ltapp.ui.screens.SupportScreen
 import org.lifetrack.ltapp.ui.screens.TelemedicineScreen

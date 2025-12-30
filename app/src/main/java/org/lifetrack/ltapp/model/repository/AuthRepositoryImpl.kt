@@ -7,7 +7,6 @@ import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
-import kotlinx.coroutines.runBlocking
 import org.lifetrack.ltapp.core.utils.toLoginRequest
 import org.lifetrack.ltapp.core.utils.toSignUpRequest
 import org.lifetrack.ltapp.model.data.dclass.AuthResult
