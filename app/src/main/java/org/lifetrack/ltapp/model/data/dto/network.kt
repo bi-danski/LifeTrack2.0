@@ -1,6 +1,6 @@
 package org.lifetrack.ltapp.model.data.dto
 
-import kotlinx.serialization.Contextual
+//import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
@@ -11,7 +11,9 @@ data class UserDataResponse @OptIn(ExperimentalTime::class) constructor(
     val phoneNumber: Long,
     val userName: String,
     val emailAddress: String,
-    @Contextual val createdAt: Instant
+//    @Contextual
+    val createdAt: Instant,
+    val updatedAt: Instant?
 )
 
 @Serializable
@@ -29,21 +31,17 @@ data class SignUpRequest(
     val phoneNumber: Long,
 )
 
-@Serializable
-data class SignUpResponse(
-    val fullName: String?,
-    val phoneNumber: Long,
-    val userName: String,
-    val emailAddress: String,
-    val createdAt: Instant
-)
+//@Serializable
+//data class SignUpResponse(
+//    val fullName: String?,
+//    val phoneNumber: Long,
+//    val userName: String,
+//    val emailAddress: String,
+//    val createdAt: Instant
+//)
 
 @Serializable
 data class PwdRestoreRequest(
     val emailAddress: String
 )
 
-//@Serializable
-//data class PwdRestoreResponse(
-//    val message: String
-//)

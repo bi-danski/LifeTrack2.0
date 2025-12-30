@@ -83,8 +83,10 @@ data class Premium(
 data class ProfileInfo(
     val userName: String = "",
     val userEmail: String = "",
+    val userFullName: String = "",
     val userInitials: String = "",
-    val userPhoneNumber: String = ""
+    val userPhoneNumber: String = "",
+
 )
 
 data class LoginInfo(

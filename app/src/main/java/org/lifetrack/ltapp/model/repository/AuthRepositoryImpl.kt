@@ -21,7 +21,6 @@ class AuthRepositoryImpl(
 ) : AuthRepository {
 
     override suspend fun login(loginInfo: LoginInfo): AuthResult {
-        println(" ***************************** $loginInfo *****************************")
         return try {
             val response = client.post("auth/login") {
                 contentType(ContentType.Application.Json)
@@ -40,7 +39,6 @@ class AuthRepositoryImpl(
     }
 
     override suspend fun signUp( signupInfo: SignUpInfo ): AuthResult {
-        println(" ***************************** $signupInfo *****************************")
         return try {
             client.post("auth/register") {
                 contentType(ContentType.Application.Json)

@@ -7,11 +7,21 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.model.data.dclass.*
 import org.lifetrack.ltapp.model.data.LtMockData
+import org.lifetrack.ltapp.model.data.dto.UserDataResponse
+import org.lifetrack.ltapp.model.repository.UserRepository
 
-class UserPresenter : ViewModel() {
+class UserPresenter(
+    private val userRepository: UserRepository
+) : ViewModel() {
 
     private val _profileInfo = MutableStateFlow(ProfileInfo())
     val profileInfo = _profileInfo.asStateFlow()
+
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading = _isLoading.asStateFlow()
+
+    private val _errorMessage = MutableStateFlow<String?>(null)
+    val errorMessage = _errorMessage.asStateFlow()
 
     private val _allAppointments = MutableStateFlow(LtMockData.dummyAppointments)
 
@@ -41,24 +51,49 @@ class UserPresenter : ViewModel() {
         }
     }
 
-    private fun loadUserProfile() {
+    fun loadUserProfile() {
         viewModelScope.launch {
-            val fetchedUserName = "Dr. Najma"
-            val fetchedUserEmail = "najma@lifetrack.org"
-            val userPhoneNumber = "+250788888888"
+            _isLoading.value = true
+            _errorMessage.value = null
 
-            val initials = fetchedUserName.split(" ")
-                .filter { it.isNotBlank() }
-                .map { it.first() }
-                .joinToString("")
-                .uppercase()
+            when (val result = userRepository.getCurrentUserInfo()) {
+                is AuthResult.SuccessWithData<*> -> {
+                    val data = result.data as? UserDataResponse
+                    data?.let { user ->
+                        _profileInfo.value = ProfileInfo(
+                            userName = user.userName,
+                            userEmail = user.emailAddress,
+                            userInitials = generateInitials(user.fullName ?: "N/A"),
+                            userPhoneNumber = user.phoneNumber.toString(),
+                            userFullName = user.fullName ?: "N/A"
+                        )
+                    }
+                }
+                is AuthResult.Error -> {
+                    _errorMessage.value = result.message
+                }
+                else -> {}
+            }
+            _isLoading.value = false
+        }
+    }
 
-            _profileInfo.value = ProfileInfo(
-                userName = fetchedUserName,
-                userEmail = fetchedUserEmail,
-                userInitials = initials,
-                userPhoneNumber = userPhoneNumber
-            )
+    fun deleteAccount(navController: NavController) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            when (val result = userRepository.deleteAccount()) {
+                is AuthResult.Success -> {
+                    // Navigate to Login and clear backstack
+                    navController.navigate("login") {
+                        popUpTo(0) { inclusive = true }
+                    }
+                }
+                is AuthResult.Error -> {
+                    _errorMessage.value = result.message
+                }
+                else -> {}
+            }
+            _isLoading.value = false
         }
     }
 
@@ -73,6 +108,8 @@ class UserPresenter : ViewModel() {
     fun getCountForStatus(status: AppointmentStatus): Int {
         return _allAppointments.value.count { it.status == status }
     }
+
+    // --- Appointment Management ---
 
     fun bookAppointment() {
         val selectedDoc = _selectedDoctorProfile.value ?: return
@@ -107,5 +144,9 @@ class UserPresenter : ViewModel() {
 
     fun onSelectDoctor(doctor: DoctorProfile) {
         _selectedDoctorProfile.value = doctor
+    }
+
+    fun clearError() {
+        _errorMessage.value = null
     }
 }

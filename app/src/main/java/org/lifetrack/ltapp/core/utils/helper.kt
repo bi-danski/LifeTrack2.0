@@ -1,10 +1,12 @@
 package org.lifetrack.ltapp.core.utils
 
 import org.lifetrack.ltapp.model.data.dclass.LoginInfo
+import org.lifetrack.ltapp.model.data.dclass.ProfileInfo
 import org.lifetrack.ltapp.model.data.dclass.SignUpInfo
 import org.lifetrack.ltapp.model.data.dto.LoginRequest
 import org.lifetrack.ltapp.model.data.dto.Message
 import org.lifetrack.ltapp.model.data.dto.SignUpRequest
+import org.lifetrack.ltapp.model.data.dto.UserDataResponse
 import org.lifetrack.ltapp.model.database.room.MessageEntity
 
 fun Message.toEntity(): MessageEntity{
@@ -34,3 +36,15 @@ fun SignUpInfo.toSignUpRequest(): SignUpRequest{
     )
 }
 
+
+fun UserDataResponse.toUserProfileInformation(): ProfileInfo{
+    val fullName = this.fullName ?: "N/A"
+    return ProfileInfo(
+        userName = this.userName,
+        userEmail = this.emailAddress,
+        userFullName = fullName,
+        userPhoneNumber = this.phoneNumber.toString(),
+        userInitials = ZetuZetuUtil.generateInitials(fullName),
+
+        )
+}

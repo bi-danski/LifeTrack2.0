@@ -15,11 +15,13 @@ import org.lifetrack.ltapp.model.data.dclass.SignUpInfo
 import org.lifetrack.ltapp.model.data.dclass.TokenPreferences
 import org.lifetrack.ltapp.model.repository.AuthRepository
 import org.lifetrack.ltapp.model.repository.PreferenceRepository
+import org.lifetrack.ltapp.model.repository.UserRepository
 import org.lifetrack.ltapp.ui.state.UIState
 
 class AuthPresenter(
     private val authRepository: AuthRepository,
-    prefRepository: PreferenceRepository
+    prefRepository: PreferenceRepository,
+    userRepository: UserRepository
 ): ViewModel() {
 
     val sessionState = prefRepository.tokenPreferences
