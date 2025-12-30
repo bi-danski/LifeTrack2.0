@@ -13,6 +13,7 @@ import org.lifetrack.ltapp.model.repository.PreferenceRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import org.lifetrack.ltapp.model.database.room.LTRoomDatabase
 import org.lifetrack.ltapp.model.network.KtorHttpClient
@@ -44,22 +45,22 @@ private val Context.ltDataStore by dataStore(
 val koinModule = module {
     single { CoroutineScope(SupervisorJob() + Dispatchers.Main) }
 
-    single { androidContext().tokenDataStore }
-    single { androidContext().ltDataStore }
+    single(qualifier = named("tokenStore")){ androidContext().tokenDataStore }
+    single(qualifier = named("ltStore")) { androidContext().ltDataStore }
     single {
         PreferenceRepository(
-            get(),
-            get(),
-            get()
+            ltDataStore = get( qualifier = named("ltStore")),
+            tokenDataStore = get(qualifier = named("tokenStore")),
+            scope = get()
         )
     }
-    single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
+    single<AuthRepository> { AuthRepositoryImpl(client = get(), prefs = get()) }
     single{ KtorHttpClient.create(get()) }
     single {
         Room.databaseBuilder(
-            androidContext(),
-            LTRoomDatabase::class.java,
-            "lifetrack_db"
+            context = androidContext(),
+            klass = LTRoomDatabase::class.java,
+            name = "lifetrack_db"
             ).build()
     }
     single {

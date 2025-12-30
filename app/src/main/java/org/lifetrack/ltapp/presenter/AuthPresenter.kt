@@ -3,6 +3,7 @@ package org.lifetrack.ltapp.presenter
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -77,10 +78,12 @@ class AuthPresenter(
 
             when (val result = authRepository.signUp(_signupInfo.value)) {
                 is AuthResult.Success -> {
-                    _uiState.value = UIState.Success("Account created successfully! Now Login")
+                    _uiState.value = UIState.Success("Account created successfully!")
+                    delay(2000)
                     navController.navigate("login") {
                         popUpTo("signup") { inclusive = true }
                     }
+                    _uiState.value = UIState.Success("You can now login with your credentials")
 //                    login(navController)
                 }
                 is AuthResult.Error -> {

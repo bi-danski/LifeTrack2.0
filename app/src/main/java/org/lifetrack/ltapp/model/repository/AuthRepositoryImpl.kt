@@ -22,12 +22,12 @@ class AuthRepositoryImpl(
 ) : AuthRepository {
 
     override suspend fun login(loginInfo: LoginInfo): AuthResult {
+        println(" ***************************** $loginInfo *****************************")
         return try {
             val response = client.post("auth/login") {
                 contentType(ContentType.Application.Json)
                 setBody(loginInfo.toLoginRequest())
             }
-
             if (response.status == HttpStatusCode.OK) {
                 val tokens = response.body<TokenPreferences>()
                 prefs.updateTokens(tokens.accessToken, tokens.refreshToken)
@@ -41,18 +41,15 @@ class AuthRepositoryImpl(
     }
 
     override suspend fun signUp( signupInfo: SignUpInfo ): AuthResult {
+        println(" ***************************** $signupInfo *****************************")
         return try {
-            val response = client.post("auth/signup") {
+            client.post("auth/register") {
                 contentType(ContentType.Application.Json)
                 setBody(signupInfo.toSignUpRequest())
             }
-            if (response.status == HttpStatusCode.Created) {
-                AuthResult.Success
-            } else {
-                AuthResult.Error("Signup failed")
-            }
+            AuthResult.Success
         } catch (e: Exception) {
-            AuthResult.Error(e.message ?: "Network error")
+            AuthResult.Error(e.message ?: "An Error Occurred while creating your account")
         }
     }
 

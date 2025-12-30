@@ -48,6 +48,13 @@ class PreferenceRepository(
     }
 
     suspend fun clearSession() {
-        tokenDataStore.updateData { TokenPreferences() }
+
+        tokenDataStore.updateData {
+            TokenPreferences()
+        }
+
+//        ltDataStore.updateData {
+//            LTPreferences()
+//        }
     }
 }

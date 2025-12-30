@@ -10,6 +10,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material.icons.outlined.AssignmentInd
+import androidx.compose.material.icons.outlined.Badge
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Password
 import androidx.compose.material.icons.outlined.Person
@@ -109,11 +111,24 @@ fun SignupScreen(
                 )
             }
 
+            AnimatedVisibility(visible = isVisible, enter = fadeIn(tween(1000))) {
+                OutlinedTextField(
+                    value = signUpInfo.userName,
+                    onValueChange = { presenter.onSignupInfoUpdate(signUpInfo.copy(userName = it)) },
+                    label = { Text("User Name") },
+                    leadingIcon = { Icon(Icons.Outlined.Badge, contentDescription = null) },
+                    enabled = uiState !is UIState.Loading,
+                    singleLine = true,
+                    shape = MaterialTheme.shapes.medium,
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
+                )
+            }
+
             AnimatedVisibility(visible = isVisible, enter = fadeIn(tween(1200))) {
                 OutlinedTextField(
                     value = signUpInfo.emailAddress,
                     onValueChange = { presenter.onSignupInfoUpdate(signUpInfo.copy(emailAddress = it)) },
-                    label = { Text("Email") },
+                    label = { Text("Email Address") },
                     leadingIcon = { Icon(Icons.Outlined.Email, contentDescription = null) },
                     enabled = uiState !is UIState.Loading,
                     singleLine = true,
@@ -122,7 +137,6 @@ fun SignupScreen(
                 )
             }
 
-            // Phone Number Field
             AnimatedVisibility(visible = isVisible, enter = fadeIn(tween(1400))) {
                 OutlinedTextField(
                     value = signUpInfo.phoneNumber,
@@ -136,7 +150,6 @@ fun SignupScreen(
                 )
             }
 
-            // Password Field
             AnimatedVisibility(visible = isVisible, enter = fadeIn(tween(1600))) {
                 OutlinedTextField(
                     value = signUpInfo.password,
@@ -200,7 +213,6 @@ fun SignupScreen(
                 }
             }
 
-            // Login Redirect
             AnimatedVisibility(visible = isVisible, enter = fadeIn(tween(2000))) {
                 Row(
                     modifier = Modifier
