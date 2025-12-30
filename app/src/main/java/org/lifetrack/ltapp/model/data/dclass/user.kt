@@ -2,7 +2,6 @@ package org.lifetrack.ltapp.model.data.dclass
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import kotlinx.serialization.Serializable
 import java.util.UUID
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
