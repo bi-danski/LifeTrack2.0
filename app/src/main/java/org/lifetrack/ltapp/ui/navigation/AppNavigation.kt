@@ -1,12 +1,16 @@
 package org.lifetrack.ltapp.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import kotlinx.coroutines.CoroutineScope
 import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.koinInject
 import org.lifetrack.ltapp.presenter.AnalyticPresenter
 import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.presenter.ChatPresenter
@@ -39,8 +43,12 @@ import org.lifetrack.ltapp.ui.screens.TimeLineScreen
 
 
 @Composable
-fun AppNavigation(navController: NavHostController) {
+fun AppNavigation(
+    navController: NavHostController,
+    scope: CoroutineScope = koinInject()
+) {
     val authPresenter = koinViewModel<AuthPresenter>()
+    val session by authPresenter.sessionState.collectAsState()
     val analyticPresenter = koinViewModel<AnalyticPresenter>()
     val chatPresenter = koinViewModel<ChatPresenter>()
     val userPresenter = koinViewModel<UserPresenter>()
@@ -49,7 +57,7 @@ fun AppNavigation(navController: NavHostController) {
 
     NavHost(
         navController = navController,
-        startDestination = "home"
+        startDestination = if (session.accessToken != null) "home" else "login"
     ) {
 
         composable("splash") {
@@ -60,7 +68,8 @@ fun AppNavigation(navController: NavHostController) {
             LoginScreen(
                 navController = navController,
                 presenter = authPresenter,
-                sharedPresenter = sharedPresenter
+                sharedPresenter = sharedPresenter,
+                ltScope = scope
             )
         }
 

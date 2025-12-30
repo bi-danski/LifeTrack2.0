@@ -27,7 +27,8 @@ charts = "2.0.1"
 room = "2.8.4"
 ksp = "2.3.0"
 accompanist= "0.36.0"
-coreSplashScreen = "1.0.1"
+coreSplashScreen = "1.2.0"
+datastorePreferences = "1.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -87,6 +88,8 @@ room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 #accompanist-pager-indicators = { group = "com.google.accompanist", name = "accompanist-pager-indicators", version.ref = "accompanist" }
 accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" } # optional
 accompanist-navigation-animation = { group = "com.google.accompanist", name = "accompanist-navigation-animation", version.ref = "accompanist" } # optional
+
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 
 
 

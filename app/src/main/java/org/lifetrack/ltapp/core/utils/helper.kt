@@ -12,3 +12,4 @@ fun Message.toEntity(): MessageEntity{
         type = this.type
     )
 }
+

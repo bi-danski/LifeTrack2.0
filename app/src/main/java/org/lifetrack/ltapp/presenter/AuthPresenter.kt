@@ -4,15 +4,27 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.model.data.dclass.LoginInfo
+import org.lifetrack.ltapp.model.data.dclass.TokenPreferences
 import org.lifetrack.ltapp.model.repository.AuthRepository
+import org.lifetrack.ltapp.model.repository.PreferenceRepository
 
 
 class AuthPresenter(
     val authRepository: AuthRepository,
+    private val prefRepository: PreferenceRepository
 ): ViewModel() {
+
+    val sessionState = prefRepository.tokenPreferences
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
+            TokenPreferences()
+        )
 
     private val _loginInfo = MutableStateFlow(LoginInfo())
     val loginInfo = _loginInfo.asStateFlow()

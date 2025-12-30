@@ -2,6 +2,14 @@ package org.lifetrack.ltapp.di
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.room.Room
+import android.content.Context
+import androidx.datastore.dataStore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import org.lifetrack.ltapp.core.datastore.LTPreferenceSerializer
+import org.lifetrack.ltapp.core.datastore.TokenPreferenceSerializer
+import org.lifetrack.ltapp.model.repository.PreferenceRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
@@ -21,13 +29,32 @@ import org.lifetrack.ltapp.presenter.SettingsPresenter
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.presenter.UserPresenter
 
+
+private val Context.tokenDataStore by dataStore(
+    fileName = "_preferences.json",
+    serializer = TokenPreferenceSerializer
+)
+
+private val Context.ltDataStore by dataStore(
+    fileName = "lt_preferences.json",
+    serializer = LTPreferenceSerializer
+)
+
+
 val koinModule = module {
-    single<AuthRepository> {
-        AuthRepositoryImpl()
+    single { CoroutineScope(SupervisorJob() + Dispatchers.Main) }
+
+    single { androidContext().tokenDataStore }
+    single { androidContext().ltDataStore }
+    single {
+        PreferenceRepository(
+            get(),
+            get(),
+            get()
+        )
     }
-    single{
-        KtorHttpClient.create()
-    }
+    single<AuthRepository> { AuthRepositoryImpl() }
+    single{ KtorHttpClient.create() }
     single {
         Room.databaseBuilder(
             androidContext(),
@@ -38,9 +65,8 @@ val koinModule = module {
     single {
         get<LTRoomDatabase>().chatDao()
     }
-    single {
-        ChatRepository(get())
-    }
+    single { ChatRepository(get()) }
+
     viewModelOf(::AuthPresenter)
     viewModelOf(::HomePresenter)
     viewModelOf(::UserPresenter)

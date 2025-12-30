@@ -91,6 +91,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.datastore.preferences)
 
     implementation(libs.material)
     implementation(libs.material.icons.core)
@@ -122,6 +123,7 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.room.compiler)
     implementation(libs.mpandroidchart)
+
     ksp(libs.room.compiler)
 
     implementation(libs.accompanist.systemuicontroller)

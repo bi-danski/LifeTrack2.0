@@ -17,11 +17,6 @@ class SharedPresenter: ViewModel() {
         appAnimationsToggleState = !appAnimationsToggleState
     }
 
-//    fun onAppVersionUpdate(value: String){
-//        version = value
-//    }
-    // UserPresenter.kt
-
     fun handleEmergencyCall(context: Context) {
         val emergencyNumber = "911"
         context.makeAutoCall(emergencyNumber)

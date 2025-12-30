@@ -17,6 +17,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.model.data.dclass.LoginInfo
 import org.lifetrack.ltapp.presenter.AuthPresenter
@@ -174,7 +175,8 @@ import org.lifetrack.ltapp.ui.components.loginscreen.LTBrandAppBar
 fun LoginScreen(
     navController: NavController,
     presenter: AuthPresenter,
-    sharedPresenter: SharedPresenter
+    sharedPresenter: SharedPresenter,
+    ltScope: CoroutineScope
 ) {
     val loginInfo = presenter.loginInfo.collectAsState()
     val emailAddress = loginInfo.value.emailAddress

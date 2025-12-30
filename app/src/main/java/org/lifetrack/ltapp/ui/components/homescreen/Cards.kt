@@ -26,10 +26,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.DirectionsRun
+import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.EventAvailable
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.MonitorHeart
 import androidx.compose.material.icons.filled.Thermostat
+import androidx.compose.material.icons.filled.WaterDrop
 import androidx.compose.material.icons.filled.WifiTethering
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
@@ -157,7 +160,8 @@ fun TodayScheduleCard(
         shape = RoundedCornerShape(22.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .height(210.dp)
+            .height(200.dp)
+            .background(Color.Transparent)
     ) {
         Column(
             modifier = Modifier
@@ -255,7 +259,11 @@ fun TodayScheduleCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(0.9f),
+//                    .background(
+//                        PurpleGrey80
+//                    ),
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
+
             ) {
                 Card(
                     onClick = onEmergencyClick,
@@ -264,7 +272,10 @@ fun TodayScheduleCard(
                         .fillMaxHeight(),
 //                        .graphicsLayer(scaleX = pulseScale, scaleY = pulseScale),
                     shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color(0xFFE74C3C))
+                    colors = CardDefaults.cardColors(
+                        containerColor = if (isSystemInDarkTheme()) Color(0xFFE74C3C).copy(0.5f)
+                    else Color(0xFFE74C3C).copy(0.8f)
+                    )
                 ) {
                     Row(
                         modifier = Modifier.fillMaxSize(),
@@ -292,7 +303,10 @@ fun TodayScheduleCard(
                         .weight(0.7f)
                         .fillMaxHeight()
                         .clip(RoundedCornerShape(16.dp))
-                        .background(if (isSystemInDarkTheme()) Color.White.copy(0.08f) else Color.Black.copy(0.04f)),
+                        .background(
+                            themeColor.copy(alpha = 0.08f)
+//                            if (isSystemInDarkTheme()) Color.White.copy(0.08f)
+                        ),
                     contentAlignment = Alignment.Center
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -318,55 +332,120 @@ fun TodayScheduleCard(
 }
 
 @Composable
-fun HealthSummaryCard(
-    bloodPressure: String = "120/80",
+fun HealthSummaryCard (
+    bloodPressure: String ="120/80",
     heartRate: String = "78 bpm",
-    temperature: String = "98.6 F"
+    temperature: String ="98.6 F"
+) {
+    GlassCard(
+        shape = RoundedCornerShape(22.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .background(Color.Transparent)
+    ){
+        Column(Modifier.padding(16.dp)) {
+            Text(
+                "Health Summary",
+                fontWeight = FontWeight.Black,
+                fontSize = 21.sp,
+                style = MaterialTheme.typography.titleMedium,
+                color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40
+            )
+
+            Spacer(Modifier.height(20.dp))
+
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                HealthMetric(
+                    "BP",
+                    bloodPressure,
+                    icon = Icons.Default.MonitorHeart,
+                    iconColor = Color(0xFFE74C3C)
+                )
+                Spacer(Modifier.width(10.dp))
+                HealthMetric(
+                    "BPM",
+                    heartRate,
+                    Icons.Default.Favorite,
+                    iconColor = Color(0xFFEC407A)
+                )
+                Spacer(Modifier.width(10.dp))
+                HealthMetric(
+                    "Temp",
+                    temperature,
+                    Icons.Default.Thermostat,
+                    iconColor = Color(0xFFFFA000)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun DailyGoalsCard(
+    steps: Int = 6400,
+    stepGoal: Int = 10000,
+    waterLiters: Float = 1.5f,
+    waterGoal: Float = 2.5f,
+    sleepHours: Float = 6.5f,
+    sleepGoal: Float = 8f
 ) {
     val themeColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40
+
+    val containerBg = if (isSystemInDarkTheme()) Color.Transparent else Color.White.copy(alpha = 0.3f)
 
     GlassCard(
         shape = RoundedCornerShape(22.dp),
         modifier = Modifier
             .fillMaxWidth()
-//            .wrapContentHeight()
+            .height(210.dp)
+            .background(containerBg)
     ) {
-        Column(Modifier.padding(0.dp)) {
+        Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = "Health Summary",
+                text = "Daily Goals",
                 fontWeight = FontWeight.Black,
-                fontSize = 22.sp,
-                style = MaterialTheme.typography.titleMedium,
+                fontSize = 20.sp,
                 color = themeColor
             )
 
-            Spacer(Modifier.height(24.dp))
+            Spacer(Modifier.height(16.dp))
 
             Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(themeColor.copy(alpha = 0.05f))
-                    .padding(vertical = 12.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                Box(modifier = Modifier.weight(1f)) {
-                    HealthMetric("BP", bloodPressure, Icons.Default.MonitorHeart)
-                }
+                GoalModule(
+                    label = "Steps",
+                    value = "$steps",
+                    progress = (steps.toFloat() / stepGoal).coerceAtMost(1f),
+                    color = Color(0xFF4CAF50),
+                    icon = Icons.AutoMirrored.Filled.DirectionsRun,
+                    modifier = Modifier.weight(1f)
+                )
 
-                Box(modifier = Modifier.width(1.dp).height(30.dp).background(themeColor.copy(0.1f)))
+                GoalModule(
+                    label = "Water",
+                    value = "${waterLiters}L",
+                    progress = (waterLiters / waterGoal).coerceAtMost(1f),
+                    color = Color(0xFF2196F3),
+                    icon = Icons.Default.WaterDrop,
+                    modifier = Modifier.weight(1f)
+                )
 
-                Box(modifier = Modifier.weight(1f)) {
-                    HealthMetric("BPM", heartRate, Icons.Default.Favorite)
-                }
-
-                Box(modifier = Modifier.width(1.dp).height(30.dp).background(themeColor.copy(0.1f)))
-
-                Box(modifier = Modifier.weight(1f)) {
-                    HealthMetric("Temp", temperature, Icons.Default.Thermostat)
-                }
+                GoalModule(
+                    label = "Sleep",
+                    value = "${sleepHours}h",
+                    progress = (sleepHours / sleepGoal).coerceAtMost(1f),
+                    color = Color(0xFF9C27B0),
+                    icon = Icons.Default.Bedtime,
+                    modifier = Modifier.weight(1f)
+                )
             }
         }
     }
 }
+
