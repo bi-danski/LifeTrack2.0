@@ -97,8 +97,8 @@ data class LoginInfo(
 
 data class SignUpInfo(
     val fullName: String = "",
-    val userName: String = "",
+    val userName: String = "Loading ...",
     val password: String = "",
     val emailAddress: String = "",
-    val phoneNumber: String = "",
+    val phoneNumber: String = "Loading ...",
 )

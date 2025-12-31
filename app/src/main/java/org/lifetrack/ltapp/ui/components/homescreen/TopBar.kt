@@ -1,6 +1,5 @@
 package org.lifetrack.ltapp.ui.components.homescreen
 
-//import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -19,10 +18,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 @Composable
-fun AppTopBar(navController: NavController) {
+fun AppTopBar(navController: NavController, username: String) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
@@ -57,10 +57,13 @@ fun AppTopBar(navController: NavController) {
             )
         }
         Column(horizontalAlignment = Alignment.End) {
-            Text("Dr. Najma",
+            Text(
+                text = username,
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.primary,
                 fontWeight = FontWeight.ExtraBold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
             Text("Patient",
                 style = MaterialTheme.typography.bodySmall,

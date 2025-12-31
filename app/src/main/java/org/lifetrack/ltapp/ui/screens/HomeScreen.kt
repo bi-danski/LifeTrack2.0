@@ -1,6 +1,5 @@
 package org.lifetrack.ltapp.ui.screens
 
-//import org.lifetrack.ltapp.ui.components.homescreen.FeatureGrid
 import android.Manifest
 import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -21,6 +20,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
@@ -49,6 +49,7 @@ fun HomeScreen(
 ) {
     val autoRotate2NextCard = presenter.autoRotate2NextCard
     val caroItemsCount = presenter.caroItemsCount
+    val userInfo = userPresenter.profileInfo.collectAsState()
     val homeScreenContextInstance = LocalContext.current
     val hapticFeedbackContextInstance = LocalHapticFeedback.current
     val callPermissionLauncher = rememberLauncherForActivityResult(
@@ -84,7 +85,7 @@ fun HomeScreen(
             item(span = { GridItemSpan(maxLineSpan) }) {
                 Column {
                     Spacer(Modifier.height(8.dp))
-                    AppTopBar(navController)
+                    AppTopBar(navController, userInfo.value.userName)
                     Spacer(Modifier.height(18.dp))
                     LtHomeCarousel(
                         autoRotate = autoRotate2NextCard,

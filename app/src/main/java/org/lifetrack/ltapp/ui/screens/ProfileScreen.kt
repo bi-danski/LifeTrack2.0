@@ -118,7 +118,7 @@ fun ProfileScreen(
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = profileInfo.value.userName,
+                text = profileInfo.value.userFullName,
                 color = if (isSystemInDarkTheme()) Purple80 else colorScheme.onPrimary,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold

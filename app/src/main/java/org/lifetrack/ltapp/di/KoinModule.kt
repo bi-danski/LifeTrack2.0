@@ -44,7 +44,6 @@ private val Context.ltDataStore by dataStore(
 
 val koinModule = module {
     single { CoroutineScope(SupervisorJob() + Dispatchers.Default) }
-
     single(qualifier = named("tokenStore")){ androidContext().tokenDataStore }
     single(qualifier = named("ltStore")) { androidContext().ltDataStore }
     single {
@@ -60,7 +59,6 @@ val koinModule = module {
     single<UserRepository> {
         UserRepositoryImpl(client = get(), prefRepository = get())
     }
-
     single<io.ktor.client.HttpClient>{ KtorHttpClient.create(get()) }
     single {
         Room.databaseBuilder(
@@ -89,4 +87,3 @@ val koinModule = module {
         ChatPresenter(get(), savedStateHandle)
     }
 }
-
