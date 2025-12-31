@@ -405,7 +405,7 @@ object LtMockData {
                 Attachment(
                     id = 1,
                     name = "Lab Report.pdf",
-                    type = AttachmentType.PDF,
+                    type = AttachmentType.LAB_RESULT,
                     uri = "uri://labreport1"
                 ),
                 Attachment(
