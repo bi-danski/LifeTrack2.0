@@ -40,7 +40,7 @@ fun SignUpInfo.toSignUpRequest(): SignUpRequest{
 fun UserDataResponse.toUserProfileInformation(): ProfileInfo{
     val displayName = this.fullName ?: "N/A"
     return ProfileInfo(
-        userName = this.userName,
+        userName = this.userName.replaceFirstChar { it.uppercase() },
         userEmail = this.emailAddress,
         userFullName = displayName,
         userPhoneNumber = this.phoneNumber.toString(),
