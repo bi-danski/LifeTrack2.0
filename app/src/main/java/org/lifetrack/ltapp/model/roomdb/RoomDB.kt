@@ -13,15 +13,15 @@ abstract class LTRoomDatabase: RoomDatabase(){
     companion object{
         @Volatile private var INSTANCE: LTRoomDatabase? = null
 
-        fun getInstance(context: Context): LTRoomDatabase{
-            return INSTANCE ?: synchronized(this) {
-                Room.databaseBuilder(
-                    context.applicationContext,
-                    LTRoomDatabase::class.java,
-                    "lifetrack_db"
-                ).build()
-                    .also { INSTANCE = it }
-            }
-        }
+//        fun getInstance(context: Context): LTRoomDatabase{
+//            return INSTANCE ?: synchronized(this) {
+//                Room.databaseBuilder(
+//                    context.applicationContext,
+//                    LTRoomDatabase::class.java,
+//                    "lifetrack_db"
+//                ).build()
+//                    .also { INSTANCE = it }
+//            }
+//        }
     }
 }

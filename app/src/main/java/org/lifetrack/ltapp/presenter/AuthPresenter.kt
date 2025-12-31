@@ -20,7 +20,7 @@ import org.lifetrack.ltapp.ui.state.UIState
 
 class AuthPresenter(
     private val authRepository: AuthRepository,
-    private val prefRepository: PreferenceRepository,
+    prefRepository: PreferenceRepository,
 ): ViewModel() {
 
     val isLoggedIn = prefRepository.tokenPreferences
