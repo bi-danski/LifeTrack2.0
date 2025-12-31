@@ -36,9 +36,7 @@ object CryptoGCM {
                 KeyGenParameterSpec.Builder(
                     KEY_ALIAS,
                     KeyProperties.PURPOSE_ENCRYPT or
-                            KeyProperties.PURPOSE_DECRYPT or
-                            KeyProperties.PURPOSE_SIGN or
-                            KeyProperties.PURPOSE_VERIFY
+                            KeyProperties.PURPOSE_DECRYPT
                 )
                     .setBlockModes(BLOCK_MODE)
                     .setEncryptionPaddings(PADDING)

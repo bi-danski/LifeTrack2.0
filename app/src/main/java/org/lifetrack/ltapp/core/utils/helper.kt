@@ -7,7 +7,7 @@ import org.lifetrack.ltapp.model.data.dto.LoginRequest
 import org.lifetrack.ltapp.model.data.dto.Message
 import org.lifetrack.ltapp.model.data.dto.SignUpRequest
 import org.lifetrack.ltapp.model.data.dto.UserDataResponse
-import org.lifetrack.ltapp.model.database.room.MessageEntity
+import org.lifetrack.ltapp.model.roomdb.MessageEntity
 
 fun Message.toEntity(): MessageEntity{
     return MessageEntity(
@@ -38,13 +38,15 @@ fun SignUpInfo.toSignUpRequest(): SignUpRequest{
 
 
 fun UserDataResponse.toUserProfileInformation(): ProfileInfo{
-    val fullName = this.fullName ?: "N/A"
+    val displayName = this.fullName ?: "N/A"
     return ProfileInfo(
         userName = this.userName,
         userEmail = this.emailAddress,
-        userFullName = fullName,
+        userFullName = displayName,
         userPhoneNumber = this.phoneNumber.toString(),
-        userInitials = ZetuZetuUtil.generateInitials(fullName),
-
-        )
+        userInitials = ZetuZetuUtil.generateInitials(displayName),
+        createdAt = this.createdAt,
+        updatedAt = this.updatedAt
+    )
 }
+

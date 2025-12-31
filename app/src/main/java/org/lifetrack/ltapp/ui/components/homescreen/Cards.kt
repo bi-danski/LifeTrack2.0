@@ -394,7 +394,6 @@ fun DailyGoalsCard(
     sleepGoal: Float = 8f
 ) {
     val themeColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40
-
     val containerBg = if (isSystemInDarkTheme()) Color.Transparent else Color.White.copy(alpha = 0.3f)
 
     GlassCard(

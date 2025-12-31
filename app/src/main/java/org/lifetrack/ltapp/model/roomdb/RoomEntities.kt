@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.model.database.room
+package org.lifetrack.ltapp.model.roomdb
 
 import androidx.room.PrimaryKey
 import androidx.room.Entity

@@ -13,7 +13,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-class EPrescriptPresenter : ViewModel() {
+class PrescPresenter : ViewModel() {
 
     var selectedFilter by mutableStateOf("Active")
     val filters = listOf("Active", "Refills", "Expired", "History")
@@ -33,7 +33,7 @@ class EPrescriptPresenter : ViewModel() {
             val formatter = DateTimeFormatter.ofPattern("MMM dd, yyyy", Locale.ENGLISH)
             val endDate = LocalDate.parse(endDateStr, formatter)
             endDate.isBefore(LocalDate.now())
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             false
         }
     }
@@ -47,7 +47,6 @@ class EPrescriptPresenter : ViewModel() {
         }
     }
 
-    // Success Sheet State
     var showSuccessSheet by mutableStateOf(false)
     var lastRequestedMedication by mutableStateOf("")
 

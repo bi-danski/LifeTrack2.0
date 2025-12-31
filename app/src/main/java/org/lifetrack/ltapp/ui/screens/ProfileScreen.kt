@@ -29,11 +29,17 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -58,27 +64,40 @@ fun ProfileScreen(
     navController: NavController,
     authPresenter: AuthPresenter,
     userPresenter: UserPresenter
-    ) {
+) {
     val colorScheme = MaterialTheme.colorScheme
     val profileInfo = userPresenter.profileInfo.collectAsState()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val errorMessage by userPresenter.errorMessage.collectAsState()
+
+    LaunchedEffect(errorMessage) {
+        errorMessage?.let {
+            snackbarHostState.showSnackbar(
+                message = it,
+                actionLabel = "Dismiss",
+                duration = SnackbarDuration.Short
+            )
+            userPresenter.clearError()
+        }
+//        userPresenter.loadUserProfile()
+    }
 
     Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         topBar = {
             TopAppBar(
-                {
-                    Text(text = "")
-                },
+                title = { Text(text = "") },
                 navigationIcon = {
                     IconButton({ navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.Default.ArrowCircleLeft,
                             contentDescription = "Back",
-                            tint = if (isSystemInDarkTheme()) Purple80 else MaterialTheme.colorScheme.primary
+                            tint = if (isSystemInDarkTheme()) Purple80 else colorScheme.primary
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = if (isSystemInDarkTheme()) colorScheme.primary.copy(0.1f) else Purple40, //colorScheme.primary
+                    containerColor = if (isSystemInDarkTheme()) colorScheme.primary.copy(0.1f) else Purple40,
                 )
             )
         }
@@ -171,7 +190,7 @@ fun ProfileScreen(
                     item {
                         CustomProfileMenuItem(
                             icon = Icons.Default.Delete,
-                            leftIconColor = MaterialTheme.colorScheme.primary,
+                            leftIconColor = Color.Red,
                             title = "Delete My Account",
                             onClick = { navController.navigate("login") }
                         )

@@ -7,28 +7,30 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.model.data.dclass.AuthResult
 import org.lifetrack.ltapp.model.data.dclass.LoginInfo
 import org.lifetrack.ltapp.model.data.dclass.SignUpInfo
-import org.lifetrack.ltapp.model.data.dclass.TokenPreferences
 import org.lifetrack.ltapp.model.repository.AuthRepository
 import org.lifetrack.ltapp.model.repository.PreferenceRepository
-import org.lifetrack.ltapp.model.repository.UserRepository
 import org.lifetrack.ltapp.ui.state.UIState
 
 class AuthPresenter(
     private val authRepository: AuthRepository,
-    prefRepository: PreferenceRepository,
-    userRepository: UserRepository
+    private val prefRepository: PreferenceRepository,
 ): ViewModel() {
 
-    val sessionState = prefRepository.tokenPreferences
+    val isLoggedIn = prefRepository.tokenPreferences
+        .map { !it.accessToken.isNullOrBlank() }
+        .distinctUntilChanged()
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000),
-            TokenPreferences()
+            null
         )
 
     private val _uiState = MutableStateFlow<UIState>(UIState.Idle)
@@ -41,35 +43,26 @@ class AuthPresenter(
     val signupInfo = _signupInfo.asStateFlow()
 
 
-    fun onLoginInfoUpdate(loginInfo: LoginInfo) {
-        _loginInfo.value = loginInfo
+    suspend fun checkLocalSession(): Boolean {
+        val token = prefRepository.tokenPreferences.first().accessToken
+        return !token.isNullOrBlank()
     }
 
-    fun onSignupInfoUpdate(signupInfo: SignUpInfo) {
-        _signupInfo.value = signupInfo
-    }
+    fun onLoginInfoUpdate(info: LoginInfo) { _loginInfo.value = info }
+    fun onSignupInfoUpdate(info: SignUpInfo) { _signupInfo.value = info }
 
     fun login(navController: NavController) {
         viewModelScope.launch {
             _uiState.value = UIState.Loading
-
             when (val result = authRepository.login(_loginInfo.value)) {
-                is AuthResult.Success -> {
+                is AuthResult.Success, is AuthResult.SuccessWithData<*> -> {
                     _uiState.value = UIState.Success("Welcome back!")
                     navController.navigate("home") {
                         popUpTo("login") { inclusive = true }
                     }
                 }
-                is AuthResult.SuccessWithData<*> -> {
-                    _uiState.value = UIState.Success("Great to see you again")
-                    navController.navigate("home") {
-                        popUpTo("login") { inclusive = true }
-                    }
-                }
-                is AuthResult.Error -> {
-                    _uiState.value = UIState.Error(result.message)
-                }
-                else -> { _uiState.value = UIState.Idle }
+                is AuthResult.Error -> _uiState.value = UIState.Error(result.message)
+                else -> _uiState.value = UIState.Idle
             }
         }
     }
@@ -77,20 +70,13 @@ class AuthPresenter(
     fun signUp(navController: NavController) {
         viewModelScope.launch {
             _uiState.value = UIState.Loading
-
             when (val result = authRepository.signUp(_signupInfo.value)) {
                 is AuthResult.Success -> {
-                    _uiState.value = UIState.Success("Account created successfully!")
-                    delay(2000)
-                    navController.navigate("login") {
-                        popUpTo("signup") { inclusive = true }
-                    }
-                    _uiState.value = UIState.Success("You can now login with your credentials")
-//                    login(navController)
+                    _uiState.value = UIState.Success("Account created!")
+                    delay(1500)
+                    navController.navigate("login") { popUpTo("signup") { inclusive = true } }
                 }
-                is AuthResult.Error -> {
-                    _uiState.value = UIState.Error(result.message)
-                }
+                is AuthResult.Error -> _uiState.value = UIState.Error(result.message)
                 else -> _uiState.value = UIState.Idle
             }
         }
@@ -98,18 +84,14 @@ class AuthPresenter(
 
     fun logout(navController: NavController) {
         viewModelScope.launch {
-            authRepository.logout()
+            kotlinx.coroutines.withContext(kotlinx.coroutines.NonCancellable) {
+                authRepository.logout()
+            }
             _uiState.value = UIState.Idle
-            _loginInfo.value = LoginInfo()
-            _signupInfo.value = SignUpInfo()
+
             navController.navigate("login") {
                 popUpTo(0) { inclusive = true }
             }
         }
-    }
-
-    fun isAuthenticated(): Boolean {
-        val token = sessionState.value.accessToken
-        return !token.isNullOrBlank()
     }
 }

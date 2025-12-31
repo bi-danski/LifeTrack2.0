@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-import org.lifetrack.ltapp.model.database.room.MessageEntity
+import org.lifetrack.ltapp.model.roomdb.MessageEntity
 import org.lifetrack.ltapp.model.data.dto.Message
 
 @Dao

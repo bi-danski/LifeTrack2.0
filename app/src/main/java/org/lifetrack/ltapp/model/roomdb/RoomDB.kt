@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.model.database.room
+package org.lifetrack.ltapp.model.roomdb
 
 import android.content.Context
 import androidx.room.Database

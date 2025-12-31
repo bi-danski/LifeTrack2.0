@@ -3,19 +3,22 @@ package org.lifetrack.ltapp.presenter
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import org.lifetrack.ltapp.model.data.dclass.*
+import org.lifetrack.ltapp.core.utils.toUserProfileInformation
 import org.lifetrack.ltapp.model.data.LtMockData
+import org.lifetrack.ltapp.model.data.dclass.*
 import org.lifetrack.ltapp.model.data.dto.UserDataResponse
 import org.lifetrack.ltapp.model.repository.UserRepository
+
 
 class UserPresenter(
     private val userRepository: UserRepository
 ) : ViewModel() {
 
-    private val _profileInfo = MutableStateFlow(ProfileInfo())
-    val profileInfo = _profileInfo.asStateFlow()
+    private val _sessionState = MutableStateFlow(SessionStatus.INITIALIZING)
+    val sessionState = _sessionState.asStateFlow()
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
@@ -23,77 +26,83 @@ class UserPresenter(
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage = _errorMessage.asStateFlow()
 
+    private val _profileInfo = MutableStateFlow(ProfileInfo())
+    val profileInfo = _profileInfo.asStateFlow()
+
     private val _allAppointments = MutableStateFlow(LtMockData.dummyAppointments)
-
-    val nextUpcomingAppointment = _allAppointments.map { list ->
-        list.filter { it.status == AppointmentStatus.UPCOMING }.minByOrNull { it.dateTime }
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
-
     private val _selectedFilter = MutableStateFlow(AppointmentStatus.UPCOMING)
     val selectedFilter = _selectedFilter.asStateFlow()
 
-    private val _userAppointments = MutableStateFlow<List<Appointment>>(emptyList())
-    val userAppointments = _userAppointments.asStateFlow()
+    val nextUpcomingAppointment = _allAppointments.map { list ->
+        list.filter { it.status == AppointmentStatus.UPCOMING }
+            .minByOrNull { it.dateTime }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+
+    val userAppointments: StateFlow<List<Appointment>> = combine(
+        _allAppointments,
+        _selectedFilter
+    ) { appointments, filter ->
+        appointments.filter { it.status == filter }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     private val _selectedDoctorProfile = MutableStateFlow<DoctorProfile?>(null)
     val selectedDoctorProfile = _selectedDoctorProfile.asStateFlow()
 
     init {
         loadUserProfile()
-        observeAppointments()
-    }
-
-    private fun observeAppointments() {
-        viewModelScope.launch {
-            combine(_allAppointments, _selectedFilter) { appointments, filter ->
-                appointments.filter { it.status == filter }
-            }.collect { _userAppointments.value = it }
-        }
     }
 
     fun loadUserProfile() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _isLoading.value = true
             _errorMessage.value = null
-
-            when (val result = userRepository.getCurrentUserInfo()) {
-                is AuthResult.SuccessWithData<*> -> {
-                    val data = result.data as? UserDataResponse
-                    data?.let { user ->
-                        _profileInfo.value = ProfileInfo(
-                            userName = user.userName,
-                            userEmail = user.emailAddress,
-                            userInitials = generateInitials(user.fullName ?: "N/A"),
-                            userPhoneNumber = user.phoneNumber.toString(),
-                            userFullName = user.fullName ?: "N/A"
-                        )
+            try {
+                when (val result = userRepository.getCurrentUserInfo()) {
+                    is AuthResult.SuccessWithData<*> -> {
+                        val data = result.data as? UserDataResponse
+                        data?.let { user ->
+                            _profileInfo.value = user.toUserProfileInformation()
+                        }
+                        _sessionState.value = SessionStatus.LOGGED_IN
+                    }
+                    is AuthResult.Error -> {
+                        _errorMessage.value = result.message
+                        _sessionState.value = SessionStatus.LOGGED_OUT
+                    }
+                    else -> {
+                        _sessionState.value = SessionStatus.LOGGED_OUT
                     }
                 }
-                is AuthResult.Error -> {
-                    _errorMessage.value = result.message
-                }
-                else -> {}
+            } catch (e: Exception) {
+                _errorMessage.value = e.localizedMessage ?: "Failed to load session"
+                _sessionState.value = SessionStatus.LOGGED_OUT
+            } finally {
+                _isLoading.value = false
             }
-            _isLoading.value = false
         }
     }
 
     fun deleteAccount(navController: NavController) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _isLoading.value = true
-            when (val result = userRepository.deleteAccount()) {
-                is AuthResult.Success -> {
-                    // Navigate to Login and clear backstack
-                    navController.navigate("login") {
-                        popUpTo(0) { inclusive = true }
+            try {
+                when (val result = userRepository.deleteAccount()) {
+                    is AuthResult.Success -> {
+                        _sessionState.value = SessionStatus.LOGGED_OUT
+                        launch(Dispatchers.Main) {
+                            navController.navigate("login") {
+                                popUpTo(0) { inclusive = true }
+                            }
+                        }
                     }
+                    is AuthResult.Error -> {
+                        _errorMessage.value = result.message
+                    }
+                    else -> {}
                 }
-                is AuthResult.Error -> {
-                    _errorMessage.value = result.message
-                }
-                else -> {}
+            } finally {
+                _isLoading.value = false
             }
-            _isLoading.value = false
         }
     }
 
@@ -109,7 +118,13 @@ class UserPresenter(
         return _allAppointments.value.count { it.status == status }
     }
 
-    // --- Appointment Management ---
+    fun onSelectDoctor(doctor: DoctorProfile) {
+        _selectedDoctorProfile.value = doctor
+    }
+
+    fun clearError() {
+        _errorMessage.value = null
+    }
 
     fun bookAppointment() {
         val selectedDoc = _selectedDoctorProfile.value ?: return
@@ -140,13 +155,5 @@ class UserPresenter(
         _allAppointments.update { list ->
             list.map { if (it.id == appointment.id) it.copy(status = AppointmentStatus.UPCOMING) else it }
         }
-    }
-
-    fun onSelectDoctor(doctor: DoctorProfile) {
-        _selectedDoctorProfile.value = doctor
-    }
-
-    fun clearError() {
-        _errorMessage.value = null
     }
 }

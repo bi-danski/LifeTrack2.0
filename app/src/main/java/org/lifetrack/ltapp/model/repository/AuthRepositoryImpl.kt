@@ -29,7 +29,9 @@ class AuthRepositoryImpl(
             if (response.status == HttpStatusCode.OK) {
                 val tokens = response.body<TokenPreferences>()
                 prefs.updateTokens(tokens.accessToken, tokens.refreshToken)
-                AuthResult.Success
+                println("**********************************$tokens**********************************")
+                AuthResult.SuccessWithData(tokens)
+
             } else {
                 AuthResult.Error("Invalid credentials: ${response.status}")
             }

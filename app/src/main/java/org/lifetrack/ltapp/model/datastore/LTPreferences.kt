@@ -1,5 +1,6 @@
-package org.lifetrack.ltapp.core.datastore
+package org.lifetrack.ltapp.model.datastore
 
+import android.security.keystore.KeyPermanentlyInvalidatedException
 import androidx.datastore.core.Serializer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -8,6 +9,8 @@ import org.lifetrack.ltapp.core.security.crypto.CryptoGCM
 import org.lifetrack.ltapp.model.data.dclass.LTPreferences
 import java.io.InputStream
 import java.io.OutputStream
+import java.security.UnrecoverableKeyException
+
 
 object LTPreferenceSerializer : Serializer<LTPreferences> {
     override val defaultValue: LTPreferences
@@ -33,7 +36,7 @@ object LTPreferenceSerializer : Serializer<LTPreferences> {
 
     override suspend fun writeTo(t: LTPreferences, output: OutputStream) {
         withContext(Dispatchers.IO) {
-            kotlin.runCatching {
+            runCatching {
                 val jsonString = Json.encodeToString(LTPreferences.serializer(), t)
                 val bytes = jsonString.toByteArray()
                 try {
@@ -55,8 +58,8 @@ object LTPreferenceSerializer : Serializer<LTPreferences> {
     }
 
     private fun isKeyInvalidated(e: Exception): Boolean {
-        return e is android.security.keystore.KeyPermanentlyInvalidatedException ||
-                e is java.security.UnrecoverableKeyException ||
+        return e is KeyPermanentlyInvalidatedException ||
+                e is UnrecoverableKeyException ||
                 e.message?.contains("Key invalidated", ignoreCase = true) == true
     }
 }

@@ -86,7 +86,8 @@ data class ProfileInfo(
     val userFullName: String = "",
     val userInitials: String = "",
     val userPhoneNumber: String = "",
-
+    val createdAt: Instant? = null,
+    val updatedAt: Instant? = null
 )
 
 data class LoginInfo(

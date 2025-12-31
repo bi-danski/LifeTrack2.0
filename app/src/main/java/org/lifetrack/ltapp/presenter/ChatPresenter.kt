@@ -17,7 +17,6 @@ class ChatPresenter(
     private val chatRepository: ChatRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-
     companion object {
         const val TYPE_GENERAL = "general"
         const val TYPE_ALMA = "alma"

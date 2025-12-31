@@ -16,7 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import org.lifetrack.ltapp.presenter.AnalyticPresenter
-import org.lifetrack.ltapp.presenter.EPrescriptPresenter
+import org.lifetrack.ltapp.presenter.PrescPresenter
 import org.lifetrack.ltapp.ui.components.appointscreen.StatusChip
 import org.lifetrack.ltapp.ui.components.prescriptscreen.PrescriptionCard
 import org.lifetrack.ltapp.ui.components.prescriptscreen.SuccessRefillContent
@@ -27,7 +27,7 @@ import org.lifetrack.ltapp.ui.theme.Purple40
 fun PrescriptScreen(
     navController: NavController,
     analyticPresenter: AnalyticPresenter,
-    presenter: EPrescriptPresenter
+    presenter: PrescPresenter
 ) {
     val prescriptions = analyticPresenter.dummyPrescriptions
     val isDark = isSystemInDarkTheme()

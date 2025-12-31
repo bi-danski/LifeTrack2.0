@@ -14,7 +14,6 @@ fun formatTimestamp(timestamp: Long): String {
     val date = Instant.ofEpochMilli(timestamp).atZone(ZoneId.systemDefault()).toLocalDate()
     val time = Instant.ofEpochMilli(timestamp).atZone(ZoneId.systemDefault()).toLocalTime()
         .format(DateTimeFormatter.ofPattern("hh:mm a"))
-
     val today = LocalDate.now()
     val yesterday = today.minusDays(1)
 

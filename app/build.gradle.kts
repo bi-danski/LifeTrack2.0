@@ -126,7 +126,7 @@ dependencies {
     implementation(libs.mpandroidchart)
 
     ksp(libs.room.compiler)
-
+    implementation(libs.slf4j.nop)
     implementation(libs.accompanist.systemuicontroller)
     implementation(libs.accompanist.navigation.animation)
 

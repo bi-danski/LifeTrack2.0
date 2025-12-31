@@ -14,6 +14,16 @@ class PreferenceRepository(
     private val scope: CoroutineScope
 ) {
 
+    val tokenPreferences: StateFlow<TokenPreferences> = tokenDataStore.data
+        .catch { e ->
+            if (e is IOException) emit(TokenPreferences()) else throw e
+        }
+        .stateIn(
+            scope = scope,
+            started = SharingStarted.Eagerly,
+            initialValue = TokenPreferences()
+        )
+
     val ltPreferences: StateFlow<LTPreferences> = ltDataStore.data
         .catch { e ->
             if (e is IOException) emit(LTPreferences()) else throw e
@@ -22,16 +32,6 @@ class PreferenceRepository(
             scope = scope,
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = LTPreferences()
-        )
-
-    val tokenPreferences: StateFlow<TokenPreferences> = tokenDataStore.data
-        .catch { e ->
-            if (e is IOException) emit(TokenPreferences()) else throw e
-        }
-        .stateIn(
-            scope = scope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = TokenPreferences()
         )
 
     suspend fun updateLTPreferences(transform: (LTPreferences) -> LTPreferences) {

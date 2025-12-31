@@ -55,3 +55,5 @@ enum class AppointmentStatus(
         }
     }
 }
+
+enum class SessionStatus { INITIALIZING, LOGGED_IN, LOGGED_OUT }

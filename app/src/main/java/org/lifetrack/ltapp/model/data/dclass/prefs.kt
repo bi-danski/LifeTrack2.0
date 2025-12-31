@@ -1,6 +1,8 @@
 package org.lifetrack.ltapp.model.data.dclass
 
 import kotlinx.serialization.Serializable
+import kotlin.time.Instant
+
 
 @Serializable
 data class LTPreferences(
@@ -16,4 +18,15 @@ data class LTPreferences(
 data class TokenPreferences(
     val accessToken: String? = null,
     val refreshToken: String? = null
+)
+
+@Serializable
+data class UserPreferences(
+    val userName: String = "",
+    val userEmail: String = "",
+    val userFullName: String = "",
+    val userInitials: String = "",
+    val userPhoneNumber: String = "",
+    val updatedAt: Instant? = null,
+    val createdAt: Instant? = null
 )
