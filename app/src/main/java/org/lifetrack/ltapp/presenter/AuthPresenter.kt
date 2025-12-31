@@ -43,10 +43,10 @@ class AuthPresenter(
     val signupInfo = _signupInfo.asStateFlow()
 
 
-    suspend fun checkLocalSession(): Boolean {
-        val token = prefRepository.tokenPreferences.first().accessToken
-        return !token.isNullOrBlank()
-    }
+//    suspend fun checkLocalSession(): Boolean {
+//        val token = prefRepository.tokenPreferences.first().accessToken
+//        return !token.isNullOrBlank()
+//    }
 
     fun onLoginInfoUpdate(info: LoginInfo) { _loginInfo.value = info }
     fun onSignupInfoUpdate(info: SignUpInfo) { _signupInfo.value = info }
