@@ -79,7 +79,6 @@ fun ProfileScreen(
             )
             userPresenter.clearError()
         }
-//        userPresenter.loadUserProfile()
     }
 
     Scaffold(
@@ -192,7 +191,7 @@ fun ProfileScreen(
                             icon = Icons.Default.Delete,
                             leftIconColor = Color.Red,
                             title = "Delete My Account",
-                            onClick = { navController.navigate("login") }
+                            onClick = { userPresenter.deleteAccount(navController) }
                         )
                     }
                     item {

@@ -48,6 +48,26 @@ class UserPresenter(
     private val _selectedDoctorProfile = MutableStateFlow<DoctorProfile?>(null)
     val selectedDoctorProfile = _selectedDoctorProfile.asStateFlow()
 
+    fun onFilterChanged(newFilter: AppointmentStatus) {
+        _selectedFilter.value = newFilter
+    }
+
+    fun onSelectDoctor(doctor: DoctorProfile) {
+        _selectedDoctorProfile.value = doctor
+    }
+
+    fun onMenuItemAction(navController: NavController, route: String) {
+        navController.navigate(route) { launchSingleTop = true }
+    }
+
+    fun clearError() {
+        _errorMessage.value = null
+    }
+
+    fun getCountForStatus(status: AppointmentStatus): Int {
+        return _allAppointments.value.count { it.status == status }
+    }
+
     init {
         loadUserProfile()
     }
@@ -90,7 +110,7 @@ class UserPresenter(
                     is AuthResult.Success -> {
                         _sessionState.value = SessionStatus.LOGGED_OUT
                         launch(Dispatchers.Main) {
-                            navController.navigate("login") {
+                            navController.navigate("signup") {
                                 popUpTo(0) { inclusive = true }
                             }
                         }
@@ -104,26 +124,6 @@ class UserPresenter(
                 _isLoading.value = false
             }
         }
-    }
-
-    fun onMenuItemAction(navController: NavController, route: String) {
-        navController.navigate(route) { launchSingleTop = true }
-    }
-
-    fun onFilterChanged(newFilter: AppointmentStatus) {
-        _selectedFilter.value = newFilter
-    }
-
-    fun getCountForStatus(status: AppointmentStatus): Int {
-        return _allAppointments.value.count { it.status == status }
-    }
-
-    fun onSelectDoctor(doctor: DoctorProfile) {
-        _selectedDoctorProfile.value = doctor
-    }
-
-    fun clearError() {
-        _errorMessage.value = null
     }
 
     fun bookAppointment() {
