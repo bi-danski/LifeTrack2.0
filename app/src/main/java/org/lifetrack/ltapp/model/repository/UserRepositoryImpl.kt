@@ -72,7 +72,7 @@ class UserRepositoryImpl(
         return try {
             val response = client.delete("user/deleteAccount")
             if (response.status.value in 200..299) {
-                prefRepository.clearSession()
+                prefRepository.clearAllSessions()
                 AuthResult.Success
             } else {
                 AuthResult.Error("Could not delete account. Please try again.")

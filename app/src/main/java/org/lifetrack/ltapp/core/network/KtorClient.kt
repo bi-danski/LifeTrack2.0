@@ -29,11 +29,8 @@ import org.lifetrack.ltapp.model.repository.PreferenceRepository
 object KtorHttpClient {
     fun create(prefs: PreferenceRepository): HttpClient {
         return HttpClient(Android) {
-
-            // Required for validateResponse to trigger on non-2xx codes
             expectSuccess = true
 
-            // 1. Content Negotiation (JSON)
             install(ContentNegotiation) {
                 json(Json {
                     prettyPrint = BuildConfig.DEBUG
@@ -43,14 +40,12 @@ object KtorHttpClient {
                 })
             }
 
-            // 2. Timeouts
             install(HttpTimeout) {
                 requestTimeoutMillis = 15000
                 connectTimeoutMillis = 15000
                 socketTimeoutMillis = 15000
             }
 
-            // 3. Exception & Response Validation
             install(HttpCallValidator) {
                 handleResponseExceptionWithRequest { exception, _ ->
                     android.util.Log.e("KtorValidator", "Network/Protocol Exception: ${exception.message}")
@@ -61,7 +56,7 @@ object KtorHttpClient {
                 validateResponse { response ->
                     if (response.status == HttpStatusCode.Unauthorized) {
                         android.util.Log.e("KtorValidator", "Unauthorized! Clearing session...")
-                        prefs.clearSession()
+                        prefs.clearTokenPreferences()
                     }
                 }
             }
@@ -108,7 +103,7 @@ object KtorHttpClient {
                                 )
                             } else {
                                 android.util.Log.e("KtorAuth", "Refresh failed: ${response.status}")
-                                prefs.clearSession()
+                                prefs.clearUserPreferences()
                                 null
                             }
                         } catch (e: Exception) {

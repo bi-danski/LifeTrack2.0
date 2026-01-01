@@ -4,12 +4,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.lifetrack.ltapp.core.utils.toUserProfileInformation
 import org.lifetrack.ltapp.model.data.LtMockData
-import org.lifetrack.ltapp.model.data.dclass.*
-import org.lifetrack.ltapp.model.data.dto.UserDataResponse
+import org.lifetrack.ltapp.model.data.dclass.Appointment
+import org.lifetrack.ltapp.model.data.dclass.AppointmentStatus
+import org.lifetrack.ltapp.model.data.dclass.AuthResult
+import org.lifetrack.ltapp.model.data.dclass.DoctorProfile
 import org.lifetrack.ltapp.model.repository.UserRepository
 
 
@@ -17,21 +25,16 @@ class UserPresenter(
     private val userRepository: UserRepository
 ) : ViewModel() {
 
-    private val _sessionState = MutableStateFlow(SessionStatus.INITIALIZING)
-    val sessionState = _sessionState.asStateFlow()
-
-    private val _isLoading = MutableStateFlow(false)
-//    val isLoading = _isLoading.asStateFlow()
-
-    private val _errorMessage = MutableStateFlow<String?>(null)
-    val errorMessage = _errorMessage.asStateFlow()
-
-    private val _profileInfo = MutableStateFlow(ProfileInfo())
-    val profileInfo = _profileInfo.asStateFlow()
-
     private val _allAppointments = MutableStateFlow(LtMockData.dummyAppointments)
     private val _selectedFilter = MutableStateFlow(AppointmentStatus.UPCOMING)
     val selectedFilter = _selectedFilter.asStateFlow()
+
+    private val _isLoading = MutableStateFlow(false)
+    private val _errorMessage = MutableStateFlow<String?>(null)
+    val errorMessage = _errorMessage.asStateFlow()
+
+    private val _selectedDoctorProfile = MutableStateFlow<DoctorProfile?>(null)
+    val selectedDoctorProfile = _selectedDoctorProfile.asStateFlow()
 
     val nextUpcomingAppointment = _allAppointments.map { list ->
         list.filter { it.status == AppointmentStatus.UPCOMING }
@@ -45,19 +48,12 @@ class UserPresenter(
         appointments.filter { it.status == filter }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    private val _selectedDoctorProfile = MutableStateFlow<DoctorProfile?>(null)
-    val selectedDoctorProfile = _selectedDoctorProfile.asStateFlow()
-
     fun onFilterChanged(newFilter: AppointmentStatus) {
         _selectedFilter.value = newFilter
     }
 
     fun onSelectDoctor(doctor: DoctorProfile) {
         _selectedDoctorProfile.value = doctor
-    }
-
-    fun onMenuItemAction(navController: NavController, route: String) {
-        navController.navigate(route) { launchSingleTop = true }
     }
 
     fun clearError() {
@@ -68,39 +64,11 @@ class UserPresenter(
         return _allAppointments.value.count { it.status == status }
     }
 
-    init {
-        loadUserProfile()
-    }
+//    init {
+//        loadUserProfile()
+//    }
 
-    fun loadUserProfile() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _isLoading.value = true
-            _errorMessage.value = null
-            try {
-                when (val result = userRepository.getCurrentUserInfo()) {
-                    is AuthResult.SuccessWithData<*> -> {
-                        val data = result.data as? UserDataResponse
-                        data?.let { user ->
-                            _profileInfo.value = user.toUserProfileInformation()
-                        }
-                        _sessionState.value = SessionStatus.LOGGED_IN
-                    }
-                    is AuthResult.Error -> {
-                        _errorMessage.value = result.message
-                        _sessionState.value = SessionStatus.LOGGED_OUT
-                    }
-                    else -> {
-                        _sessionState.value = SessionStatus.LOGGED_OUT
-                    }
-                }
-            } catch (e: Exception) {
-                _errorMessage.value = e.localizedMessage ?: "Failed to load session"
-                _sessionState.value = SessionStatus.LOGGED_OUT
-            } finally {
-                _isLoading.value = false
-            }
-        }
-    }
+
 
     fun deleteAccount(navController: NavController) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -108,7 +76,7 @@ class UserPresenter(
             try {
                 when (val result = userRepository.deleteAccount()) {
                     is AuthResult.Success -> {
-                        _sessionState.value = SessionStatus.LOGGED_OUT
+//                        _sessionState.value = SessionStatus.LOGGED_OUT
                         launch(Dispatchers.Main) {
                             navController.navigate("signup") {
                                 popUpTo(0) { inclusive = true }

@@ -27,8 +27,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import org.lifetrack.ltapp.core.utils.openDialer
+import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.presenter.HomePresenter
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.presenter.UserPresenter
@@ -43,15 +45,18 @@ import org.lifetrack.ltapp.ui.components.homescreen.featureGridContent
 @Composable
 fun HomeScreen(
     navController: NavController,
-    presenter: HomePresenter,
+    homePresenter: HomePresenter,
     userPresenter: UserPresenter,
+    authPresenter: AuthPresenter,
     sharedPresenter: SharedPresenter
 ) {
-    val autoRotate2NextCard = presenter.autoRotate2NextCard
-    val caroItemsCount = presenter.caroItemsCount
-    val userInfo = userPresenter.profileInfo.collectAsState()
+    val autoRotate2NextCard = homePresenter.autoRotate2NextCard
+    val caroItemsCount = homePresenter.caroItemsCount
+    val userInfo = authPresenter.profileInfo.collectAsStateWithLifecycle()
+
     val homeScreenContextInstance = LocalContext.current
     val hapticFeedbackContextInstance = LocalHapticFeedback.current
+
     val callPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) {

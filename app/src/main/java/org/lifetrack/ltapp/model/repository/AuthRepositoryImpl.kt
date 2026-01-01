@@ -29,9 +29,7 @@ class AuthRepositoryImpl(
             if (response.status == HttpStatusCode.OK) {
                 val tokens = response.body<TokenPreferences>()
                 prefs.updateTokens(tokens.accessToken, tokens.refreshToken)
-                println("**********************************$tokens**********************************")
                 AuthResult.SuccessWithData(tokens)
-
             } else {
                 AuthResult.Error("Invalid credentials: ${response.status}")
             }
@@ -62,10 +60,10 @@ class AuthRepositoryImpl(
         return try {
             val response = client.post("auth/refresh") {
                 contentType(ContentType.Application.Json)
-                setBody(mapOf("refreshToken" to currentRefreshToken))
+                setBody(mapOf("token" to currentRefreshToken))
             }
             if (response.status == HttpStatusCode.OK) {
-                val newTokens = response.body<TokenPreferences>() // Your TokenPair
+                val newTokens = response.body<TokenPreferences>()
 
                 prefs.updateTokens(
                     accessToken = newTokens.accessToken,
@@ -83,7 +81,7 @@ class AuthRepositoryImpl(
 
     override suspend fun logout(): AuthResult {
         return try {
-            prefs.clearSession()
+            prefs.clearUserPreferences()
             AuthResult.Success
         } catch (e: Exception) {
             AuthResult.Error("Logout failed: ${e.message}")

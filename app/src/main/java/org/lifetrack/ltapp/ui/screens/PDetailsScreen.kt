@@ -43,7 +43,7 @@ import org.lifetrack.ltapp.core.utils.ScheduleUtility
 import org.lifetrack.ltapp.core.utils.openDialer
 import org.lifetrack.ltapp.core.utils.openSMS
 import org.lifetrack.ltapp.model.data.dclass.Prescription
-import org.lifetrack.ltapp.presenter.UserPresenter
+import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.ui.components.detailscreen.ContactPharmacyCard
 import org.lifetrack.ltapp.ui.components.detailscreen.DetailHeaderCard
 import org.lifetrack.ltapp.ui.components.detailscreen.DosageTrackerCard
@@ -56,11 +56,11 @@ import org.lifetrack.ltapp.ui.theme.Purple40
 fun PDetailScreen(
     navController: NavController,
     prescription: Prescription,
-    userPresenter: UserPresenter
+    authPresenter: AuthPresenter
 ) {
     val context = LocalContext.current
     val scrollState = rememberScrollState()
-    val drPhoneNumber = userPresenter.profileInfo.collectAsState()
+    val drPhoneNumber = authPresenter.profileInfo.collectAsState()
 
     var isReminderEnabled by remember {
         mutableStateOf(

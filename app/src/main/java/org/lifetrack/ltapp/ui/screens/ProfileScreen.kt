@@ -48,6 +48,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import org.lifetrack.ltapp.presenter.AuthPresenter
@@ -66,7 +67,7 @@ fun ProfileScreen(
     userPresenter: UserPresenter
 ) {
     val colorScheme = MaterialTheme.colorScheme
-    val profileInfo = userPresenter.profileInfo.collectAsState()
+    val profileInfo = authPresenter.profileInfo.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
     val errorMessage by userPresenter.errorMessage.collectAsState()
 

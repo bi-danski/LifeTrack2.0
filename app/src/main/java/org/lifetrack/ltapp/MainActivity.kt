@@ -8,28 +8,28 @@ import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.getValue
+//import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+//import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
+//import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.lifetrack.ltapp.core.notifications.DroidNotification
-import org.lifetrack.ltapp.model.data.dclass.SessionStatus
-import org.lifetrack.ltapp.presenter.UserPresenter
+//import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.ui.navigation.AppNavigation
 import org.lifetrack.ltapp.ui.theme.LTAppTheme
 
+
 class MainActivity : ComponentActivity() {
-    private val userPresenter: UserPresenter by viewModel()
+//    private val authPresenter: AuthPresenter by viewModel()
 
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         val start = System.currentTimeMillis()
-        val splashState = installSplashScreen()
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
@@ -38,28 +38,26 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch(Dispatchers.IO) {
             DroidNotification.createNotificationChannel(this@MainActivity)
         }
-        splashState.setKeepOnScreenCondition {
-            userPresenter.sessionState.value == SessionStatus.INITIALIZING
-        }
 
         println("DEBUG: Until Content Creation  ${System.currentTimeMillis() - start}ms")
 
         setContent {
             LTAppTheme {
-                val sessionStatus by userPresenter.sessionState.collectAsStateWithLifecycle()
-
+//                val sessionStatus by authPresenter.sessionState.collectAsStateWithLifecycle()
                 Surface(modifier = Modifier.fillMaxSize()) {
                     val appNavController = rememberNavController()
 
-                    if (sessionStatus != SessionStatus.INITIALIZING) {
+//                    if (sessionStatus != SessionStatus.INITIALIZING) {
                         AppNavigation(
                             navController = appNavController,
-                            sessionStatus = sessionStatus
+//                            sessionStatus = sessionStatus
                         )
-                    }
+//                    }
                 }
             }
         }
+
+        println("DEBUG: Until End of Content Creation  ${System.currentTimeMillis() - start}ms")
     }
 
     override fun onDestroy() {

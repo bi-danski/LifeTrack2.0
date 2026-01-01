@@ -34,6 +34,14 @@ val menuListItems: Collection<MenuItemData> = mutableListOf(
     MenuItemData("About LifeTrack", Icons.Filled.Info, "about", rightIcon = null)
 )
 
+data class LtSettings(
+    val notifications: Boolean = true,
+    val emailNotifications: Boolean = false,
+    val smsNotifications: Boolean = false,
+    val animations: Boolean = true,
+    val dataConsent: Boolean = false,
+    val reminders: Boolean = true
+)
 
 
 

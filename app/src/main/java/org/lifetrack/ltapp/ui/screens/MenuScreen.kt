@@ -38,24 +38,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import org.lifetrack.ltapp.model.data.dclass.ToggleItemData
-import org.lifetrack.ltapp.presenter.SettingsPresenter
+import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.presenter.SharedPresenter
-import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.ui.components.menuscreen.MenuListItem
 import org.lifetrack.ltapp.ui.components.menuscreen.ToggleMenuListItem
 import org.lifetrack.ltapp.ui.theme.Purple40
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MenuScreen(
     navController: NavController,
-    settingsPresenter: SettingsPresenter,
-    userPresenter: UserPresenter,
+    authPresenter: AuthPresenter,
     sharedPresenter: SharedPresenter
     ) {
-    val userProfileInfo = userPresenter.profileInfo.collectAsState()
+    val userProfileInfo = authPresenter.profileInfo.collectAsStateWithLifecycle()
+    val ltSettings = sharedPresenter.ltSettings.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
@@ -140,9 +141,9 @@ fun MenuScreen(
                     color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40,
                     toggleItem = ToggleItemData("Email Notifications", Icons.Default.Email),
                     onToggle = {
-                        settingsPresenter.onEmailNotificationsUpdate()
+                        sharedPresenter.onEmailNotificationsUpdate()
                     },
-                    toggleState = settingsPresenter.emailNotificationToggleState
+                    toggleState = ltSettings.value.emailNotifications
                 )
             }
 
@@ -153,7 +154,7 @@ fun MenuScreen(
                     onToggle = {
                         sharedPresenter.onAppAnimationsUpdate()
                     },
-                    toggleState = sharedPresenter.appAnimationsToggleState
+                    toggleState = ltSettings.value.animations
                 )
             }
 
@@ -162,9 +163,9 @@ fun MenuScreen(
                     color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40,
                     toggleItem = ToggleItemData("App Notifications", Icons.Default.Notifications),
                     onToggle = {
-                        settingsPresenter.onUserNotificationsUpdate()
+                        sharedPresenter.onUserNotificationsUpdate()
                     },
-                    toggleState = settingsPresenter.appNotificationToggleState
+                    toggleState = ltSettings.value.notifications
                 )
             }
 
@@ -173,19 +174,18 @@ fun MenuScreen(
                     color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40,
                     toggleItem = ToggleItemData("Patient Data Consent", Icons.Filled.MedicalInformation),
                     onToggle = {
-                        settingsPresenter.onPatientInfoConsentUpdate()
+                        sharedPresenter.onPatientInfoConsentUpdate()
                     },
-                    toggleState = settingsPresenter.patientInfoConsentToggleState
+                    toggleState = ltSettings.value.dataConsent
                 )
             }
 
-            items(settingsPresenter.menuItems) { item ->
+            items(sharedPresenter.menuItems) { item ->
                 MenuListItem(
                     onClick = {
-                        userPresenter.onMenuItemAction(
-                            navController = navController,
-                            route = item.route,
-                        )
+                        navController.navigate(item.route){
+                            launchSingleTop = true
+                        }
                     },
                     color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40,
                     menuItemData = item,

@@ -15,14 +15,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import org.koin.androidx.compose.koinViewModel
-import org.lifetrack.ltapp.model.data.dclass.SessionStatus
 import org.lifetrack.ltapp.presenter.AnalyticPresenter
 import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.presenter.ChatPresenter
 import org.lifetrack.ltapp.presenter.FUVPresenter
 import org.lifetrack.ltapp.presenter.HomePresenter
 import org.lifetrack.ltapp.presenter.PrescPresenter
-import org.lifetrack.ltapp.presenter.SettingsPresenter
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.ui.screens.AboutScreen
@@ -48,7 +46,7 @@ import org.lifetrack.ltapp.ui.screens.TimeLineScreen
 @Composable
 fun AppNavigation(
     navController: NavHostController,
-    sessionStatus: SessionStatus
+//    sessionStatus: SessionStatus
 ) {
     val activity = LocalActivity.current as? ComponentActivity
         ?: throw IllegalStateException("AppNavigation must be hosted in a ComponentActivity")
@@ -61,9 +59,6 @@ fun AppNavigation(
 
     val isLoggedIn by authPresenter.isLoggedIn.collectAsState()
 
-    if (sessionStatus == SessionStatus.INITIALIZING || isLoggedIn == null) {
-        return
-    }
     NavHost(
         navController = navController,
         startDestination = if (isLoggedIn == true) "home" else "login",
@@ -103,8 +98,9 @@ fun AppNavigation(
         composable("home") {
             HomeScreen(
                 navController = navController,
-                presenter = koinViewModel<HomePresenter>(),
+                homePresenter = koinViewModel<HomePresenter>(),
                 userPresenter = userPresenter,
+                authPresenter = authPresenter,
                 sharedPresenter = sharedPresenter
             )
         }
@@ -114,9 +110,8 @@ fun AppNavigation(
         composable("menu") {
             MenuScreen(
                 navController = navController,
-                userPresenter = userPresenter,
+                authPresenter = authPresenter,
                 sharedPresenter = sharedPresenter,
-                settingsPresenter = koinViewModel<SettingsPresenter>()
             )
         }
 
@@ -148,7 +143,7 @@ fun AppNavigation(
             val medId = backStackEntry.arguments?.getString("medId")
             val prescription = analyticPresenter.dummyPrescriptions.find { it.id == medId }
             if (prescription != null) {
-                PDetailScreen(navController, userPresenter = userPresenter, prescription = prescription)
+                PDetailScreen(navController, authPresenter = authPresenter, prescription = prescription)
             }
         }
 

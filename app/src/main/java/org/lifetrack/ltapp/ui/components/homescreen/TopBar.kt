@@ -18,8 +18,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.ui.theme.Purple40
+
 
 @Composable
 fun AppTopBar(navController: NavController, username: String) {

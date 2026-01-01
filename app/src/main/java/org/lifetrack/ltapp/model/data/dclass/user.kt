@@ -81,11 +81,11 @@ data class Premium(
 )
 
 data class ProfileInfo(
-    val userName: String = "",
+    val userName: String = "Loading ...",
     val userEmail: String = "",
-    val userFullName: String = "",
+    val userFullName: String = "Loading ...",
     val userInitials: String = "",
-    val userPhoneNumber: String = "",
+    val userPhoneNumber: String = "Loading ...",
     val createdAt: Instant? = null,
     val updatedAt: Instant? = null
 )
@@ -97,8 +97,8 @@ data class LoginInfo(
 
 data class SignUpInfo(
     val fullName: String = "",
-    val userName: String = "Loading ...",
+    val userName: String = "",
     val password: String = "",
     val emailAddress: String = "",
-    val phoneNumber: String = "Loading ...",
+    val phoneNumber: String = "",
 )

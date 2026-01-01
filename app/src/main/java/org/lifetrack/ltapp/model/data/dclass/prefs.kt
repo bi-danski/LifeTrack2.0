@@ -28,5 +28,8 @@ data class UserPreferences(
     val userInitials: String = "",
     val userPhoneNumber: String = "",
     val updatedAt: Instant? = null,
-    val createdAt: Instant? = null
-)
+    val createdAt: Instant? = null,
+) {
+    val isDefault: Boolean
+        get() = userEmail.isBlank() && userName.isBlank() && userPhoneNumber.isBlank()
+}
