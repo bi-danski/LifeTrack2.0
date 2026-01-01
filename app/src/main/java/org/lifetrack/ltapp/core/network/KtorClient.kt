@@ -12,7 +12,7 @@ import io.ktor.client.plugins.auth.providers.BearerTokens
 import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
-import io.ktor.client.plugins.logging.Logger
+//import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
@@ -121,22 +121,22 @@ object KtorHttpClient {
                 }
             }
 
-            if (BuildConfig.DEBUG) {
-                install(Logging) {
-                    logger = object : Logger {
-                        override fun log(message: String) {
-                            val maxLogSize = 3500
-                            for (i in 0..message.length / maxLogSize) {
-                                val start = i * maxLogSize
-                                var end = (i + 1) * maxLogSize
-                                end = if (end > message.length) message.length else end
-                                android.util.Log.d("KtorClient", message.substring(start, end))
-                            }
-                        }
-                    }
-                    level = LogLevel.BODY
-                    sanitizeHeader { header -> header == "Authorization" }
-                }
+//            if (BuildConfig.DEBUG) {
+            install(Logging) {
+//                    logger = object : Logger {
+//                        override fun log(message: String) {
+//                            val maxLogSize = 3500
+//                            for (i in 0..message.length / maxLogSize) {
+//                                val start = i * maxLogSize
+//                                var end = (i + 1) * maxLogSize
+//                                end = if (end > message.length) message.length else end
+//                                android.util.Log.d("KtorClient", message.substring(start, end))
+//                            }
+//                        }
+//                    }
+                level = LogLevel.INFO
+                sanitizeHeader { header -> header == "Authorization" }
+//                }
             }
         }
     }
