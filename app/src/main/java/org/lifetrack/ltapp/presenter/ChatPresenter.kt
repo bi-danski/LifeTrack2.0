@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -40,7 +39,6 @@ class ChatPresenter(
         )
 
     val almaChats: StateFlow<List<Message>> = chatRepository.getChatFlow(TYPE_ALMA)
-//        .map { it.reversed() }
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000),
