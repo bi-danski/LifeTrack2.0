@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -20,11 +21,11 @@ class ChatPresenter(
     private val savedStateHandle: SavedStateHandle,
     private val almaService: AlmaService
 ) : ViewModel() {
+
     companion object {
         const val TYPE_GENERAL = "general"
         const val TYPE_ALMA = "alma"
     }
-
     private val _chatInput = MutableStateFlow(savedStateHandle["chat_draft"] ?: "")
     val chatInput = _chatInput.asStateFlow()
 
@@ -39,6 +40,7 @@ class ChatPresenter(
         )
 
     val almaChats: StateFlow<List<Message>> = chatRepository.getChatFlow(TYPE_ALMA)
+//        .map { it.reversed() }
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000),

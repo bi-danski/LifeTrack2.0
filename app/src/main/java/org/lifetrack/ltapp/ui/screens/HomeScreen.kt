@@ -98,12 +98,6 @@ fun HomeScreen(
                 )
                 authPresenter.resetUIState()
             }
-
-            is UIState.Loading -> {
-                snackbarHostState.showSnackbar("Loading...", duration = SnackbarDuration.Short)
-                authPresenter.resetUIState()
-            }
-
             else -> {}
         }
     }

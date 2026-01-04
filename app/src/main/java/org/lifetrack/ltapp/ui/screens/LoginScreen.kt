@@ -56,18 +56,15 @@ fun LoginScreen(
                 authPresenter.resetUIState()
             }
 
-            is UIState.Loading -> {
-                snackbarHostState.showSnackbar("Loading ...", duration = SnackbarDuration.Short)
-                authPresenter.resetUIState()
-            }
             else -> {}
         }
+    }
+    LaunchedEffect(Unit) {
         authPresenter.uiEvent.collect { uiEvent ->
             when(uiEvent) {
                 is AuthUiEvent.LoginSuccess -> {
                     authPresenter.loadUserProfile()
                 }
-
                 else -> {}
             }
         }

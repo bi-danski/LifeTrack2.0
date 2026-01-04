@@ -43,7 +43,7 @@ fun AlmaScreen(
     LaunchedEffect(almaMessages.size, isLoading) {
         if (almaMessages.isNotEmpty()) {
             scope.launch {
-                listState.animateScrollToItem(almaMessages.size - 1)
+                listState.animateScrollToItem(0)
             }
         }
     }

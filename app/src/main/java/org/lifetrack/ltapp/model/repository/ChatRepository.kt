@@ -1,6 +1,7 @@
 package org.lifetrack.ltapp.model.repository
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import org.lifetrack.ltapp.model.data.dao.ChatDao
 import org.lifetrack.ltapp.model.data.dto.Message
 import org.lifetrack.ltapp.core.utility.toEntity
@@ -9,7 +10,6 @@ class ChatRepository(
     private var dao: ChatDao
 ) {
     private val chatsFlow: Flow<List<Message>> = dao.getAllChats()
-    private var chatCounts: Int = 0
 
     fun getChatFlow(type: String): Flow<List<Message>> {
         return dao.getChatsByType(type)
@@ -23,11 +23,8 @@ class ChatRepository(
         dao.deleteAllChats()
     }
 
-    suspend fun getChatCounts():Int {
-        chatsFlow.collect {
-            chatCounts = it.size
-        }
-        return chatCounts
+    suspend fun getChatCounts(): Int {
+        return chatsFlow.first().size
     }
 
 }

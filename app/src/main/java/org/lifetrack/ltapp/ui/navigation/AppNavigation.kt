@@ -32,12 +32,11 @@ fun AppNavigation(
     val chatPresenter = koinViewModel<ChatPresenter>(viewModelStoreOwner = activity)
     val analyticPresenter = koinViewModel<AnalyticPresenter>(viewModelStoreOwner = activity)
 
-//    val isLoggedIn by authPresenter.isLoggedIn.collectAsState()
+    val isLoggedIn by authPresenter.isLoggedIn.collectAsState()
 
     NavHost(
         navController = navController,
-        startDestination = "home",
-//            if (isLoggedIn == true) "home" else "login",
+        startDestination = if (isLoggedIn == true) "home" else "login",
         enterTransition = {
             slideIntoContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Start,

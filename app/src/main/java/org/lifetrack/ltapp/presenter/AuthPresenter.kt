@@ -134,7 +134,6 @@ class AuthPresenter(
 
     fun loadUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
-
             android.util.Log.d("loadUserProfile()", "[*] Checking User Preferences ...")
 
             val currentPrefs = prefRepository.userPreferences.first()

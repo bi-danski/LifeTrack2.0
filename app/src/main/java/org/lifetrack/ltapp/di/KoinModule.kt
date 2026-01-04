@@ -37,6 +37,7 @@ private val Context.tokenDataStore by dataStore(
     fileName = "_prefs.json",
     serializer = TokenPreferenceSerializer
 )
+
 private val Context.ltDataStore by dataStore(
     fileName = "lt_prefs.json",
     serializer = LTPreferenceSerializer
@@ -46,6 +47,7 @@ private val Context.userDataStore by dataStore(
     fileName = "_u_prefs.json",
     serializer = UserPreferenceSerializer
 )
+
 val koinModule = module {
     single { CoroutineScope(SupervisorJob() + Dispatchers.Default) }
     single(qualifier = named("tokenStore")){ androidContext().tokenDataStore }
