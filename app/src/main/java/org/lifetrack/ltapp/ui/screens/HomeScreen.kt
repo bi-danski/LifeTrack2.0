@@ -28,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
@@ -36,12 +37,13 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.core.utility.openDialer
 import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.presenter.HomePresenter
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.presenter.UserPresenter
-import org.lifetrack.ltapp.ui.components.carousels.LtHomeCarousel
+import org.lifetrack.ltapp.ui.components.homescreen.carousels.LtHomeCarousel
 import org.lifetrack.ltapp.ui.components.homescreen.AppBottomBar
 import org.lifetrack.ltapp.ui.components.homescreen.AppTopBar
 import org.lifetrack.ltapp.ui.components.homescreen.GlassFloatingActionButton
@@ -65,6 +67,7 @@ fun HomeScreen(
     val authUiState by authPresenter.uiState.collectAsStateWithLifecycle()
     val homeScreenContextInstance = LocalContext.current
     val hapticFeedbackContextInstance = LocalHapticFeedback.current
+    val scope = rememberCoroutineScope ()
 
     val callPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -164,6 +167,11 @@ fun HomeScreen(
                                 )
                             }else{
                                 callPermissionLauncher.launch(Manifest.permission.CALL_PHONE)
+                            }
+                        },
+                        onEmergencyContactClickAction = {
+                            scope.launch {
+                                snackbarHostState.showSnackbar("Coming Soon. Stay Tuned")
                             }
                         }
                     )

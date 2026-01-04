@@ -41,8 +41,8 @@ class PreferenceRepository(
             if (e is IOException) emit(UserPreferences()) else throw e
         }.stateIn(
             scope = scope,
-            started = SharingStarted.Eagerly,
-//            WhileSubscribed(5000L),
+            started = SharingStarted.WhileSubscribed(5000L),
+//            Eagerly,
             initialValue = UserPreferences()
         )
 

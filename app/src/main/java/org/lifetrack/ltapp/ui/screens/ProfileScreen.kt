@@ -57,8 +57,181 @@ import org.lifetrack.ltapp.ui.components.profilescreen.CustomProfileMenuItem
 import org.lifetrack.ltapp.ui.components.profilescreen.ProfileMenuItem
 import org.lifetrack.ltapp.ui.theme.Purple40
 import org.lifetrack.ltapp.ui.theme.Purple80
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+//import androidx.compose.runtime.mutableStateOf
+//import androidx.compose.runtime.rememberCoroutineScope
+//import kotlinx.coroutines.launch
 
 
+//@OptIn(ExperimentalMaterial3Api::class)
+//@Composable
+//fun ProfileScreen(
+//    navController: NavController,
+//    authPresenter: AuthPresenter,
+//    userPresenter: UserPresenter
+//) {
+//    val colorScheme = MaterialTheme.colorScheme
+//    val profileInfo = authPresenter.profileInfo.collectAsStateWithLifecycle()
+//    val snackbarHostState = remember { SnackbarHostState() }
+//    val errorMessage by userPresenter.errorMessage.collectAsState()
+//    val isRefreshing by authPresenter.isRefreshing.collectAsState()
+//    val scope = rememberCoroutineScope()
+//
+//
+//    LaunchedEffect(errorMessage) {
+//        errorMessage?.let {
+//            snackbarHostState.showSnackbar(
+//                message = it,
+//                actionLabel = "Dismiss",
+//                duration = SnackbarDuration.Short
+//            )
+//            userPresenter.clearError()
+//        }
+//    }
+//
+//
+//
+//    Scaffold(
+//        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+//        topBar = {
+//            TopAppBar(
+//                title = { Text(text = "Profile") },
+//                navigationIcon = {
+//                    IconButton({ navController.popBackStack() }) {
+//                        Icon(
+//                            imageVector = Icons.Default.ArrowCircleLeft,
+//                            contentDescription = "Back",
+//                            tint = if (isSystemInDarkTheme()) Purple80 else colorScheme.primary
+//                        )
+//                    }
+//                },
+//                colors = TopAppBarDefaults.topAppBarColors(
+//                    containerColor = if (isSystemInDarkTheme()) colorScheme.primary.copy(0.1f) else Purple40,
+//                )
+//            )
+//        }
+//    ) { innerPadding ->
+//        Column(
+//            horizontalAlignment = Alignment.CenterHorizontally,
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .padding(innerPadding)
+//                .background(if (isSystemInDarkTheme()) colorScheme.primary.copy(0.1f) else Purple40)
+//        ) {
+//            Image(
+//                painter = rememberAsyncImagePainter("https://i.pravatar.cc/300"),
+//                contentDescription = "Profile Image",
+//                contentScale = ContentScale.Crop,
+//                modifier = Modifier
+//                    .size(100.dp)
+//                    .clip(CircleShape)
+//            )
+//            Spacer(modifier = Modifier.height(8.dp))
+//            Text(
+//                text = profileInfo.value.userFullName,
+//                color = if (isSystemInDarkTheme()) Purple80 else colorScheme.onPrimary,
+//                fontSize = 20.sp,
+//                fontWeight = FontWeight.Bold
+//            )
+//            Spacer(modifier = Modifier.height(4.5.dp))
+//            Text(
+//                text = profileInfo.value.userPhoneNumber,
+//                color = if (isSystemInDarkTheme()) Purple80 else colorScheme.onPrimary.copy(alpha = 0.8f),
+//                fontSize = 18.sp,
+//                fontWeight = FontWeight.Bold
+//            )
+//            Spacer(modifier = Modifier.height(20.dp))
+//
+////            Card(
+////                shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp),
+////                modifier = Modifier
+////                    .fillMaxSize(),
+////                colors = CardDefaults.cardColors(containerColor = colorScheme.background),
+////                elevation = CardDefaults.cardElevation(8.dp),
+////
+////            ) {
+//            Card(
+//                shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp),
+//                modifier = Modifier.fillMaxSize(),
+//                colors = CardDefaults.cardColors(containerColor = colorScheme.background),
+//                elevation = CardDefaults.cardElevation(8.dp),
+//            ) {
+//                // 1. Wrap your LazyColumn in PullToRefreshBox
+//                PullToRefreshBox(
+//                    isRefreshing = isRefreshing,
+//                    onRefresh = {
+//                        // 2. Call your refresh logic here
+//                        userPresenter.refreshUserData()
+//                    }
+//                ) {
+//                LazyColumn(
+//                    contentPadding = PaddingValues(20.dp),
+//                    modifier = Modifier
+//                        .fillMaxSize(),
+////                        .background(Color.Red),
+//                    horizontalAlignment = Alignment.Start,
+//                    verticalArrangement = Arrangement.Top
+//
+//                ) {
+//                    item {
+//                        Text(
+//                            text = "Account Overview",
+//                            fontSize = 18.sp,
+//                            fontWeight = FontWeight.Bold,
+//                            color = colorScheme.onBackground
+//                        )
+//                        Spacer(modifier = Modifier.height(20.dp))
+//                    }
+//                    item {
+//                        ProfileMenuItem(
+//                            icon = Icons.Default.Person,
+//                            title = "Personal Information",
+//                            onClick = {}
+//                        )
+//                    }
+//                    item {
+//                        ProfileMenuItem(
+//                            icon = Icons.AutoMirrored.Filled.List,
+//                            title = "My Medical History",
+//                            onClick = {}
+//                        )
+//                    }
+//                    item {
+//                        ProfileMenuItem(
+//                            icon = Icons.Default.Lock,
+//                            title = "Change Password",
+//                            onClick = { navController.navigate("restore") }
+//                        )
+//                    }
+//                    item {
+//                        ProfileMenuItem(
+//                            icon = Icons.Default.Language,
+//                            title = "Change Language",
+//                            onClick = {}
+//                        )
+//                    }
+//                    item {
+//                        CustomProfileMenuItem(
+//                            icon = Icons.Default.Delete,
+//                            leftIconColor = Color.Red,
+//                            title = "Delete My Account",
+//                            onClick = { userPresenter.deleteAccount(navController) }
+//                        )
+//                    }
+//                    item {
+//                        CustomProfileMenuItem(
+//                            icon = Icons.AutoMirrored.Filled.Logout,
+//                            leftIconColor = Color.Red,
+//                            title = "Logout",
+//                            onClick = { authPresenter.logout(navController) }
+//                        )
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
+//
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
@@ -70,6 +243,7 @@ fun ProfileScreen(
     val profileInfo = authPresenter.profileInfo.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
     val errorMessage by userPresenter.errorMessage.collectAsState()
+    val isRefreshing by authPresenter.isRefreshing.collectAsState()
 
     LaunchedEffect(errorMessage) {
         errorMessage?.let {
@@ -86,7 +260,7 @@ fun ProfileScreen(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         topBar = {
             TopAppBar(
-                title = { Text(text = "") },
+                title = { Text(text = "Profile") },
                 navigationIcon = {
                     IconButton({ navController.popBackStack() }) {
                         Icon(
@@ -102,110 +276,101 @@ fun ProfileScreen(
             )
         }
     ) { innerPadding ->
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
+        PullToRefreshBox(
+            isRefreshing = isRefreshing,
+            onRefresh = { authPresenter.loadUserProfile() },
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
                 .background(if (isSystemInDarkTheme()) colorScheme.primary.copy(0.1f) else Purple40)
         ) {
-            Image(
-                painter = rememberAsyncImagePainter("https://i.pravatar.cc/300"),
-                contentDescription = "Profile Image",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(100.dp)
-                    .clip(CircleShape)
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = profileInfo.value.userFullName,
-                color = if (isSystemInDarkTheme()) Purple80 else colorScheme.onPrimary,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.height(4.5.dp))
-            Text(
-                text = profileInfo.value.userPhoneNumber,
-                color = if (isSystemInDarkTheme()) Purple80 else colorScheme.onPrimary.copy(alpha = 0.8f),
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-
-            Card(
-                shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp),
-                modifier = Modifier
-                    .fillMaxSize(),
-                colors = CardDefaults.cardColors(containerColor = colorScheme.background),
-                elevation = CardDefaults.cardElevation(8.dp),
-
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                LazyColumn(
-                    contentPadding = PaddingValues(20.dp),
-                    modifier = Modifier
-                        .fillMaxSize(),
-//                        .background(Color.Red),
-                    horizontalAlignment = Alignment.Start,
-                    verticalArrangement = Arrangement.Top
+                item {
+                    Spacer(modifier = Modifier.height(20.dp))
+                    Image(
+                        painter = rememberAsyncImagePainter("https://i.pravatar.cc/300"),
+                        contentDescription = "Profile Image",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(100.dp)
+                            .clip(CircleShape)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = profileInfo.value.userFullName,
+                        color = if (isSystemInDarkTheme()) Purple80 else colorScheme.onPrimary,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(modifier = Modifier.height(4.5.dp))
+                    Text(
+                        text = profileInfo.value.userPhoneNumber,
+                        color = if (isSystemInDarkTheme()) Purple80 else colorScheme.onPrimary.copy(alpha = 0.8f),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(modifier = Modifier.height(20.dp))
+                }
 
-                ) {
-                    item {
-                        Text(
-                            text = "Account Overview",
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = colorScheme.onBackground
-                        )
-                        Spacer(modifier = Modifier.height(20.dp))
-                    }
-                    item {
-                        ProfileMenuItem(
-                            icon = Icons.Default.Person,
-                            title = "Personal Information",
-                            onClick = {}
-                        )
-                    }
-                    item {
-                        ProfileMenuItem(
-                            icon = Icons.AutoMirrored.Filled.List,
-                            title = "My Medical History",
-                            onClick = {}
-                        )
-                    }
-                    item {
-                        ProfileMenuItem(
-                            icon = Icons.Default.Lock,
-                            title = "Change Password",
-                            onClick = { navController.navigate("restore") }
-                        )
-                    }
-                    item {
-                        ProfileMenuItem(
-                            icon = Icons.Default.Language,
-                            title = "Change Language",
-                            onClick = {}
-                        )
-                    }
-                    item {
-                        CustomProfileMenuItem(
-                            icon = Icons.Default.Delete,
-                            leftIconColor = Color.Red,
-                            title = "Delete My Account",
-                            onClick = { userPresenter.deleteAccount(navController) }
-                        )
-                    }
-                    item {
-                        CustomProfileMenuItem(
-                            icon = Icons.AutoMirrored.Filled.Logout,
-                            leftIconColor = Color.Red,
-                            title = "Logout",
-                            onClick = { authPresenter.logout(navController) }
-                        )
+                item {
+                    Card(
+                        shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp),
+                        modifier = Modifier.fillParentMaxHeight(),
+                        colors = CardDefaults.cardColors(containerColor = colorScheme.background),
+                        elevation = CardDefaults.cardElevation(8.dp),
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .padding(20.dp)
+                                .fillMaxSize()
+                        ) {
+                            Text(
+                                text = "Account Overview",
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = colorScheme.onBackground
+                            )
+                            Spacer(modifier = Modifier.height(20.dp))
+
+                            ProfileMenuItem(
+                                icon = Icons.Default.Person,
+                                title = "Personal Information",
+                                onClick = {}
+                            )
+                            ProfileMenuItem(
+                                icon = Icons.AutoMirrored.Filled.List,
+                                title = "My Medical History",
+                                onClick = {}
+                            )
+                            ProfileMenuItem(
+                                icon = Icons.Default.Lock,
+                                title = "Change Password",
+                                onClick = { navController.navigate("restore") }
+                            )
+                            ProfileMenuItem(
+                                icon = Icons.Default.Language,
+                                title = "Change Language",
+                                onClick = {}
+                            )
+                            CustomProfileMenuItem(
+                                icon = Icons.Default.Delete,
+                                leftIconColor = Color.Red,
+                                title = "Delete My Account",
+                                onClick = { userPresenter.deleteAccount(navController) }
+                            )
+                            CustomProfileMenuItem(
+                                icon = Icons.AutoMirrored.Filled.Logout,
+                                leftIconColor = Color.Red,
+                                title = "Logout",
+                                onClick = { authPresenter.logout(navController) }
+                            )
+                        }
                     }
                 }
             }
         }
     }
 }
-

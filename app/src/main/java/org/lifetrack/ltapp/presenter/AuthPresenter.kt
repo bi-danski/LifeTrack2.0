@@ -5,16 +5,18 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.lifetrack.ltapp.core.events.AuthUiEvent
 import org.lifetrack.ltapp.core.utility.toProfileInfo
 import org.lifetrack.ltapp.core.utility.toUserPreferences
 import org.lifetrack.ltapp.core.utility.toUserProfileInformation
@@ -54,6 +56,9 @@ class AuthPresenter(
             initialValue = ProfileInfo()
         )
 
+    private val _uiEvent = MutableSharedFlow<AuthUiEvent>()
+    val uiEvent = _uiEvent.asSharedFlow()
+
     private val _uiState = MutableStateFlow<UIState>(UIState.Idle)
     val uiState = _uiState.asStateFlow()
 
@@ -65,8 +70,13 @@ class AuthPresenter(
 
     private val _sessionState = MutableStateFlow(SessionStatus.INITIALIZING)
     private val _isLoading = MutableStateFlow(false)
+
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing = _isRefreshing.asStateFlow()
+
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage = _errorMessage.asStateFlow()
+
 
     fun resetUIState() {
         _uiState.value = UIState.Idle
@@ -77,20 +87,15 @@ class AuthPresenter(
     fun login(navController: NavController) {
         viewModelScope.launch {
             _uiState.value = UIState.Loading
-            when (val result = withContext(Dispatchers.IO) {
-                authRepository.login(_loginInfo.value)
-                }
-            ) {
+            when (val result = authRepository.login(_loginInfo.value)) {
                  is AuthResult.SuccessWithData<*> -> {
                     _uiState.value = UIState.Success("Welcome back!")
                     _sessionState.value = SessionStatus.LOGGED_IN
                     val sessionTokens = result.data as TokenPreferences
                     prefRepository.updateTokens(sessionTokens.accessToken, sessionTokens.refreshToken)
-                    navController.navigate("home") {
-                        popUpTo("login") { inclusive = true }
-                    }
+                    navController.navigate("home")
                     navController.clearBackStack("home")
-                     loadUserProfile()
+                   _uiEvent.emit(AuthUiEvent.LoginSuccess)
                 }
                 is AuthResult.Error -> _uiState.value = UIState.Error(result.message)
                 is AuthResult.Success -> _uiState.value = UIState.Success()
@@ -130,17 +135,18 @@ class AuthPresenter(
     fun loadUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
 
-            android.util.Log.d("loadUserProfile()", "[*] Retrieving Saved User Preferences ...")
+            android.util.Log.d("loadUserProfile()", "[*] Checking User Preferences ...")
 
-            val currentPrefs = prefRepository.userPreferences
-                .filter { it.lastLoginAt != null }
-                .first()
+            val currentPrefs = prefRepository.userPreferences.first()
+
             android.util.Log.d("loadUserProfile()", "[+] User Preferences Retrieve Success")
 
-            if (currentPrefs.isDefault && currentPrefs.updatedAt == null) {
+            if (currentPrefs.isDefault) {
                 _isLoading.value = true
                 _errorMessage.value = null
                 try {
+                    android.util.Log.d("loadUserProfile()", "[*] Fetching Remote User Preferences")
+
                     when (val result = userRepository.getCurrentUserInfo()) {
                         is AuthResult.SuccessWithData<*> -> {
                             val data = result.data as? UserDataResponse
@@ -149,12 +155,14 @@ class AuthPresenter(
                                     user.toUserProfileInformation().toUserPreferences()
                                 }
                             }
+                            android.util.Log.d("loadUserProfile()", "[*] User Preferences Save Success...")
                         }
                         is AuthResult.Error -> { _errorMessage.value = result.message }
                         else -> { }
                     }
+
                 } catch (e: Exception) {
-                    _errorMessage.value = e.message ?: "Failed to retrieve user profile information"
+                    _errorMessage.value = e.message ?: "Technical Error On Retrieving User Data"
                     _uiState.value = UIState.Error(errorMessage.value.toString())
                 } finally {
                     _isLoading.value = false

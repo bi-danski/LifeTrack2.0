@@ -1,0 +1,90 @@
+package org.lifetrack.ltapp.ui.components.homescreen.cards
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.DirectionsRun
+import androidx.compose.material.icons.filled.Bedtime
+import androidx.compose.material.icons.filled.WaterDrop
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import org.lifetrack.ltapp.ui.components.homescreen.GoalModule
+import org.lifetrack.ltapp.ui.theme.Purple40
+
+@Composable
+fun DailyGoalsCard(
+    steps: Int = 6400,
+    stepGoal: Int = 10000,
+    waterLiters: Float = 1.5f,
+    waterGoal: Float = 2.5f,
+    sleepHours: Float = 6.5f,
+    sleepGoal: Float = 8f
+) {
+    val themeColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40
+    val containerBg = if (isSystemInDarkTheme()) Color.Transparent else Color.White.copy(alpha = 0.3f)
+
+    GlassCard(
+        shape = RoundedCornerShape(22.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(210.dp)
+            .background(containerBg)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(
+                text = "Daily Goals",
+                fontWeight = FontWeight.Black,
+                fontSize = 20.sp,
+                color = themeColor
+            )
+
+            Spacer(Modifier.height(16.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                GoalModule(
+                    label = "Steps",
+                    value = "$steps",
+                    progress = (steps.toFloat() / stepGoal).coerceAtMost(1f),
+                    color = Color(0xFF4CAF50),
+                    icon = Icons.AutoMirrored.Filled.DirectionsRun,
+                    modifier = Modifier.weight(1f)
+                )
+
+                GoalModule(
+                    label = "Water",
+                    value = "${waterLiters}L",
+                    progress = (waterLiters / waterGoal).coerceAtMost(1f),
+                    color = Color(0xFF2196F3),
+                    icon = Icons.Default.WaterDrop,
+                    modifier = Modifier.weight(1f)
+                )
+
+                GoalModule(
+                    label = "Sleep",
+                    value = "${sleepHours}h",
+                    progress = (sleepHours / sleepGoal).coerceAtMost(1f),
+                    color = Color(0xFF9C27B0),
+                    icon = Icons.Default.Bedtime,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+        }
+    }
+}

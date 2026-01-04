@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.ui.components.carousels
+package org.lifetrack.ltapp.ui.components.homescreen.carousels
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -19,10 +19,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.model.data.dclass.AppointmentStatus
 import org.lifetrack.ltapp.presenter.UserPresenter
-import org.lifetrack.ltapp.ui.components.homescreen.DailyGoalsCard
-import org.lifetrack.ltapp.ui.components.homescreen.HealthSummaryCard
+import org.lifetrack.ltapp.ui.components.homescreen.cards.DailyGoalsCard
+import org.lifetrack.ltapp.ui.components.homescreen.cards.HealthSummaryCard
 import kotlin.math.absoluteValue
-import org.lifetrack.ltapp.ui.components.homescreen.TodayScheduleCard
+import org.lifetrack.ltapp.ui.components.homescreen.cards.TodayScheduleCard
 
 
 @SuppressLint("FrequentlyChangingValue")
@@ -32,7 +32,8 @@ fun LtHomeCarousel(
     itemsCount: Int,
     rotationInterval: Long = 5000L,
     userPresenter: UserPresenter,
-    onEmergencyClickAction: () -> Unit
+    onEmergencyClickAction: () -> Unit,
+    onEmergencyContactClickAction: () -> Unit
 ) {
     val pagerState = rememberPagerState(
         initialPage = 0,
@@ -90,8 +91,9 @@ fun LtHomeCarousel(
                     0 -> TodayScheduleCard(
                         appointmentCount = totalCount,
                         nextAppointment = nextUp,
-                        onEmergencyClick = onEmergencyClickAction
-                    )
+                        onEmergencyClick = onEmergencyClickAction,
+                        onEmergencyContactClick = onEmergencyContactClickAction
+                        )
                     1 -> HealthSummaryCard()
                     2 -> DailyGoalsCard()
                 }

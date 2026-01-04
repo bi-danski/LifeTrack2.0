@@ -1,28 +1,30 @@
 package org.lifetrack.ltapp.core.network
 
-//import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.DefaultRequest
-//import io.ktor.client.plugins.HttpCallValidator
+import io.ktor.client.plugins.HttpCallValidator
+import io.ktor.client.plugins.HttpResponseValidator
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.plugins.auth.providers.BearerTokens
 import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
+//import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.HttpStatusCode
+import io.ktor.http.encodedPath
 import io.ktor.serialization.kotlinx.json.json
-import kotlinx.coroutines.flow.filter
+//import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.serialization.json.Json
-import org.lifetrack.ltapp.BuildConfig
 import org.lifetrack.ltapp.model.data.dclass.TokenPreferences
 import org.lifetrack.ltapp.model.repository.PreferenceRepository
+
 
 object KtorHttpClient {
     fun create(prefs: PreferenceRepository): HttpClient {
@@ -31,32 +33,32 @@ object KtorHttpClient {
 
             install(ContentNegotiation) {
                 json(Json {
-                    prettyPrint = BuildConfig.DEBUG
+                    prettyPrint = true
                     isLenient = true
                     ignoreUnknownKeys = true
                     encodeDefaults = true
-                    }
-                )
+                })
             }
 
-//            install(HttpCallValidator) {
-//                handleResponseExceptionWithRequest { exception, _ ->
-//                    android.util.Log.e("KtorValidator", "Network/Protocol Exception: ${exception.message}")
-//                }
-//            }
-
-//            HttpResponseValidator {
-//                validateResponse { response ->
-//                    if (response.status == HttpStatusCode.Unauthorized) {
-//                        android.util.Log.e("KtorValidator", "Unauthorized! Clearing session...")
-//                        prefs.clearTokenPreferences()
-//                    }
-//                }
-//            }
             install(HttpTimeout) {
-                requestTimeoutMillis = 30000
-                connectTimeoutMillis = 10000
-                socketTimeoutMillis = 30000
+                requestTimeoutMillis = 15000
+                connectTimeoutMillis = 15000
+                socketTimeoutMillis = 15000
+            }
+
+            install(HttpCallValidator) {
+                handleResponseExceptionWithRequest { exception, _ ->
+                    android.util.Log.e("KtorValidator", "Network/Protocol Exception: ${exception.message}")
+                }
+            }
+
+            HttpResponseValidator {
+                validateResponse { response ->
+                    if (response.status == HttpStatusCode.Unauthorized) {
+                        android.util.Log.e("KtorValidator", "Unauthorized! Clearing session...")
+                        prefs.clearTokenPreferences()
+                    }
+                }
             }
 
             install(DefaultRequest) {
@@ -65,18 +67,16 @@ object KtorHttpClient {
 
             install(Auth) {
                 bearer {
-
                     loadTokens {
-                        val currentTokens = prefs.tokenPreferences.filter {
-                            it.accessToken != null && it.refreshToken != null
-                        }.first()
-
+                        val currentTokens = prefs.tokenPreferences.first()
                         if (!currentTokens.accessToken.isNullOrBlank()) {
                             BearerTokens(
                                 accessToken = currentTokens.accessToken,
                                 refreshToken = currentTokens.refreshToken ?: ""
                             )
-                        } else null
+                        } else {
+                            null
+                        }
                     }
 
                     refreshTokens {
@@ -84,9 +84,7 @@ object KtorHttpClient {
                         val oldRefreshToken = currentPrefs.refreshToken ?: return@refreshTokens null
 
                         try {
-                            android.util.Log.d("KtorAuth", "401 Detected: Attempting Token Refresh...")
-
-                            val response = client.post("/auth/refresh") {
+                            val response = client.post("auth/refresh") {
                                 markAsRefreshTokenRequest()
                                 setBody(mapOf("token" to oldRefreshToken))
                             }
@@ -94,23 +92,26 @@ object KtorHttpClient {
                             if (response.status == HttpStatusCode.OK) {
                                 val newTokens = response.body<TokenPreferences>()
                                 prefs.updateTokens(newTokens.accessToken, newTokens.refreshToken)
-
-                                android.util.Log.d("KtorAuth","Refresh Success. Retrying original request.")
-
                                 BearerTokens(
                                     accessToken = newTokens.accessToken ?: "",
                                     refreshToken = newTokens.refreshToken ?: ""
                                 )
                             } else {
-                                android.util.Log.e("KtorAuth","Refresh failed: ${response.status}. Clearing Session.")
-
-                                prefs.clearTokenPreferences()
+                                android.util.Log.e("KtorAuth", "Refresh failed: ${response.status}")
+                                prefs.clearUserPreferences()
                                 null
                             }
                         } catch (e: Exception) {
                             android.util.Log.e("KtorAuth", "Exception during refresh", e)
                             null
                         }
+                    }
+
+                    sendWithoutRequest { request ->
+                        val path = request.url.encodedPath
+                        path.contains("/auth/login") ||
+                                path.contains("/auth/signup") ||
+                                path.contains("/auth/refresh")
                     }
                 }
             }

@@ -19,6 +19,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
+import org.lifetrack.ltapp.core.events.AuthUiEvent
 import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.ui.components.loginscreen.LTBrandAppBar
@@ -48,9 +49,8 @@ fun LoginScreen(
             }
 
             is UIState.Error -> {
-                val errorMsg = (authUiState as UIState.Error).msg
                 snackbarHostState.showSnackbar(
-                    message = errorMsg,
+                    message = (authUiState as UIState.Error).msg,
                     duration = SnackbarDuration.Long
                 )
                 authPresenter.resetUIState()
@@ -60,8 +60,16 @@ fun LoginScreen(
                 snackbarHostState.showSnackbar("Loading ...", duration = SnackbarDuration.Short)
                 authPresenter.resetUIState()
             }
-
             else -> {}
+        }
+        authPresenter.uiEvent.collect { uiEvent ->
+            when(uiEvent) {
+                is AuthUiEvent.LoginSuccess -> {
+                    authPresenter.loadUserProfile()
+                }
+
+                else -> {}
+            }
         }
     }
 

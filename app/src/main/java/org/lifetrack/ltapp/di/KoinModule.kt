@@ -7,6 +7,7 @@ import androidx.room.Room
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.withContext
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
@@ -75,9 +76,7 @@ val koinModule = module {
             context = androidContext(),
             klass = LTRoomDatabase::class.java,
             name = "lifetrack_db"
-        )
-            .fallbackToDestructiveMigration(false)
-            .build()
+        ).fallbackToDestructiveMigration(false).build()
     }
     single {
         get<LTRoomDatabase>().chatDao()

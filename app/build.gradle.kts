@@ -53,6 +53,7 @@ android {
                 listOf(
                     "-P", "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=${project.rootDir}/compose-metrics",
                     "-P", "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=${project.rootDir}/compose-reports",
+                    "-Xdata-flow-based-exhaustiveness"
 //                    "-Xbuild-cache"
                 )
             )

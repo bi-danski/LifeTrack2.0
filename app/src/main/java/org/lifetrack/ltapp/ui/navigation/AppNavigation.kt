@@ -36,7 +36,8 @@ fun AppNavigation(
 
     NavHost(
         navController = navController,
-        startDestination = if (isLoggedIn == true) "home" else "login",
+        startDestination = "home",
+//            if (isLoggedIn == true) "home" else "login",
         enterTransition = {
             slideIntoContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Start,
