@@ -35,13 +35,8 @@ object KtorHttpClient {
                     isLenient = true
                     ignoreUnknownKeys = true
                     encodeDefaults = true
-                })
-            }
-
-            install(HttpTimeout) {
-                requestTimeoutMillis = 15000
-                connectTimeoutMillis = 15000
-                socketTimeoutMillis = 15000
+                    }
+                )
             }
 
 //            install(HttpCallValidator) {
@@ -58,6 +53,11 @@ object KtorHttpClient {
 //                    }
 //                }
 //            }
+            install(HttpTimeout) {
+                requestTimeoutMillis = 30000
+                connectTimeoutMillis = 10000
+                socketTimeoutMillis = 30000
+            }
 
             install(DefaultRequest) {
                 url("https://lifetrack-1071288890438.us-central1.run.app")
@@ -65,6 +65,7 @@ object KtorHttpClient {
 
             install(Auth) {
                 bearer {
+
                     loadTokens {
                         val currentTokens = prefs.tokenPreferences.filter {
                             it.accessToken != null && it.refreshToken != null

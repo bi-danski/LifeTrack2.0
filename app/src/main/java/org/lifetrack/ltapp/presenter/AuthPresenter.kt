@@ -77,7 +77,10 @@ class AuthPresenter(
     fun login(navController: NavController) {
         viewModelScope.launch {
             _uiState.value = UIState.Loading
-            when (val result = authRepository.login(_loginInfo.value)) {
+            when (val result = withContext(Dispatchers.IO) {
+                authRepository.login(_loginInfo.value)
+                }
+            ) {
                  is AuthResult.SuccessWithData<*> -> {
                     _uiState.value = UIState.Success("Welcome back!")
                     _sessionState.value = SessionStatus.LOGGED_IN

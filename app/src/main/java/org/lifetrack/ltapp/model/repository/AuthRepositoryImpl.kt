@@ -58,7 +58,7 @@ class AuthRepositoryImpl(
             return AuthResult.Error("No refresh token found")
         }
         return try {
-            val response = client.post("auth/refresh") {
+            val response = client.post("/auth/refresh") {
                 contentType(ContentType.Application.Json)
                 setBody(mapOf("token" to currentRefreshToken))
             }
