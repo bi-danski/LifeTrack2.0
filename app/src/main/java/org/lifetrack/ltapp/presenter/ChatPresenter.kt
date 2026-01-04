@@ -97,7 +97,6 @@ class ChatPresenter(
         }
     }
 
-
     private fun clearInput() {
         _chatInput.value = ""
         savedStateHandle["chat_draft"] = ""
