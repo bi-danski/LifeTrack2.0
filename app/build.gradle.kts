@@ -27,12 +27,20 @@ android {
     }
 
     buildTypes {
+//        val assistantServiceString: String = project.findProperty("ASS_ISTANT") as String? ?: ""
+        //  ASS_ISTANT
+
+//        debug {
+//            buildConfigField("String", "ASS_ISTANT","\"$assistantServiceString\"")
+//        }
+
         release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+//            buildConfigField("String", "ASS_ISTANT","\"$assistantServiceString\"")
         }
     }
     compileOptions {

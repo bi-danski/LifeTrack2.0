@@ -61,7 +61,7 @@ fun AlmaScreen(
             BBarMessage(
                 value = inputText,
                 onValueChange = { presenter.onMessageInput(it) },
-                onSend = { presenter.sendUserMessageToAlma() }
+                onSend = { presenter.chatWithAlma() }
             )
         },
     ) { innerPadding ->

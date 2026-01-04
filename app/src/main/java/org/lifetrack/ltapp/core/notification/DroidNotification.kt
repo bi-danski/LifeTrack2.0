@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.core.notifications
+package org.lifetrack.ltapp.core.notification
 
 import android.app.NotificationChannel
 import android.app.NotificationManager

@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.core.utils
+package org.lifetrack.ltapp.core.utility
 
 import android.Manifest
 import android.app.AlarmManager
@@ -11,7 +11,7 @@ import android.util.Log
 import androidx.core.content.ContextCompat
 import java.util.Calendar
 import org.lifetrack.ltapp.core.broadcast.ReminderReceiver
-import org.lifetrack.ltapp.core.notifications.DroidNotification
+import org.lifetrack.ltapp.core.notification.DroidNotification
 import org.lifetrack.ltapp.model.data.dclass.Prescription
 
 object ScheduleUtility {

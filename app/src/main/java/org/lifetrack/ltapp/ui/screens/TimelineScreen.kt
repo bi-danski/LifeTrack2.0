@@ -54,8 +54,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import org.lifetrack.ltapp.core.utils.formatMonthYear
-import org.lifetrack.ltapp.core.utils.toYearMonth
+import org.lifetrack.ltapp.core.utility.formatMonthYear
+import org.lifetrack.ltapp.core.utility.toYearMonth
 import org.lifetrack.ltapp.model.data.dclass.VisitStatus
 import org.lifetrack.ltapp.presenter.TLinePresenter
 import org.lifetrack.ltapp.ui.components.timelinescreen.MedicalVisitCard

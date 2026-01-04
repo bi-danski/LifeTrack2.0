@@ -3,19 +3,22 @@ package org.lifetrack.ltapp.presenter
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.lifetrack.ltapp.core.service.AlmaService
 import org.lifetrack.ltapp.model.data.dto.Message
 import org.lifetrack.ltapp.model.repository.ChatRepository
 
 class ChatPresenter(
     private val chatRepository: ChatRepository,
-    private val savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle,
+    private val almaService: AlmaService
 ) : ViewModel() {
     companion object {
         const val TYPE_GENERAL = "general"
@@ -47,25 +50,7 @@ class ChatPresenter(
         savedStateHandle["chat_draft"] = value
     }
 
-    fun sendUserMessageToDoctor() {
-        val content = _chatInput.value
-        if (content.isBlank()) return
-
-        viewModelScope.launch {
-            chatRepository.addChat(
-                Message(
-                    id = 0,
-                    text = content,
-                    isFromPatient = true,
-                    timestamp = System.currentTimeMillis(),
-                    type = TYPE_GENERAL
-                )
-            )
-            clearInput()
-        }
-    }
-
-    fun sendUserMessageToAlma() {
+    fun chatWithAlma() {
         val content = _chatInput.value
         if (content.isBlank()) return
 
@@ -82,20 +67,36 @@ class ChatPresenter(
             clearInput()
 
             _isLoading.value = true
-            delay(1000)
+            try {
+                val aiResponseText = withContext(Dispatchers.IO) {
+                    almaService.promptAssistant(content)
+                }
 
-            chatRepository.addChat(
-                Message(
-                    id = 0,
-                    text = "AI: ...",
-                    isFromPatient = false,
-                    timestamp = System.currentTimeMillis(),
-                    type = TYPE_ALMA
+                chatRepository.addChat(
+                    Message(
+                        id = 0,
+                        text = aiResponseText,
+                        isFromPatient = false,
+                        timestamp = System.currentTimeMillis(),
+                        type = TYPE_ALMA
+                    )
                 )
-            )
-            _isLoading.value = false
+            } catch (_: Exception) {
+                chatRepository.addChat(
+                    Message(
+                        id = 0,
+                        text = "Sorry, I'm having trouble connecting right now.",
+                        isFromPatient = false,
+                        timestamp = System.currentTimeMillis(),
+                        type = TYPE_ALMA
+                    )
+                )
+            } finally {
+                _isLoading.value = false
+            }
         }
     }
+
 
     private fun clearInput() {
         _chatInput.value = ""

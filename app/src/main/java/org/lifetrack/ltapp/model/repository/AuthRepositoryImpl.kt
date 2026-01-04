@@ -7,8 +7,8 @@ import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
-import org.lifetrack.ltapp.core.utils.toLoginRequest
-import org.lifetrack.ltapp.core.utils.toSignUpRequest
+import org.lifetrack.ltapp.core.utility.toLoginRequest
+import org.lifetrack.ltapp.core.utility.toSignUpRequest
 import org.lifetrack.ltapp.model.data.dclass.AuthResult
 import org.lifetrack.ltapp.model.data.dclass.LoginInfo
 import org.lifetrack.ltapp.model.data.dclass.SignUpInfo
@@ -22,7 +22,7 @@ class AuthRepositoryImpl(
 
     override suspend fun login(loginInfo: LoginInfo): AuthResult {
         return try {
-            val response = client.post("auth/login") {
+            val response = client.post("/auth/login") {
                 contentType(ContentType.Application.Json)
                 setBody(loginInfo.toLoginRequest())
             }
@@ -40,7 +40,7 @@ class AuthRepositoryImpl(
 
     override suspend fun signUp( signupInfo: SignUpInfo ): AuthResult {
         return try {
-            client.post("auth/register") {
+            client.post("/auth/register") {
                 contentType(ContentType.Application.Json)
                 setBody(signupInfo.toSignUpRequest())
             }

@@ -41,7 +41,8 @@ class PreferenceRepository(
             if (e is IOException) emit(UserPreferences()) else throw e
         }.stateIn(
             scope = scope,
-            started = SharingStarted.WhileSubscribed(5000L),
+            started = SharingStarted.Eagerly,
+//            WhileSubscribed(5000L),
             initialValue = UserPreferences()
         )
 
@@ -51,7 +52,9 @@ class PreferenceRepository(
     }
 
     suspend fun updateUserPreferences(transform: (UserPreferences) -> UserPreferences) {
-        userDataStore.updateData { transform(it) }
+        userDataStore.updateData {
+            transform(it)
+        }
     }
     suspend fun updateTokens(accessToken: String?, refreshToken: String?) {
         tokenDataStore.updateData { current ->

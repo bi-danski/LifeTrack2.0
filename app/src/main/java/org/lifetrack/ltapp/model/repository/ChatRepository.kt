@@ -3,7 +3,7 @@ package org.lifetrack.ltapp.model.repository
 import kotlinx.coroutines.flow.Flow
 import org.lifetrack.ltapp.model.data.dao.ChatDao
 import org.lifetrack.ltapp.model.data.dto.Message
-import org.lifetrack.ltapp.core.utils.toEntity
+import org.lifetrack.ltapp.core.utility.toEntity
 
 class ChatRepository(
     private var dao: ChatDao

@@ -35,7 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import org.lifetrack.ltapp.core.utils.customFormat
+import org.lifetrack.ltapp.core.utility.customFormat
 import org.lifetrack.ltapp.model.data.dclass.HospitalVisit
 import org.lifetrack.ltapp.model.data.dclass.UpcomingVisit
 import org.lifetrack.ltapp.ui.theme.Purple40

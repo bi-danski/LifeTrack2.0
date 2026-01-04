@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.core.utils
+package org.lifetrack.ltapp.core.utility
 
 import org.lifetrack.ltapp.model.data.dclass.LTPreferences
 import org.lifetrack.ltapp.model.data.dclass.LoginInfo
@@ -11,6 +11,7 @@ import org.lifetrack.ltapp.model.data.dto.Message
 import org.lifetrack.ltapp.model.data.dto.SignUpRequest
 import org.lifetrack.ltapp.model.data.dto.UserDataResponse
 import org.lifetrack.ltapp.model.roomdb.MessageEntity
+
 
 fun Message.toEntity(): MessageEntity{
     return MessageEntity(
@@ -60,7 +61,8 @@ fun ProfileInfo.toUserPreferences(): UserPreferences{
         userFullName = this.userFullName,
         userPhoneNumber = this.userPhoneNumber,
         createdAt = this.createdAt,
-        updatedAt = this.updatedAt
+        updatedAt = this.updatedAt,
+        lastLoginAt = this.lastLoginAt
     )
 }
 
@@ -72,7 +74,8 @@ fun UserPreferences.toProfileInfo(): ProfileInfo {
         userInitials = this.userInitials,
         userPhoneNumber = this.userPhoneNumber.ifBlank { "Loading ..." },
         createdAt = this.createdAt,
-        updatedAt = this.updatedAt
+        updatedAt = this.updatedAt,
+        lastLoginAt = this.lastLoginAt
     )
 }
 

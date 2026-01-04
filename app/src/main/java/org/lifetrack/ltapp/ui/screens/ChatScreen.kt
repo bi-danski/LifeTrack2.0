@@ -90,7 +90,7 @@ fun ChatScreen(
             BBarMessage(
                 value = inputText,
                 onValueChange = { presenter.onMessageInput(it) },
-                onSend = { presenter.sendUserMessageToDoctor() }
+                onSend = { presenter.chatWithAlma() }
             )
         },
         

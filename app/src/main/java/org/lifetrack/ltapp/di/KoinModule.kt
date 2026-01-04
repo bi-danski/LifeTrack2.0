@@ -13,6 +13,7 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import org.lifetrack.ltapp.core.network.KtorHttpClient
+import org.lifetrack.ltapp.core.service.AlmaService
 //import org.lifetrack.ltapp.model.datastore.DStore.userDataStore
 //import org.lifetrack.ltapp.model.datastore.DStore.ltDataStore
 //import org.lifetrack.ltapp.model.datastore.DStore.tokenDataStore
@@ -53,6 +54,7 @@ val koinModule = module {
     single(qualifier = named("tokenStore")){ androidContext().tokenDataStore }
     single(qualifier = named("ltStore")) { androidContext().ltDataStore }
     single(qualifier = named("userStore")) { androidContext().userDataStore}
+    single { AlmaService(get()) }
     single {
         PreferenceRepository(
             ltDataStore = get( qualifier = named("ltStore")),
@@ -91,6 +93,10 @@ val koinModule = module {
     viewModelOf(::PrescPresenter)
     viewModel {
         (savedStateHandle: SavedStateHandle) ->
-        ChatPresenter(get(), savedStateHandle)
+        ChatPresenter(
+            get(),
+            savedStateHandle,
+            get()
+        )
     }
 }

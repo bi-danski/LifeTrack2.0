@@ -9,20 +9,21 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import org.lifetrack.ltapp.core.utils.toProfileInfo
-import org.lifetrack.ltapp.core.utils.toUserPreferences
-import org.lifetrack.ltapp.core.utils.toUserProfileInformation
+import kotlinx.coroutines.withContext
+import org.lifetrack.ltapp.core.utility.toProfileInfo
+import org.lifetrack.ltapp.core.utility.toUserPreferences
+import org.lifetrack.ltapp.core.utility.toUserProfileInformation
 import org.lifetrack.ltapp.model.data.dclass.AuthResult
 import org.lifetrack.ltapp.model.data.dclass.LoginInfo
 import org.lifetrack.ltapp.model.data.dclass.ProfileInfo
 import org.lifetrack.ltapp.model.data.dclass.SessionStatus
 import org.lifetrack.ltapp.model.data.dclass.SignUpInfo
 import org.lifetrack.ltapp.model.data.dclass.TokenPreferences
-import org.lifetrack.ltapp.model.data.dclass.UserPreferences
 import org.lifetrack.ltapp.model.data.dto.UserDataResponse
 import org.lifetrack.ltapp.model.repository.AuthRepository
 import org.lifetrack.ltapp.model.repository.PreferenceRepository
@@ -59,18 +60,17 @@ class AuthPresenter(
     private val _loginInfo = MutableStateFlow(LoginInfo())
     val loginInfo = _loginInfo.asStateFlow()
 
-
-
     private val _signupInfo = MutableStateFlow(SignUpInfo())
     val signupInfo = _signupInfo.asStateFlow()
 
     private val _sessionState = MutableStateFlow(SessionStatus.INITIALIZING)
-    val sessionState = _sessionState.asStateFlow()
-
     private val _isLoading = MutableStateFlow(false)
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage = _errorMessage.asStateFlow()
 
+    fun resetUIState() {
+        _uiState.value = UIState.Idle
+    }
     fun onLoginInfoUpdate(info: LoginInfo) { _loginInfo.value = info }
     fun onSignupInfoUpdate(info: SignUpInfo) { _signupInfo.value = info }
 
@@ -83,11 +83,11 @@ class AuthPresenter(
                     _sessionState.value = SessionStatus.LOGGED_IN
                     val sessionTokens = result.data as TokenPreferences
                     prefRepository.updateTokens(sessionTokens.accessToken, sessionTokens.refreshToken)
-                     loadUserProfile()
                     navController.navigate("home") {
                         popUpTo("login") { inclusive = true }
                     }
                     navController.clearBackStack("home")
+                     loadUserProfile()
                 }
                 is AuthResult.Error -> _uiState.value = UIState.Error(result.message)
                 is AuthResult.Success -> _uiState.value = UIState.Success()
@@ -113,7 +113,7 @@ class AuthPresenter(
 
     fun logout(navController: NavController) {
         viewModelScope.launch {
-            kotlinx.coroutines.withContext(kotlinx.coroutines.NonCancellable) {
+            withContext(kotlinx.coroutines.NonCancellable) {
                 authRepository.logout()
             }
             _uiState.value = UIState.Idle
@@ -126,9 +126,15 @@ class AuthPresenter(
 
     fun loadUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
-            val currentPrefs = prefRepository.userPreferences.first()
 
-            if (currentPrefs.isDefault) {
+            android.util.Log.d("loadUserProfile()", "[*] Retrieving Saved User Preferences ...")
+
+            val currentPrefs = prefRepository.userPreferences
+                .filter { it.lastLoginAt != null }
+                .first()
+            android.util.Log.d("loadUserProfile()", "[+] User Preferences Retrieve Success")
+
+            if (currentPrefs.isDefault && currentPrefs.updatedAt == null) {
                 _isLoading.value = true
                 _errorMessage.value = null
                 try {
@@ -136,13 +142,9 @@ class AuthPresenter(
                         is AuthResult.SuccessWithData<*> -> {
                             val data = result.data as? UserDataResponse
                             data?.let { user ->
-                                prefRepository.updateUserPreferences(
-                                    {
-                                        user
-                                            .toUserProfileInformation()
-                                            .toUserPreferences()
-                                    }
-                                )
+                                prefRepository.updateUserPreferences {
+                                    user.toUserProfileInformation().toUserPreferences()
+                                }
                             }
                         }
                         is AuthResult.Error -> { _errorMessage.value = result.message }
@@ -150,9 +152,12 @@ class AuthPresenter(
                     }
                 } catch (e: Exception) {
                     _errorMessage.value = e.message ?: "Failed to retrieve user profile information"
+                    _uiState.value = UIState.Error(errorMessage.value.toString())
                 } finally {
                     _isLoading.value = false
                 }
+            }else{
+                android.util.Log.d("loadUserProfile()", "Proceeding With Saved Tokens")
             }
         }
     }

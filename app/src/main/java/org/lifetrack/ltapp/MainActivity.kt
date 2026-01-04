@@ -17,7 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 //import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.lifetrack.ltapp.core.notifications.DroidNotification
+import org.lifetrack.ltapp.core.notification.DroidNotification
 //import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.ui.navigation.AppNavigation
 import org.lifetrack.ltapp.ui.theme.LTAppTheme

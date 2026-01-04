@@ -14,12 +14,4 @@ class HomePresenter: ViewModel() {
     var caroItemsCount by mutableIntStateOf(3)
         private set
 
-    fun onAutoRotationUpdate(value: Boolean){
-        autoRotate2NextCard = value
-    }
-
-    fun onItemsCountUpdate(value: Int){
-        caroItemsCount = value
-    }
-
 }

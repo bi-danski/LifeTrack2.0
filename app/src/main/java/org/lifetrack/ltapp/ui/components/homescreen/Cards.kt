@@ -52,7 +52,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.lifetrack.ltapp.core.utils.customFormat
+import org.lifetrack.ltapp.core.utility.customFormat
 import org.lifetrack.ltapp.model.data.dclass.Appointment
 import org.lifetrack.ltapp.ui.theme.Purple40
 import org.lifetrack.ltapp.ui.theme.Purple80

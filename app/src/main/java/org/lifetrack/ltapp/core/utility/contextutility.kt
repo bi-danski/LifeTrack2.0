@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.core.utils
+package org.lifetrack.ltapp.core.utility
 
 
 import android.widget.Toast
