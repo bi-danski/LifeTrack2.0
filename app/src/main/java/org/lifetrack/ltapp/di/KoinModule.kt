@@ -7,7 +7,6 @@ import androidx.room.Room
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.withContext
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
@@ -15,9 +14,6 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import org.lifetrack.ltapp.core.network.KtorHttpClient
 import org.lifetrack.ltapp.core.service.AlmaService
-//import org.lifetrack.ltapp.model.datastore.DStore.userDataStore
-//import org.lifetrack.ltapp.model.datastore.DStore.ltDataStore
-//import org.lifetrack.ltapp.model.datastore.DStore.tokenDataStore
 import org.lifetrack.ltapp.model.datastore.LTPreferenceSerializer
 import org.lifetrack.ltapp.model.datastore.TokenPreferenceSerializer
 import org.lifetrack.ltapp.model.datastore.UserPreferenceSerializer

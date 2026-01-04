@@ -32,7 +32,7 @@ fun AppNavigation(
     val chatPresenter = koinViewModel<ChatPresenter>(viewModelStoreOwner = activity)
     val analyticPresenter = koinViewModel<AnalyticPresenter>(viewModelStoreOwner = activity)
 
-    val isLoggedIn by authPresenter.isLoggedIn.collectAsState()
+//    val isLoggedIn by authPresenter.isLoggedIn.collectAsState()
 
     NavHost(
         navController = navController,
