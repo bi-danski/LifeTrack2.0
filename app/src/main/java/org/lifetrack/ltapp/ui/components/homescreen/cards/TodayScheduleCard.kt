@@ -219,7 +219,9 @@ fun TodayScheduleCard(
                     )
                 ) {
                     Column (
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier
+                            .padding(2.dp)
+                            .fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
@@ -263,6 +265,7 @@ fun TodayScheduleCard(
                     contentAlignment = Alignment.Center
                 ) {
                     Column(
+                        modifier = Modifier.padding(2.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
