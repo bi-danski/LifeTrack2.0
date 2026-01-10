@@ -10,7 +10,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material.icons.outlined.AssignmentInd
 import androidx.compose.material.icons.outlined.Badge
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Password
@@ -27,6 +26,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.presenter.AuthPresenter
@@ -35,10 +35,10 @@ import org.lifetrack.ltapp.ui.state.UIState
 @Composable
 fun SignupScreen(
     navController: NavController,
-    presenter: AuthPresenter,
+    authPresenter: AuthPresenter,
 ) {
-    val signUpInfo by presenter.signupInfo.collectAsState()
-    val uiState by presenter.uiState.collectAsState()
+    val signUpInfo by authPresenter.signupInfo.collectAsState()
+    val uiState by authPresenter.uiState.collectAsStateWithLifecycle(UIState.Idle)
 
     val coroutineScope = rememberCoroutineScope()
     val snackBarHostState = remember { SnackbarHostState() }
@@ -48,6 +48,7 @@ fun SignupScreen(
     LaunchedEffect(uiState) {
         if (uiState is UIState.Error) {
             snackBarHostState.showSnackbar((uiState as UIState.Error).msg)
+            authPresenter.resetUIState()
         }
     }
 
@@ -101,7 +102,7 @@ fun SignupScreen(
             AnimatedVisibility(visible = isVisible, enter = fadeIn(tween(1000))) {
                 OutlinedTextField(
                     value = signUpInfo.fullName,
-                    onValueChange = { presenter.onSignupInfoUpdate(signUpInfo.copy(fullName = it)) },
+                    onValueChange = { authPresenter.onSignupInfoUpdate(signUpInfo.copy(fullName = it)) },
                     label = { Text("Full Name") },
                     leadingIcon = { Icon(Icons.Outlined.Person, contentDescription = null) },
                     enabled = uiState !is UIState.Loading,
@@ -114,7 +115,7 @@ fun SignupScreen(
             AnimatedVisibility(visible = isVisible, enter = fadeIn(tween(1000))) {
                 OutlinedTextField(
                     value = signUpInfo.userName,
-                    onValueChange = { presenter.onSignupInfoUpdate(signUpInfo.copy(userName = it)) },
+                    onValueChange = { authPresenter.onSignupInfoUpdate(signUpInfo.copy(userName = it)) },
                     label = { Text("User Name") },
                     leadingIcon = { Icon(Icons.Outlined.Badge, contentDescription = null) },
                     enabled = uiState !is UIState.Loading,
@@ -127,7 +128,7 @@ fun SignupScreen(
             AnimatedVisibility(visible = isVisible, enter = fadeIn(tween(1200))) {
                 OutlinedTextField(
                     value = signUpInfo.emailAddress,
-                    onValueChange = { presenter.onSignupInfoUpdate(signUpInfo.copy(emailAddress = it)) },
+                    onValueChange = { authPresenter.onSignupInfoUpdate(signUpInfo.copy(emailAddress = it)) },
                     label = { Text("Email Address") },
                     leadingIcon = { Icon(Icons.Outlined.Email, contentDescription = null) },
                     enabled = uiState !is UIState.Loading,
@@ -140,7 +141,7 @@ fun SignupScreen(
             AnimatedVisibility(visible = isVisible, enter = fadeIn(tween(1400))) {
                 OutlinedTextField(
                     value = signUpInfo.phoneNumber,
-                    onValueChange = { presenter.onSignupInfoUpdate(signUpInfo.copy(phoneNumber = it)) },
+                    onValueChange = { authPresenter.onSignupInfoUpdate(signUpInfo.copy(phoneNumber = it)) },
                     label = { Text("Phone Number") },
                     leadingIcon = { Icon(Icons.Outlined.Phone, contentDescription = null) },
                     enabled = uiState !is UIState.Loading,
@@ -153,7 +154,7 @@ fun SignupScreen(
             AnimatedVisibility(visible = isVisible, enter = fadeIn(tween(1600))) {
                 OutlinedTextField(
                     value = signUpInfo.password,
-                    onValueChange = { presenter.onSignupInfoUpdate(signUpInfo.copy(password = it)) },
+                    onValueChange = { authPresenter.onSignupInfoUpdate(signUpInfo.copy(password = it)) },
                     label = { Text("Password") },
                     leadingIcon = { Icon(Icons.Outlined.Password, contentDescription = null) },
                     enabled = uiState !is UIState.Loading,
@@ -180,7 +181,7 @@ fun SignupScreen(
                         if (signUpInfo.fullName.isNotEmpty() && signUpInfo.emailAddress.isNotEmpty() &&
                             signUpInfo.phoneNumber.isNotEmpty() && signUpInfo.password.isNotEmpty()
                         ) {
-                            presenter.signUp(navController)
+                            authPresenter.signUp(navController)
                         } else {
                             coroutineScope.launch {
                                 snackBarHostState.showSnackbar("All fields are required.")

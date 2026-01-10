@@ -67,7 +67,7 @@ fun AppNavigation(
             LoginScreen(navController, authPresenter = authPresenter, sharedPresenter = sharedPresenter)
         }
         composable("signup") {
-            SignupScreen(navController, presenter = authPresenter)
+            SignupScreen(navController, authPresenter = authPresenter)
         }
 
         composable("home") {
