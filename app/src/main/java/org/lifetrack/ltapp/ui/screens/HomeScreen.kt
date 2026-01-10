@@ -64,7 +64,7 @@ fun HomeScreen(
     val caroItemsCount = homePresenter.caroItemsCount
     val userInfo = authPresenter.profileInfo.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
-    val authUiState by authPresenter.uiState.collectAsStateWithLifecycle()
+    val authUiState by authPresenter.uiState.collectAsStateWithLifecycle(UIState.Idle)
     val homeScreenContextInstance = LocalContext.current
     val hapticFeedbackContextInstance = LocalHapticFeedback.current
     val scope = rememberCoroutineScope ()
