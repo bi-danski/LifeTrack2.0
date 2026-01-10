@@ -24,7 +24,6 @@ import org.lifetrack.ltapp.ui.theme.LTAppTheme
 
 
 class MainActivity : ComponentActivity() {
-//    private val authPresenter: AuthPresenter by viewModel()
 
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,16 +42,11 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             LTAppTheme {
-//                val sessionStatus by authPresenter.sessionState.collectAsStateWithLifecycle()
                 Surface(modifier = Modifier.fillMaxSize()) {
                     val appNavController = rememberNavController()
-
-//                    if (sessionStatus != SessionStatus.INITIALIZING) {
-                        AppNavigation(
-                            navController = appNavController,
-//                            sessionStatus = sessionStatus
-                        )
-//                    }
+                    AppNavigation(
+                        navController = appNavController,
+                    )
                 }
             }
         }
