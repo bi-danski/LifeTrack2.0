@@ -13,17 +13,28 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowCircleLeft
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import kotlinx.coroutines.delay
-import org.lifetrack.ltapp.model.data.epidemicAlerts
+import org.lifetrack.ltapp.model.data.mock.LtMockData
 import org.lifetrack.ltapp.ui.components.alertscreen.AlertSummaryCard
 import org.lifetrack.ltapp.ui.components.alertscreen.EpidemicAlertCard
-import org.lifetrack.ltapp.ui.theme.Purple40
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -69,7 +80,7 @@ fun AlertScreen(navController: NavController) {
                 }
             }
 
-            items(epidemicAlerts) { alert ->
+            items(LtMockData.epidemicAlerts) { alert ->
                 AnimatedVisibility(
                     visible = isVisible,
                     enter = fadeIn(animationSpec = tween(600 + alert.id * 150))

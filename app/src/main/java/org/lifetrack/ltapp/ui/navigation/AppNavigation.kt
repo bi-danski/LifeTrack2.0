@@ -21,7 +21,6 @@ import org.lifetrack.ltapp.ui.screens.*
 @Composable
 fun AppNavigation(
     navController: NavHostController,
-//    sessionStatus: SessionStatus
 ) {
     val activity = LocalActivity.current as? ComponentActivity
         ?: throw IllegalStateException("AppNavigation must be hosted in a ComponentActivity")
@@ -30,19 +29,18 @@ fun AppNavigation(
     val userPresenter = koinViewModel<UserPresenter>(viewModelStoreOwner = activity)
     val sharedPresenter = koinViewModel<SharedPresenter>(viewModelStoreOwner = activity)
     val chatPresenter = koinViewModel<ChatPresenter>(viewModelStoreOwner = activity)
-    val analyticPresenter = koinViewModel<AnalyticPresenter>(viewModelStoreOwner = activity)
 
     val isLoggedIn by authPresenter.isLoggedIn.collectAsState()
 
     NavHost(
         navController = navController,
         startDestination = if (isLoggedIn == true) "home" else "login",
-        enterTransition = {
-            slideIntoContainer(
-                towards = AnimatedContentTransitionScope.SlideDirection.Start,
-                animationSpec = tween(400)
-            ) + fadeIn(animationSpec = tween(400))
-        },
+//        enterTransition = {
+//            slideIntoContainer(
+//                towards = AnimatedContentTransitionScope.SlideDirection.Start,
+//                animationSpec = tween(400)
+//            ) + fadeIn(animationSpec = tween(400))
+//        },
         exitTransition = {
             slideOutOfContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Start,
@@ -98,12 +96,12 @@ fun AppNavigation(
         }
 
         composable("analytics") {
-            AnalyticScreen(navController, presenter = analyticPresenter)
+            AnalyticScreen(navController, presenter = userPresenter)
         }
         composable("prescriptions") {
             PrescriptScreen(
                 navController = navController,
-                analyticPresenter = analyticPresenter,
+                userPresenter = userPresenter,
                 presenter = koinViewModel<PrescPresenter>()
             )
         }
@@ -116,7 +114,7 @@ fun AppNavigation(
             arguments = listOf(navArgument("medId") { type = NavType.StringType })
         ) { backStackEntry ->
             val medId = backStackEntry.arguments?.getString("medId")
-            val prescription = analyticPresenter.dummyPrescriptions.find { it.id == medId }
+            val prescription = userPresenter.dummyPrescriptions.find { it.id == medId }
             if (prescription != null) {
                 PDetailScreen(navController, authPresenter = authPresenter, prescription = prescription)
             }

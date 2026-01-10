@@ -7,6 +7,7 @@ import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
+import org.lifetrack.ltapp.core.utility.ZetuZetuUtil.sanitizeErrorMessage
 import org.lifetrack.ltapp.core.utility.toLoginRequest
 import org.lifetrack.ltapp.core.utility.toSignUpRequest
 import org.lifetrack.ltapp.model.data.dclass.AuthResult
@@ -20,6 +21,24 @@ class AuthRepositoryImpl(
     private val prefs: PreferenceRepository
 ) : AuthRepository {
 
+//    override suspend fun login(loginInfo: LoginInfo): AuthResult {
+//        return try {
+//            val response = client.post("/auth/login") {
+//                contentType(ContentType.Application.Json)
+//                setBody(loginInfo.toLoginRequest())
+//            }
+//            if (response.status == HttpStatusCode.OK) {
+//                val tokens = response.body<TokenPreferences>()
+//                prefs.updateTokens(tokens.accessToken, tokens.refreshToken)
+//                AuthResult.SuccessWithData(tokens)
+//            } else {
+//                AuthResult.Error("Invalid credentials: ${response.body<Map<Any, Any>>()}")
+//            }
+//        } catch (e: Exception) {
+//            AuthResult.Error(e.message ?: "Unknown login error")
+//        }
+//    }
+
     override suspend fun login(loginInfo: LoginInfo): AuthResult {
         return try {
             val response = client.post("/auth/login") {
@@ -30,13 +49,14 @@ class AuthRepositoryImpl(
                 val tokens = response.body<TokenPreferences>()
                 prefs.updateTokens(tokens.accessToken, tokens.refreshToken)
                 AuthResult.SuccessWithData(tokens)
-            } else {
-                AuthResult.Error("Invalid credentials: ${response.status}")
+            }else {
+                AuthResult.Error("Invalid credentials. Please check your email and password.")
             }
         } catch (e: Exception) {
-            AuthResult.Error(e.message ?: "Unknown login error")
+            AuthResult.Error(sanitizeErrorMessage(e))
         }
     }
+
 
     override suspend fun signUp( signupInfo: SignUpInfo ): AuthResult {
         return try {

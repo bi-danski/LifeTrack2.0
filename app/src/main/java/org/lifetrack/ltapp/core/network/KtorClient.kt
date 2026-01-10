@@ -110,7 +110,7 @@ object KtorHttpClient {
             }
 
             install(Logging) {
-                level = LogLevel.ALL
+                level = LogLevel.NONE
                 sanitizeHeader { it == io.ktor.http.HttpHeaders.Authorization }
             }
         }

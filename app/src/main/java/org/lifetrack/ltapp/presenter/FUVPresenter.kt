@@ -1,20 +1,25 @@
 package org.lifetrack.ltapp.presenter
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.lifetrack.ltapp.model.data.dclass.*
-import org.lifetrack.ltapp.model.data.LtMockData
+import org.lifetrack.ltapp.model.data.mock.LtMockData
+
 
 class FUVPresenter : ViewModel() {
-
-    private val _hospitalData = MutableStateFlow<List<HospitalVisit>>(emptyList())
-    val hospitalData = _hospitalData.asStateFlow()
-
-    private val _upcomingVisits = MutableStateFlow<List<UpcomingVisit>>(emptyList())
-    val upcomingVisits = _upcomingVisits.asStateFlow()
-
+    val hospitalData = mutableStateListOf<HospitalVisit>().apply {
+        addAll(LtMockData.allHospitalVisits)
+    }
+    val upcomingVisits = mutableStateListOf<UpcomingVisit>().apply {
+        addAll(LtMockData.upcomingData)
+    }
     private val _isUpcomingExpanded = MutableStateFlow(false)
     val isUpcomingExpanded = _isUpcomingExpanded.asStateFlow()
 
@@ -23,15 +28,6 @@ class FUVPresenter : ViewModel() {
 
     private val _selectedFilter = MutableStateFlow<VisitFilter>(VisitFilter.Recent)
     val selectedFilter = _selectedFilter.asStateFlow()
-
-    init {
-        loadData()
-    }
-
-    private fun loadData() {
-        _hospitalData.value = LtMockData.allHospitalVisits
-        _upcomingVisits.value = LtMockData.upcomingData
-    }
 
     fun toggleUpcomingExpansion() = _isUpcomingExpanded.update { !it }
 
@@ -46,12 +42,24 @@ class FUVPresenter : ViewModel() {
     }
 
     private fun applySorting(filter: VisitFilter) {
-        _hospitalData.update { current ->
-            when (filter) {
-                is VisitFilter.Alphabetical -> current.sortedBy { it.hospitalName }
-                is VisitFilter.Oldest -> current.sortedBy { it.subVisits.firstOrNull()?.timestamp }
-                is VisitFilter.Recent -> current.sortedByDescending { it.subVisits.firstOrNull()?.timestamp }
+        viewModelScope.launch {
+            val sortedList = withContext(Dispatchers.Default) {
+                when (filter) {
+                    is VisitFilter.Alphabetical -> {
+                        hospitalData.sortedBy { it.hospitalName }
+                    }
+
+                    is VisitFilter.Oldest -> {
+                        hospitalData.sortedBy { it.subVisits.firstOrNull()?.timestamp }
+                    }
+
+                    is VisitFilter.Recent -> {
+                        hospitalData.sortedByDescending { it.subVisits.firstOrNull()?.timestamp }
+                    }
+                }
             }
+            hospitalData.clear()
+            hospitalData.addAll(sortedList)
         }
     }
 }

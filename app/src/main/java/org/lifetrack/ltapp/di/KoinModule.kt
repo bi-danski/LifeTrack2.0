@@ -24,7 +24,6 @@ import org.lifetrack.ltapp.model.repository.PreferenceRepository
 import org.lifetrack.ltapp.model.repository.UserRepository
 import org.lifetrack.ltapp.model.repository.UserRepositoryImpl
 import org.lifetrack.ltapp.model.roomdb.LTRoomDatabase
-import org.lifetrack.ltapp.presenter.AnalyticPresenter
 import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.presenter.ChatPresenter
 import org.lifetrack.ltapp.presenter.FUVPresenter
@@ -86,7 +85,6 @@ val koinModule = module {
     viewModelOf(::UserPresenter)
     viewModelOf(::FUVPresenter)
     viewModelOf(::SharedPresenter)
-    viewModelOf(::AnalyticPresenter)
     viewModelOf(::PrescPresenter)
     viewModel {
         (savedStateHandle: SavedStateHandle) ->

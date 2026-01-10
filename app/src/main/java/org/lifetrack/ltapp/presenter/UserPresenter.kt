@@ -1,5 +1,8 @@
 package org.lifetrack.ltapp.presenter
 
+import android.annotation.SuppressLint
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
@@ -13,18 +16,28 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.lifetrack.ltapp.model.data.LtMockData
 import org.lifetrack.ltapp.model.data.dclass.Appointment
 import org.lifetrack.ltapp.model.data.dclass.AppointmentStatus
 import org.lifetrack.ltapp.model.data.dclass.AuthResult
 import org.lifetrack.ltapp.model.data.dclass.DoctorProfile
+import org.lifetrack.ltapp.model.data.dclass.LabTest
+import org.lifetrack.ltapp.model.data.dclass.Prescription
+import org.lifetrack.ltapp.model.data.mock.LtMockData
 import org.lifetrack.ltapp.model.repository.UserRepository
 
 
 class UserPresenter(
     private val userRepository: UserRepository
 ) : ViewModel() {
-
+    @SuppressLint("MutableCollectionMutableState")
+    val dummyBpData = mutableStateOf(LtMockData.bPressureData)
+    val dummyPatient = mutableStateOf(LtMockData.dPatient)
+    val dummyLabTests =  mutableStateListOf<LabTest>().apply {
+        addAll(LtMockData.dLabTests)
+    }
+    val dummyPrescriptions =  mutableStateListOf<Prescription>().apply {
+        addAll(LtMockData.dPrescriptions)
+    }
     private val _allAppointments = MutableStateFlow(LtMockData.dummyAppointments)
     private val _selectedFilter = MutableStateFlow(AppointmentStatus.UPCOMING)
     val selectedFilter = _selectedFilter.asStateFlow()
@@ -39,14 +52,20 @@ class UserPresenter(
     val nextUpcomingAppointment = _allAppointments.map { list ->
         list.filter { it.status == AppointmentStatus.UPCOMING }
             .minByOrNull { it.dateTime }
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+    }.stateIn(viewModelScope,
+        SharingStarted.WhileSubscribed(5000),
+        null
+    )
 
     val userAppointments: StateFlow<List<Appointment>> = combine(
         _allAppointments,
         _selectedFilter
     ) { appointments, filter ->
         appointments.filter { it.status == filter }
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+    }.stateIn(viewModelScope,
+        SharingStarted.WhileSubscribed(5000),
+        emptyList()
+    )
 
     fun onFilterChanged(newFilter: AppointmentStatus) {
         _selectedFilter.value = newFilter
@@ -63,12 +82,6 @@ class UserPresenter(
     fun getCountForStatus(status: AppointmentStatus): Int {
         return _allAppointments.value.count { it.status == status }
     }
-
-//    init {
-//        loadUserProfile()
-//    }
-
-
 
     fun deleteAccount(navController: NavController) {
         viewModelScope.launch(Dispatchers.IO) {
