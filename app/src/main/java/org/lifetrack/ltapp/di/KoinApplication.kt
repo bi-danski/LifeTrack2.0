@@ -10,6 +10,7 @@ import org.koin.core.logger.Level
 import org.koin.dsl.KoinConfiguration
 import org.koin.dsl.koinConfiguration
 
+
 @OptIn(KoinExperimentalAPI::class)
 class KoinApplication: Application(), KoinStartup {
 
