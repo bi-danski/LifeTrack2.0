@@ -5,8 +5,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
-//    alias(libs.plugins.kapt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.kotzilla)
     id("kotlin-parcelize")
 }
 
@@ -127,6 +127,7 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
     implementation(libs.koin.androidx.compose.navigation)
+    implementation(libs.kotzilla.sdk.compose)
 
     implementation(libs.charts)
     implementation(libs.room.ktx)
@@ -145,4 +146,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+}
+
+kotzilla {
+    composeInstrumentation = true
 }

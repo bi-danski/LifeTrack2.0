@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -59,8 +60,8 @@ class AuthPresenter(
     private val _uiEvent = MutableSharedFlow<AuthUiEvent>()
     val uiEvent = _uiEvent.asSharedFlow()
 
-    private val _uiState = MutableStateFlow<UIState>(UIState.Idle)
-    val uiState = _uiState.asStateFlow()
+    private val _uiState = MutableSharedFlow<UIState>()
+    val uiState = _uiState.asSharedFlow()
 
     private val _loginInfo = MutableStateFlow(LoginInfo())
     val loginInfo = _loginInfo.asStateFlow()
@@ -79,17 +80,19 @@ class AuthPresenter(
 
 
     fun resetUIState() {
-        _uiState.value = UIState.Idle
+        viewModelScope.launch {
+            _uiState.emit(UIState.Idle)
+        }
     }
     fun onLoginInfoUpdate(info: LoginInfo) { _loginInfo.value = info }
     fun onSignupInfoUpdate(info: SignUpInfo) { _signupInfo.value = info }
 
     fun login(navController: NavController) {
         viewModelScope.launch {
-            _uiState.value = UIState.Loading
+            _uiState.emit(UIState.Loading)
             when (val result = authRepository.login(_loginInfo.value)) {
                  is AuthResult.SuccessWithData<*> -> {
-                    _uiState.value = UIState.Success("Welcome back!")
+                    _uiState.emit( UIState.Success("Welcome back!"))
                     _sessionState.value = SessionStatus.LOGGED_IN
                     val sessionTokens = result.data as TokenPreferences
                     prefRepository.updateTokens(sessionTokens.accessToken, sessionTokens.refreshToken)
@@ -97,24 +100,24 @@ class AuthPresenter(
                     navController.clearBackStack("home")
                    _uiEvent.emit(AuthUiEvent.LoginSuccess)
                 }
-                is AuthResult.Error -> _uiState.value = UIState.Error(result.message)
-                is AuthResult.Success -> _uiState.value = UIState.Success()
-                else -> _uiState.value = UIState.Loading
+                is AuthResult.Error -> _uiState.emit( UIState.Error(result.message))
+                is AuthResult.Success -> _uiState.emit( UIState.Success())
+                else -> _uiState.emit(UIState.Loading)
             }
         }
     }
 
     fun signUp(navController: NavController) {
         viewModelScope.launch {
-            _uiState.value = UIState.Loading
+            _uiState.emit(UIState.Loading)
             when (val result = authRepository.signUp(_signupInfo.value)) {
                 is AuthResult.Success -> {
-                    _uiState.value = UIState.Success("Account created successfully!")
+                    _uiState.emit(UIState.Success("Account created successfully!"))
                     delay(1500)
                     navController.navigate("login") { popUpTo("signup") { inclusive = true } }
                 }
-                is AuthResult.Error -> _uiState.value = UIState.Error(result.message)
-                else -> _uiState.value = UIState.Idle
+                is AuthResult.Error -> _uiState.emit(UIState.Error(result.message))
+                else -> _uiState.emit(UIState.Idle)
             }
         }
     }
@@ -124,7 +127,7 @@ class AuthPresenter(
             withContext(kotlinx.coroutines.NonCancellable) {
                 authRepository.logout()
             }
-            _uiState.value = UIState.Idle
+            _uiState.emit(UIState.Idle)
             _sessionState.value = SessionStatus.LOGGED_OUT
             navController.navigate("login") {
                 popUpTo(0) { inclusive = true }
@@ -162,7 +165,7 @@ class AuthPresenter(
 
                 } catch (e: Exception) {
                     _errorMessage.value = e.message ?: "Technical Error On Retrieving User Data"
-                    _uiState.value = UIState.Error(errorMessage.value.toString())
+                    _uiState.emit(UIState.Error(errorMessage.value.toString()))
                 } finally {
                     _isLoading.value = false
                 }

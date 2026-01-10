@@ -1,6 +1,7 @@
 package org.lifetrack.ltapp.di
 
 import android.app.Application
+import io.kotzilla.sdk.analytics.koin.analytics
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -14,6 +15,7 @@ class KoinApplication: Application(){
             androidLogger(if(BuildConfig.DEBUG) Level.ERROR else Level.NONE)
             androidContext(this@KoinApplication)
             modules(koinModule)
+            analytics()
         }
     }
 
