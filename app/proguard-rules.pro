@@ -2,6 +2,7 @@
 -renamesourcefileattribute SourceFile
 -keep class kotlin.Metadata { *; }
 
+-keep class org.koin.androix.** { *; }
 -keepclassmembers class * { @org.koin.core.annotation.KoinInternalApi *; }
 -keep class org.lifetrack.ltapp.di.** { *; }
 

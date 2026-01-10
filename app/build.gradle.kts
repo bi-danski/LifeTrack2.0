@@ -1,4 +1,7 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
+import java.io.FileInputStream
+
 
 plugins {
     alias(libs.plugins.android.application)
@@ -8,6 +11,13 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotzilla)
     id("kotlin-parcelize")
+}
+
+val ltKeystorePropertiesFile = rootProject.file("keystore.properties")
+val ltKeystoreProperties = Properties().apply {
+    if (ltKeystorePropertiesFile.exists()) {
+        load(FileInputStream(ltKeystorePropertiesFile))
+    }
 }
 
 android {
@@ -26,10 +36,16 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
-//        val assistantServiceString: String = project.findProperty("ASS_ISTANT") as String? ?: ""
-        //  ASS_ISTANT
+    signingConfigs {
+        create("release") {
+            storeFile = file(ltKeystoreProperties["ltStoreFile"] as String? ?: "lt-release-key.jks")
+            storePassword = ltKeystoreProperties["ltStorePassword"] as String?
+            keyAlias = ltKeystoreProperties["ltKeyAlias"] as String?
+            keyPassword = ltKeystoreProperties["ltKeyPassword"] as String?
+        }
+    }
 
+    buildTypes {
 //        debug {
 //            buildConfigField("String", "ASS_ISTANT","\"$assistantServiceString\"")
 //        }
@@ -41,13 +57,14 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-//            buildConfigField("String", "ASS_ISTANT","\"$assistantServiceString\"")
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
     }
+
     kotlin {
         compilerOptions {
             freeCompilerArgs.addAll(

@@ -7,13 +7,11 @@ import androidx.room.Room
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.withContext
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
-import org.koin.viewmodel.scope.viewModelScope
 import org.lifetrack.ltapp.core.network.KtorHttpClient
 import org.lifetrack.ltapp.core.service.AlmaService
 import org.lifetrack.ltapp.model.datastore.LTPreferenceSerializer
@@ -34,7 +32,6 @@ import org.lifetrack.ltapp.presenter.HomePresenter
 import org.lifetrack.ltapp.presenter.PrescPresenter
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.presenter.UserPresenter
-import kotlin.coroutines.CoroutineContext
 
 private val Context.tokenDataStore by dataStore(
     fileName = "_prefs.json",
