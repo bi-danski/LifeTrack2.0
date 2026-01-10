@@ -25,5 +25,5 @@ build-cache
 /compose-reports
 /compose-metrics
 /.kotlin/sessions
-app/kotzilla.json
 app/src/main/assets/kotzilla.key
+app/kotzilla.json
