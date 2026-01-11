@@ -60,7 +60,7 @@ fun TodayScheduleCard(
 //    )
     val themeColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40
     val subTextColor = if (isSystemInDarkTheme()) Color.Gray else Color(0xFF5F6368)
-    val highlightColor = if (isSystemInDarkTheme()) Color.Green else MaterialTheme.colorScheme.secondary
+    val highlightColor = if (isSystemInDarkTheme()) Color.Green else Purple40
 
     GlassCard(
         shape = RoundedCornerShape(22.dp),
@@ -149,7 +149,7 @@ fun TodayScheduleCard(
                                 )
                                 Text(
                                     text = nextAppointment.hospital,
-                                    fontSize = if (nextAppointment.doctor.length < nextAppointment.hospital.length) 14.5.sp else 16.5.sp,
+                                    fontSize = if (nextAppointment.doctor.length < nextAppointment.hospital.length) 16.5.sp else 18.5.sp,
                                     color = highlightColor,
                                     fontWeight = FontWeight.Bold,
                                     maxLines = 1,
@@ -157,7 +157,7 @@ fun TodayScheduleCard(
                                 )
                                 Text(
                                     text = nextAppointment.dateTime.customFormat("hh:mm a"),
-                                    fontSize = 24.sp,
+                                    fontSize = 22.5.sp,
                                     fontWeight = FontWeight.Black,
                                     color = themeColor.copy(0.85f)
                                 )
@@ -259,8 +259,8 @@ fun TodayScheduleCard(
                             }
                             Text(
                                 text = "CONTACTS",
-                                fontSize = 10.7.sp,
-                                fontWeight = FontWeight.Bold,
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.Black,
                                 color = themeColor,
                                 modifier = Modifier.padding(top = 4.dp)
                             )
@@ -290,7 +290,8 @@ fun TodayScheduleCard(
                                 fontSize = 12.sp,
                                 maxLines = 1,
                                 fontWeight = FontWeight.Black,
-                                color = if (isSystemInDarkTheme()) Color.Green else Color(0xFF5F6368),
+                                color = if (isSystemInDarkTheme()) Color.Green else Purple40,
+//                                    Color(0xFF5F6368),
                                 overflow = TextOverflow.Ellipsis,
                                 modifier = Modifier.padding(top = 2.dp)
                             )
