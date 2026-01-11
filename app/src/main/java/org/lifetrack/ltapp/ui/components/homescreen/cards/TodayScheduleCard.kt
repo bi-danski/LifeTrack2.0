@@ -1,6 +1,8 @@
 package org.lifetrack.ltapp.ui.components.homescreen.cards
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,6 +19,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ContactEmergency
+//import androidx.compose.material.icons.filled.ContactEmergency
 import androidx.compose.material.icons.filled.EventAvailable
 import androidx.compose.material.icons.filled.WifiTethering
 import androidx.compose.material3.Card
@@ -63,12 +66,12 @@ fun TodayScheduleCard(
         shape = RoundedCornerShape(22.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .height(200.dp)
+            .height(205.dp)
             .background(Color.Transparent)
     ) {
         Column(
             modifier = Modifier
-                .padding(0.dp)
+                .padding(2.dp)
                 .fillMaxSize()
                 .background(
                     MaterialTheme.colorScheme.background
@@ -82,9 +85,15 @@ fun TodayScheduleCard(
                     .weight(1.1f)
                     .clip(RoundedCornerShape(16.dp))
                     .background(themeColor.copy(alpha = 0.08f))
+                    .border(1.dp,
+                        if (isSystemInDarkTheme()) Color.Green.copy(alpha = 0.4f) else nextAppointment?.status?.color?.copy(0.4f) ?: Purple40.copy(0.4f) ,
+                        RoundedCornerShape(16.dp)
+                    )
             ) {
                 if (nextAppointment != null) {
-                    Row(modifier = Modifier.fillMaxSize()) {
+                    Row(modifier = Modifier
+                        .fillMaxSize()
+                    ) {
                         Box(
                             modifier = Modifier
                                 .fillMaxHeight()
@@ -126,7 +135,9 @@ fun TodayScheduleCard(
 
                             Column(
                                 horizontalAlignment = Alignment.End,
+                                verticalArrangement = Arrangement.SpaceBetween,
                                 modifier = Modifier.weight(1.6f)
+
                             ) {
                                 Text(
                                     text = nextAppointment.doctor,
@@ -148,7 +159,7 @@ fun TodayScheduleCard(
                                     text = nextAppointment.dateTime.customFormat("hh:mm a"),
                                     fontSize = 24.sp,
                                     fontWeight = FontWeight.Black,
-                                    color = themeColor
+                                    color = themeColor.copy(0.85f)
                                 )
                             }
                         }
@@ -175,7 +186,7 @@ fun TodayScheduleCard(
                 Card(
                     onClick = onEmergencyClick,
                     modifier = Modifier
-                        .weight(0.6f)
+                        .weight(0.5f)
                         .fillMaxHeight(),
 //                        .graphicsLayer(scaleX = pulseScale, scaleY = pulseScale),
                     shape = RoundedCornerShape(16.dp),
@@ -197,7 +208,7 @@ fun TodayScheduleCard(
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            "EMERGENCY",
+                            "SOS",
                             color = Color.White,
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Black,
@@ -207,83 +218,83 @@ fun TodayScheduleCard(
                     }
                 }
 
-                Card(
-                    onClick = onEmergencyContactClick,
-                    modifier = Modifier
-                        .weight(0.6f)
-                        .fillMaxHeight(),
-//                        .graphicsLayer(scaleX = pulseScale, scaleY = pulseScale),
-                    shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = themeColor.copy(alpha = 0.08f)
-                    )
-                ) {
-                    Column (
-                        modifier = Modifier
-                            .padding(2.dp)
-                            .fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        val textColor = if(isSystemInDarkTheme()) themeColor else MaterialTheme.colorScheme.secondary
-                        Text(
-                            "EMERGENCY",
-                            color = textColor,
-                            fontSize = 12.sp,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            fontWeight = FontWeight.Black
-                        )
-                        Spacer(Modifier.height(3.dp))
-                        Icon(
-                            Icons.Default.ContactEmergency,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.secondary
-                        )
-                        Spacer(Modifier.height(3.dp))
-                        Text(
-                            "CONTACT",
-                            color = textColor,
-                            fontSize = 12.sp,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            fontWeight = FontWeight.Black
-                        )
-                    }
-                }
-
-
                 Box(
                     modifier = Modifier
-                        .weight(0.7f)
+                        .weight(1.2f)
                         .fillMaxHeight()
                         .clip(RoundedCornerShape(16.dp))
-                        .background(
-                            themeColor.copy(alpha = 0.08f)
-//                            if (isSystemInDarkTheme()) Color.White.copy(0.08f)
-                        ),
-                    contentAlignment = Alignment.Center
+                        .background(themeColor.copy(alpha = 0.08f))
+                        .border(1.dp,
+                            if (isSystemInDarkTheme()) Color.Green.copy(alpha = 0.4f) else Purple40.copy(alpha = 0.4f),
+                            RoundedCornerShape(16.dp)
+                        )
                 ) {
-                    Column(
-                        modifier = Modifier.padding(2.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
+                    Row(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(
-                            text = appointmentCount.toString(),
-                            fontSize = 22.sp,
-                            fontWeight = FontWeight.ExtraBold,
-                            color = themeColor
+                        Column(
+                            modifier = Modifier
+                                .weight(1f)
+                                .clickable { onEmergencyContactClick() }
+                                .fillMaxHeight(),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(36.dp)
+                                    .background(
+                                        if (isSystemInDarkTheme()) Color.Green.copy(alpha = 0.15f) else Purple40.copy(alpha = 0.15f),
+                                        RoundedCornerShape(18.dp)
+                                    ),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.ContactEmergency,
+                                    contentDescription = "Contacts",
+                                    tint = if (isSystemInDarkTheme()) Color.Green else Purple40,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+                            Text(
+                                text = "CONTACTS",
+                                fontSize = 10.7.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = themeColor,
+                                modifier = Modifier.padding(top = 4.dp)
+                            )
+                        }
+
+                        Box(
+                            modifier = Modifier
+                                .width(1.dp)
+                                .height(40.dp)
+                                .background(subTextColor.copy(alpha = 0.3f))
                         )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(
-                            text = "Appointments",
-                            fontSize = 14.sp,
-                            maxLines = 1,
-                            fontWeight = FontWeight.Bold,
-                            color = highlightColor,
-                            overflow = TextOverflow.Ellipsis
-                        )
+
+                        Column(
+                            modifier = Modifier.weight(1f).fillMaxHeight(),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            Text(
+                                text = appointmentCount.toString(),
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.ExtraBold,
+                                color = themeColor
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text(
+                                text = "Appointments",
+                                fontSize = 12.sp,
+                                maxLines = 1,
+                                fontWeight = FontWeight.Black,
+                                color = if (isSystemInDarkTheme()) Color.Green else Color(0xFF5F6368),
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = Modifier.padding(top = 2.dp)
+                            )
+                        }
                     }
                 }
             }

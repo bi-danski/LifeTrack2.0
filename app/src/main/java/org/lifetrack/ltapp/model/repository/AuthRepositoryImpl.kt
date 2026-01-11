@@ -4,6 +4,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
+import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
@@ -21,24 +22,6 @@ class AuthRepositoryImpl(
     private val prefs: PreferenceRepository
 ) : AuthRepository {
 
-//    override suspend fun login(loginInfo: LoginInfo): AuthResult {
-//        return try {
-//            val response = client.post("/auth/login") {
-//                contentType(ContentType.Application.Json)
-//                setBody(loginInfo.toLoginRequest())
-//            }
-//            if (response.status == HttpStatusCode.OK) {
-//                val tokens = response.body<TokenPreferences>()
-//                prefs.updateTokens(tokens.accessToken, tokens.refreshToken)
-//                AuthResult.SuccessWithData(tokens)
-//            } else {
-//                AuthResult.Error("Invalid credentials: ${response.body<Map<Any, Any>>()}")
-//            }
-//        } catch (e: Exception) {
-//            AuthResult.Error(e.message ?: "Unknown login error")
-//        }
-//    }
-
     override suspend fun login(loginInfo: LoginInfo): AuthResult {
         return try {
             val response = client.post("/auth/login") {
@@ -52,21 +35,25 @@ class AuthRepositoryImpl(
             }else {
                 AuthResult.Error("Invalid credentials. Please check your email and password.")
             }
-        } catch (e: Exception) {
-            AuthResult.Error(sanitizeErrorMessage(e))
+        } catch (ex: Exception) {
+            AuthResult.Error(sanitizeErrorMessage(ex))
         }
     }
 
 
     override suspend fun signUp( signupInfo: SignUpInfo ): AuthResult {
         return try {
-            client.post("/auth/register") {
+            val response = client.post("/auth/register") {
                 contentType(ContentType.Application.Json)
                 setBody(signupInfo.toSignUpRequest())
             }
-            AuthResult.Success
-        } catch (e: Exception) {
-            AuthResult.Error(e.message ?: "An Error Occurred while creating your account")
+            if (response.status == HttpStatusCode.Created){
+                AuthResult.Success
+            }else {
+                AuthResult.Error(response.bodyAsText())
+            }
+        } catch (ex: Exception) {
+            AuthResult.Error(sanitizeErrorMessage(ex))
         }
     }
 
@@ -103,8 +90,8 @@ class AuthRepositoryImpl(
         return try {
             prefs.clearUserPreferences()
             AuthResult.Success
-        } catch (e: Exception) {
-            AuthResult.Error("Logout failed: ${e.message}")
+        } catch (ex: Exception) {
+            AuthResult.Error(sanitizeErrorMessage(ex))
         }
     }
 }

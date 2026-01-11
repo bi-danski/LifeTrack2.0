@@ -30,7 +30,8 @@ fun GoalModule(
     progress: Float,
     color: Color,
     icon: ImageVector,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    animTime: Int
 ) {
     val themeColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40
 
@@ -40,7 +41,7 @@ fun GoalModule(
         animatedProgress.animateTo(
             targetValue = progress,
             animationSpec = androidx.compose.animation.core.tween(
-                durationMillis = 1000,
+                durationMillis = animTime,
                 easing = androidx.compose.animation.core.FastOutSlowInEasing
             )
         )
@@ -61,14 +62,16 @@ fun GoalModule(
         Spacer(Modifier.height(8.dp))
         Text(
             text = label,
-            fontSize = 11.sp,
+            fontSize = 12.sp,
             fontWeight = FontWeight.Bold,
             color = themeColor
         )
         Text(
             text = value,
-            fontSize = 10.sp,
-            color = if (isSystemInDarkTheme()) Color.Gray else Color.DarkGray
+            fontSize = 11.sp,
+            fontWeight = FontWeight.Bold,
+            color = themeColor.copy(alpha = 0.7f)
+//            color = if (isSystemInDarkTheme()) Color.Gray else Color.DarkGray
         )
     }
 }

@@ -35,21 +35,29 @@ fun DailyGoalsCard(
     sleepGoal: Float = 8f
 ) {
     val themeColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40
-    val containerBg = if (isSystemInDarkTheme()) Color.Transparent else Color.White.copy(alpha = 0.3f)
+//    val containerBg = if (isSystemInDarkTheme()) Color.Transparent else Color.White.copy(alpha = 0.3f)
 
     GlassCard(
         shape = RoundedCornerShape(22.dp),
         modifier = Modifier
             .fillMaxWidth()
             .height(210.dp)
-            .background(containerBg)
+            .background(MaterialTheme.colorScheme.background)
+//                Color.Transparent)
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(
+            modifier = Modifier
+                .padding(5.dp)
+//                .background(
+//                    MaterialTheme.colorScheme.background
+//                )
+        ) {
             Text(
                 text = "Daily Goals",
                 fontWeight = FontWeight.Black,
                 fontSize = 20.sp,
-                color = themeColor
+                color = themeColor,
+                modifier = Modifier.padding(4.dp)
             )
 
             Spacer(Modifier.height(16.dp))
@@ -64,7 +72,8 @@ fun DailyGoalsCard(
                     progress = (steps.toFloat() / stepGoal).coerceAtMost(1f),
                     color = Color(0xFF4CAF50),
                     icon = Icons.AutoMirrored.Filled.DirectionsRun,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    animTime = 5000
                 )
 
                 GoalModule(
@@ -73,7 +82,8 @@ fun DailyGoalsCard(
                     progress = (waterLiters / waterGoal).coerceAtMost(1f),
                     color = Color(0xFF2196F3),
                     icon = Icons.Default.WaterDrop,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    animTime = 7000
                 )
 
                 GoalModule(
@@ -82,7 +92,8 @@ fun DailyGoalsCard(
                     progress = (sleepHours / sleepGoal).coerceAtMost(1f),
                     color = Color(0xFF9C27B0),
                     icon = Icons.Default.Bedtime,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    animTime = 10000
                 )
             }
         }
