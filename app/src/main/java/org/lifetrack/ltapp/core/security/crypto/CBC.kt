@@ -9,7 +9,7 @@ import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
 
 
-@Deprecated("Use CryptoGCM instead")
+@Deprecated("Oyaah!! Tumia CryptoGCM")
 object CryptoCBC {
     private const val KEY_ALIAS = "SIRI_CBC"
     private const val ALGORITHM = KeyProperties.KEY_ALGORITHM_AES

@@ -154,6 +154,8 @@ dependencies {
     implementation(libs.room.compiler)
     implementation(libs.mpandroidchart)
 
+//    implementation("io.jsonwebtoken:jjwt-api:0.12.6")
+
     ksp(libs.room.compiler)
     implementation(libs.slf4j.nop)
     implementation(libs.accompanist.systemuicontroller)

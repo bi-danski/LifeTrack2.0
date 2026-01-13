@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowCircleLeft
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -67,7 +68,7 @@ fun AnalyticScreen(
                 },
                 actions = {
                     IconButton(onClick = { /* Export */ }) {
-                        Icon(Icons.Default.Share, "Export")
+                        Icon(Icons.Default.Refresh, "Export")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(

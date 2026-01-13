@@ -35,14 +35,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import org.lifetrack.ltapp.R
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.ui.components.aboutscreen.FeatureItem
 import org.lifetrack.ltapp.ui.components.supportscreen.SectionCard
+import org.lifetrack.ltapp.ui.theme.Purple40
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -72,7 +76,7 @@ fun AboutScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = colorScheme.background, //colorScheme.primaryContainer,
+                    containerColor = if (isSystemInDarkTheme()) colorScheme.background else Purple40,
                     titleContentColor = colorScheme.onPrimaryContainer,
                     navigationIconContentColor = colorScheme.onPrimaryContainer
                 )
@@ -85,8 +89,7 @@ fun AboutScreen(
                 .padding(padding)
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp)
-            ,
+                .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(16.dp))
@@ -106,7 +109,7 @@ fun AboutScreen(
             }
             Spacer(modifier = Modifier.height(24.dp))
             Text(
-                text = "LifeTrack Health Companion",
+                text = stringResource(R.string.companion),
                 fontWeight = FontWeight.SemiBold,
                 style = MaterialTheme.typography.headlineMedium.copy(
                     color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Color(0xFF2E5EAA),
@@ -115,7 +118,7 @@ fun AboutScreen(
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Your complete health management solution",
+                text = stringResource(R.string.companionDesc),
                 style = MaterialTheme.typography.titleMedium.copy(
                     color = Color(0xFF6C757D),
                     textAlign = TextAlign.Center
@@ -141,10 +144,10 @@ fun AboutScreen(
                     ) {
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "LifeTrack is your digital health companion app providing telemedicine, health tracking, and emergency alerts. Our mission is to empower patients with accessible health data and real-time medical assistance.",
+                            text = stringResource(R.string.app_description),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
-//                            fontSize = 12.sp,
+                            fontSize = 13.5.sp,
                             fontWeight = FontWeight.SemiBold
                         )
                         Spacer(modifier = Modifier.height(16.dp))
@@ -154,12 +157,16 @@ fun AboutScreen(
                         ) {
                             Text(
                                 text = "Version",
-                                style = MaterialTheme.typography.bodyMedium,
+                                style = MaterialTheme.typography.bodyMedium.copy(
+                                    fontWeight = FontWeight.Black
+                                ),
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Text(
                                 text = sharedPresenter.version,
-                                style = MaterialTheme.typography.bodyMedium,
+                                style = MaterialTheme.typography.bodyMedium.copy(
+                                    fontWeight = FontWeight.Black
+                                ),
                                 color = MaterialTheme.colorScheme.onSurface
                             )
                         }
@@ -226,7 +233,7 @@ fun AboutScreen(
                         )
                     )
                     Text(
-                        text = "LifeTrack Health Solutions",
+                        text = stringResource(R.string.whoWeAre),
                         modifier = Modifier.padding(horizontal = 16.dp),
                         style = MaterialTheme.typography.bodyLarge.copy(
                             fontWeight = FontWeight.Bold,
@@ -234,7 +241,7 @@ fun AboutScreen(
                         )
                     )
                     Text(
-                        text = "Innovating for Your Well-Being",
+                        text = stringResource(R.string.whatWeDo),
                         modifier = Modifier.padding(horizontal = 16.dp),
                         style = MaterialTheme.typography.bodyMedium.copy(
                             fontStyle = FontStyle.Italic,
@@ -261,14 +268,14 @@ fun AboutScreen(
                             )
                         )
                         Text(
-                            text = "contact@lifetrack.org",
+                            text = stringResource(R.string.whoAmI),
                             modifier = Modifier.padding(horizontal = 16.dp),
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.SemiBold,
                             color = thatOneColor
                         )
                         Text(
-                            text = "www.lifetrack.org",
+                            text = stringResource(R.string.whoAmISite),
                             modifier = Modifier.padding(horizontal = 16.dp),
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.SemiBold,
@@ -283,7 +290,7 @@ fun AboutScreen(
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     ){
                         Text(
-                            text = "© 2023 LifeTrack. All rights reserved.",
+                            text = stringResource(R.string.copyright),
                             style = MaterialTheme.typography.bodySmall.copy(
                                 color = Color(0xFF6C757D),
                                 fontWeight = FontWeight.Bold

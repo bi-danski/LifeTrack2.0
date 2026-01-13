@@ -27,7 +27,7 @@ fun SectionCard(
             .fillMaxWidth(),
 //            .padding(10.dp),
         colors = CardDefaults.cardColors(
-            containerColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.surfaceContainer        ),
+            containerColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.surfaceContainer),
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
