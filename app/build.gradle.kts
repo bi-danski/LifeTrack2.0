@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotzilla)
     id("kotlin-parcelize")
+    alias(libs.plugins.google.gms.google.services)
 }
 
 val ltKeystorePropertiesFile = rootProject.file("keystore.properties")
@@ -153,6 +154,7 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.room.compiler)
     implementation(libs.mpandroidchart)
+    implementation(libs.firebase.messaging)
 
 //    implementation("io.jsonwebtoken:jjwt-api:0.12.6")
 

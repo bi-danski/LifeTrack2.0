@@ -1,6 +1,7 @@
 package org.lifetrack.ltapp.core.service
 
 
+import android.util.Log
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.*
@@ -13,17 +14,18 @@ class AlmaService(
     private val httpClient: HttpClient
 ) {
 
-    suspend fun promptAssistant(userPrompt: String): String {
+    suspend fun promptAssistant(userPrompt: UserPrompt): String {
         return try {
-            val response = httpClient.post("/alma/chat") {
+            val response = httpClient.post("/alma/chat/") {
                 contentType(ContentType.Application.Json)
-                setBody(UserPrompt(prompt = userPrompt))
+                setBody(userPrompt)
             }
             val result = response.body<AssistantResult>()
             result.output.text.trim()
 
         } catch (e: Exception) {
-            "Alma is currently unavailable: ${e.localizedMessage}"
+            Log.e( "promptAssistant()", "${e.localizedMessage}")
+            "${e.message}"
         }
     }
 }

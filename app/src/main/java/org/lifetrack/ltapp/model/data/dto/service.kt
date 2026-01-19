@@ -22,5 +22,6 @@ data class MessageMetadata(
 
 @Serializable
 data class UserPrompt(
+    val chatId: String,
     val prompt: String
 )
