@@ -34,8 +34,7 @@ fun LTNavigation(
 
     NavHost(
         navController = navController,
-        startDestination = "home",
-//            if (isLoggedIn == true) "home" else "login",
+        startDestination = if (isLoggedIn == true) "home" else "login",
 //        enterTransition = {
 //            slideIntoContainer(
 //                towards = AnimatedContentTransitionScope.SlideDirection.Start,
