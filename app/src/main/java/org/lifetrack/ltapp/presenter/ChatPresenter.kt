@@ -14,7 +14,7 @@ import org.lifetrack.ltapp.model.data.dto.Message
 import org.lifetrack.ltapp.model.data.dto.UserPrompt
 import org.lifetrack.ltapp.model.repository.ChatRepository
 import java.util.UUID
-
+//import androidx.compose.material.icons.filled.Menu
 
 class ChatPresenter(
     private val chatRepository: ChatRepository,
@@ -33,8 +33,16 @@ class ChatPresenter(
         KEY_CURRENT_CHAT_ID,
         UUID.randomUUID().toString()
     )
+
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
+
+    val chatHistory: StateFlow<List<Message>> = chatRepository.getUniqueSessions()
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
+            emptyList()
+        )
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val almaChats: StateFlow<List<Message>> = chatId
@@ -56,8 +64,7 @@ class ChatPresenter(
     }
 
     fun startNewChat() {
-        val newId = UUID.randomUUID().toString()
-        savedStateHandle[KEY_CURRENT_CHAT_ID] = newId
+        savedStateHandle[KEY_CURRENT_CHAT_ID] = UUID.randomUUID().toString()
         clearInput()
     }
 
@@ -68,15 +75,16 @@ class ChatPresenter(
         if (content.isBlank()) return
 
         viewModelScope.launch {
-            val userMessage = Message(
-                id = activeChatId.toLong(),
-                text = content,
-//                chatId = activeChatId,
-                isFromPatient = true,
-                timestamp = System.currentTimeMillis(),
-                type = TYPE_ALMA
+            chatRepository.addChat(
+                Message(
+                    id = 0,
+                    text = content,
+                    chatId = activeChatId,
+                    isFromPatient = true,
+                    timestamp = System.currentTimeMillis(),
+                    type = TYPE_ALMA
+                )
             )
-            chatRepository.addChat(userMessage)
             clearInput()
 
             _isLoading.value = true
@@ -96,11 +104,12 @@ class ChatPresenter(
     private suspend fun saveToRoom(text: String, sessionId: String, isFromPatient: Boolean) {
         chatRepository.addChat(
             Message(
-                id = sessionId.toLong(),
+                id = 0,
                 text = text,
                 isFromPatient = isFromPatient,
                 timestamp = System.currentTimeMillis(),
-                type = TYPE_ALMA
+                type = TYPE_ALMA,
+                chatId = sessionId
             )
         )
     }

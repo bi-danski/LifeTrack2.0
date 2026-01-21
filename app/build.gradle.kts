@@ -9,9 +9,9 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.kotzilla)
+//    alias(libs.plugins.kotzilla)
     id("kotlin-parcelize")
-    alias(libs.plugins.google.gms.google.services)
+//    alias(libs.plugins.google.gms.google.services)
 }
 
 val ltKeystorePropertiesFile = rootProject.file("keystore.properties")
@@ -147,15 +147,14 @@ dependencies {
     implementation(libs.koin.androidx.compose)
     implementation(libs.koin.androidx.compose.navigation)
     implementation(libs.koin.androidx.startup)
-    implementation(libs.kotzilla.sdk.compose)
+//    implementation(libs.kotzilla.sdk.compose)
 
     implementation(libs.charts)
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)
     implementation(libs.room.compiler)
     implementation(libs.mpandroidchart)
-    implementation(libs.firebase.messaging)
-
+//    implementation(libs.firebase.messaging)
 //    implementation("io.jsonwebtoken:jjwt-api:0.12.6")
 
     ksp(libs.room.compiler)
@@ -171,6 +170,6 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 }
 
-kotzilla {
-    composeInstrumentation = true
-}
+//kotzilla {
+//    composeInstrumentation = true
+//}

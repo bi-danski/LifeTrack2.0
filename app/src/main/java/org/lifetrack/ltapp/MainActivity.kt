@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 //import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.lifetrack.ltapp.core.notification.DroidNotification
 //import org.lifetrack.ltapp.presenter.AuthPresenter
-import org.lifetrack.ltapp.ui.navigation.AppNavigation
+import org.lifetrack.ltapp.ui.navigation.LTNavigation
 import org.lifetrack.ltapp.ui.theme.LTAppTheme
 
 
@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
             LTAppTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     val appNavController = rememberNavController()
-                    AppNavigation(
+                    LTNavigation(
                         navController = appNavController,
                     )
                 }

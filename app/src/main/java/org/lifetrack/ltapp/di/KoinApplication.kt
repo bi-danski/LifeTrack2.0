@@ -1,7 +1,7 @@
 package org.lifetrack.ltapp.di
 
 import android.app.Application
-import io.kotzilla.sdk.analytics.koin.analytics
+//import io.kotzilla.sdk.analytics.koin.analytics
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androix.startup.KoinStartup
@@ -18,10 +18,6 @@ class KoinApplication: Application(), KoinStartup {
         androidContext(this@KoinApplication)
         androidLogger(Level.INFO)
         modules(koinModule)
-        analytics()
-    }
-
-    override fun onCreate() {
-        super.onCreate()
+//        analytics()
     }
 }

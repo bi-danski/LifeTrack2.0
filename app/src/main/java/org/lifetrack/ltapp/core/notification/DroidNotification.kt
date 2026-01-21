@@ -8,8 +8,8 @@ object DroidNotification {
     const val CHANNEL_ID = "MED_REMINDER_CH"
 
     fun createNotificationChannel(context: Context) {
-        val name = "Medication Reminders"
-        val descriptionText = "Notifications for scheduled doses"
+        val name = "Medication Reminder"
+        val descriptionText = "Notification for scheduled doses"
         val importance = NotificationManager.IMPORTANCE_HIGH
 
         val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {

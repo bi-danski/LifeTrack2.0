@@ -62,7 +62,7 @@ fun SupportScreen(
                         Icon(
                             Icons.Default.ArrowCircleLeft,
                             contentDescription = "Back",
-                            tint = MaterialTheme.colorScheme.onPrimaryContainer
+//                            tint = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                     }
                 },
@@ -70,8 +70,8 @@ fun SupportScreen(
                     containerColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primaryContainer else Purple40,
                     scrolledContainerColor = Color.Unspecified,
                     navigationIconContentColor = Color.Unspecified,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                    titleContentColor = Color.White, // MaterialTheme.colorScheme.onPrimaryContainer,
+                    actionIconContentColor = Color.White, // MaterialTheme.colorScheme.onPrimaryContainer
                 )
             )
         },

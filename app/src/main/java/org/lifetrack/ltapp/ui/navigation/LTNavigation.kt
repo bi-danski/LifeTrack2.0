@@ -19,11 +19,11 @@ import org.lifetrack.ltapp.presenter.*
 import org.lifetrack.ltapp.ui.screens.*
 
 @Composable
-fun AppNavigation(
+fun LTNavigation(
     navController: NavHostController,
 ) {
     val activity = LocalActivity.current as? ComponentActivity
-        ?: throw IllegalStateException("AppNavigation must be hosted in a ComponentActivity")
+        ?: throw IllegalStateException("LTNavigation must be hosted in a ComponentActivity")
 
     val authPresenter = koinViewModel<AuthPresenter>(viewModelStoreOwner = activity)
     val userPresenter = koinViewModel<UserPresenter>(viewModelStoreOwner = activity)
@@ -34,7 +34,8 @@ fun AppNavigation(
 
     NavHost(
         navController = navController,
-        startDestination = if (isLoggedIn == true) "home" else "login",
+        startDestination = "home",
+//            if (isLoggedIn == true) "home" else "login",
 //        enterTransition = {
 //            slideIntoContainer(
 //                towards = AnimatedContentTransitionScope.SlideDirection.Start,

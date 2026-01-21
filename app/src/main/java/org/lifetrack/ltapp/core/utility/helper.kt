@@ -19,9 +19,19 @@ fun Message.toEntity(): MessageEntity{
         text = this.text,
         isFromPatient = this.isFromPatient,
         timestamp = this.timestamp,
-        type = this.type
+        type = this.type,
+        chatId = this.chatId,
     )
 }
+
+fun MessageEntity.toDto() = Message(
+    id = this.id,
+    text = this.text,
+    isFromPatient = this.isFromPatient,
+    timestamp = this.timestamp,
+    type = this.type,
+    chatId = this.chatId
+)
 
 fun LoginInfo.toLoginRequest(): LoginRequest{
     return LoginRequest(
