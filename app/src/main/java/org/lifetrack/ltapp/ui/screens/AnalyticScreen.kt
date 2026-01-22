@@ -1,27 +1,46 @@
 package org.lifetrack.ltapp.ui.screens
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowCircleLeft
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Share
-import androidx.compose.material3.*
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import org.lifetrack.ltapp.presenter.AnalyticPresenter
-import org.lifetrack.ltapp.ui.components.medicalcharts.*
-import org.lifetrack.ltapp.ui.theme.Purple40
+import org.lifetrack.ltapp.presenter.UserPresenter
+import org.lifetrack.ltapp.ui.components.medicalcharts.BloodPressureChart
+import org.lifetrack.ltapp.ui.components.medicalcharts.InfoRow
+import org.lifetrack.ltapp.ui.components.medicalcharts.LabTestItem
+import org.lifetrack.ltapp.ui.components.medicalcharts.MedicalCard
+import org.lifetrack.ltapp.ui.components.medicalcharts.MetricBadge
+
 
 @SuppressLint("SimpleDateFormat")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AnalyticScreen(
     navController: NavController,
-    presenter: AnalyticPresenter
+    presenter: UserPresenter,
 ) {
     val patient = presenter.dummyPatient
     val bpData = presenter.dummyBpData
@@ -49,7 +68,7 @@ fun AnalyticScreen(
                 },
                 actions = {
                     IconButton(onClick = { /* Export */ }) {
-                        Icon(Icons.Default.Share, "Export")
+                        Icon(Icons.Default.Refresh, "Export")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -95,7 +114,7 @@ fun AnalyticScreen(
 
             item {
                 MedicalCard(title = "LAB RESULT STATS") {
-                    labTests.value.forEach { test ->
+                    labTests.forEach { test ->
                         LabTestItem(test)
                         Spacer(modifier = Modifier.height(8.dp))
                     }

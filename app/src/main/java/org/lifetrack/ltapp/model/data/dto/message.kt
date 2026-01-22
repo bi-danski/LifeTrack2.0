@@ -23,5 +23,6 @@ data class Message(
     val text: String,
     val isFromPatient: Boolean,
     val timestamp: Long = System.currentTimeMillis(),
-    val type: String
+    val type: String,
+    val chatId: String
 )

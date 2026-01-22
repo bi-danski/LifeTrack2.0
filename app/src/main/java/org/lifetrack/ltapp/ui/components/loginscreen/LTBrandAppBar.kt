@@ -33,7 +33,7 @@ fun LTBrandAppBar(modifier: Modifier = Modifier, sharedPresenter: SharedPresente
     var scale by remember { mutableFloatStateOf(1f) }
 
     LaunchedEffect(Unit) {
-        while (sharedPresenter.appAnimationsToggleState) {
+        while (sharedPresenter.ltSettings.value.animations) {
             scale = 1.02f
             delay(500)
             scale = 1f

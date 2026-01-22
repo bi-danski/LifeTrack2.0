@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import org.lifetrack.ltapp.model.data.LtMockData
 import org.lifetrack.ltapp.model.data.dclass.MedicalVisit
 import org.lifetrack.ltapp.model.data.dclass.VisitStatus
+import org.lifetrack.ltapp.model.data.mock.LtMockData
 
 class TLinePresenter : ViewModel() {
 

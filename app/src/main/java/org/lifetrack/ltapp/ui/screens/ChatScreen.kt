@@ -42,7 +42,7 @@ fun ChatScreen(
     navController: NavController,
     presenter: ChatPresenter
 ) {
-    val chatMessages by presenter.dbChats.collectAsState()
+    val chatMessages by presenter.chatHistory.collectAsState()
     val inputText by presenter.chatInput.collectAsState()
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
@@ -90,7 +90,7 @@ fun ChatScreen(
             BBarMessage(
                 value = inputText,
                 onValueChange = { presenter.onMessageInput(it) },
-                onSend = { presenter.sendUserMessageToDoctor() }
+                onSend = { presenter.chatWithAlma() }
             )
         },
         

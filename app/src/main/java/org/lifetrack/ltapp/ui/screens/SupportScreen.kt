@@ -37,8 +37,8 @@ import org.lifetrack.ltapp.ui.components.supportscreen.ContactItem
 import org.lifetrack.ltapp.ui.components.supportscreen.FAQItem
 import org.lifetrack.ltapp.ui.components.supportscreen.SectionCard
 import org.lifetrack.ltapp.ui.theme.Purple40
-import org.lifetrack.ltapp.core.utils.openDialer
-import org.lifetrack.ltapp.core.utils.openEmail
+import org.lifetrack.ltapp.core.utility.openDialer
+import org.lifetrack.ltapp.core.utility.openEmail
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,7 +62,7 @@ fun SupportScreen(
                         Icon(
                             Icons.Default.ArrowCircleLeft,
                             contentDescription = "Back",
-                            tint = MaterialTheme.colorScheme.onPrimaryContainer
+//                            tint = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                     }
                 },
@@ -70,8 +70,8 @@ fun SupportScreen(
                     containerColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primaryContainer else Purple40,
                     scrolledContainerColor = Color.Unspecified,
                     navigationIconContentColor = Color.Unspecified,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                    titleContentColor = Color.White, // MaterialTheme.colorScheme.onPrimaryContainer,
+                    actionIconContentColor = Color.White, // MaterialTheme.colorScheme.onPrimaryContainer
                 )
             )
         },

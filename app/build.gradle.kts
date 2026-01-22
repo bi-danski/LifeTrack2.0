@@ -1,13 +1,24 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
+import java.io.FileInputStream
+
 
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
-//    alias(libs.plugins.kapt)
     alias(libs.plugins.ksp)
+//    alias(libs.plugins.kotzilla)
     id("kotlin-parcelize")
+//    alias(libs.plugins.google.gms.google.services)
+}
+
+val ltKeystorePropertiesFile = rootProject.file("keystore.properties")
+val ltKeystoreProperties = Properties().apply {
+    if (ltKeystorePropertiesFile.exists()) {
+        load(FileInputStream(ltKeystorePropertiesFile))
+    }
 }
 
 android {
@@ -26,25 +37,42 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file(ltKeystoreProperties["ltStoreFile"] as String? ?: "lt-release-key.jks")
+            storePassword = ltKeystoreProperties["ltStorePassword"] as String?
+            keyAlias = ltKeystoreProperties["ltKeyAlias"] as String?
+            keyPassword = ltKeystoreProperties["ltKeyPassword"] as String?
+        }
+    }
+
     buildTypes {
+//        debug {
+//            buildConfigField("String", "ASS_ISTANT","\"$assistantServiceString\"")
+//        }
+
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
     }
+
     kotlin {
         compilerOptions {
             freeCompilerArgs.addAll(
                 listOf(
                     "-P", "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=${project.rootDir}/compose-metrics",
                     "-P", "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=${project.rootDir}/compose-reports",
+                    "-Xdata-flow-based-exhaustiveness"
 //                    "-Xbuild-cache"
                 )
             )
@@ -91,6 +119,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.datastore.preferences)
 
     implementation(libs.material)
     implementation(libs.material.icons.core)
@@ -106,6 +135,7 @@ dependencies {
     implementation(libs.kotlinx.datetime)
 
     implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.auth)
     implementation(libs.ktor.client.android)
     implementation(libs.ktor.serialization.json)
     implementation(libs.ktor.content.negotiation)
@@ -116,14 +146,19 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
     implementation(libs.koin.androidx.compose.navigation)
+    implementation(libs.koin.androidx.startup)
+//    implementation(libs.kotzilla.sdk.compose)
 
     implementation(libs.charts)
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)
     implementation(libs.room.compiler)
     implementation(libs.mpandroidchart)
-    ksp(libs.room.compiler)
+//    implementation(libs.firebase.messaging)
+//    implementation("io.jsonwebtoken:jjwt-api:0.12.6")
 
+    ksp(libs.room.compiler)
+    implementation(libs.slf4j.nop)
     implementation(libs.accompanist.systemuicontroller)
     implementation(libs.accompanist.navigation.animation)
 
@@ -134,3 +169,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
+
+//kotzilla {
+//    composeInstrumentation = true
+//}

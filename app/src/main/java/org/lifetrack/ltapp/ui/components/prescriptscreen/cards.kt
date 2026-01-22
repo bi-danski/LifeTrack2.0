@@ -30,7 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.lifetrack.ltapp.model.data.dclass.Prescription
-import org.lifetrack.ltapp.ui.components.homescreen.GlassCard
+import org.lifetrack.ltapp.ui.components.homescreen.cards.GlassCard
 import org.lifetrack.ltapp.ui.theme.HospitalBlue
 
 

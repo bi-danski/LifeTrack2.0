@@ -22,7 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.lifetrack.ltapp.model.data.dclass.Prescription
-import org.lifetrack.ltapp.ui.components.homescreen.GlassCard
+import org.lifetrack.ltapp.ui.components.homescreen.cards.GlassCard
 
 @Composable
 fun DetailHeaderCard(prescription: Prescription) {

@@ -15,21 +15,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import org.lifetrack.ltapp.presenter.AnalyticPresenter
-import org.lifetrack.ltapp.presenter.EPrescriptPresenter
+import org.lifetrack.ltapp.presenter.PrescPresenter
+import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.ui.components.appointscreen.StatusChip
 import org.lifetrack.ltapp.ui.components.prescriptscreen.PrescriptionCard
 import org.lifetrack.ltapp.ui.components.prescriptscreen.SuccessRefillContent
 import org.lifetrack.ltapp.ui.theme.Purple40
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PrescriptScreen(
     navController: NavController,
-    analyticPresenter: AnalyticPresenter,
-    presenter: EPrescriptPresenter
+    userPresenter: UserPresenter,
+    presenter: PrescPresenter
 ) {
-    val prescriptions = analyticPresenter.dummyPrescriptions
+    val prescriptions = userPresenter.dummyPrescriptions
     val isDark = isSystemInDarkTheme()
     val sheetState = rememberModalBottomSheetState()
 

@@ -10,6 +10,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import org.lifetrack.ltapp.MainActivity
+import org.lifetrack.ltapp.R
 
 
 class ReminderReceiver : BroadcastReceiver() {
@@ -29,7 +30,7 @@ class ReminderReceiver : BroadcastReceiver() {
         )
 
         val builder = NotificationCompat.Builder(context, "MED_REMINDER_CH")
-            .setSmallIcon(android.R.drawable.ic_dialog_info)
+            .setSmallIcon(R.drawable.app_icon)
             .setContentTitle("Medication Reminder")
             .setContentText("It's time to take your $medName.")
             .setPriority(NotificationCompat.PRIORITY_HIGH)

@@ -1,33 +1,52 @@
 package org.lifetrack.ltapp.model.repository
 
 import kotlinx.coroutines.flow.Flow
-import org.lifetrack.ltapp.model.data.dao.ChatDao
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import org.lifetrack.ltapp.model.roomdb.ChatDao
 import org.lifetrack.ltapp.model.data.dto.Message
-import org.lifetrack.ltapp.core.utils.toEntity
+import org.lifetrack.ltapp.core.utility.toEntity
+import org.lifetrack.ltapp.core.utility.toDto // Ensure you have this mapper
+import org.lifetrack.ltapp.presenter.ChatPresenter
 
 class ChatRepository(
-    private var dao: ChatDao
+    private val dao: ChatDao
 ) {
-    private val chatsFlow: Flow<List<Message>> = dao.getAllChats()
-    private var chatCounts: Int = 0
-
-    fun getChatFlow(type: String): Flow<List<Message>> {
-        return dao.getChatsByType(type)
+    private val chatsFlow: Flow<List<Message>> = dao.getAllChats().map { entities ->
+        entities.map { it.toDto() }
     }
 
-    suspend fun addChat(chat: Message){
+    fun getChatFlow(type: String): Flow<List<Message>> {
+        return dao.getChatsByType(type).map { entities ->
+            entities.map { it.toDto() }
+        }
+    }
+
+    fun getMessagesByChatId(chatId: String): Flow<List<Message>> {
+        return dao.getChatsById(chatId).map { entities ->
+            entities.map { it.toDto() }
+        }
+    }
+
+    fun getUniqueSessions(): Flow<List<Message>> {
+        return dao.getUniqueChatSessions().map { entities ->
+            entities.map { it.toDto() }
+        }
+    }
+
+    suspend fun addChat(chat: Message) {
         dao.insertChat(chat.toEntity())
     }
 
-    suspend fun deleteAllChats(){
+    suspend fun clearAllChats() {
         dao.deleteAllChats()
     }
 
-    suspend fun getChatCounts():Int {
-        chatsFlow.collect {
-            chatCounts = it.size
-        }
-        return chatCounts
+    suspend fun clearAlmaHistory() {
+        dao.deleteChatsByType(ChatPresenter.TYPE_ALMA)
     }
 
+    suspend fun getChatCounts(): Int {
+        return chatsFlow.first().size
+    }
 }

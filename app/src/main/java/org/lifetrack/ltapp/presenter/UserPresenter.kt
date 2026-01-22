@@ -1,77 +1,110 @@
 package org.lifetrack.ltapp.presenter
 
+import android.annotation.SuppressLint
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.lifetrack.ltapp.model.data.dclass.*
-import org.lifetrack.ltapp.model.data.LtMockData
+import org.lifetrack.ltapp.model.data.dclass.Appointment
+import org.lifetrack.ltapp.model.data.dclass.AppointmentStatus
+import org.lifetrack.ltapp.model.data.dclass.AuthResult
+import org.lifetrack.ltapp.model.data.dclass.DoctorProfile
+import org.lifetrack.ltapp.model.data.dclass.LabTest
+import org.lifetrack.ltapp.model.data.dclass.Prescription
+import org.lifetrack.ltapp.model.data.mock.LtMockData
+import org.lifetrack.ltapp.model.repository.UserRepository
 
-class UserPresenter : ViewModel() {
 
-    private val _profileInfo = MutableStateFlow(ProfileInfo())
-    val profileInfo = _profileInfo.asStateFlow()
-
+class UserPresenter(
+    private val userRepository: UserRepository
+) : ViewModel() {
+    @SuppressLint("MutableCollectionMutableState")
+    val dummyBpData = mutableStateOf(LtMockData.bPressureData)
+    val dummyPatient = mutableStateOf(LtMockData.dPatient)
+    val dummyLabTests =  mutableStateListOf<LabTest>().apply {
+        addAll(LtMockData.dLabTests)
+    }
+    val dummyPrescriptions =  mutableStateListOf<Prescription>().apply {
+        addAll(LtMockData.dPrescriptions)
+    }
     private val _allAppointments = MutableStateFlow(LtMockData.dummyAppointments)
-
-    val nextUpcomingAppointment = _allAppointments.map { list ->
-        list.filter { it.status == AppointmentStatus.UPCOMING }.minByOrNull { it.dateTime }
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
-
     private val _selectedFilter = MutableStateFlow(AppointmentStatus.UPCOMING)
     val selectedFilter = _selectedFilter.asStateFlow()
 
-    private val _userAppointments = MutableStateFlow<List<Appointment>>(emptyList())
-    val userAppointments = _userAppointments.asStateFlow()
+    private val _isLoading = MutableStateFlow(false)
+    private val _errorMessage = MutableStateFlow<String?>(null)
+    val errorMessage = _errorMessage.asStateFlow()
 
     private val _selectedDoctorProfile = MutableStateFlow<DoctorProfile?>(null)
     val selectedDoctorProfile = _selectedDoctorProfile.asStateFlow()
 
-    init {
-        loadUserProfile()
-        observeAppointments()
-    }
+    val nextUpcomingAppointment = _allAppointments.map { list ->
+        list.filter { it.status == AppointmentStatus.UPCOMING }
+            .minByOrNull { it.dateTime }
+    }.stateIn(viewModelScope,
+        SharingStarted.WhileSubscribed(5000),
+        null
+    )
 
-    private fun observeAppointments() {
-        viewModelScope.launch {
-            combine(_allAppointments, _selectedFilter) { appointments, filter ->
-                appointments.filter { it.status == filter }
-            }.collect { _userAppointments.value = it }
-        }
-    }
-
-    private fun loadUserProfile() {
-        viewModelScope.launch {
-            val fetchedUserName = "Dr. Najma"
-            val fetchedUserEmail = "najma@lifetrack.org"
-            val userPhoneNumber = "+250788888888"
-
-            val initials = fetchedUserName.split(" ")
-                .filter { it.isNotBlank() }
-                .map { it.first() }
-                .joinToString("")
-                .uppercase()
-
-            _profileInfo.value = ProfileInfo(
-                userName = fetchedUserName,
-                userEmail = fetchedUserEmail,
-                userInitials = initials,
-                userPhoneNumber = userPhoneNumber
-            )
-        }
-    }
-
-    fun onMenuItemAction(navController: NavController, route: String) {
-        navController.navigate(route) { launchSingleTop = true }
-    }
+    val userAppointments: StateFlow<List<Appointment>> = combine(
+        _allAppointments,
+        _selectedFilter
+    ) { appointments, filter ->
+        appointments.filter { it.status == filter }
+    }.stateIn(viewModelScope,
+        SharingStarted.WhileSubscribed(5000),
+        emptyList()
+    )
 
     fun onFilterChanged(newFilter: AppointmentStatus) {
         _selectedFilter.value = newFilter
     }
 
+    fun onSelectDoctor(doctor: DoctorProfile) {
+        _selectedDoctorProfile.value = doctor
+    }
+
+    fun clearError() {
+        _errorMessage.value = null
+    }
+
     fun getCountForStatus(status: AppointmentStatus): Int {
         return _allAppointments.value.count { it.status == status }
+    }
+
+    fun deleteAccount(navController: NavController) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _isLoading.value = true
+            try {
+                when (val result = userRepository.deleteAccount()) {
+                    is AuthResult.Success -> {
+//                        _sessionState.value = SessionStatus.LOGGED_OUT
+                        launch(Dispatchers.Main) {
+                            navController.navigate("signup") {
+                                popUpTo(0) { inclusive = true }
+                            }
+                        }
+                    }
+                    is AuthResult.Error -> {
+                        _errorMessage.value = result.message
+                    }
+                    else -> {}
+                }
+            } finally {
+                _isLoading.value = false
+            }
+        }
     }
 
     fun bookAppointment() {
@@ -103,9 +136,5 @@ class UserPresenter : ViewModel() {
         _allAppointments.update { list ->
             list.map { if (it.id == appointment.id) it.copy(status = AppointmentStatus.UPCOMING) else it }
         }
-    }
-
-    fun onSelectDoctor(doctor: DoctorProfile) {
-        _selectedDoctorProfile.value = doctor
     }
 }

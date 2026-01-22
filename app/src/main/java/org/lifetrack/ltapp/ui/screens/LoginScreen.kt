@@ -1,194 +1,111 @@
 package org.lifetrack.ltapp.ui.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
-import org.lifetrack.ltapp.model.data.dclass.LoginInfo
+import org.lifetrack.ltapp.core.events.AuthUiEvent
 import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.presenter.SharedPresenter
-import org.lifetrack.ltapp.ui.state.UIState
 import org.lifetrack.ltapp.ui.components.loginscreen.LTBrandAppBar
-
-//@Composable
-//fun LoginScreen(
-//    navController: NavController,
-//    presenter: AuthPresenter,
-//    sharedPresenter: SharedPresenter
-//    ) {
-//    val loginInfo = presenter.loginInfo.collectAsState()
-//    val coroutineScope = rememberCoroutineScope()
-//    val snackBarHostState = remember { SnackbarHostState() }
-//    var passwordVisibility by remember { mutableStateOf(false) }
-//    var uiState by remember { mutableStateOf<UIState>(UIState.Idle) } // next ni wewe
-//
-//    Scaffold(
-//        snackbarHost = {
-//            SnackbarHost(hostState = snackBarHostState) {
-//                Snackbar(
-//                    snackbarData = it,
-//                    containerColor = MaterialTheme.colorScheme.errorContainer,
-//                    contentColor = MaterialTheme.colorScheme.onErrorContainer
-//                )
-//            }
-//        }
-//    ) { paddingValues ->
-//        Box(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .padding(paddingValues)
-//                .background(MaterialTheme.colorScheme.background),
-//            contentAlignment = Alignment.Center
-//        ) {
-//            LTBrandAppBar(
-//                modifier = Modifier
-//                    .align(Alignment.TopCenter)
-//                    .padding(top = 32.dp),
-//                sharedPresenter
-//            )
-//            Spacer(modifier = Modifier.height(50.dp))
-//
-//            Column(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .fillMaxHeight(0.7f)
-//                    .wrapContentHeight()
-//                    .align(Alignment.BottomCenter),
-//                verticalArrangement = Arrangement.Center,
-//                horizontalAlignment = Alignment.CenterHorizontally
-//            ) {
-//                OutlinedTextField(
-//                    value = loginInfo.value.emailAddress,
-//                    onValueChange = { presenter.onLoginInfoUpdate(LoginInfo(emailAddress = it)) },
-//                    label = { Text("Email") },
-//                    singleLine = true,
-//                    shape = RoundedCornerShape(8.dp),
-//                    modifier = Modifier.fillMaxWidth(0.85f) // 85% width
-//                )
-//                Spacer(modifier = Modifier.height(24.dp))
-//
-//                OutlinedTextField(
-//                    value = loginInfo.value.password,
-//                    onValueChange = { presenter.onLoginInfoUpdate(LoginInfo(password = it)) },
-//                    label = { Text("Password") },
-//                    visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
-//                    trailingIcon = {
-//                        val icon =
-//                            if (passwordVisibility) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
-//                        IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
-//                            Icon(imageVector = icon, contentDescription = "Toggle Password Visibility")
-//                        }
-//                    },
-//                    singleLine = true,
-//                    shape = RoundedCornerShape(8.dp),
-//                    modifier = Modifier.fillMaxWidth(0.85f) // 85% width
-//                )
-//                Spacer(modifier = Modifier.height(48.dp))
-//
-//                Button(
-//                    onClick = {
-//                        if (loginInfo.value.password.isNotEmpty() && loginInfo.value.password.isNotEmpty()) {
-//                            coroutineScope.launch {
-//                                presenter.login(loginInfo.value.emailAddress, loginInfo.value.password, navController)
-//                            }
-//                        } else {
-//                            coroutineScope.launch {
-//                                snackBarHostState.showSnackbar("Please fill in all fields.")
-//                            }
-//                        }
-//                    },
-//                    modifier = Modifier
-//                        .fillMaxWidth(0.85f) // 85% width
-//                        .height(50.dp)
-//                        .clip(RoundedCornerShape(12.dp)),
-//
-//                    enabled = uiState != UIState.Loading
-//                ) {
-//                    if (uiState == UIState.Loading) {
-//                        CircularProgressIndicator(
-//                            color = MaterialTheme.colorScheme.onPrimary,
-//                            modifier = Modifier.size(20.dp),
-//                            strokeWidth = 2.dp
-//                        )
-//                    } else {
-//                        Text(
-//                            text = "Login",
-//                            style = MaterialTheme.typography.labelLarge,
-//                            fontWeight = FontWeight.SemiBold
-//                        )
-//                    }
-//                }
-////                Spacer(modifier = Modifier.height(24.dp))
-//                TextButton(onClick = { navController.navigate("restore") }) {
-//                    Text(
-//                        text = "Forgot Password?",
-//                        style = MaterialTheme.typography.bodyMedium,
-//                        color = MaterialTheme.colorScheme.primary,
-//                        fontWeight = FontWeight.SemiBold
-//                    )
-//                }
-//            }
-//            Spacer(modifier = Modifier.height(24.dp))
-//            Row(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(bottom = 24.dp, top = 24.dp)
-//                    .align(Alignment.BottomCenter),
-//                horizontalArrangement = Arrangement.Center,
-//                verticalAlignment = Alignment.CenterVertically
-//            ) {
-//                Text(
-//                    text = "Don’t have an account?",
-//                    style = MaterialTheme.typography.bodyMedium,
-//                    color = MaterialTheme.colorScheme.onSurface
-//                )
-//                Spacer(modifier = Modifier.width(4.dp))
-//                TextButton(onClick = { navController.navigate("signup") }) {
-//                    Text(
-//                        text = "Sign Up",
-//                        style = MaterialTheme.typography.bodyMedium,
-//                        color = MaterialTheme.colorScheme.primary,
-//                        fontWeight = FontWeight.Bold
-//                    )
-//                }
-//            }
-//        }
-//    }
-//}
+import org.lifetrack.ltapp.ui.state.UIState
 
 @Composable
 fun LoginScreen(
     navController: NavController,
-    presenter: AuthPresenter,
-    sharedPresenter: SharedPresenter
+    authPresenter: AuthPresenter,
+    sharedPresenter: SharedPresenter,
 ) {
-    val loginInfo = presenter.loginInfo.collectAsState()
-    val emailAddress = loginInfo.value.emailAddress
-    val password = loginInfo.value.password
+    val loginInfo by authPresenter.loginInfo.collectAsState()
+    val authUiState by authPresenter.uiState.collectAsStateWithLifecycle(UIState.Idle)
+
     val coroutineScope = rememberCoroutineScope()
-    val snackBarHostState = remember { SnackbarHostState() }
+    val snackbarHostState = remember { SnackbarHostState() }
     var passwordVisibility by remember { mutableStateOf(false) }
-    var uiState by remember { mutableStateOf<UIState>(UIState.Idle) }
+
+    LaunchedEffect(authUiState) {
+        when (authUiState) {
+            is UIState.Success -> {
+                val msg = (authUiState as UIState.Success).message
+                if (!msg.isNullOrBlank()) {
+                    snackbarHostState.showSnackbar(msg)
+                    authPresenter.resetUIState()
+                }
+            }
+
+            is UIState.Error -> {
+
+                snackbarHostState.showSnackbar(
+                    message = (authUiState as UIState.Error).msg,
+                    duration = SnackbarDuration.Long
+                )
+                authPresenter.resetUIState()
+            }
+
+            else -> {}
+        }
+    }
+    LaunchedEffect(Unit) {
+        authPresenter.uiEvent.collect { uiEvent ->
+            when(uiEvent) {
+                is AuthUiEvent.LoginSuccess -> {
+                    authPresenter.loadUserProfile()
+                }
+                else -> {}
+            }
+        }
+    }
 
     Scaffold(
         snackbarHost = {
-            SnackbarHost(hostState = snackBarHostState) {
+            SnackbarHost(hostState = snackbarHostState) { data ->
                 Snackbar(
-                    snackbarData = it,
+                    snackbarData = data,
                     containerColor = MaterialTheme.colorScheme.errorContainer,
                     contentColor = MaterialTheme.colorScheme.onErrorContainer
                 )
@@ -203,7 +120,6 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             contentPadding = PaddingValues(bottom = 24.dp)
         ) {
-
             item {
                 LTBrandAppBar(
                     modifier = Modifier.padding(top = 32.dp),
@@ -218,9 +134,10 @@ fun LoginScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     OutlinedTextField(
-                        value = loginInfo.value.emailAddress,
-                        onValueChange = { presenter.onLoginInfoUpdate(email = it, pwd = password) },
+                        value = loginInfo.emailAddress,
+                        onValueChange = { authPresenter.onLoginInfoUpdate(loginInfo.copy(emailAddress = it)) },
                         label = { Text("Email") },
+                        enabled = authUiState !is UIState.Loading,
                         singleLine = true,
                         shape = RoundedCornerShape(8.dp),
                         modifier = Modifier.fillMaxWidth(0.85f)
@@ -229,9 +146,10 @@ fun LoginScreen(
                     Spacer(modifier = Modifier.height(24.dp))
 
                     OutlinedTextField(
-                        value = loginInfo.value.password,
-                        onValueChange = { presenter.onLoginInfoUpdate(email = emailAddress, pwd = it) },
+                        value = loginInfo.password,
+                        onValueChange = { authPresenter.onLoginInfoUpdate(loginInfo.copy(password = it)) },
                         label = { Text("Password") },
+                        enabled = authUiState !is UIState.Loading,
                         visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
                         trailingIcon = {
                             val icon = if (passwordVisibility) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
@@ -248,13 +166,11 @@ fun LoginScreen(
 
                     Button(
                         onClick = {
-                            if (loginInfo.value.emailAddress.isNotEmpty() && loginInfo.value.password.isNotEmpty()) {
-                                coroutineScope.launch {
-                                    presenter.login(loginInfo.value.emailAddress, loginInfo.value.password, navController)
-                                }
+                            if (loginInfo.emailAddress.isNotEmpty() && loginInfo.password.isNotEmpty()) {
+                                authPresenter.login(navController)
                             } else {
                                 coroutineScope.launch {
-                                    snackBarHostState.showSnackbar("Please fill in all fields.")
+                                    snackbarHostState.showSnackbar("Please fill in all fields.")
                                 }
                             }
                         },
@@ -262,13 +178,13 @@ fun LoginScreen(
                             .fillMaxWidth(0.85f)
                             .height(50.dp)
                             .clip(RoundedCornerShape(12.dp)),
-                        enabled = uiState != UIState.Loading
+                        enabled = authUiState !is UIState.Loading
                     ) {
-                        if (uiState == UIState.Loading) {
+                        if (authUiState is UIState.Loading) {
                             CircularProgressIndicator(
-                                color = MaterialTheme.colorScheme.onPrimary,
+                                color = Color.Green, //  MaterialTheme.colorScheme.onPrimary,
                                 modifier = Modifier.size(20.dp),
-                                strokeWidth = 2.dp
+                                strokeWidth = 2.5.dp
                             )
                         } else {
                             Text(
@@ -279,7 +195,10 @@ fun LoginScreen(
                         }
                     }
 
-                    TextButton(onClick = { navController.navigate("restore") }) {
+                    TextButton(
+                        onClick = { navController.navigate("restore") },
+                        enabled = authUiState !is UIState.Loading
+                    ) {
                         Text(
                             text = "Forgot Password?",
                             style = MaterialTheme.typography.bodyMedium,
@@ -303,7 +222,10 @@ fun LoginScreen(
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    TextButton(onClick = { navController.navigate("signup") }) {
+                    TextButton(
+                        onClick = { navController.navigate("signup") },
+                        enabled = authUiState !is UIState.Loading
+                    ) {
                         Text(
                             text = "Sign Up",
                             style = MaterialTheme.typography.bodyMedium,

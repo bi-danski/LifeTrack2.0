@@ -34,7 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import org.lifetrack.ltapp.model.data.dummyDoctors
+import org.lifetrack.ltapp.model.data.mock.LtMockData
 import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.ui.theme.Purple40
 
@@ -77,7 +77,7 @@ fun DoctorSelectionDropDown(userPresenter: UserPresenter) {
                 onDismissRequest = { expanded = false },
                 modifier = Modifier.heightIn(max = 400.dp)
             ) {
-                dummyDoctors.forEach { doctor ->
+                LtMockData.dummyDoctors.forEach { doctor ->
                     DropdownMenuItem(
                         text = {
                             Column(

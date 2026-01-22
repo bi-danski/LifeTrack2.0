@@ -1,42 +1,54 @@
 package org.lifetrack.ltapp.presenter
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.lifetrack.ltapp.core.service.AlmaService
 import org.lifetrack.ltapp.model.data.dto.Message
+import org.lifetrack.ltapp.model.data.dto.UserPrompt
 import org.lifetrack.ltapp.model.repository.ChatRepository
+import java.util.UUID
+//import androidx.compose.material.icons.filled.Menu
 
 class ChatPresenter(
     private val chatRepository: ChatRepository,
-    private val savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle,
+    private val almaService: AlmaService
 ) : ViewModel() {
 
     companion object {
-        const val TYPE_GENERAL = "general"
         const val TYPE_ALMA = "alma"
+        private const val KEY_CHAT_DRAFT = "chat_draft"
+        private const val KEY_CURRENT_CHAT_ID = "current_chat_id"
     }
 
-    private val _chatInput = MutableStateFlow(savedStateHandle["chat_draft"] ?: "")
-    val chatInput = _chatInput.asStateFlow()
+    val chatInput: StateFlow<String> = savedStateHandle.getStateFlow(KEY_CHAT_DRAFT, "")
+    val chatId: StateFlow<String> = savedStateHandle.getStateFlow(
+        KEY_CURRENT_CHAT_ID,
+        UUID.randomUUID().toString()
+    )
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
 
-    val dbChats: StateFlow<List<Message>> = chatRepository.getChatFlow(TYPE_GENERAL)
+    val chatHistory: StateFlow<List<Message>> = chatRepository.getUniqueSessions()
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000),
             emptyList()
         )
 
-    val almaChats: StateFlow<List<Message>> = chatRepository.getChatFlow(TYPE_ALMA)
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val almaChats: StateFlow<List<Message>> = chatId
+        .flatMapLatest { id ->
+            chatRepository.getMessagesByChatId(id)
+        }
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000),
@@ -44,12 +56,22 @@ class ChatPresenter(
         )
 
     fun onMessageInput(value: String) {
-        _chatInput.value = value
-        savedStateHandle["chat_draft"] = value
+        savedStateHandle[KEY_CHAT_DRAFT] = value
     }
 
-    fun sendUserMessageToDoctor() {
-        val content = _chatInput.value
+    fun setChatSession(id: String) {
+        savedStateHandle[KEY_CURRENT_CHAT_ID] = id
+    }
+
+    fun startNewChat() {
+        savedStateHandle[KEY_CURRENT_CHAT_ID] = UUID.randomUUID().toString()
+        clearInput()
+    }
+
+    fun chatWithAlma() {
+        val content = chatInput.value
+        val activeChatId = chatId.value
+
         if (content.isBlank()) return
 
         viewModelScope.launch {
@@ -57,24 +79,7 @@ class ChatPresenter(
                 Message(
                     id = 0,
                     text = content,
-                    isFromPatient = true,
-                    timestamp = System.currentTimeMillis(),
-                    type = TYPE_GENERAL
-                )
-            )
-            clearInput()
-        }
-    }
-
-    fun sendUserMessageToAlma() {
-        val content = _chatInput.value
-        if (content.isBlank()) return
-
-        viewModelScope.launch {
-            chatRepository.addChat(
-                Message(
-                    id = 0,
-                    text = content,
+                    chatId = activeChatId,
                     isFromPatient = true,
                     timestamp = System.currentTimeMillis(),
                     type = TYPE_ALMA
@@ -83,23 +88,33 @@ class ChatPresenter(
             clearInput()
 
             _isLoading.value = true
-            delay(1000)
-
-            chatRepository.addChat(
-                Message(
-                    id = 0,
-                    text = "AI: ...",
-                    isFromPatient = false,
-                    timestamp = System.currentTimeMillis(),
-                    type = TYPE_ALMA
-                )
-            )
-            _isLoading.value = false
+            try {
+                val aiResponseText = withContext(Dispatchers.IO) {
+                    almaService.promptAssistant(UserPrompt(activeChatId, content))
+                }
+                saveToRoom(aiResponseText, activeChatId, isFromPatient = false)
+            } catch (e: Exception) {
+                Log.e("ChatPresenter::chatWithAlma(): ", "Error: ${e.localizedMessage}")
+            } finally {
+                _isLoading.value = false
+            }
         }
     }
 
+    private suspend fun saveToRoom(text: String, sessionId: String, isFromPatient: Boolean) {
+        chatRepository.addChat(
+            Message(
+                id = 0,
+                text = text,
+                isFromPatient = isFromPatient,
+                timestamp = System.currentTimeMillis(),
+                type = TYPE_ALMA,
+                chatId = sessionId
+            )
+        )
+    }
+
     private fun clearInput() {
-        _chatInput.value = ""
-        savedStateHandle["chat_draft"] = ""
+        savedStateHandle[KEY_CHAT_DRAFT] = ""
     }
 }

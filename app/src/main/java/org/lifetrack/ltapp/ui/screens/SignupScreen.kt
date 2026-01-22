@@ -4,44 +4,19 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material.icons.outlined.Badge
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Password
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Phone
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -51,27 +26,31 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.ui.state.UIState
 
-
 @Composable
-fun RegistrationScreen(
+fun SignupScreen(
     navController: NavController,
-    presenter: AuthPresenter,
+    authPresenter: AuthPresenter,
 ) {
+    val signUpInfo by authPresenter.signupInfo.collectAsState()
+    val uiState by authPresenter.uiState.collectAsStateWithLifecycle(UIState.Idle)
+
     val coroutineScope = rememberCoroutineScope()
     val snackBarHostState = remember { SnackbarHostState() }
-    var fullName by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var telNumber by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
     var passwordVisibility by remember { mutableStateOf(false) }
-    var uiState by remember { mutableStateOf<UIState>(UIState.Idle) }
-    var isVisible by remember { mutableStateOf(true) }
+    val isVisible by remember { mutableStateOf(true) }
 
+    LaunchedEffect(uiState) {
+        if (uiState is UIState.Error) {
+            snackBarHostState.showSnackbar((uiState as UIState.Error).msg)
+            authPresenter.resetUIState()
+        }
+    }
 
     Scaffold(
         snackbarHost = {
@@ -122,10 +101,24 @@ fun RegistrationScreen(
 
             AnimatedVisibility(visible = isVisible, enter = fadeIn(tween(1000))) {
                 OutlinedTextField(
-                    value = fullName,
-                    onValueChange = { fullName = it },
+                    value = signUpInfo.fullName,
+                    onValueChange = { authPresenter.onSignupInfoUpdate(signUpInfo.copy(fullName = it)) },
                     label = { Text("Full Name") },
                     leadingIcon = { Icon(Icons.Outlined.Person, contentDescription = null) },
+                    enabled = uiState !is UIState.Loading,
+                    singleLine = true,
+                    shape = MaterialTheme.shapes.medium,
+                    modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
+                )
+            }
+
+            AnimatedVisibility(visible = isVisible, enter = fadeIn(tween(1000))) {
+                OutlinedTextField(
+                    value = signUpInfo.userName,
+                    onValueChange = { authPresenter.onSignupInfoUpdate(signUpInfo.copy(userName = it)) },
+                    label = { Text("User Name") },
+                    leadingIcon = { Icon(Icons.Outlined.Badge, contentDescription = null) },
+                    enabled = uiState !is UIState.Loading,
                     singleLine = true,
                     shape = MaterialTheme.shapes.medium,
                     modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
@@ -134,10 +127,11 @@ fun RegistrationScreen(
 
             AnimatedVisibility(visible = isVisible, enter = fadeIn(tween(1200))) {
                 OutlinedTextField(
-                    value = email,
-                    onValueChange = { email = it },
-                    label = { Text("Email") },
+                    value = signUpInfo.emailAddress,
+                    onValueChange = { authPresenter.onSignupInfoUpdate(signUpInfo.copy(emailAddress = it)) },
+                    label = { Text("Email Address") },
                     leadingIcon = { Icon(Icons.Outlined.Email, contentDescription = null) },
+                    enabled = uiState !is UIState.Loading,
                     singleLine = true,
                     shape = MaterialTheme.shapes.medium,
                     modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
@@ -146,10 +140,11 @@ fun RegistrationScreen(
 
             AnimatedVisibility(visible = isVisible, enter = fadeIn(tween(1400))) {
                 OutlinedTextField(
-                    value = telNumber,
-                    onValueChange = { telNumber = it },
+                    value = signUpInfo.phoneNumber,
+                    onValueChange = { authPresenter.onSignupInfoUpdate(signUpInfo.copy(phoneNumber = it)) },
                     label = { Text("Phone Number") },
                     leadingIcon = { Icon(Icons.Outlined.Phone, contentDescription = null) },
+                    enabled = uiState !is UIState.Loading,
                     singleLine = true,
                     shape = MaterialTheme.shapes.medium,
                     modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
@@ -158,17 +153,16 @@ fun RegistrationScreen(
 
             AnimatedVisibility(visible = isVisible, enter = fadeIn(tween(1600))) {
                 OutlinedTextField(
-                    value = password,
-                    onValueChange = { password = it },
+                    value = signUpInfo.password,
+                    onValueChange = { authPresenter.onSignupInfoUpdate(signUpInfo.copy(password = it)) },
                     label = { Text("Password") },
                     leadingIcon = { Icon(Icons.Outlined.Password, contentDescription = null) },
-                    visualTransformation = if (passwordVisibility)
-                        VisualTransformation.None else PasswordVisualTransformation(),
+                    enabled = uiState !is UIState.Loading,
+                    visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
                         IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
                             Icon(
-                                imageVector = if (passwordVisibility)
-                                    Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
+                                imageVector = if (passwordVisibility) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
                                 contentDescription = "Toggle Password Visibility"
                             )
                         }
@@ -178,17 +172,16 @@ fun RegistrationScreen(
                     modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp)
                 )
             }
+
             Spacer(modifier = Modifier.height(30.dp))
 
             AnimatedVisibility(visible = isVisible, enter = fadeIn(tween(1800))) {
                 Button(
                     onClick = {
-                        if (fullName.isNotEmpty() && email.isNotEmpty() &&
-                            telNumber.isNotEmpty() && password.isNotEmpty()
+                        if (signUpInfo.fullName.isNotEmpty() && signUpInfo.emailAddress.isNotEmpty() &&
+                            signUpInfo.phoneNumber.isNotEmpty() && signUpInfo.password.isNotEmpty()
                         ) {
-                            coroutineScope.launch {
-                                presenter.signUp(email, password, telNumber, fullName)
-                            }
+                            authPresenter.signUp(navController)
                         } else {
                             coroutineScope.launch {
                                 snackBarHostState.showSnackbar("All fields are required.")
@@ -199,13 +192,13 @@ fun RegistrationScreen(
                         .fillMaxWidth()
                         .height(52.dp)
                         .clip(MaterialTheme.shapes.medium),
-                    enabled = uiState != UIState.Loading,
+                    enabled = uiState !is UIState.Loading,
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.primary,
                         disabledContainerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
                     )
                 ) {
-                    if (uiState == UIState.Loading) {
+                    if (uiState is UIState.Loading) {
                         CircularProgressIndicator(
                             color = MaterialTheme.colorScheme.onPrimary,
                             modifier = Modifier.size(22.dp),
@@ -235,7 +228,10 @@ fun RegistrationScreen(
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     Spacer(modifier = Modifier.width(6.dp))
-                    TextButton(onClick = { navController.navigate("login") }) {
+                    TextButton(
+                        onClick = { navController.navigate("login") },
+                        enabled = uiState !is UIState.Loading
+                    ) {
                         Text(
                             text = "Sign In",
                             style = MaterialTheme.typography.bodyMedium,
@@ -248,4 +244,3 @@ fun RegistrationScreen(
         }
     }
 }
-

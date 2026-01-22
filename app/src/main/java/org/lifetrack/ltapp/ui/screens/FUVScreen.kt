@@ -31,8 +31,8 @@ fun FollowUpScreen(
     navController: NavController,
     fuvPresenter: FUVPresenter
 ) {
-    val history by fuvPresenter.hospitalData.collectAsState()
-    val upcoming by fuvPresenter.upcomingVisits.collectAsState()
+    val history = fuvPresenter.hospitalData
+    val upcoming = fuvPresenter.upcomingVisits
     val isExpanded by fuvPresenter.isUpcomingExpanded.collectAsState()
     val showSheet by fuvPresenter.showFilterSheet.collectAsState()
     val activeFilter by fuvPresenter.selectedFilter.collectAsState()

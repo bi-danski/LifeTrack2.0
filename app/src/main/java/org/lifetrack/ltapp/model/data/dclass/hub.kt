@@ -57,18 +57,18 @@ data class EpidemicAlert(
     val id: Int,
     val title: String,
     val location: String,
-    val severity: String, // "Critical", "High", "Medium", "Low"
+    val severity: String,
     val date: String,
     val description: String,
     val precautions: List<String>,
-    val status: String, // "Active", "Contained", "New"
+    val status: String,
     val imageUrl: String = "",
     val localImageRes: Int = R.drawable.ic_medical_placeholder
 )
 
 data class SubVisit(
     val title: String,
-    val timestamp: LocalDateTime // Production standard
+    val timestamp: LocalDateTime
 )
 
 data class HospitalVisit(
@@ -99,7 +99,7 @@ data class Prescription(
     val prescribedBy: String,
     val startDate: String,
     val endDate: String,
-    val status: String, // "Active", "Completed", "Refill Due"
+    val status: String,
     val refillProgress: Float = 0f // 0.0 to 1.0
 )
 
@@ -107,5 +107,5 @@ data class Attachment(
     val id: Int,
     val name: String,
     val type: AttachmentType,
-    val uri: String // Uri later
+    val uri: String
 )
