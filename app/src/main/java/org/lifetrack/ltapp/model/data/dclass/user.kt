@@ -81,11 +81,11 @@ data class Premium(
 )
 
 data class ProfileInfo(
-    val userName: String = "Loading ...",
+    val userName: String = "Loading...",
     val userEmail: String = "",
-    val userFullName: String = "Loading ...",
+    val userFullName: String = "Loading...",
     val userInitials: String = "",
-    val userPhoneNumber: String = "Loading ...",
+    val userPhoneNumber: String = "Loading...",
     val createdAt: Instant? = null,
     val updatedAt: Instant? = null,
     val lastLoginAt: Instant? = null
