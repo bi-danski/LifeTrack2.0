@@ -11,9 +11,9 @@ import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import org.lifetrack.ltapp.model.data.dclass.AuthResult
-import org.lifetrack.ltapp.model.data.dclass.User
 import org.lifetrack.ltapp.model.data.dto.PwdRestoreRequest
 import org.lifetrack.ltapp.model.data.dto.UserDataResponse
+import org.lifetrack.ltapp.model.data.dto.UserDataUpdate
 
 
 class UserRepositoryImpl(
@@ -36,7 +36,7 @@ class UserRepositoryImpl(
         }
     }
 
-    override suspend fun updateCurrentUserInfo(user: User): AuthResult {
+    override suspend fun updateCurrentUserInfo(user: UserDataUpdate): AuthResult {
         return try {
             val response = client.patch("user/updateAccount") {
                 contentType(ContentType.Application.Json)
