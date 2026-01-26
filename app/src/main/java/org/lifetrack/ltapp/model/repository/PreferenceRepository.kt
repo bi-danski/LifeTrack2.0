@@ -79,11 +79,7 @@ class PreferenceRepository(
         }
     }
 
-    suspend fun clearLTPreferences(){
-        ltDataStore.updateData {
-            LTPreferences()
-        }
-    }
+//    suspend fun clearLTPreferences(){ ltDataStore.updateData { LTPreferences() } }
 
     suspend fun clearAllSessions(){
         clearUserPreferences()

@@ -38,7 +38,6 @@ class MainActivity : ComponentActivity() {
         splashScreen.setKeepOnScreenCondition {
             sessionManager.sessionState.value == SessionStatus.INITIALIZING
         }
-
         lifecycleScope.launch(Dispatchers.IO) {
             DroidNotification.createNotificationChannel(this@MainActivity)
         }
