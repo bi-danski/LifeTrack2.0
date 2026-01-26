@@ -1,9 +1,5 @@
 package org.lifetrack.ltapp.ui.components.medicalcharts
 
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
-import com.github.mikephil.charting.charts.HorizontalBarChart
-
 
 //@SuppressLint("ConstantLocale")
 //val dateFormat = SimpleDateFormat("MMM dd", Locale.getDefault())
@@ -21,16 +17,16 @@ import com.github.mikephil.charting.charts.HorizontalBarChart
 //    legend.textColor = Color.Black.toArgb()
 //}
 
-fun HorizontalBarChart.configureBaseChart() {
-    description.isEnabled = false
-    legend.isEnabled = true
-    setTouchEnabled(true)
-    isDragEnabled = true
-    setScaleEnabled(true)
-    setPinchZoom(true)
-    setDrawGridBackground(false)
-    legend.textColor = Color.Black.toArgb()
-}
+//fun HorizontalBarChart.configureBaseChart() {
+//    description.isEnabled = false
+//    legend.isEnabled = true
+//    setTouchEnabled(true)
+//    isDragEnabled = true
+//    setScaleEnabled(true)
+//    setPinchZoom(true)
+//    setDrawGridBackground(false)
+//    legend.textColor = Color.Black.toArgb()
+//}
 
 //fun LineChart.configureBloodPressureAxes() {
 //    xAxis.apply {
