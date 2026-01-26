@@ -2,36 +2,7 @@ package org.lifetrack.ltapp.model.data.dclass
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import java.util.UUID
-import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
-
-data class User @OptIn(ExperimentalTime::class) constructor(
-    var uuid: String,
-    val lifetrackId: String?,
-    val emailAddress: String,
-    val phoneNumber: String,
-    val password: String,
-    val fullName: String,
-    val profileImageUrl: String,
-    var activated: Boolean = false,
-    var lastActive: Instant,
-    val updatedAt: Long = System.currentTimeMillis()
-)
-
-data class Practitioner(
-    var uuid: String = UUID.randomUUID().toString(),
-    val accessLevel: Int = 0,
-    val hospitalId: String,
-    val lifetrackId: String,
-    val fullName: String = "",
-    val phoneNumber: String = "",
-    val emailAddress: String = "",
-    var passwordHash: String = "",
-    val role: String = "practitioner",
-    val profileImageUrl: String = "",
-    val updatedAt: Long = System.currentTimeMillis()
-)
 
 data class Patient(
     val id: String,
@@ -41,16 +12,6 @@ data class Patient(
     val bloodPressure: String,
     val lastVisit: String,
     val condition: String
-)
-
-//@JvmOverloads
-data class Kiongozi(
-    var uuid: String = "",
-    val fullName: String,
-    val emailAddress: String,
-    val lifetrackID : String = "",
-    var passwordHash: String = "",
-    var phoneNumber: String = ""
 )
 
 data class Hospital(
