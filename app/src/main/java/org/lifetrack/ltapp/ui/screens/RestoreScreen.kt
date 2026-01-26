@@ -37,15 +37,13 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import kotlinx.coroutines.launch
-import org.lifetrack.ltapp.ui.components.homescreen.LifeTrackTopBar
+import org.lifetrack.ltapp.ui.navigation.NavDispatcher
 import org.lifetrack.ltapp.ui.theme.Purple80
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RestoreScreen(
-    navController: NavController,
 //    userRepository: UserRepositoryImpl
 ) {
     var email by remember { mutableStateOf(TextFieldValue("")) }
@@ -70,7 +68,7 @@ fun RestoreScreen(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = { NavDispatcher.navigateBack() }) {
                         Icon(
                             imageVector = Icons.Default.ArrowCircleLeft,
                             contentDescription = "Back"
@@ -118,21 +116,7 @@ fun RestoreScreen(
                         isLoading = true
                         errorMessage = null
                         coroutineScope.launch {
-//                            val result = userRepository.sendPasswordReset(email.text)
-//                            val result = AuthResult.SuccessWithData("Restore Screen Test")
                             isLoading = false
-//                            when (result) {
-//                                is AuthResult.Success -> {
-//                                    resetSuccess = true
-//                                    snackbarHostState.showSnackbar("Password reset link sent to your email.")
-//                                }
-////                                is AuthResult.Failure -> {
-////                                    resetSuccess = false
-////                                    errorMessage = result.message
-////                                    snackbarHostState.showSnackbar("Error: ${result.message}")
-////                                }
-//                                else -> {}
-//                            }
                         }
                     },
                     enabled = !isLoading && email.text.isNotEmpty(),

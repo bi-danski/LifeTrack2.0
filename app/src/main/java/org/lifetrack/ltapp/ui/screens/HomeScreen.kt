@@ -54,7 +54,6 @@ import org.lifetrack.ltapp.ui.state.UIState
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    navController: NavController,
     homePresenter: HomePresenter,
     userPresenter: UserPresenter,
     authPresenter: AuthPresenter,
@@ -125,7 +124,7 @@ fun HomeScreen(
                 Icon(Icons.AutoMirrored.Filled.Chat, contentDescription = "Quick Chat")
             }
         },
-        bottomBar = { AppBottomBar(navController) },
+        bottomBar = { AppBottomBar() },
         containerColor = MaterialTheme.colorScheme.background
     ) { innerPadding ->
 
@@ -141,7 +140,7 @@ fun HomeScreen(
             item(span = { GridItemSpan(maxLineSpan) }) {
                 Column {
                     Spacer(Modifier.height(8.dp))
-                    AppTopBar(navController, userInfo.value.userName)
+                    AppTopBar(userInfo.value.userName)
                     Spacer(Modifier.height(18.dp))
                     LtHomeCarousel(
                         autoRotate = autoRotate2NextCard,

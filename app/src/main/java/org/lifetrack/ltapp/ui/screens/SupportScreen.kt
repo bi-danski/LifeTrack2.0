@@ -32,20 +32,18 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import org.lifetrack.ltapp.core.utility.openDialer
+import org.lifetrack.ltapp.core.utility.openEmail
 import org.lifetrack.ltapp.ui.components.supportscreen.ContactItem
 import org.lifetrack.ltapp.ui.components.supportscreen.FAQItem
 import org.lifetrack.ltapp.ui.components.supportscreen.SectionCard
+import org.lifetrack.ltapp.ui.navigation.NavDispatcher
 import org.lifetrack.ltapp.ui.theme.Purple40
-import org.lifetrack.ltapp.core.utility.openDialer
-import org.lifetrack.ltapp.core.utility.openEmail
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SupportScreen(
-    navController: NavController,
-    ) {
+fun SupportScreen() {
     val context = LocalContext.current
 
     Scaffold(
@@ -58,7 +56,7 @@ fun SupportScreen(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = { NavDispatcher.navigateBack() }) {
                         Icon(
                             Icons.Default.ArrowCircleLeft,
                             contentDescription = "Back",
@@ -158,21 +156,6 @@ fun SupportScreen(
                         modifier = Modifier.padding(start = 10.dp , end = 10.dp)
                     )
                     Spacer(modifier = Modifier.height(16.dp))
-//                    Row(
-//                        modifier = Modifier.fillMaxWidth(),
-//                        horizontalArrangement = Arrangement.SpaceBetween
-//                    ) {
-//                        Text(
-//                            text = "Version",
-//                            style = MaterialTheme.typography.bodyMedium,
-//                            color = MaterialTheme.colorScheme.onSurfaceVariant
-//                        )
-//                        Text(
-//                            text = presenter.version,
-//                            style = MaterialTheme.typography.bodyMedium,
-//                            color = MaterialTheme.colorScheme.onSurface
-//                        )
-//                    }
                 }
             }
 

@@ -46,15 +46,13 @@ import org.lifetrack.ltapp.R
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.ui.components.aboutscreen.FeatureItem
 import org.lifetrack.ltapp.ui.components.supportscreen.SectionCard
+import org.lifetrack.ltapp.ui.navigation.NavDispatcher
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AboutScreen(
-    navController: NavController,
-    sharedPresenter: SharedPresenter
-) {
+fun AboutScreen(sharedPresenter: SharedPresenter) {
     val colorScheme = MaterialTheme.colorScheme
     val thatOneColor = Color(0xFF6C757D)
     Scaffold(
@@ -67,7 +65,7 @@ fun AboutScreen(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = { NavDispatcher.navigateBack() }) {
                         Icon(
                             Icons.Default.ArrowCircleLeft,
                             contentDescription = "Back",

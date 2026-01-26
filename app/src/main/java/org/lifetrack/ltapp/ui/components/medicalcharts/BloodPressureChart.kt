@@ -17,9 +17,9 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
-//import org.lifetrack.ltapp.ui.screens.configureBaseChart
-//import org.lifetrack.ltapp.ui.screens.configureBloodPressureAxes
-//import org.lifetrack.ltapp.ui.screens.styleLineDataSet
+//import org.lifetrack.ltapp.ui.components.medicalcharts.configureBaseChart
+//import org.lifetrack.ltapp.ui.components.medicalcharts.configureBloodPressureAxes
+//import org.lifetrack.ltapp.ui.components.medicalcharts.styleLineDataSet
 //import org.lifetrack.ltapp.ui.theme.EmergencyRed
 //import org.lifetrack.ltapp.ui.theme.HospitalBlue
 //import org.lifetrack.ltapp.ui.theme.SuccessGreen

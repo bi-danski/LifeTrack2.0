@@ -54,16 +54,13 @@ import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.ui.components.profilescreen.CustomProfileMenuItem
 import org.lifetrack.ltapp.ui.components.profilescreen.ProfileMenuItem
+import org.lifetrack.ltapp.ui.navigation.NavDispatcher
 import org.lifetrack.ltapp.ui.theme.Purple40
 import org.lifetrack.ltapp.ui.theme.Purple80
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileScreen(
-    navController: NavController,
-    authPresenter: AuthPresenter,
-    userPresenter: UserPresenter
-) {
+fun ProfileScreen(authPresenter: AuthPresenter, userPresenter: UserPresenter) {
     val colorScheme = MaterialTheme.colorScheme
     val profileInfo = authPresenter.profileInfo.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -87,7 +84,7 @@ fun ProfileScreen(
             TopAppBar(
                 title = { Text(text = "Profile") },
                 navigationIcon = {
-                    IconButton({ navController.popBackStack() }) {
+                    IconButton({ NavDispatcher.navigateBack() }) {
                         Icon(
                             imageVector = Icons.Default.ArrowCircleLeft,
                             contentDescription = "Back",
@@ -173,7 +170,7 @@ fun ProfileScreen(
                             ProfileMenuItem(
                                 icon = Icons.Default.Lock,
                                 title = "Change Password",
-                                onClick = { navController.navigate("restore") }
+                                onClick = { NavDispatcher.navigate("restore") }
                             )
                             ProfileMenuItem(
                                 icon = Icons.Default.Language,
@@ -184,13 +181,13 @@ fun ProfileScreen(
                                 icon = Icons.Default.Delete,
                                 leftIconColor = Color.Red,
                                 title = "Delete My Account",
-                                onClick = { userPresenter.deleteAccount(navController) }
+                                onClick = userPresenter::deleteAccount
                             )
                             CustomProfileMenuItem(
                                 icon = Icons.AutoMirrored.Filled.Logout,
                                 leftIconColor = Color.Red,
                                 title = "Logout",
-                                onClick = { authPresenter.logout(navController) }
+                                onClick = authPresenter::logout
                             )
                         }
                     }

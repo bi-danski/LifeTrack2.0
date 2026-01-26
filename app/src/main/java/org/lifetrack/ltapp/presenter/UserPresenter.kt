@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -24,6 +23,7 @@ import org.lifetrack.ltapp.model.data.dclass.LabTest
 import org.lifetrack.ltapp.model.data.dclass.Prescription
 import org.lifetrack.ltapp.model.data.mock.LtMockData
 import org.lifetrack.ltapp.model.repository.UserRepository
+import org.lifetrack.ltapp.ui.navigation.NavDispatcher
 
 
 class UserPresenter(
@@ -83,7 +83,7 @@ class UserPresenter(
         return _allAppointments.value.count { it.status == status }
     }
 
-    fun deleteAccount(navController: NavController) {
+    fun deleteAccount() {
         viewModelScope.launch(Dispatchers.IO) {
             _isLoading.value = true
             try {
@@ -91,10 +91,8 @@ class UserPresenter(
                     is AuthResult.Success -> {
 //                        _sessionState.value = SessionStatus.LOGGED_OUT
                         launch(Dispatchers.Main) {
-                            navController.navigate("signup") {
-                                popUpTo(0) { inclusive = true }
+                            NavDispatcher.navigate("signup")
                             }
-                        }
                     }
                     is AuthResult.Error -> {
                         _errorMessage.value = result.message

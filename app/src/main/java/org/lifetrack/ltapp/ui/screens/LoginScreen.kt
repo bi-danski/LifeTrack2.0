@@ -47,17 +47,16 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.core.events.AuthUiEvent
 import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.ui.components.loginscreen.LTBrandAppBar
+import org.lifetrack.ltapp.ui.navigation.NavDispatcher
 import org.lifetrack.ltapp.ui.state.UIState
 
 @Composable
 fun LoginScreen(
-    navController: NavController,
     authPresenter: AuthPresenter,
     sharedPresenter: SharedPresenter,
 ) {
@@ -70,23 +69,12 @@ fun LoginScreen(
 
     LaunchedEffect(authUiState) {
         when (authUiState) {
-            is UIState.Success -> {
-                val msg = (authUiState as UIState.Success).message
-                if (!msg.isNullOrBlank()) {
-                    snackbarHostState.showSnackbar(msg)
-                    authPresenter.resetUIState()
-                }
-            }
-
             is UIState.Error -> {
-
-                snackbarHostState.showSnackbar(
-                    message = (authUiState as UIState.Error).msg,
+                snackbarHostState.showSnackbar(message = (authUiState as UIState.Error).msg,
                     duration = SnackbarDuration.Long
                 )
                 authPresenter.resetUIState()
             }
-
             else -> {}
         }
     }
@@ -167,7 +155,7 @@ fun LoginScreen(
                     Button(
                         onClick = {
                             if (loginInfo.emailAddress.isNotEmpty() && loginInfo.password.isNotEmpty()) {
-                                authPresenter.login(navController)
+                                authPresenter.login()
                             } else {
                                 coroutineScope.launch {
                                     snackbarHostState.showSnackbar("Please fill in all fields.")
@@ -196,7 +184,7 @@ fun LoginScreen(
                     }
 
                     TextButton(
-                        onClick = { navController.navigate("restore") },
+                        onClick = { NavDispatcher.navigate("restore") },
                         enabled = authUiState !is UIState.Loading
                     ) {
                         Text(
@@ -223,7 +211,7 @@ fun LoginScreen(
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     TextButton(
-                        onClick = { navController.navigate("signup") },
+                        onClick = { NavDispatcher.navigate("signup") },
                         enabled = authUiState !is UIState.Loading
                     ) {
                         Text(

@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.ui.screens
+package org.lifetrack.ltapp.ui.components.medicalcharts
 
 import android.annotation.SuppressLint
 import android.graphics.Typeface
@@ -10,7 +10,8 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 
 @SuppressLint("ConstantLocale")

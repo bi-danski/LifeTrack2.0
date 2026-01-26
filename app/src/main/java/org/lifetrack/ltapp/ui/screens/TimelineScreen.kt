@@ -60,14 +60,12 @@ import org.lifetrack.ltapp.model.data.dclass.VisitStatus
 import org.lifetrack.ltapp.presenter.TLinePresenter
 import org.lifetrack.ltapp.ui.components.timelinescreen.MedicalVisitCard
 import org.lifetrack.ltapp.ui.components.timelinescreen.TimelineIndicator
+import org.lifetrack.ltapp.ui.navigation.NavDispatcher
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TimeLineScreen(
-    navController: NavController,
-    presenter: TLinePresenter = viewModel()
-) {
+fun TimeLineScreen(presenter: TLinePresenter = viewModel()) {
     val filteredVisits by presenter.filteredVisits.collectAsState()
     val searchQuery by presenter.searchQuery.collectAsState()
     val selectedFilter by presenter.selectedFilter.collectAsState()
@@ -75,7 +73,6 @@ fun TimeLineScreen(
     val showShareSheet by presenter.showShareSheet.collectAsState()
     val isSelectionMode by presenter.isSelectionMode.collectAsState()
     val expandedId by presenter.expandedVisitId.collectAsState()
-//    val notes by presenter.patientNotes.collectAsState()
     val isRefreshing by presenter.isRefreshing.collectAsState()
     val isSearchActive by presenter.isSearchActive.collectAsState()
 
@@ -211,7 +208,7 @@ fun TimeLineScreen(
                             )
                         }
                     } else {
-                        IconButton(onClick = { navController.popBackStack() }) {
+                        IconButton(onClick = { NavDispatcher.navigateBack() }) {
                             Icon(
                                 Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = "Back",

@@ -1,7 +1,5 @@
 package org.lifetrack.ltapp.ui.components.homescreen
 
-//import androidx.compose.foundation.isSystemInDarkTheme
-//import androidx.compose.material.icons.filled.ArrowCircleLeft
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -34,12 +32,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
+import org.lifetrack.ltapp.ui.navigation.NavDispatcher
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 
 @Composable
-fun AppTopBar(navController: NavController, username: String) {
+fun AppTopBar(username: String) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
@@ -57,7 +55,7 @@ fun AppTopBar(navController: NavController, username: String) {
                 contentAlignment = Alignment.Center
 
             ) {
-                IconButton(onClick = { navController.navigate("menu") },
+                IconButton(onClick = { NavDispatcher.navigate("menu") },
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.background))
                 {

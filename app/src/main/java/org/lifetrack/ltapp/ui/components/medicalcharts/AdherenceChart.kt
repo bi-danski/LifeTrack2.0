@@ -14,7 +14,6 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import org.lifetrack.ltapp.ui.screens.configureBaseChart
 import org.lifetrack.ltapp.ui.theme.EmergencyRed
 import org.lifetrack.ltapp.ui.theme.SuccessGreen
 import org.lifetrack.ltapp.ui.theme.WarningYellow

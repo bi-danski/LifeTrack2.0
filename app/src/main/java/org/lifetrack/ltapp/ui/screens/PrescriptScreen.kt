@@ -20,16 +20,13 @@ import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.ui.components.appointscreen.StatusChip
 import org.lifetrack.ltapp.ui.components.prescriptscreen.PrescriptionCard
 import org.lifetrack.ltapp.ui.components.prescriptscreen.SuccessRefillContent
+import org.lifetrack.ltapp.ui.navigation.NavDispatcher
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PrescriptScreen(
-    navController: NavController,
-    userPresenter: UserPresenter,
-    presenter: PrescPresenter
-) {
+fun PrescriptScreen(userPresenter: UserPresenter, presenter: PrescPresenter) {
     val prescriptions = userPresenter.dummyPrescriptions
     val isDark = isSystemInDarkTheme()
     val sheetState = rememberModalBottomSheetState()
@@ -46,7 +43,7 @@ fun PrescriptScreen(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = { NavDispatcher.navigateBack() }) {
                         Icon(Icons.Default.ArrowCircleLeft,
                             "Back",
                             tint = Color.White
@@ -115,7 +112,7 @@ fun PrescriptScreen(
                                 presenter.triggerRefillRequest(med.medicationName)
                             },
                             onCardClick = {
-                                navController.navigate("prescription_detail/${prescription.id}")
+                                NavDispatcher.navigate("prescription_detail/${prescription.id}")
                             }
                         )
                     }

@@ -2,17 +2,16 @@ package org.lifetrack.ltapp.presenter
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -30,23 +29,16 @@ import org.lifetrack.ltapp.model.data.dto.UserDataResponse
 import org.lifetrack.ltapp.model.repository.AuthRepository
 import org.lifetrack.ltapp.model.repository.PreferenceRepository
 import org.lifetrack.ltapp.model.repository.UserRepository
+import org.lifetrack.ltapp.ui.navigation.NavDispatcher
 import org.lifetrack.ltapp.ui.state.UIState
 
 
 class AuthPresenter(
     private val authRepository: AuthRepository,
     private val prefRepository: PreferenceRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val sessionManager: SessionManager
 ): ViewModel() {
-
-    val isLoggedIn = prefRepository.tokenPreferences
-        .map { !it.accessToken.isNullOrBlank() }
-        .distinctUntilChanged()
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            null
-        )
 
     val profileInfo = prefRepository.userPreferences
         .map { it.toProfileInfo() }
@@ -55,12 +47,11 @@ class AuthPresenter(
             started = SharingStarted.WhileSubscribed(5000L),
             initialValue = ProfileInfo()
         )
-
-    private val _uiEvent = MutableSharedFlow<AuthUiEvent>()
-    val uiEvent = _uiEvent.asSharedFlow()
-
     private val _uiState = MutableSharedFlow<UIState>()
     val uiState = _uiState.asSharedFlow()
+
+    private val _uiEvent = Channel<AuthUiEvent>(Channel.BUFFERED)
+    val uiEvent = _uiEvent.receiveAsFlow()
 
     private val _loginInfo = MutableStateFlow(LoginInfo())
     val loginInfo = _loginInfo.asStateFlow()
@@ -86,7 +77,7 @@ class AuthPresenter(
     fun onLoginInfoUpdate(info: LoginInfo) { _loginInfo.value = info }
     fun onSignupInfoUpdate(info: SignUpInfo) { _signupInfo.value = info }
 
-    fun login(navController: NavController) {
+    fun login() {
         viewModelScope.launch {
             _uiState.emit(UIState.Loading)
             when (val result = authRepository.login(_loginInfo.value)) {
@@ -95,9 +86,7 @@ class AuthPresenter(
                     _sessionState.value = SessionStatus.LOGGED_IN
                     val sessionTokens = result.data as TokenPreferences
                     prefRepository.updateTokens(sessionTokens.accessToken, sessionTokens.refreshToken)
-                    navController.navigate("home")
-                    navController.clearBackStack("home")
-                   _uiEvent.emit(AuthUiEvent.LoginSuccess)
+                 _uiEvent.send(AuthUiEvent.LoginSuccess)
                 }
                 is AuthResult.Error -> _uiState.emit( UIState.Error(result.message))
                 is AuthResult.Success -> _uiState.emit( UIState.Success())
@@ -106,14 +95,13 @@ class AuthPresenter(
         }
     }
 
-    fun signUp(navController: NavController) {
+    fun signUp() {
         viewModelScope.launch {
             _uiState.emit(UIState.Loading)
             when (val result = authRepository.signUp(_signupInfo.value)) {
                 is AuthResult.Success -> {
                     _uiState.emit(UIState.Success("Account created successfully!"))
-                    delay(1500)
-                    navController.navigate("login") { popUpTo("signup") { inclusive = true } }
+                    NavDispatcher.navigate("login")
                 }
                 is AuthResult.Error -> _uiState.emit(UIState.Error(result.message))
                 else -> _uiState.emit(UIState.Idle)
@@ -121,15 +109,16 @@ class AuthPresenter(
         }
     }
 
-    fun logout(navController: NavController) {
+    fun logout() {
         viewModelScope.launch {
-            withContext(kotlinx.coroutines.NonCancellable) {
-                authRepository.logout()
-            }
-            _uiState.emit(UIState.Idle)
-            _sessionState.value = SessionStatus.LOGGED_OUT
-            navController.navigate("login") {
-                popUpTo(0) { inclusive = true }
+            _uiState.emit(UIState.Loading)
+            try {
+                withContext(kotlinx.coroutines.NonCancellable) {
+                    sessionManager.logout()
+                }
+                _uiState.emit(UIState.Success())
+            }catch (ex: Exception){
+                _uiState.emit(UIState.Error(ex.message.toString()))
             }
         }
     }
@@ -139,9 +128,6 @@ class AuthPresenter(
             android.util.Log.d("loadUserProfile()", "[*] Checking User Preferences ...")
 
             val currentPrefs = prefRepository.userPreferences.first()
-
-            android.util.Log.d("loadUserProfile()", "[+] User Preferences Retrieve Success")
-
             if (currentPrefs.isDefault) {
                 _isLoading.value = true
                 _errorMessage.value = null

@@ -28,20 +28,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.presenter.ChatPresenter
 import org.lifetrack.ltapp.ui.components.chatscreen.BBarMessage
 import org.lifetrack.ltapp.ui.components.medicalcharts.MessageBubble
+import org.lifetrack.ltapp.ui.navigation.NavDispatcher
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChatScreen(
-    navController: NavController,
-    presenter: ChatPresenter
-) {
+fun ChatScreen(presenter: ChatPresenter) {
     val chatMessages by presenter.chatHistory.collectAsState()
     val inputText by presenter.chatInput.collectAsState()
     val listState = rememberLazyListState()
@@ -73,7 +70,7 @@ fun ChatScreen(
                         }
                     },
                     navigationIcon = {
-                        IconButton(onClick = { navController.popBackStack() }) {
+                        IconButton(onClick = { NavDispatcher.navigateBack() }) {
                             Icon(Icons.Default.ArrowCircleLeft, "Back")
                         }
                     },

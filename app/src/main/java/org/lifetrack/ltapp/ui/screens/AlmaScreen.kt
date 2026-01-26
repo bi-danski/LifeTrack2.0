@@ -37,19 +37,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.presenter.ChatPresenter
 import org.lifetrack.ltapp.ui.components.chatscreen.BBarMessage
 import org.lifetrack.ltapp.ui.components.homescreen.LifeTrackTopBar
 import org.lifetrack.ltapp.ui.components.medicalcharts.MessageBubble
+import org.lifetrack.ltapp.ui.navigation.NavDispatcher
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 @Composable
-fun AlmaScreen(
-    navController: NavController,
-    presenter: ChatPresenter
-) {
+fun AlmaScreen(presenter: ChatPresenter) {
     val almaMessages by presenter.almaChats.collectAsState()
     val chatHistory by presenter.chatHistory.collectAsState()
     val inputText by presenter.chatInput.collectAsState()
@@ -114,7 +111,7 @@ fun AlmaScreen(
                 LifeTrackTopBar(
                     title = "ALMA Healthcare Assistant",
                     navigationIcon = Icons.Default.ArrowCircleLeft,
-                    backCallback = { navController.popBackStack()  },
+                    backCallback = { NavDispatcher.navigateBack()  },
                     actionIcon = Icons.Default.AddComment,
                     actionCallback = { presenter.startNewChat() },
                     actionCallbackIngine = { scope.launch { drawerState.open() } }
