@@ -26,11 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun AlertCard(
-    title: String,
-    message: String,
-    actions: @Composable RowScope.() -> Unit
-) {
+fun AlertCard(title: String, message: String, actions: @Composable RowScope.() -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()

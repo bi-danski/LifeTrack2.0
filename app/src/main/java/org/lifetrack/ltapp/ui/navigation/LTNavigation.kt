@@ -15,8 +15,33 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import org.koin.androidx.compose.koinViewModel
-import org.lifetrack.ltapp.presenter.*
-import org.lifetrack.ltapp.ui.screens.*
+import org.lifetrack.ltapp.presenter.AuthPresenter
+import org.lifetrack.ltapp.presenter.ChatPresenter
+import org.lifetrack.ltapp.presenter.FUVPresenter
+import org.lifetrack.ltapp.presenter.HomePresenter
+import org.lifetrack.ltapp.presenter.PrescPresenter
+import org.lifetrack.ltapp.presenter.SharedPresenter
+import org.lifetrack.ltapp.presenter.TLinePresenter
+import org.lifetrack.ltapp.presenter.UserPresenter
+import org.lifetrack.ltapp.ui.screens.AboutScreen
+import org.lifetrack.ltapp.ui.screens.AlertScreen
+import org.lifetrack.ltapp.ui.screens.AlmaScreen
+import org.lifetrack.ltapp.ui.screens.AnalyticScreen
+import org.lifetrack.ltapp.ui.screens.AppointScreen
+import org.lifetrack.ltapp.ui.screens.ChatScreen
+import org.lifetrack.ltapp.ui.screens.FollowUpScreen
+import org.lifetrack.ltapp.ui.screens.HomeScreen
+import org.lifetrack.ltapp.ui.screens.LoginScreen
+import org.lifetrack.ltapp.ui.screens.MenuScreen
+import org.lifetrack.ltapp.ui.screens.OtherScreen
+import org.lifetrack.ltapp.ui.screens.PDetailScreen
+import org.lifetrack.ltapp.ui.screens.PrescriptScreen
+import org.lifetrack.ltapp.ui.screens.ProfileScreen
+import org.lifetrack.ltapp.ui.screens.RestoreScreen
+import org.lifetrack.ltapp.ui.screens.SignupScreen
+import org.lifetrack.ltapp.ui.screens.SupportScreen
+import org.lifetrack.ltapp.ui.screens.TelemedicineScreen
+import org.lifetrack.ltapp.ui.screens.TimeLineScreen
 
 @Composable
 fun LTNavigation(
@@ -31,7 +56,7 @@ fun LTNavigation(
     val sharedPresenter = koinViewModel<SharedPresenter>(viewModelStoreOwner = activity)
     val chatPresenter = koinViewModel<ChatPresenter>(viewModelStoreOwner = activity)
     val homePresenter = koinViewModel<HomePresenter>(viewModelStoreOwner = activity)
-    val prescPresenter = koinViewModel<PrescPresenter>(viewModelStoreOwner = activity)
+//    val prescPresenter = koinViewModel<PrescPresenter>(viewModelStoreOwner = activity)
     val fuvPresenter = koinViewModel<FUVPresenter>(viewModelStoreOwner = activity)
 
     NavHost(
@@ -58,56 +83,51 @@ fun LTNavigation(
     ) {
         navigation(startDestination = "login", route = "auth_graph") {
             composable("login") {
-                LoginScreen(navController, authPresenter, sharedPresenter)
+                LoginScreen(authPresenter, sharedPresenter)
             }
             composable("signup") {
-                SignupScreen(navController, authPresenter)
+                SignupScreen(authPresenter)
             }
             composable("restore") {
-                RestoreScreen(navController)
+                RestoreScreen()
             }
         }
 
         navigation(startDestination = "home", route = "home_graph") {
             composable("home") {
-                HomeScreen(navController, homePresenter, userPresenter, authPresenter, sharedPresenter)
+                HomeScreen(homePresenter, userPresenter, authPresenter, sharedPresenter)
             }
             composable("profile") {
-                ProfileScreen(navController, authPresenter, userPresenter)
+                ProfileScreen(authPresenter, userPresenter)
             }
             composable("menu") {
-                MenuScreen(navController, authPresenter, sharedPresenter)
+                MenuScreen(authPresenter, sharedPresenter)
             }
             composable("alma") {
-                AlmaScreen(navController, chatPresenter)
+                AlmaScreen(chatPresenter)
             }
             composable("ltChats") {
-                ChatScreen(navController, chatPresenter)
+                ChatScreen(chatPresenter)
             }
 
-            addHealthFeatures(navController, userPresenter, authPresenter, prescPresenter)
+            addHealthFeatures( userPresenter, authPresenter)
 
-            addSupportFeatures(navController, sharedPresenter)
+            addSupportFeatures(sharedPresenter)
 
-            addUtilityFeatures(navController, fuvPresenter)
+            addUtilityFeatures( fuvPresenter)
         }
     }
 }
 
-fun NavGraphBuilder.addHealthFeatures(
-    navController: NavHostController,
-    userPresenter: UserPresenter,
-    authPresenter: AuthPresenter,
-    prescPresenter: PrescPresenter
-) {
+fun NavGraphBuilder.addHealthFeatures(userPresenter: UserPresenter, authPresenter: AuthPresenter) {
     composable("analytics") {
-        AnalyticScreen(navController, userPresenter)
+        AnalyticScreen( userPresenter)
     }
     composable("prescriptions") {
-        PrescriptScreen(navController, userPresenter, prescPresenter)
+        PrescriptScreen(userPresenter, koinViewModel<PrescPresenter>())
     }
     composable("appointments") {
-        AppointScreen(navController, userPresenter)
+        AppointScreen(userPresenter)
     }
     composable(
         route = "prescription_detail/{medId}",
@@ -116,28 +136,24 @@ fun NavGraphBuilder.addHealthFeatures(
         val medId = backStackEntry.arguments?.getString("medId")
         val prescription = userPresenter.dummyPrescriptions.find { it.id == medId }
         prescription?.let {
-            PDetailScreen(navController, authPresenter = authPresenter, prescription = it)
+            PDetailScreen(authPresenter = authPresenter, prescription = it)
         }
     }
-    composable("telemedicine") { TelemedicineScreen(navController) }
-}
-
-fun NavGraphBuilder.addSupportFeatures(
-    navController: NavHostController,
-    sharedPresenter: SharedPresenter
-) {
-    composable("about") { AboutScreen(navController, sharedPresenter) }
-    composable("support") { SupportScreen(navController) }
-    composable("alerts") { AlertScreen(navController) }
-}
-
-fun NavGraphBuilder.addUtilityFeatures(
-    navController: NavHostController,
-    fuvPresenter: FUVPresenter
-) {
-    composable("FUV") {
-        FollowUpScreen(navController, fuvPresenter)
+    composable("telemedicine") {
+        TelemedicineScreen()
     }
-    composable("timeline") { TimeLineScreen(navController) }
-    composable("other") { OtherScreen(navController) }
+}
+
+fun NavGraphBuilder.addSupportFeatures(sharedPresenter: SharedPresenter) {
+    composable("about") { AboutScreen(sharedPresenter) }
+    composable("support") { SupportScreen() }
+    composable("alerts") { AlertScreen() }
+}
+
+fun NavGraphBuilder.addUtilityFeatures(fuvPresenter: FUVPresenter) {
+    composable("FUV") {
+        FollowUpScreen(fuvPresenter)
+    }
+    composable("timeline") { TimeLineScreen(koinViewModel<TLinePresenter>()) }
+    composable("other") { OtherScreen() }
 }

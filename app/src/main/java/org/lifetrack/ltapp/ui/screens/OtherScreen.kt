@@ -55,8 +55,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import kotlinx.coroutines.delay
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 
 val FeatureTeal = Color(0xFF26A69A)
 val FeaturePurple = Color(0xFF7E57C2)
@@ -74,7 +74,7 @@ data class FeatureItem(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OtherScreen(navController: NavController) {
+fun OtherScreen() {
     var isVisible by remember { mutableStateOf(false) }
 
     val features = listOf(
@@ -137,7 +137,7 @@ fun OtherScreen(navController: NavController) {
                     titleContentColor = MaterialTheme.colorScheme.primary
                 ),
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = { LTNavDispatcher.navigateBack() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
                     }
                 },

@@ -17,10 +17,7 @@ import androidx.compose.ui.unit.dp
 import org.lifetrack.ltapp.model.data.dclass.VisitStatus
 
 @Composable
-fun TimelineIndicator(
-    status: VisitStatus,
-    isLast: Boolean
-) {
+fun TimelineIndicator(status: VisitStatus, isLast: Boolean) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(
             modifier = Modifier

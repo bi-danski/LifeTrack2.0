@@ -25,22 +25,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import org.lifetrack.ltapp.presenter.UserPresenter
-import org.lifetrack.ltapp.ui.components.medicalcharts.BloodPressureChart
+import org.lifetrack.ltapp.ui.components.medicalcharts.BloodPressChart
 import org.lifetrack.ltapp.ui.components.medicalcharts.InfoRow
 import org.lifetrack.ltapp.ui.components.medicalcharts.LabTestItem
 import org.lifetrack.ltapp.ui.components.medicalcharts.MedicalCard
 import org.lifetrack.ltapp.ui.components.medicalcharts.MetricBadge
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 
 
 @SuppressLint("SimpleDateFormat")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AnalyticScreen(
-    navController: NavController,
-    presenter: UserPresenter,
-) {
+fun AnalyticScreen(presenter: UserPresenter) {
     val patient = presenter.dummyPatient
     val bpData = presenter.dummyBpData
     val labTests = presenter.dummyLabTests
@@ -61,7 +58,7 @@ fun AnalyticScreen(
                     }
                 },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = { LTNavDispatcher.navigateBack() }) {
                         Icon(Icons.Default.ArrowCircleLeft, "Back")
                     }
                 },
@@ -95,7 +92,7 @@ fun AnalyticScreen(
 
             item {
                 MedicalCard(title = "BLOOD PRESSURE TREND") {
-                    BloodPressureChart(
+                    BloodPressChart(
                         systolicData = bpData.value,
                         diastolicData = bpData.value.mapValues { it.value - 30f }
                     )

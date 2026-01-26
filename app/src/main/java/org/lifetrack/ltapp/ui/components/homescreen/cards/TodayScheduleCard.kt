@@ -42,9 +42,7 @@ import org.lifetrack.ltapp.ui.theme.Purple40
 
 
 @Composable
-fun TodayScheduleCard(
-    appointmentCount: Int,
-    nextAppointment: Appointment?,
+fun TodayScheduleCard(appointmentCount: Int, nextAppointment: Appointment?,
     onEmergencyClick: () -> Unit,
     onEmergencyContactClick: () -> Unit
 ) {

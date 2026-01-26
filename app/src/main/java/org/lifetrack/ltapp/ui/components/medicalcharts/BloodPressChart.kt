@@ -28,10 +28,7 @@ import java.util.Date
 
 
 @Composable
-fun BloodPressureChart(
-    systolicData: Map<Date, Float>,
-    diastolicData: Map<Date, Float>
-) {
+fun BloodPressChart(systolicData: Map<Date, Float>, diastolicData: Map<Date, Float>) {
     AndroidView(
         factory = { context ->
             LineChart(context).apply {

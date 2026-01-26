@@ -41,12 +41,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import org.lifetrack.ltapp.R
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.ui.components.aboutscreen.FeatureItem
 import org.lifetrack.ltapp.ui.components.supportscreen.SectionCard
-import org.lifetrack.ltapp.ui.navigation.NavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 
@@ -65,7 +64,7 @@ fun AboutScreen(sharedPresenter: SharedPresenter) {
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { NavDispatcher.navigateBack() }) {
+                    IconButton(onClick = { LTNavDispatcher.navigateBack() }) {
                         Icon(
                             Icons.Default.ArrowCircleLeft,
                             contentDescription = "Back",

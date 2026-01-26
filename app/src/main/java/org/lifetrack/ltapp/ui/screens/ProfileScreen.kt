@@ -48,13 +48,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.ui.components.profilescreen.CustomProfileMenuItem
 import org.lifetrack.ltapp.ui.components.profilescreen.ProfileMenuItem
-import org.lifetrack.ltapp.ui.navigation.NavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 import org.lifetrack.ltapp.ui.theme.Purple40
 import org.lifetrack.ltapp.ui.theme.Purple80
 
@@ -84,7 +83,7 @@ fun ProfileScreen(authPresenter: AuthPresenter, userPresenter: UserPresenter) {
             TopAppBar(
                 title = { Text(text = "Profile") },
                 navigationIcon = {
-                    IconButton({ NavDispatcher.navigateBack() }) {
+                    IconButton({ LTNavDispatcher.navigateBack() }) {
                         Icon(
                             imageVector = Icons.Default.ArrowCircleLeft,
                             contentDescription = "Back",
@@ -170,7 +169,7 @@ fun ProfileScreen(authPresenter: AuthPresenter, userPresenter: UserPresenter) {
                             ProfileMenuItem(
                                 icon = Icons.Default.Lock,
                                 title = "Change Password",
-                                onClick = { NavDispatcher.navigate("restore") }
+                                onClick = { LTNavDispatcher.navigate("restore") }
                             )
                             ProfileMenuItem(
                                 icon = Icons.Default.Language,

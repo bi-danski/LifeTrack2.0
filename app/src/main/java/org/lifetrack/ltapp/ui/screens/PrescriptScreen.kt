@@ -14,13 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import org.lifetrack.ltapp.presenter.PrescPresenter
 import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.ui.components.appointscreen.StatusChip
 import org.lifetrack.ltapp.ui.components.prescriptscreen.PrescriptionCard
 import org.lifetrack.ltapp.ui.components.prescriptscreen.SuccessRefillContent
-import org.lifetrack.ltapp.ui.navigation.NavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 
@@ -43,7 +42,7 @@ fun PrescriptScreen(userPresenter: UserPresenter, presenter: PrescPresenter) {
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { NavDispatcher.navigateBack() }) {
+                    IconButton(onClick = { LTNavDispatcher.navigateBack() }) {
                         Icon(Icons.Default.ArrowCircleLeft,
                             "Back",
                             tint = Color.White
@@ -112,7 +111,7 @@ fun PrescriptScreen(userPresenter: UserPresenter, presenter: PrescPresenter) {
                                 presenter.triggerRefillRequest(med.medicationName)
                             },
                             onCardClick = {
-                                NavDispatcher.navigate("prescription_detail/${prescription.id}")
+                                LTNavDispatcher.navigate("prescription_detail/${prescription.id}")
                             }
                         )
                     }

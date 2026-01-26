@@ -19,7 +19,7 @@ import org.lifetrack.ltapp.model.data.dclass.TokenPreferences
 
 class AuthRepositoryImpl(
     private val client: HttpClient,
-    private val prefs: PreferenceRepository
+    private val prefs: PreferenceRepository,
 ) : AuthRepository {
 
     override suspend fun login(loginInfo: LoginInfo): AuthResult {
@@ -40,7 +40,6 @@ class AuthRepositoryImpl(
         }
     }
 
-
     override suspend fun signUp( signupInfo: SignUpInfo ): AuthResult {
         return try {
             val response = client.post("/auth/register") {
@@ -56,7 +55,6 @@ class AuthRepositoryImpl(
             AuthResult.Error(sanitizeErrorMessage(ex))
         }
     }
-
 
     override suspend fun refreshSession(): AuthResult {
         val currentRefreshToken = prefs.tokenPreferences.value.refreshToken
@@ -88,8 +86,14 @@ class AuthRepositoryImpl(
 
     override suspend fun logout(): AuthResult {
         return try {
-            prefs.clearUserPreferences()
-            AuthResult.Success
+            val response = client.post("/auth/logout") {
+                contentType(ContentType.Application.Json)
+            }
+            if (response.status == HttpStatusCode.OK) {
+                AuthResult.Success
+            }else{
+                AuthResult.Error(response.bodyAsText())
+            }
         } catch (ex: Exception) {
             AuthResult.Error(sanitizeErrorMessage(ex))
         }

@@ -23,11 +23,12 @@ import org.lifetrack.ltapp.model.data.dclass.LabTest
 import org.lifetrack.ltapp.model.data.dclass.Prescription
 import org.lifetrack.ltapp.model.data.mock.LtMockData
 import org.lifetrack.ltapp.model.repository.UserRepository
-import org.lifetrack.ltapp.ui.navigation.NavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 
 
 class UserPresenter(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val sessionManager: SessionManager
 ) : ViewModel() {
     @SuppressLint("MutableCollectionMutableState")
     val dummyBpData = mutableStateOf(LtMockData.bPressureData)
@@ -42,10 +43,6 @@ class UserPresenter(
     private val _selectedFilter = MutableStateFlow(AppointmentStatus.UPCOMING)
     val selectedFilter = _selectedFilter.asStateFlow()
 
-    private val _isLoading = MutableStateFlow(false)
-    private val _errorMessage = MutableStateFlow<String?>(null)
-    val errorMessage = _errorMessage.asStateFlow()
-
     private val _selectedDoctorProfile = MutableStateFlow<DoctorProfile?>(null)
     val selectedDoctorProfile = _selectedDoctorProfile.asStateFlow()
 
@@ -56,16 +53,22 @@ class UserPresenter(
         SharingStarted.WhileSubscribed(5000),
         null
     )
-
     val userAppointments: StateFlow<List<Appointment>> = combine(
         _allAppointments,
         _selectedFilter
     ) { appointments, filter ->
         appointments.filter { it.status == filter }
-    }.stateIn(viewModelScope,
+    }.stateIn(
+        viewModelScope,
         SharingStarted.WhileSubscribed(5000),
         emptyList()
     )
+
+    private val _isLoading = MutableStateFlow(false)
+
+    private val _errorMessage = MutableStateFlow<String?>(null)
+    val errorMessage = _errorMessage.asStateFlow()
+
 
     fun onFilterChanged(newFilter: AppointmentStatus) {
         _selectedFilter.value = newFilter
@@ -89,9 +92,9 @@ class UserPresenter(
             try {
                 when (val result = userRepository.deleteAccount()) {
                     is AuthResult.Success -> {
-//                        _sessionState.value = SessionStatus.LOGGED_OUT
+                        sessionManager.logout()
                         launch(Dispatchers.Main) {
-                            NavDispatcher.navigate("signup")
+                            LTNavDispatcher.navigate("signup")
                             }
                     }
                     is AuthResult.Error -> {

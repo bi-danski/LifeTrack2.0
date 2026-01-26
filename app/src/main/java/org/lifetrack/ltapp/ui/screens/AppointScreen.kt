@@ -53,7 +53,7 @@ import org.lifetrack.ltapp.ui.components.appointscreen.AppointmentCard
 import org.lifetrack.ltapp.ui.components.appointscreen.AppointmentSwipeCard
 import org.lifetrack.ltapp.ui.components.appointscreen.DoctorSelectionDropDown
 import org.lifetrack.ltapp.ui.components.appointscreen.StatusChip
-import org.lifetrack.ltapp.ui.navigation.NavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -61,6 +61,8 @@ import org.lifetrack.ltapp.ui.theme.Purple40
 fun AppointScreen(userPresenter: UserPresenter) {
     val appointments by userPresenter.userAppointments.collectAsState()
     val currentFilter by userPresenter.selectedFilter.collectAsState()
+    val selectedDoctor by userPresenter.selectedDoctorProfile.collectAsState()
+
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
@@ -76,7 +78,7 @@ fun AppointScreen(userPresenter: UserPresenter) {
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { NavDispatcher.navigateBack() }) {
+                    IconButton(onClick = { LTNavDispatcher.navigateBack() }) {
                         Icon(Icons.Default.ArrowCircleLeft, "Back", tint = Color.White)
                     }
                 },
@@ -95,9 +97,15 @@ fun AppointScreen(userPresenter: UserPresenter) {
                     modifier = Modifier
                         .navigationBarsPadding()
                         .padding(16.dp),
+//                        .fill
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    DoctorSelectionDropDown(userPresenter)
+                    DoctorSelectionDropDown(
+                        selectedDoctor = selectedDoctor,
+                        onSelectDoctorProfile = { doc ->
+                            userPresenter.onSelectDoctor(doc)
+                        }
+                    )
                     Button(
                         onClick = { userPresenter.bookAppointment() },
                         modifier = Modifier.fillMaxWidth().height(56.dp),

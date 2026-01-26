@@ -42,7 +42,7 @@ import org.lifetrack.ltapp.presenter.ChatPresenter
 import org.lifetrack.ltapp.ui.components.chatscreen.BBarMessage
 import org.lifetrack.ltapp.ui.components.homescreen.LifeTrackTopBar
 import org.lifetrack.ltapp.ui.components.medicalcharts.MessageBubble
-import org.lifetrack.ltapp.ui.navigation.NavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 @Composable
@@ -111,7 +111,7 @@ fun AlmaScreen(presenter: ChatPresenter) {
                 LifeTrackTopBar(
                     title = "ALMA Healthcare Assistant",
                     navigationIcon = Icons.Default.ArrowCircleLeft,
-                    backCallback = { NavDispatcher.navigateBack()  },
+                    backCallback = { LTNavDispatcher.navigateBack()  },
                     actionIcon = Icons.Default.AddComment,
                     actionCallback = { presenter.startNewChat() },
                     actionCallbackIngine = { scope.launch { drawerState.open() } }

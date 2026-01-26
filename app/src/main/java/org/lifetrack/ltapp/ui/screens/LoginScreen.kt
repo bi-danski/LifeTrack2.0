@@ -48,11 +48,10 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
-import org.lifetrack.ltapp.core.events.AuthUiEvent
 import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.ui.components.loginscreen.LTBrandAppBar
-import org.lifetrack.ltapp.ui.navigation.NavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 import org.lifetrack.ltapp.ui.state.UIState
 
 @Composable
@@ -78,16 +77,16 @@ fun LoginScreen(
             else -> {}
         }
     }
-    LaunchedEffect(Unit) {
-        authPresenter.uiEvent.collect { uiEvent ->
-            when(uiEvent) {
-                is AuthUiEvent.LoginSuccess -> {
-                    authPresenter.loadUserProfile()
-                }
-                else -> {}
-            }
-        }
-    }
+//    LaunchedEffect(Unit) {
+//        authPresenter.uiEvent.collect { uiEvent ->
+//            when(uiEvent) {
+//                is AuthUiEvent.LoginSuccess -> {
+//                    authPresenter.loadUserProfile()
+//                }
+//                else -> {}
+//            }
+//        }
+//    }
 
     Scaffold(
         snackbarHost = {
@@ -184,7 +183,7 @@ fun LoginScreen(
                     }
 
                     TextButton(
-                        onClick = { NavDispatcher.navigate("restore") },
+                        onClick = { LTNavDispatcher.navigate("restore") },
                         enabled = authUiState !is UIState.Loading
                     ) {
                         Text(
@@ -211,7 +210,7 @@ fun LoginScreen(
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     TextButton(
-                        onClick = { NavDispatcher.navigate("signup") },
+                        onClick = { LTNavDispatcher.navigate("signup") },
                         enabled = authUiState !is UIState.Loading
                     ) {
                         Text(

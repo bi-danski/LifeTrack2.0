@@ -47,7 +47,7 @@ import org.lifetrack.ltapp.model.data.dclass.filterOptions
 import org.lifetrack.ltapp.presenter.FUVPresenter
 import org.lifetrack.ltapp.ui.components.fuvscreen.FollowUpDetailCard
 import org.lifetrack.ltapp.ui.components.fuvscreen.HospitalVisitNode
-import org.lifetrack.ltapp.ui.navigation.NavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -75,7 +75,7 @@ fun FollowUpScreen(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { NavDispatcher.navigateBack() }) {
+                    IconButton(onClick = { LTNavDispatcher.navigateBack() }) {
                         Icon(Icons.Default.ArrowCircleLeft, "Back", tint = Color.White)
                     }
                 },

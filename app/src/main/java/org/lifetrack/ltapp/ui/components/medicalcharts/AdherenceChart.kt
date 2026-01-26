@@ -20,10 +20,7 @@ import org.lifetrack.ltapp.ui.theme.WarningYellow
 
 
 @Composable
-fun MedicationAdherenceChart(
-    adherenceData: Map<String, Float>,
-    modifier: Modifier = Modifier
-) {
+fun MedicationAdherenceChart(adherenceData: Map<String, Float>, modifier: Modifier = Modifier) {
 //    val context = LocalContext.current
 
     AndroidView(

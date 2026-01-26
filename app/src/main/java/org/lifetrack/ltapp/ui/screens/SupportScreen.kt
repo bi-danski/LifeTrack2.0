@@ -37,7 +37,7 @@ import org.lifetrack.ltapp.core.utility.openEmail
 import org.lifetrack.ltapp.ui.components.supportscreen.ContactItem
 import org.lifetrack.ltapp.ui.components.supportscreen.FAQItem
 import org.lifetrack.ltapp.ui.components.supportscreen.SectionCard
-import org.lifetrack.ltapp.ui.navigation.NavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 
@@ -56,7 +56,7 @@ fun SupportScreen() {
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { NavDispatcher.navigateBack() }) {
+                    IconButton(onClick = { LTNavDispatcher.navigateBack() }) {
                         Icon(
                             Icons.Default.ArrowCircleLeft,
                             contentDescription = "Back",

@@ -26,11 +26,7 @@ import org.lifetrack.ltapp.ui.components.homescreen.GoalModule
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 @Composable
-fun DailyGoalsCard(
-    steps: Int = 6400,
-    stepGoal: Int = 10000,
-    waterLiters: Float = 1.5f,
-    waterGoal: Float = 2.5f,
+fun DailyGoalsCard(steps: Int = 6400, stepGoal: Int = 10000, waterLiters: Float = 1.5f,waterGoal: Float = 2.5f,
     sleepHours: Float = 6.5f,
     sleepGoal: Float = 8f
 ) {

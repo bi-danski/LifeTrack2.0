@@ -32,11 +32,7 @@ import org.lifetrack.ltapp.ui.theme.Purple80
 
 
 @Composable
-fun ContactPharmacyCard(
-    prescription: Prescription,
-    onCallPharmacy: () -> Unit,
-    onMessageDoctor: () -> Unit
-) {
+fun ContactPharmacyCard(prescription: Prescription, onCallPharmacy: () -> Unit, onMessageDoctor: () -> Unit) {
     GlassCard(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(24.dp)

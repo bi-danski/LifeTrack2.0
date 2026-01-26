@@ -32,7 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.lifetrack.ltapp.ui.navigation.NavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 
@@ -55,7 +55,7 @@ fun AppTopBar(username: String) {
                 contentAlignment = Alignment.Center
 
             ) {
-                IconButton(onClick = { NavDispatcher.navigate("menu") },
+                IconButton(onClick = { LTNavDispatcher.navigate("menu") },
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.background))
                 {

@@ -19,8 +19,7 @@ import org.lifetrack.ltapp.ui.theme.Purple80
 
 
 @Composable
-fun GlassCard(
-    shape: Shape,
+fun GlassCard(shape: Shape,
     color: CardColors = CardDefaults.cardColors( containerColor = Color.Transparent ),
     @SuppressLint("ModifierParameter") modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit

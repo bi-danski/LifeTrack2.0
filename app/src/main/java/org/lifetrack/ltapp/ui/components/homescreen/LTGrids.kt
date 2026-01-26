@@ -12,11 +12,11 @@ import androidx.compose.material.icons.filled.Campaign
 import androidx.compose.material.icons.filled.DataExploration
 import androidx.compose.material.icons.filled.LocalHospital
 import androidx.compose.material.icons.filled.Notifications
-import androidx.navigation.NavController
 import org.lifetrack.ltapp.ui.components.homescreen.cards.GlassActionCard
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 
 
-fun LazyGridScope.featureGridContent(navController: NavController) {
+fun LazyGridScope.featureGridContent() {
     val features = listOf(
         "Medical Timeline" to Icons.Filled.BarChart to "timeline",
         "Appointments" to Icons.Filled.CalendarMonth to "appointments",
@@ -32,7 +32,7 @@ fun LazyGridScope.featureGridContent(navController: NavController) {
     items(features) { (data, route) ->
         val (title, icon) = data
         GlassActionCard(title, icon) {
-            if (route.isNotEmpty()) navController.navigate(route)
+            if (route.isNotEmpty()) LTNavDispatcher.navigate(route)
         }
     }
 }

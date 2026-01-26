@@ -21,9 +21,9 @@ import org.koin.android.ext.android.inject
 import org.lifetrack.ltapp.core.notification.DroidNotification
 import org.lifetrack.ltapp.model.data.dclass.SessionStatus
 import org.lifetrack.ltapp.presenter.SessionManager
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavTarget
 import org.lifetrack.ltapp.ui.navigation.LTNavigation
-import org.lifetrack.ltapp.ui.navigation.NavDispatcher
-import org.lifetrack.ltapp.ui.navigation.NavTarget
 import org.lifetrack.ltapp.ui.theme.LTAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -45,28 +45,32 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             LTAppTheme {
-                Surface(modifier = Modifier.fillMaxSize()) {
-                    val appNavController = rememberNavController()
-                    val sessionStatus by sessionManager.sessionState.collectAsState()
+                val sessionStatus by sessionManager.sessionState.collectAsState()
+                val appNavController = rememberNavController()
 
-                    LaunchedEffect(Unit) {
-                        NavDispatcher.navigationEvents.collect { target ->
-                            when (target) {
-                                is NavTarget.Screen -> {
-                                    appNavController.navigate(target.route) {
-                                        if (target.clearBackstack) {
-                                            popUpTo(0) { inclusive = true }
+                LaunchedEffect(appNavController) {
+                    LTNavDispatcher.navigationEvents.collect { target ->
+                        when (target) {
+                            is LTNavTarget.Screen -> {
+                                appNavController.navigate(target.route) {
+                                    if (target.clearBackstack) {
+                                        appNavController.graph.startDestinationRoute?.let { route ->
+                                            popUpTo(route) { inclusive = true }
                                         }
-                                        launchSingleTop = target.launchSingleTop
                                     }
+                                    launchSingleTop = target.launchSingleTop
                                 }
-                                is NavTarget.Back -> {
-                                    appNavController.popBackStack()
+                            }
+                            is LTNavTarget.Back -> {
+                                if (!appNavController.popBackStack()) {
+                                    finish()
                                 }
                             }
                         }
                     }
+                }
 
+                Surface(modifier = Modifier.fillMaxSize()) {
                     when (sessionStatus) {
                         SessionStatus.LOGGED_IN -> {
                             LTNavigation(

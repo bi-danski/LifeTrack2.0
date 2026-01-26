@@ -33,10 +33,7 @@ import org.lifetrack.ltapp.ui.theme.Purple80
 
 
 @Composable
-fun DosageTrackerCard(
-    isReminderEnabled: Boolean,
-    onReminderToggle: (Boolean) -> Unit
-) {
+fun DosageTrackerCard(isReminderEnabled: Boolean, onReminderToggle: (Boolean) -> Unit) {
     GlassCard(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(24.dp)) {
         Column(modifier = Modifier.padding(20.dp)) {
             Text(

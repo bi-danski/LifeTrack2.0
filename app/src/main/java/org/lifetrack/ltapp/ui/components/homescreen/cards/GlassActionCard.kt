@@ -31,11 +31,7 @@ import org.lifetrack.ltapp.ui.theme.Purple80
 
 
 @Composable
-fun GlassActionCard(
-    title: String,
-    icon: ImageVector,
-    onClick: () -> Unit
-) {
+fun GlassActionCard(title: String, icon: ImageVector, onClick: () -> Unit) {
     val shape: Shape = RoundedCornerShape(22.dp)
     Card(
         onClick = onClick,

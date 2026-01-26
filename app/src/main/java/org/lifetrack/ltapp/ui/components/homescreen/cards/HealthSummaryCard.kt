@@ -28,11 +28,7 @@ import org.lifetrack.ltapp.ui.components.homescreen.HealthMetric
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 @Composable
-fun HealthSummaryCard (
-    bloodPressure: String ="120/80",
-    heartRate: String = "78 bpm",
-    temperature: String ="98.6 F"
-) {
+fun HealthSummaryCard (bloodPressure: String ="120/80", heartRate: String = "78 bpm", temperature: String ="98.6 F") {
     GlassCard(
         shape = RoundedCornerShape(22.dp),
         modifier = Modifier

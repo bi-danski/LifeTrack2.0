@@ -27,7 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.lifetrack.ltapp.ui.navigation.NavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 @Composable
@@ -84,7 +84,7 @@ fun AppBottomBar() {
 
         NavigationBarItem(
             selected = selected == 1,
-            onClick = { NavDispatcher.navigate("profile") },
+            onClick = { LTNavDispatcher.navigate("profile") },
             icon = { Icon(Icons.Filled.AccountCircle, contentDescription = "Profile") },
             label = { Text("Profile", fontWeight = FontWeight.Bold) }
         )

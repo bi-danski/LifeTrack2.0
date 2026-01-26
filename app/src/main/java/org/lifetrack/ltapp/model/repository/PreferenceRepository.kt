@@ -2,7 +2,10 @@ package org.lifetrack.ltapp.model.repository
 
 import androidx.datastore.core.DataStore
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.stateIn
 import org.lifetrack.ltapp.model.data.dclass.LTPreferences
 import org.lifetrack.ltapp.model.data.dclass.TokenPreferences
 import org.lifetrack.ltapp.model.data.dclass.UserPreferences
@@ -42,7 +45,6 @@ class PreferenceRepository(
         }.stateIn(
             scope = scope,
             started = SharingStarted.WhileSubscribed(5000L),
-//            Eagerly,
             initialValue = UserPreferences()
         )
 
@@ -87,7 +89,4 @@ class PreferenceRepository(
         clearUserPreferences()
         clearTokenPreferences()
     }
-
-
-
 }

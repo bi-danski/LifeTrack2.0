@@ -35,10 +35,8 @@ import org.lifetrack.ltapp.ui.theme.HospitalBlue
 
 
 @Composable
-fun PrescriptionCard(
-    prescription: Prescription,
-    isExpired: Boolean,
-    onRefillRequest: (Prescription) -> Unit = {},
+fun PrescriptionCard(prescription: Prescription, isExpired: Boolean,
+    onRefillRequest: (Prescription) -> Unit,
     onCardClick: () -> Unit
 ) {
     val isDark = isSystemInDarkTheme()
