@@ -16,7 +16,7 @@ class KoinApplication: Application(), KoinStartup {
 
     override fun onKoinStartup(): KoinConfiguration = koinConfiguration {
         androidContext(this@KoinApplication)
-        androidLogger(Level.ERROR)
+        androidLogger(Level.DEBUG)
         modules(koinModule)
 //        analytics()
     }

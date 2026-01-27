@@ -85,8 +85,8 @@ val koinModule = module {
     viewModelOf(::SharedPresenter)
     viewModelOf(::PrescPresenter)
     viewModelOf(::TLinePresenter)
-    viewModel { (handle: SavedStateHandle) -> ChatPresenter(
-        get(), handle, get()
+    viewModel { (handle: SavedStateHandle) -> ChatPresenter(get(), handle,
+        get()
         )
     }
 }

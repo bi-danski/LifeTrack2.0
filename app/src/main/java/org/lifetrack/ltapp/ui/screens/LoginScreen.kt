@@ -24,7 +24,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -50,6 +49,7 @@ import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.ui.components.loginscreen.LTBrandAppBar
+import org.lifetrack.ltapp.ui.components.other.LTSnackbar
 import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 import org.lifetrack.ltapp.ui.state.UIState
 
@@ -68,6 +68,7 @@ fun LoginScreen(authPresenter: AuthPresenter, sharedPresenter: SharedPresenter) 
             if (!error.isNetworkError) {
                 snackbarHostState.showSnackbar(
                     message = error.msg,
+                    withDismissAction = true,
                     duration = SnackbarDuration.Long
                 )
                 authPresenter.resetUIState()
@@ -78,11 +79,7 @@ fun LoginScreen(authPresenter: AuthPresenter, sharedPresenter: SharedPresenter) 
     Scaffold(
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState) { data ->
-                Snackbar(
-                    snackbarData = data,
-                    containerColor = MaterialTheme.colorScheme.errorContainer,
-                    contentColor = MaterialTheme.colorScheme.onErrorContainer
-                )
+                LTSnackbar(data)
             }
         }
     ) { paddingValues ->

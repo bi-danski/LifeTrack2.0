@@ -4,10 +4,7 @@ import android.util.Log
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.android.Android
-import io.ktor.client.network.sockets.ConnectTimeoutException
-import io.ktor.client.network.sockets.SocketTimeoutException
 import io.ktor.client.plugins.DefaultRequest
-import io.ktor.client.plugins.HttpRequestRetry
 import io.ktor.client.plugins.HttpResponseValidator
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.auth.Auth
@@ -52,19 +49,19 @@ object KtorHttpClient {
                 socketTimeoutMillis = 20000
             }
 
-            install(HttpRequestRetry) {
-                maxRetries = 3
-                retryIf { _, response -> response.status.value in 500..599 }
-                retryOnExceptionIf { _, cause ->
-                    cause is SocketTimeoutException ||
-                            cause is ConnectTimeoutException
-                }
-                delayMillis { retry ->
-                    val baseDelay = retry * 2000L
-                    val jitter = (0..500).random()
-                    baseDelay + jitter
-                }
-            }
+//            install(HttpRequestRetry) {
+//                maxRetries = 3
+//                retryIf { _, response -> response.status.value in 500..599 }
+//                retryOnExceptionIf { _, cause ->
+//                    cause is SocketTimeoutException ||
+//                            cause is ConnectTimeoutException
+//                }
+//                delayMillis { retry ->
+//                    val baseDelay = retry * 2000L
+//                    val jitter = (0..500).random()
+//                    baseDelay + jitter
+//                }
+//            }
 
             install("ConnectivityCheck") {
                 requestPipeline.intercept(HttpRequestPipeline.Before) {
