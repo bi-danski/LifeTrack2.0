@@ -69,7 +69,7 @@ fun TodayScheduleCard(appointmentCount: Int, nextAppointment: Appointment?,
     ) {
         Column(
             modifier = Modifier
-                .padding(2.dp)
+                .padding(0.dp)
                 .fillMaxSize()
                 .background(
                     MaterialTheme.colorScheme.background
@@ -84,7 +84,7 @@ fun TodayScheduleCard(appointmentCount: Int, nextAppointment: Appointment?,
                     .clip(RoundedCornerShape(16.dp))
                     .background(themeColor.copy(alpha = 0.08f))
                     .border(1.dp,
-                        if (isSystemInDarkTheme()) Color.Green.copy(alpha = 0.4f) else nextAppointment?.status?.color?.copy(0.4f) ?: Purple40.copy(0.4f) ,
+                        if (isSystemInDarkTheme()) Color.Green.copy(alpha = 0.15f) else nextAppointment?.status?.color?.copy(0.15f) ?: Purple40.copy(0.15f) ,
                         RoundedCornerShape(16.dp)
                     )
             ) {
@@ -223,7 +223,7 @@ fun TodayScheduleCard(appointmentCount: Int, nextAppointment: Appointment?,
                         .clip(RoundedCornerShape(16.dp))
                         .background(themeColor.copy(alpha = 0.08f))
                         .border(1.dp,
-                            if (isSystemInDarkTheme()) Color.Green.copy(alpha = 0.4f) else Purple40.copy(alpha = 0.4f),
+                            if (isSystemInDarkTheme()) Color.Green.copy(alpha = 0.15f) else Purple40.copy(alpha = 0.15f),
                             RoundedCornerShape(16.dp)
                         )
                 ) {

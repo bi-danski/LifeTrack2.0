@@ -26,7 +26,15 @@ import org.lifetrack.ltapp.model.repository.PreferenceRepository
 import org.lifetrack.ltapp.model.repository.UserRepository
 import org.lifetrack.ltapp.model.repository.UserRepositoryImpl
 import org.lifetrack.ltapp.model.roomdb.LTRoomDatabase
-import org.lifetrack.ltapp.presenter.*
+import org.lifetrack.ltapp.presenter.AuthPresenter
+import org.lifetrack.ltapp.presenter.ChatPresenter
+import org.lifetrack.ltapp.presenter.FUVPresenter
+import org.lifetrack.ltapp.presenter.HomePresenter
+import org.lifetrack.ltapp.presenter.PrescPresenter
+import org.lifetrack.ltapp.presenter.SessionManager
+import org.lifetrack.ltapp.presenter.SharedPresenter
+import org.lifetrack.ltapp.presenter.TLinePresenter
+import org.lifetrack.ltapp.presenter.UserPresenter
 
 private val Context.tokenDataStore by dataStore("_prefs.json", TokenPreferenceSerializer)
 private val Context.ltDataStore by dataStore("lt_prefs.json", LTPreferenceSerializer)
@@ -74,6 +82,7 @@ val koinModule = module {
     viewModelOf(::FUVPresenter)
     viewModelOf(::SharedPresenter)
     viewModelOf(::PrescPresenter)
+    viewModelOf(::TLinePresenter)
     viewModel { (handle: SavedStateHandle) -> ChatPresenter(
         get(), handle, get()
         )
