@@ -62,10 +62,7 @@ import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 import org.lifetrack.ltapp.ui.state.UIState
 
 @Composable
-fun LoginScreen(
-    authPresenter: AuthPresenter,
-    sharedPresenter: SharedPresenter,
-) {
+fun LoginScreen(authPresenter: AuthPresenter, sharedPresenter: SharedPresenter) {
     val loginInfo by authPresenter.loginInfo.collectAsState()
     val authUiState by authPresenter.uiState.collectAsStateWithLifecycle(UIState.Idle)
 

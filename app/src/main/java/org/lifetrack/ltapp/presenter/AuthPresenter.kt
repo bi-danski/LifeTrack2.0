@@ -59,10 +59,6 @@ class AuthPresenter(
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing = _isRefreshing.asStateFlow()
 
-    private val _errorMessage = MutableStateFlow<String?>(null)
-    val errorMessage = _errorMessage.asStateFlow()
-
-
     fun resetUIState() {
         viewModelScope.launch {
             _uiState.emit(UIState.Idle)
@@ -81,7 +77,9 @@ class AuthPresenter(
                      _uiState.emit( UIState.Success("Welcome back!"))
                      loadUserProfile()
                  }
-                is AuthResult.Error -> _uiState.emit( UIState.Error(result.message))
+                is AuthResult.Error -> _uiState.emit( UIState.Error(result.message,
+                    isNetworkError = result.isNetworkError)
+                )
                 is AuthResult.Success -> _uiState.emit( UIState.Success())
                 else -> _uiState.emit(UIState.Loading)
             }
@@ -92,11 +90,13 @@ class AuthPresenter(
         viewModelScope.launch {
             _uiState.emit(UIState.Loading)
             when (val result = authRepository.signUp(_signupInfo.value)) {
-                is AuthResult.Success -> { _uiEvent.send(AuthUiEvent.SignupSuccess) }//
+                is AuthResult.Success -> { _uiEvent.send(AuthUiEvent.SignupSuccess) }
                 is AuthResult.SuccessWithData<*> -> {
                     _uiState.emit(UIState.Success(result.data as? String))
                 }
-                is AuthResult.Error -> _uiState.emit(UIState.Error(result.message))
+                is AuthResult.Error -> _uiState.emit( UIState.Error(result.message,
+                    isNetworkError = result.isNetworkError)
+                )
                 else -> _uiState.emit(UIState.Idle)
             }
         }
@@ -105,48 +105,41 @@ class AuthPresenter(
     fun logout() {
         viewModelScope.launch {
             _uiState.emit(UIState.Loading)
-            try {
-                sessionManager.logout()
-                _uiState.emit(UIState.Success("Logout Success"))
-            }catch (ex: Exception){
-                _uiState.emit(UIState.Error(ex.message.toString()))
+            when (val result = authRepository.logout()) {
+                is AuthResult.Success -> {
+                    sessionManager.logout()
+                    _uiState.emit(UIState.Success("Logout Success"))
+                }
+                is AuthResult.Error -> {
+                    _uiState.emit(UIState.Error(
+                        msg = result.message,
+                        isNetworkError = result.isNetworkError
+                    ))
+                }
+                else -> _uiState.emit(UIState.Idle)
             }
         }
     }
 
     fun loadUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
-            android.util.Log.d("loadUserProfile()", "[*] Loading Saved User Preferences ...")
-
             val currentPrefs = prefRepository.userPreferences.first()
             if (currentPrefs.isDefault) {
-                _errorMessage.value = null
                 _uiState.emit(UIState.Loading)
-                try {
-                    android.util.Log.d("loadUserProfile()", "[*] Fetching Remote User Preferences")
 
-                    when (val result = userRepository.getCurrentUserInfo()) {
-                        is AuthResult.SuccessWithData<*> -> {
-                            val data = result.data as? UserDataResponse
-                            data?.let { user ->
-                                prefRepository.updateUserPreferences {
-                                    user.toUserProfileInformation().toUserPreferences()
-                                }
-                            }
-                            android.util.Log.d("loadUserProfile()", "[*] User Preferences Save Success...")
+                when (val result = userRepository.getCurrentUserInfo()) {
+                    is AuthResult.SuccessWithData<*> -> {
+                        val data = result.data as? UserDataResponse
+                        data?.let { user ->
+                            prefRepository.updateUserPreferences { user.toUserProfileInformation().toUserPreferences() }
                         }
-                        is AuthResult.Error -> { _errorMessage.value = result.message }
-                        else -> { }
+                        _uiState.emit(UIState.Idle)
                     }
-
-                } catch (e: Exception) {
-                    _errorMessage.value = e.message ?: "Technical Error On Retrieving User Data"
-                    _uiState.emit(UIState.Error(errorMessage.value.toString()))
-                } finally {
-                    _uiState.emit(UIState.Idle)
+                    is AuthResult.Error -> {
+                        _uiState.emit(UIState.Error(msg = result.message, isNetworkError = result.isNetworkError))
+                    }
+                    else -> _uiState.emit(UIState.Idle)
                 }
-            }else{
-                android.util.Log.d("loadUserProfile()", "Proceeding With Saved Tokens")
             }
         }
     }
