@@ -17,11 +17,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddComment
 import androidx.compose.material.icons.filled.ArrowCircleLeft
 import androidx.compose.material.icons.filled.DeleteSweep
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.rounded.LibraryAdd
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.DropdownMenu
@@ -61,6 +61,7 @@ import org.lifetrack.ltapp.ui.components.chatscreen.BBarMessage
 import org.lifetrack.ltapp.ui.components.homescreen.LifeTrackTopBar
 import org.lifetrack.ltapp.ui.components.medicalcharts.MessageBubble
 import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
+import org.lifetrack.ltapp.ui.theme.Purple40
 
 @Composable
 fun AlmaScreen(presenter: ChatPresenter) {
@@ -92,10 +93,8 @@ fun AlmaScreen(presenter: ChatPresenter) {
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet(
-                drawerContainerColor = if (isSystemInDarkTheme())
-                    MaterialTheme.colorScheme.background
-                else
-                    MaterialTheme.colorScheme.primaryContainer
+                drawerContainerColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.background else
+                    Purple40 // MaterialTheme.colorScheme.primaryContainer
             ) {
                 Spacer(Modifier.height(12.dp))
                 Text(
@@ -184,7 +183,7 @@ fun AlmaScreen(presenter: ChatPresenter) {
                     title = "Alma Assistant",
                     navigationIcon = Icons.Default.ArrowCircleLeft,
                     backCallback = { LTNavDispatcher.navigateBack() },
-                    actionIcon = Icons.Default.AddComment,
+                    actionIcon = Icons.Rounded.LibraryAdd,
                     actionCallback = { presenter.startNewChat() },
                     actionCallbackIngine = { scope.launch { drawerState.open() } }
                 )

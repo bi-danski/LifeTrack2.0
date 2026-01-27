@@ -19,7 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Error
+import androidx.compose.material.icons.rounded.Error
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarData
@@ -83,7 +83,7 @@ fun LTSnackbar(
                 horizontalArrangement = Arrangement.Center
             ) {
                 Icon(
-                    imageVector = Icons.Default.Error,
+                    imageVector = Icons.Rounded.Error,
                     contentDescription = null,
                     modifier = Modifier.size(22.dp),
                     tint = if (!isSystemInDarkTheme()) MaterialTheme.colorScheme.primaryContainer else
