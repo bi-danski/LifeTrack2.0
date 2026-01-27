@@ -27,7 +27,6 @@ import org.lifetrack.ltapp.model.data.dto.UserDataResponse
 import org.lifetrack.ltapp.model.repository.AuthRepository
 import org.lifetrack.ltapp.model.repository.PreferenceRepository
 import org.lifetrack.ltapp.model.repository.UserRepository
-import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 import org.lifetrack.ltapp.ui.state.UIState
 
 
@@ -93,9 +92,9 @@ class AuthPresenter(
         viewModelScope.launch {
             _uiState.emit(UIState.Loading)
             when (val result = authRepository.signUp(_signupInfo.value)) {
-                is AuthResult.Success -> {
-                    _uiState.emit(UIState.Success("Account created successfully!"))
-                    LTNavDispatcher.navigate("login")
+                is AuthResult.Success -> { _uiEvent.send(AuthUiEvent.SignupSuccess) }//
+                is AuthResult.SuccessWithData<*> -> {
+                    _uiState.emit(UIState.Success(result.data as? String))
                 }
                 is AuthResult.Error -> _uiState.emit(UIState.Error(result.message))
                 else -> _uiState.emit(UIState.Idle)

@@ -42,7 +42,7 @@ class AuthRepositoryImpl(
 
     override suspend fun signUp( signupInfo: SignUpInfo ): AuthResult {
         return try {
-            val response = client.post("/auth/register") {
+            val response = client.post("/auth/signup") {
                 contentType(ContentType.Application.Json)
                 setBody(signupInfo.toSignUpRequest())
             }
