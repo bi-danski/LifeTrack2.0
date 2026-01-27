@@ -64,7 +64,7 @@ val koinModule = module {
     }
 
     single { get<LTRoomDatabase>().chatDao() }
-    single<ConnectivityObserver> { NetworkObserver(androidContext()) }
+    single<ConnectivityObserver> { NetworkObserver(androidContext(), get()) }
     single { KtorHttpClient.create(get(), get()) }
     single { AlmaService(get()) }
     single {

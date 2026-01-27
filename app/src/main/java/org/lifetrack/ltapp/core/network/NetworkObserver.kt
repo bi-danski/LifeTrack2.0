@@ -13,21 +13,23 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class NetworkObserver(
-    context: Context,
-    private val koinScope: CoroutineScope
-) : ConnectivityObserver {
+class NetworkObserver(context: Context, koinScope: CoroutineScope) : ConnectivityObserver {
 
     private val connectivityManager =
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
     override val status: StateFlow<ConnectivityObserver.NetworkStatus> = callbackFlow {
         val callback = object : ConnectivityManager.NetworkCallback() {
-            override fun onAvailable(network: Network) { launch { send(ConnectivityObserver.NetworkStatus.Available) } }
-            override fun onLost(network: Network) { launch { send(ConnectivityObserver.NetworkStatus.Lost) } }
-            override fun onUnavailable() { launch { send(ConnectivityObserver.NetworkStatus.Unavailable) } }
+            override fun onAvailable(network: Network) {
+                launch { send(ConnectivityObserver.NetworkStatus.Available) }
+            }
+            override fun onLost(network: Network) {
+                launch { send(ConnectivityObserver.NetworkStatus.Lost) }
+            }
+            override fun onUnavailable() {
+                launch { send(ConnectivityObserver.NetworkStatus.Unavailable) }
+            }
         }
-
         val request = NetworkRequest.Builder()
             .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
             .addCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
