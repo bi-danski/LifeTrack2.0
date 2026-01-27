@@ -61,7 +61,7 @@ fun LTSnackbar(
         Surface(
             modifier = modifier
                 .padding(16.dp)
-                .widthIn(min = 44.dp, max = 260.dp)
+                .widthIn(min = 44.dp, max = 300.dp)
                 .animateContentSize(),
             shape = MaterialTheme.shapes.extraLarge,
             color = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.95f),

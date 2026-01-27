@@ -38,6 +38,9 @@ import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDrawerState
@@ -60,6 +63,7 @@ import org.lifetrack.ltapp.presenter.ChatPresenter
 import org.lifetrack.ltapp.ui.components.chatscreen.BBarMessage
 import org.lifetrack.ltapp.ui.components.homescreen.LifeTrackTopBar
 import org.lifetrack.ltapp.ui.components.medicalcharts.MessageBubble
+import org.lifetrack.ltapp.ui.components.other.LTSnackbar
 import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 import org.lifetrack.ltapp.ui.theme.Purple40
 
@@ -71,6 +75,7 @@ fun AlmaScreen(presenter: ChatPresenter) {
     val isLoading by presenter.isLoading.collectAsState()
     val activeChatId by presenter.chatId.collectAsState()
 
+    val snackbarHostState = remember { SnackbarHostState() }
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
@@ -78,6 +83,15 @@ fun AlmaScreen(presenter: ChatPresenter) {
     var expandedChatId by remember { mutableStateOf<String?>(null) }
     var showRenameDialog by remember { mutableStateOf<String?>(null) }
     var newTitle by remember { mutableStateOf("") }
+
+    fun showStatus(msg: String) {
+        scope.launch {
+            snackbarHostState.showSnackbar(
+                message = msg,
+                duration = SnackbarDuration.Indefinite
+            )
+        }
+    }
 
     LaunchedEffect(almaMessages.size) {
         if (almaMessages.isNotEmpty()) {
@@ -93,8 +107,7 @@ fun AlmaScreen(presenter: ChatPresenter) {
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet(
-                drawerContainerColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.background else
-                    Purple40 // MaterialTheme.colorScheme.primaryContainer
+                drawerContainerColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.background else Purple40
             ) {
                 Spacer(Modifier.height(12.dp))
                 Text(
@@ -146,7 +159,7 @@ fun AlmaScreen(presenter: ChatPresenter) {
                                     ) {
                                         DropdownMenuItem(
                                             text = { Text("Rename") },
-                                            leadingIcon = { Icon(Icons.Default.Edit, contentDescription = null, modifier = Modifier.size(18.dp)) },
+                                            leadingIcon = { Icon(Icons.Default.Edit, null, modifier = Modifier.size(18.dp)) },
                                             onClick = {
                                                 expandedChatId = null
                                                 newTitle = session.text
@@ -155,10 +168,11 @@ fun AlmaScreen(presenter: ChatPresenter) {
                                         )
                                         DropdownMenuItem(
                                             text = { Text("Delete", color = MaterialTheme.colorScheme.error) },
-                                            leadingIcon = { Icon(Icons.Default.DeleteSweep, contentDescription = null, modifier = Modifier.size(18.dp), tint = MaterialTheme.colorScheme.error) },
+                                            leadingIcon = { Icon(Icons.Default.DeleteSweep, null, modifier = Modifier.size(18.dp), tint = MaterialTheme.colorScheme.error) },
                                             onClick = {
                                                 expandedChatId = null
                                                 presenter.deleteChat(session.chatId)
+                                                showStatus("Chat Deleted")
                                             }
                                         )
                                     }
@@ -178,13 +192,21 @@ fun AlmaScreen(presenter: ChatPresenter) {
         }
     ) {
         Scaffold(
+            snackbarHost = {
+                SnackbarHost(hostState = snackbarHostState) { data ->
+                    LTSnackbar(snackbarData = data)
+                }
+            },
             topBar = {
                 LifeTrackTopBar(
                     title = "Alma Assistant",
                     navigationIcon = Icons.Default.ArrowCircleLeft,
                     backCallback = { LTNavDispatcher.navigateBack() },
                     actionIcon = Icons.Rounded.LibraryAdd,
-                    actionCallback = { presenter.startNewChat() },
+                    actionCallback = {
+                        presenter.startNewChat()
+                        showStatus("New Session Started")
+                    },
                     actionCallbackIngine = { scope.launch { drawerState.open() } }
                 )
             },
@@ -262,13 +284,15 @@ fun AlmaScreen(presenter: ChatPresenter) {
             },
             confirmButton = {
                 TextButton(onClick = {
-                    showRenameDialog?.let { id -> presenter.renameChat(id, newTitle) }
+                    showRenameDialog?.let { id ->
+                        presenter.renameChat(id, newTitle)
+                    }
                 }) {
                     Text("Save", fontWeight = FontWeight.Bold)
                 }
             },
             dismissButton = {
-                TextButton(onClick = { showRenameDialog = null }) {
+                TextButton(onClick = { }) {
                     Text("Cancel")
                 }
             }
