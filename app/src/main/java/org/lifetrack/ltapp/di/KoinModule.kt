@@ -14,7 +14,9 @@ import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
+import org.lifetrack.ltapp.core.network.ConnectivityObserver
 import org.lifetrack.ltapp.core.network.KtorHttpClient
+import org.lifetrack.ltapp.core.network.NetworkObserver
 import org.lifetrack.ltapp.core.service.AlmaService
 import org.lifetrack.ltapp.model.datastore.LTPreferenceSerializer
 import org.lifetrack.ltapp.model.datastore.TokenPreferenceSerializer
@@ -62,7 +64,8 @@ val koinModule = module {
     }
 
     single { get<LTRoomDatabase>().chatDao() }
-    single { KtorHttpClient.create(get()) }
+    single<ConnectivityObserver> { NetworkObserver(androidContext()) }
+    single { KtorHttpClient.create(get(), get()) }
     single { AlmaService(get()) }
     single {
         PreferenceRepository(

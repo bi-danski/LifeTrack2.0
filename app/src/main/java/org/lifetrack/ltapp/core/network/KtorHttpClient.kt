@@ -4,6 +4,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.DefaultRequest
+import io.ktor.client.plugins.HttpRequestRetry
 import io.ktor.client.plugins.HttpResponseValidator
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.auth.Auth
@@ -12,6 +13,7 @@ import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.request.HttpRequestPipeline
 import io.ktor.client.request.header
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
@@ -21,12 +23,13 @@ import io.ktor.http.encodedPath
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.flow.first
 import kotlinx.serialization.json.Json
+import org.lifetrack.ltapp.core.exception.NoInternetException
 import org.lifetrack.ltapp.model.data.dclass.TokenPreferences
 import org.lifetrack.ltapp.model.repository.PreferenceRepository
 
 
 object KtorHttpClient {
-    fun create(prefs: PreferenceRepository): HttpClient {
+    fun create(prefs: PreferenceRepository, connectivityObserver: ConnectivityObserver): HttpClient {
         return HttpClient(Android) {
             expectSuccess = true
 
@@ -40,9 +43,32 @@ object KtorHttpClient {
             }
 
             install(HttpTimeout) {
-                requestTimeoutMillis = 30000
-                connectTimeoutMillis = 30000
-                socketTimeoutMillis = 30000
+                requestTimeoutMillis = 15000
+                connectTimeoutMillis = 10000
+                socketTimeoutMillis = 20000
+            }
+
+            install(HttpRequestRetry) {
+                maxRetries = 3
+                retryIf { _, response -> response.status.value in 500..599 }
+                retryOnExceptionIf { _, cause ->
+                    cause is io.ktor.client.network.sockets.SocketTimeoutException ||
+                            cause is io.ktor.client.network.sockets.ConnectTimeoutException
+                }
+                delayMillis { retry ->
+                    val baseDelay = retry * 2000L
+                    val jitter = (0..500).random()
+                    baseDelay + jitter
+                }
+            }
+
+            install("ConnectivityCheck") {
+                requestPipeline.intercept(HttpRequestPipeline.Before) {
+                    if (connectivityObserver.status.equals( ConnectivityObserver.NetworkStatus.Available)) {
+                        throw NoInternetException()
+                    }
+                    proceed()
+                }
             }
 
             HttpResponseValidator {

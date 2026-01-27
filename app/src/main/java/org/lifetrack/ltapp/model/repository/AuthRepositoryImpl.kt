@@ -8,6 +8,7 @@ import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
+import org.lifetrack.ltapp.core.exception.NoInternetException
 import org.lifetrack.ltapp.core.utility.ZetuZetuUtil.sanitizeErrorMessage
 import org.lifetrack.ltapp.core.utility.toLoginRequest
 import org.lifetrack.ltapp.core.utility.toSignUpRequest
@@ -35,7 +36,9 @@ class AuthRepositoryImpl(
             }else {
                 AuthResult.Error("Invalid credentials. Please check your email and password.")
             }
-        } catch (ex: Exception) {
+        }catch(_: NoInternetException){
+            AuthResult.Error(isNetworkError = true, message = "No Internet Connection")
+        }catch (ex: Exception) {
             AuthResult.Error(sanitizeErrorMessage(ex))
         }
     }
@@ -46,12 +49,14 @@ class AuthRepositoryImpl(
                 contentType(ContentType.Application.Json)
                 setBody(signupInfo.toSignUpRequest())
             }
-            if (response.status == HttpStatusCode.Created){
+            if (response.status == HttpStatusCode.Created) {
                 AuthResult.Success
-            }else {
+            } else {
                 AuthResult.Error(response.bodyAsText())
             }
-        } catch (ex: Exception) {
+        }catch(_: NoInternetException){
+            AuthResult.Error(isNetworkError = true, message = "No Internet Connection")
+        }catch (ex: Exception) {
             AuthResult.Error(sanitizeErrorMessage(ex))
         }
     }
@@ -79,7 +84,9 @@ class AuthRepositoryImpl(
                 prefs.updateTokens(null, null)
                 AuthResult.Error("Session expired. Please login again.")
             }
-        } catch (e: Exception) {
+        }catch(_: NoInternetException){
+            AuthResult.Error(isNetworkError = true, message = "No Internet Connection")
+        }catch (e: Exception) {
             AuthResult.Error("Network error: ${e.message}")
         }
     }
@@ -94,7 +101,9 @@ class AuthRepositoryImpl(
             }else{
                 AuthResult.Error(response.bodyAsText())
             }
-        } catch (ex: Exception) {
+        }catch(_: NoInternetException){
+            AuthResult.Error(isNetworkError = true, message = "No Internet Connection")
+        }catch (ex: Exception) {
             AuthResult.Error(sanitizeErrorMessage(ex))
         }
     }

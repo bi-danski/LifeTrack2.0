@@ -1,7 +1,13 @@
 package org.lifetrack.ltapp.ui.screens
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -51,6 +57,7 @@ import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.ui.components.loginscreen.LTBrandAppBar
+import org.lifetrack.ltapp.ui.components.other.LTRetry
 import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 import org.lifetrack.ltapp.ui.state.UIState
 
@@ -67,26 +74,17 @@ fun LoginScreen(
     var passwordVisibility by remember { mutableStateOf(false) }
 
     LaunchedEffect(authUiState) {
-        when (authUiState) {
-            is UIState.Error -> {
-                snackbarHostState.showSnackbar(message = (authUiState as UIState.Error).msg,
+        if (authUiState is UIState.Error) {
+            val error = authUiState as UIState.Error
+            if (!error.isNetworkError) {
+                snackbarHostState.showSnackbar(
+                    message = error.msg,
                     duration = SnackbarDuration.Long
                 )
                 authPresenter.resetUIState()
             }
-            else -> {}
         }
     }
-//    LaunchedEffect(Unit) {
-//        authPresenter.uiEvent.collect { uiEvent ->
-//            when(uiEvent) {
-//                is AuthUiEvent.LoginSuccess -> {
-//                    authPresenter.loadUserProfile()
-//                }
-//                else -> {}
-//            }
-//        }
-//    }
 
     Scaffold(
         snackbarHost = {
@@ -99,128 +97,142 @@ fun LoginScreen(
             }
         }
     ) { paddingValues ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .background(MaterialTheme.colorScheme.background),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            contentPadding = PaddingValues(bottom = 24.dp)
-        ) {
-            item {
-                LTBrandAppBar(
-                    modifier = Modifier.padding(top = 32.dp),
-                    sharedPresenter = sharedPresenter
-                )
-                Spacer(modifier = Modifier.height(40.dp))
-            }
+        Box(modifier = Modifier.fillMaxSize()) {
 
-            item {
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    OutlinedTextField(
-                        value = loginInfo.emailAddress,
-                        onValueChange = { authPresenter.onLoginInfoUpdate(loginInfo.copy(emailAddress = it)) },
-                        label = { Text("Email") },
-                        enabled = authUiState !is UIState.Loading,
-                        singleLine = true,
-                        shape = RoundedCornerShape(8.dp),
-                        modifier = Modifier.fillMaxWidth(0.85f)
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .background(MaterialTheme.colorScheme.background),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                contentPadding = PaddingValues(bottom = 24.dp)
+            ) {
+                item {
+                    LTBrandAppBar(
+                        modifier = Modifier.padding(top = 32.dp),
+                        sharedPresenter = sharedPresenter
                     )
+                    Spacer(modifier = Modifier.height(40.dp))
+                }
 
-                    Spacer(modifier = Modifier.height(24.dp))
-
-                    OutlinedTextField(
-                        value = loginInfo.password,
-                        onValueChange = { authPresenter.onLoginInfoUpdate(loginInfo.copy(password = it)) },
-                        label = { Text("Password") },
-                        enabled = authUiState !is UIState.Loading,
-                        visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
-                        trailingIcon = {
-                            val icon = if (passwordVisibility) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
-                            IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
-                                Icon(imageVector = icon, contentDescription = "Toggle Password Visibility")
-                            }
-                        },
-                        singleLine = true,
-                        shape = RoundedCornerShape(8.dp),
-                        modifier = Modifier.fillMaxWidth(0.85f)
-                    )
-
-                    Spacer(modifier = Modifier.height(48.dp))
-
-                    Button(
-                        onClick = {
-                            if (loginInfo.emailAddress.isNotEmpty() && loginInfo.password.isNotEmpty()) {
-                                authPresenter.login()
-                            } else {
-                                coroutineScope.launch {
-                                    snackbarHostState.showSnackbar("Please fill in all fields.")
-                                }
-                            }
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth(0.85f)
-                            .height(50.dp)
-                            .clip(RoundedCornerShape(12.dp)),
-                        enabled = authUiState !is UIState.Loading
+                item {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        if (authUiState is UIState.Loading) {
-                            CircularProgressIndicator(
-                                color = Color.Green, //  MaterialTheme.colorScheme.onPrimary,
-                                modifier = Modifier.size(20.dp),
-                                strokeWidth = 2.5.dp
-                            )
-                        } else {
+                        OutlinedTextField(
+                            value = loginInfo.emailAddress,
+                            onValueChange = { authPresenter.onLoginInfoUpdate(loginInfo.copy(emailAddress = it)) },
+                            label = { Text("Email") },
+                            enabled = authUiState !is UIState.Loading,
+                            singleLine = true,
+                            shape = RoundedCornerShape(8.dp),
+                            modifier = Modifier.fillMaxWidth(0.85f)
+                        )
+
+                        Spacer(modifier = Modifier.height(24.dp))
+
+                        OutlinedTextField(
+                            value = loginInfo.password,
+                            onValueChange = { authPresenter.onLoginInfoUpdate(loginInfo.copy(password = it)) },
+                            label = { Text("Password") },
+                            enabled = authUiState !is UIState.Loading,
+                            visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
+                            trailingIcon = {
+                                val icon = if (passwordVisibility) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
+                                IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
+                                    Icon(imageVector = icon, contentDescription = "Toggle Password Visibility")
+                                }
+                            },
+                            singleLine = true,
+                            shape = RoundedCornerShape(8.dp),
+                            modifier = Modifier.fillMaxWidth(0.85f)
+                        )
+
+                        Spacer(modifier = Modifier.height(48.dp))
+
+                        Button(
+                            onClick = {
+                                if (loginInfo.emailAddress.isNotEmpty() && loginInfo.password.isNotEmpty()) {
+                                    authPresenter.login()
+                                } else {
+                                    coroutineScope.launch {
+                                        snackbarHostState.showSnackbar("Please fill in all fields.")
+                                    }
+                                }
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth(0.85f)
+                                .height(50.dp)
+                                .clip(RoundedCornerShape(12.dp)),
+                            enabled = authUiState !is UIState.Loading
+                        ) {
+                            if (authUiState is UIState.Loading) {
+                                CircularProgressIndicator(
+                                    color = Color.Green,
+                                    modifier = Modifier.size(20.dp),
+                                    strokeWidth = 2.5.dp
+                                )
+                            } else {
+                                Text(
+                                    text = "Login",
+                                    style = MaterialTheme.typography.labelLarge,
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                            }
+                        }
+
+                        TextButton(
+                            onClick = { LTNavDispatcher.navigate("restore") },
+                            enabled = authUiState !is UIState.Loading
+                        ) {
                             Text(
-                                text = "Login",
-                                style = MaterialTheme.typography.labelLarge,
+                                text = "Forgot Password?",
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.primary,
                                 fontWeight = FontWeight.SemiBold
                             )
                         }
                     }
+                }
 
-                    TextButton(
-                        onClick = { LTNavDispatcher.navigate("restore") },
-                        enabled = authUiState !is UIState.Loading
+                item {
+                    Spacer(modifier = Modifier.height(32.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "Forgot Password?",
+                            text = "Don’t have an account?",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.primary,
-                            fontWeight = FontWeight.SemiBold
+                            color = MaterialTheme.colorScheme.onSurface
                         )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        TextButton(
+                            onClick = { LTNavDispatcher.navigate("signup") },
+                            enabled = authUiState !is UIState.Loading
+                        ) {
+                            Text(
+                                text = "Sign Up",
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.primary,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
                     }
                 }
             }
 
-            item {
-                Spacer(modifier = Modifier.height(32.dp))
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "Don’t have an account?",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    TextButton(
-                        onClick = { LTNavDispatcher.navigate("signup") },
-                        enabled = authUiState !is UIState.Loading
-                    ) {
-                        Text(
-                            text = "Sign Up",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.primary,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                }
+            AnimatedVisibility(
+                visible = authUiState is UIState.Error && (authUiState as UIState.Error).isNetworkError,
+                enter = slideInVertically(initialOffsetY = { -it }) + fadeIn(),
+                exit = slideOutVertically(targetOffsetY = { -it }) + fadeOut(),
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .padding(top = 24.dp)
+            ) {
+                LTRetry()
             }
         }
     }
