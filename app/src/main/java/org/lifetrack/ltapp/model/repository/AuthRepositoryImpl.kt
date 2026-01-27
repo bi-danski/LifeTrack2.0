@@ -93,7 +93,7 @@ class AuthRepositoryImpl(
 
     override suspend fun logout(): AuthResult {
         return try {
-            val response = client.post("/auth/logout") {
+            val response = client.post("/user/logout") {
                 contentType(ContentType.Application.Json)
             }
             if (response.status == HttpStatusCode.OK) {

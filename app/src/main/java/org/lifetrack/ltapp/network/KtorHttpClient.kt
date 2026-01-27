@@ -1,8 +1,11 @@
-package org.lifetrack.ltapp.core.network
+package org.lifetrack.ltapp.network
 
+import android.util.Log
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.android.Android
+import io.ktor.client.network.sockets.ConnectTimeoutException
+import io.ktor.client.network.sockets.SocketTimeoutException
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.HttpRequestRetry
 import io.ktor.client.plugins.HttpResponseValidator
@@ -18,6 +21,7 @@ import io.ktor.client.request.header
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.encodedPath
 import io.ktor.serialization.kotlinx.json.json
@@ -29,7 +33,7 @@ import org.lifetrack.ltapp.model.repository.PreferenceRepository
 
 
 object KtorHttpClient {
-    fun create(prefs: PreferenceRepository, connectivityObserver: ConnectivityObserver): HttpClient {
+    fun create(prefs: PreferenceRepository, networkObserver: NetworkObserver): HttpClient {
         return HttpClient(Android) {
             expectSuccess = true
 
@@ -52,8 +56,8 @@ object KtorHttpClient {
                 maxRetries = 3
                 retryIf { _, response -> response.status.value in 500..599 }
                 retryOnExceptionIf { _, cause ->
-                    cause is io.ktor.client.network.sockets.SocketTimeoutException ||
-                            cause is io.ktor.client.network.sockets.ConnectTimeoutException
+                    cause is SocketTimeoutException ||
+                            cause is ConnectTimeoutException
                 }
                 delayMillis { retry ->
                     val baseDelay = retry * 2000L
@@ -64,7 +68,7 @@ object KtorHttpClient {
 
             install("ConnectivityCheck") {
                 requestPipeline.intercept(HttpRequestPipeline.Before) {
-                    if (connectivityObserver.status.equals( ConnectivityObserver.NetworkStatus.Available)) {
+                    if (!networkObserver.isConnected.value ) {
                         throw NoInternetException()
                     }
                     proceed()
@@ -75,7 +79,7 @@ object KtorHttpClient {
                 validateResponse { response ->
                     val path = response.call.request.url.encodedPath
                     if (response.status == HttpStatusCode.Unauthorized && path.contains("/auth/refresh")) {
-                        android.util.Log.e("KtorValidator", "Refresh Token Expired. Hard Logout.")
+                        Log.e("KtorValidator", "Refresh Token Expired. Hard Logout.")
                         prefs.clearUserPreferences()
                     }
                 }
@@ -83,7 +87,7 @@ object KtorHttpClient {
 
             install(DefaultRequest) {
                 url("https://lifetrack-1071288890438.us-central1.run.app")
-                header(io.ktor.http.HttpHeaders.ContentType, ContentType.Application.Json)
+                header(HttpHeaders.ContentType, ContentType.Application.Json)
             }
 
             install(Auth) {
@@ -121,7 +125,7 @@ object KtorHttpClient {
                                 null
                             }
                         } catch (e: Exception) {
-                            android.util.Log.e("KtorAuth", "Refresh failed", e)
+                            Log.e("KtorAuth", "Refresh failed", e)
                             null
                         }
                     }
@@ -137,7 +141,7 @@ object KtorHttpClient {
 
             install(Logging) {
                 level = LogLevel.NONE
-                sanitizeHeader { it == io.ktor.http.HttpHeaders.Authorization }
+                sanitizeHeader { it == HttpHeaders.Authorization }
             }
         }
     }

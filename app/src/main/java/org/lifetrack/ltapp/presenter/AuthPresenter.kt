@@ -4,10 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -27,8 +25,8 @@ import org.lifetrack.ltapp.model.data.dto.UserDataResponse
 import org.lifetrack.ltapp.model.repository.AuthRepository
 import org.lifetrack.ltapp.model.repository.PreferenceRepository
 import org.lifetrack.ltapp.model.repository.UserRepository
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 import org.lifetrack.ltapp.ui.state.UIState
-
 
 class AuthPresenter(
     private val authRepository: AuthRepository,
@@ -44,8 +42,9 @@ class AuthPresenter(
             started = SharingStarted.WhileSubscribed(5000L),
             initialValue = ProfileInfo()
         )
-    private val _uiState = MutableSharedFlow<UIState>()
-    val uiState = _uiState.asSharedFlow()
+
+    private val _uiState = MutableStateFlow<UIState>(UIState.Idle)
+    val uiState = _uiState.asStateFlow()
 
     private val _uiEvent = Channel<AuthUiEvent>(Channel.BUFFERED)
     val uiEvent = _uiEvent.receiveAsFlow()
@@ -64,6 +63,7 @@ class AuthPresenter(
             _uiState.emit(UIState.Idle)
         }
     }
+
     fun onLoginInfoUpdate(info: LoginInfo) { _loginInfo.value = info }
     fun onSignupInfoUpdate(info: SignUpInfo) { _signupInfo.value = info }
 
@@ -71,17 +71,20 @@ class AuthPresenter(
         viewModelScope.launch {
             _uiState.emit(UIState.Loading)
             when (val result = authRepository.login(_loginInfo.value)) {
-                 is AuthResult.SuccessWithData<*> -> {
+                is AuthResult.SuccessWithData<*> -> {
                     val sessionTokens = result.data as TokenPreferences
                     sessionManager.updateSessionTokens(sessionTokens.accessToken, sessionTokens.refreshToken)
-                     _uiState.emit( UIState.Success("Welcome back!"))
-                     loadUserProfile()
-                 }
-                is AuthResult.Error -> _uiState.emit( UIState.Error(result.message,
-                    isNetworkError = result.isNetworkError)
-                )
-                is AuthResult.Success -> _uiState.emit( UIState.Success())
-                else -> _uiState.emit(UIState.Loading)
+                    _uiState.emit(UIState.Success("Welcome back!"))
+                    loadUserProfile()
+                }
+                is AuthResult.Error -> {
+                    _uiState.emit(UIState.Error(
+                        msg = result.message,
+                        isNetworkError = result.isNetworkError
+                    ))
+                }
+                is AuthResult.Success -> _uiState.emit(UIState.Success())
+                else -> _uiState.emit(UIState.Idle)
             }
         }
     }
@@ -94,7 +97,7 @@ class AuthPresenter(
                 is AuthResult.SuccessWithData<*> -> {
                     _uiState.emit(UIState.Success(result.data as? String))
                 }
-                is AuthResult.Error -> _uiState.emit( UIState.Error(result.message,
+                is AuthResult.Error -> _uiState.emit(UIState.Error(result.message,
                     isNetworkError = result.isNetworkError)
                 )
                 else -> _uiState.emit(UIState.Idle)
@@ -109,6 +112,7 @@ class AuthPresenter(
                 is AuthResult.Success -> {
                     sessionManager.logout()
                     _uiState.emit(UIState.Success("Logout Success"))
+                    LTNavDispatcher.navigate("login", clearBackstack = true)
                 }
                 is AuthResult.Error -> {
                     _uiState.emit(UIState.Error(
@@ -126,17 +130,21 @@ class AuthPresenter(
             val currentPrefs = prefRepository.userPreferences.first()
             if (currentPrefs.isDefault) {
                 _uiState.emit(UIState.Loading)
-
                 when (val result = userRepository.getCurrentUserInfo()) {
                     is AuthResult.SuccessWithData<*> -> {
                         val data = result.data as? UserDataResponse
                         data?.let { user ->
-                            prefRepository.updateUserPreferences { user.toUserProfileInformation().toUserPreferences() }
+                            prefRepository.updateUserPreferences {
+                                user.toUserProfileInformation().toUserPreferences()
+                            }
                         }
                         _uiState.emit(UIState.Idle)
                     }
                     is AuthResult.Error -> {
-                        _uiState.emit(UIState.Error(msg = result.message, isNetworkError = result.isNetworkError))
+                        _uiState.emit(UIState.Error(
+                            msg = result.message,
+                            isNetworkError = result.isNetworkError
+                        ))
                     }
                     else -> _uiState.emit(UIState.Idle)
                 }

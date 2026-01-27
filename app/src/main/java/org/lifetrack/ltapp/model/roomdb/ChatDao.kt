@@ -1,6 +1,9 @@
 package org.lifetrack.ltapp.model.roomdb
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -19,6 +22,12 @@ interface ChatDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertChat(chat: MessageEntity)
+
+    @Query("DELETE FROM demChats WHERE chatId = :chatId")
+    suspend fun deleteChatsBySessionId(chatId: String)
+
+    @Query("UPDATE demChats SET text = :newName WHERE chatId = :chatId AND id = (SELECT MIN(id) FROM demChats WHERE chatId = :chatId)")
+    suspend fun updateChatSessionName(chatId: String, newName: String)
 
     @Query("DELETE FROM demChats WHERE type = :chatType")
     suspend fun deleteChatsByType(chatType: String)

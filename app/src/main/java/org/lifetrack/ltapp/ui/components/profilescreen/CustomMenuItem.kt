@@ -1,6 +1,7 @@
 package org.lifetrack.ltapp.ui.components.profilescreen
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -43,7 +44,7 @@ fun CustomProfileMenuItem(icon: ImageVector, leftIconColor: Color, title: String
             text = title,
             fontSize = 15.sp,
             color = colorScheme.onBackground,
-            fontWeight = FontWeight.Bold,
+            fontWeight = if (isSystemInDarkTheme()) FontWeight.Bold else FontWeight.SemiBold,
             modifier = Modifier.weight(1f)
         )
 //        Icon(
@@ -76,7 +77,7 @@ fun ProfileMenuItem(icon: ImageVector, title: String, onClick: () -> Unit) {
         Text(
             text = title,
             fontSize = 15.sp,
-            fontWeight = FontWeight.SemiBold,
+            fontWeight = if (isSystemInDarkTheme()) FontWeight.Bold else FontWeight.SemiBold,
             color = colorScheme.onBackground,
             modifier = Modifier.weight(1f)
         )

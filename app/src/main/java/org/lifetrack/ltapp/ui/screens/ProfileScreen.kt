@@ -54,6 +54,7 @@ import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.ui.components.profilescreen.CustomProfileMenuItem
 import org.lifetrack.ltapp.ui.components.profilescreen.ProfileMenuItem
 import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
+import org.lifetrack.ltapp.ui.theme.DeepOrange
 import org.lifetrack.ltapp.ui.theme.Purple40
 import org.lifetrack.ltapp.ui.theme.Purple80
 
@@ -180,13 +181,13 @@ fun ProfileScreen(authPresenter: AuthPresenter, userPresenter: UserPresenter) {
                                 icon = Icons.Default.Delete,
                                 leftIconColor = Color.Red,
                                 title = "Delete My Account",
-                                onClick = userPresenter::deleteAccount
+                                onClick = { userPresenter.deleteAccount() }
                             )
                             CustomProfileMenuItem(
                                 icon = Icons.AutoMirrored.Filled.Logout,
-                                leftIconColor = Color.Red,
+                                leftIconColor = DeepOrange,
                                 title = "Logout",
-                                onClick = authPresenter::logout
+                                onClick = { authPresenter.logout() }
                             )
                         }
                     }
