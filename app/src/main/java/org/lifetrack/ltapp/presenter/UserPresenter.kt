@@ -21,10 +21,10 @@ import org.lifetrack.ltapp.model.data.dclass.AuthResult
 import org.lifetrack.ltapp.model.data.dclass.DoctorProfile
 import org.lifetrack.ltapp.model.data.dclass.LabTest
 import org.lifetrack.ltapp.model.data.dclass.Prescription
+import org.lifetrack.ltapp.model.data.dclass.User
 import org.lifetrack.ltapp.model.data.mock.LtMockData
 import org.lifetrack.ltapp.model.repository.UserRepository
 import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
-
 
 class UserPresenter(
     private val userRepository: UserRepository,
@@ -39,6 +39,11 @@ class UserPresenter(
     val dummyPrescriptions =  mutableStateListOf<Prescription>().apply {
         addAll(LtMockData.dPrescriptions)
     }
+    // ADDED PRACTIONIONER STATE
+    // allows the navigation to decide which Ui to show
+    private val _userRole = MutableStateFlow("PATIENT")
+    val userRole = _userRole.asStateFlow()
+
     private val _allAppointments = MutableStateFlow(LtMockData.dummyAppointments)
     private val _selectedFilter = MutableStateFlow(AppointmentStatus.UPCOMING)
     val selectedFilter = _selectedFilter.asStateFlow()
@@ -69,6 +74,48 @@ class UserPresenter(
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage = _errorMessage.asStateFlow()
 
+
+    // New practitioner data
+    //this holds list of patients assigned to the logged in doctor
+    private val _myPatients = MutableStateFlow<List<User>>(emptyList())
+    val myPatients = _myPatients.asStateFlow()
+
+    init {
+        //we load some dummy data for now
+        loadPractitionerData()
+    }
+    private fun loadPractitionerData(){
+        viewModelScope.launch {
+            // future , this calls userRepository.getPatientForDoctor(doctorId)
+            //_myPatients.value = userRepository.getPatients()
+
+            // for now we use existing mock users
+            _myPatients.value = listOf(
+                User(
+                    fullName = "Denzil Okwako",
+                    emailAddress = "denzil@example.com",
+                    lifetrackId = "LT-001",
+                    // Added missing fields to match the new User data class
+                    uuid = "p-001",
+                    phoneNumber = "0714322037",
+                    password = "",
+                    profileImageUrl = "",
+                    lastActive = "Active"
+                ),
+                User(
+                    fullName = "Aphiud Mositi",
+                    emailAddress = "aphiud@example.com",
+                    lifetrackId = "LT-002",
+                    // Added missing fields to match the new User data class
+                    uuid = "p-002",
+                    phoneNumber = "0700000000",
+                    password = "",
+                    profileImageUrl = "",
+                    lastActive = "Offline"
+                )
+            )
+        }
+    }
 
     fun onFilterChanged(newFilter: AppointmentStatus) {
         _selectedFilter.value = newFilter
