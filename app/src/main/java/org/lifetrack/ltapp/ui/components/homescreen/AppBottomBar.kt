@@ -38,7 +38,7 @@ fun AppBottomBar() {
     NavigationBar(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 12.dp)
+            .padding(horizontal = 12.dp, vertical = 2.dp)
             .clip(shape)
             .background(
                 brush = Brush.verticalGradient(

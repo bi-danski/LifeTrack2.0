@@ -64,7 +64,7 @@ fun TodayScheduleCard(appointmentCount: Int, nextAppointment: Appointment?,
         shape = RoundedCornerShape(22.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .height(205.dp)
+            .height(200.dp)
             .background(Color.Transparent)
     ) {
         Column(
@@ -79,6 +79,7 @@ fun TodayScheduleCard(appointmentCount: Int, nextAppointment: Appointment?,
 
             Box(
                 modifier = Modifier
+                    .padding(1.dp)
                     .fillMaxWidth()
                     .weight(1.1f)
                     .clip(RoundedCornerShape(16.dp))
