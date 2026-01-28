@@ -1,7 +1,5 @@
 package org.lifetrack.ltapp.ui.components.homescreen
 
-//import androidx.compose.foundation.isSystemInDarkTheme
-//import androidx.compose.material.icons.filled.ArrowCircleLeft
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -14,8 +12,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CommentBank
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.rounded.Layers
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -29,17 +27,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 
 @Composable
-fun AppTopBar(navController: NavController, username: String) {
+fun AppTopBar(username: String) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
@@ -57,7 +56,7 @@ fun AppTopBar(navController: NavController, username: String) {
                 contentAlignment = Alignment.Center
 
             ) {
-                IconButton(onClick = { navController.navigate("menu") },
+                IconButton(onClick = { LTNavDispatcher.navigate("menu") },
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.background))
                 {
@@ -109,7 +108,8 @@ fun LifeTrackTopBar(
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
+                fontStyle = if (title.lowercase().contains("alma")) FontStyle.Italic else FontStyle.Normal
 
             )
         },
@@ -135,7 +135,7 @@ fun LifeTrackTopBar(
                 onClick = actionCallbackIngine
             ) {
                 Icon(
-                    imageVector = Icons.Default.CommentBank,
+                    imageVector = Icons.Rounded.Layers,
                     contentDescription = null
                 )
             }

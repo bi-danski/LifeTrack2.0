@@ -17,9 +17,9 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
-//import org.lifetrack.ltapp.ui.screens.configureBaseChart
-//import org.lifetrack.ltapp.ui.screens.configureBloodPressureAxes
-//import org.lifetrack.ltapp.ui.screens.styleLineDataSet
+//import org.lifetrack.ltapp.ui.components.medicalcharts.configureBaseChart
+//import org.lifetrack.ltapp.ui.components.medicalcharts.configureBloodPressureAxes
+//import org.lifetrack.ltapp.ui.components.medicalcharts.styleLineDataSet
 //import org.lifetrack.ltapp.ui.theme.EmergencyRed
 //import org.lifetrack.ltapp.ui.theme.HospitalBlue
 //import org.lifetrack.ltapp.ui.theme.SuccessGreen
@@ -28,10 +28,7 @@ import java.util.Date
 
 
 @Composable
-fun BloodPressureChart(
-    systolicData: Map<Date, Float>,
-    diastolicData: Map<Date, Float>
-) {
+fun BloodPressChart(systolicData: Map<Date, Float>, diastolicData: Map<Date, Float>) {
     AndroidView(
         factory = { context ->
             LineChart(context).apply {

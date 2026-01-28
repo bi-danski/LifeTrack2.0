@@ -53,21 +53,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import org.lifetrack.ltapp.core.utility.formatMonthYear
 import org.lifetrack.ltapp.core.utility.toYearMonth
 import org.lifetrack.ltapp.model.data.dclass.VisitStatus
 import org.lifetrack.ltapp.presenter.TLinePresenter
 import org.lifetrack.ltapp.ui.components.timelinescreen.MedicalVisitCard
 import org.lifetrack.ltapp.ui.components.timelinescreen.TimelineIndicator
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TimeLineScreen(
-    navController: NavController,
-    presenter: TLinePresenter = viewModel()
-) {
+fun TimeLineScreen(presenter: TLinePresenter = viewModel()) {
     val filteredVisits by presenter.filteredVisits.collectAsState()
     val searchQuery by presenter.searchQuery.collectAsState()
     val selectedFilter by presenter.selectedFilter.collectAsState()
@@ -75,7 +72,6 @@ fun TimeLineScreen(
     val showShareSheet by presenter.showShareSheet.collectAsState()
     val isSelectionMode by presenter.isSelectionMode.collectAsState()
     val expandedId by presenter.expandedVisitId.collectAsState()
-//    val notes by presenter.patientNotes.collectAsState()
     val isRefreshing by presenter.isRefreshing.collectAsState()
     val isSearchActive by presenter.isSearchActive.collectAsState()
 
@@ -211,7 +207,7 @@ fun TimeLineScreen(
                             )
                         }
                     } else {
-                        IconButton(onClick = { navController.popBackStack() }) {
+                        IconButton(onClick = { LTNavDispatcher.navigateBack() }) {
                             Icon(
                                 Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = "Back",

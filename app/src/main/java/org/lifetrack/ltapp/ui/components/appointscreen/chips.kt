@@ -20,12 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun StatusChip(
-    label: String,
-    count: String?,
-    accentColor: Color,
-    icon: ImageVector,
-    isSelected: Boolean,
+fun StatusChip(label: String, count: String?, accentColor: Color, icon: ImageVector,isSelected: Boolean,
     onClick: () -> Unit
 ) {
     Surface(

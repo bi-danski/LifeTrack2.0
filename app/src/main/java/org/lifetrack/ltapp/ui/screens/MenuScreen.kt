@@ -32,29 +32,24 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import org.lifetrack.ltapp.model.data.dclass.ToggleItemData
 import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.ui.components.menuscreen.MenuListItem
 import org.lifetrack.ltapp.ui.components.menuscreen.ToggleMenuListItem
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MenuScreen(
-    navController: NavController,
-    authPresenter: AuthPresenter,
-    sharedPresenter: SharedPresenter
-    ) {
+fun MenuScreen(authPresenter: AuthPresenter, sharedPresenter: SharedPresenter) {
     val userProfileInfo = authPresenter.profileInfo.collectAsStateWithLifecycle()
     val ltSettings = sharedPresenter.ltSettings.collectAsStateWithLifecycle()
 
@@ -69,7 +64,7 @@ fun MenuScreen(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = { LTNavDispatcher.navigateBack() }) {
                         Icon(
                             Icons.Default.ArrowCircleLeft,
                             contentDescription = "Back",
@@ -97,7 +92,7 @@ fun MenuScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 16.dp)
-                        .clickable { navController.navigate("profile") },
+                        .clickable { LTNavDispatcher.navigate("profile") },
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
@@ -183,9 +178,7 @@ fun MenuScreen(
             items(sharedPresenter.menuItems) { item ->
                 MenuListItem(
                     onClick = {
-                        navController.navigate(item.route){
-                            launchSingleTop = true
-                        }
+                        LTNavDispatcher.navigate(item.route)
                     },
                     color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40,
                     menuItemData = item,

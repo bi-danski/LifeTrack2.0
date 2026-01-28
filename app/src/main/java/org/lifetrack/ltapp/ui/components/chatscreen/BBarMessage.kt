@@ -20,11 +20,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun BBarMessage(
-    value: String,
-    onValueChange: (String) -> Unit,
-    onSend: () -> Unit
-) {
+fun BBarMessage(value: String, onValueChange: (String) -> Unit, onSend: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()

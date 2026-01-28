@@ -10,10 +10,11 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import org.lifetrack.ltapp.core.exception.NoInternetException
 import org.lifetrack.ltapp.model.data.dclass.AuthResult
-import org.lifetrack.ltapp.model.data.dclass.User
 import org.lifetrack.ltapp.model.data.dto.PwdRestoreRequest
 import org.lifetrack.ltapp.model.data.dto.UserDataResponse
+import org.lifetrack.ltapp.model.data.dto.UserDataUpdate
 
 
 class UserRepositoryImpl(
@@ -31,12 +32,14 @@ class UserRepositoryImpl(
                 expectSuccess = true
             }
             AuthResult.SuccessWithData(response.body<UserDataResponse>())
-        } catch (e: Exception) {
+        }catch(_: NoInternetException){
+            AuthResult.Error(isNetworkError = true, message = "No Internet Connection")
+        }catch (e: Exception) {
             AuthResult.Error(e.message ?: "Network request failed")
         }
     }
 
-    override suspend fun updateCurrentUserInfo(user: User): AuthResult {
+    override suspend fun updateCurrentUserInfo(user: UserDataUpdate): AuthResult {
         return try {
             val response = client.patch("user/updateAccount") {
                 contentType(ContentType.Application.Json)
@@ -47,7 +50,9 @@ class UserRepositoryImpl(
             } else {
                 AuthResult.Error("Update failed")
             }
-        } catch (e: Exception) {
+        }catch(_: NoInternetException){
+            AuthResult.Error(isNetworkError = true, message = "No Internet Connection")
+        }catch (e: Exception) {
             AuthResult.Error(e.message ?: "Network Error")
         }
     }
@@ -63,7 +68,9 @@ class UserRepositoryImpl(
             } else {
                 AuthResult.Error("Failed to change password. Please check your current password.")
             }
-        } catch (e: Exception) {
+        }catch(_: NoInternetException){
+            AuthResult.Error(isNetworkError = true, message = "No Internet Connection")
+        }catch (e: Exception) {
             AuthResult.Error(e.message ?: "Connection error")
         }
     }
@@ -77,7 +84,9 @@ class UserRepositoryImpl(
             } else {
                 AuthResult.Error("Could not delete account. Please try again.")
             }
-        } catch (e: Exception) {
+        }catch(_: NoInternetException){
+            AuthResult.Error(isNetworkError = true, message = "No Internet Connection")
+        }catch (e: Exception) {
             AuthResult.Error(e.message ?: "Network error")
         }
     }

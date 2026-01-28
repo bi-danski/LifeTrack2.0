@@ -1,12 +1,23 @@
 package org.lifetrack.ltapp.ui.components.prescriptscreen
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,13 +28,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun SuccessRefillContent(
-    medName: String,
-    onClose: () -> Unit
-) {
+fun SuccessRefillContent(medName: String, onClose: () -> Unit) {
     val isDark = isSystemInDarkTheme()
 
-    val titleColor = if (isDark) Color.White else Color(0xFF4A148C) // Midnight Purple
+    val titleColor = if (isDark) Color.White else Color(0xFF4A148C)
     val descriptionColor = if (isDark) Color.LightGray else Color(0xFF5F6368)
     val buttonColor = if (isDark) Color(0xFFCE93D8) else Color(0xFF4A148C)
 

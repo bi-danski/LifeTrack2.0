@@ -11,9 +11,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun PractitionerNotes(
-    note: String
-) {
+fun PractitionerNotes(note: String) {
     if (note.isBlank()) {
         Text(
             text = "No notes from the practitioner yet",

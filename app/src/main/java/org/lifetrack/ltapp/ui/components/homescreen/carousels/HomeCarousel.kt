@@ -2,14 +2,27 @@ package org.lifetrack.ltapp.ui.components.homescreen.carousels
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,16 +34,13 @@ import org.lifetrack.ltapp.model.data.dclass.AppointmentStatus
 import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.ui.components.homescreen.cards.DailyGoalsCard
 import org.lifetrack.ltapp.ui.components.homescreen.cards.HealthSummaryCard
-import kotlin.math.absoluteValue
 import org.lifetrack.ltapp.ui.components.homescreen.cards.TodayScheduleCard
+import kotlin.math.absoluteValue
 
 
 @SuppressLint("FrequentlyChangingValue")
 @Composable
-fun LtHomeCarousel(
-    autoRotate: Boolean,
-    itemsCount: Int,
-    rotationInterval: Long = 5000L,
+fun LtHomeCarousel(autoRotate: Boolean, itemsCount: Int, rotationInterval: Long = 5000L,
     userPresenter: UserPresenter,
     onEmergencyClickAction: () -> Unit,
     onEmergencyContactClickAction: () -> Unit
@@ -65,9 +75,10 @@ fun LtHomeCarousel(
     ) {
         HorizontalPager(
             state = pagerState,
-            contentPadding = PaddingValues(horizontal = 10.dp),
+            contentPadding = PaddingValues(horizontal = 0.dp),
             modifier = Modifier
-                .height(200.dp)
+//                .height(200.dp)
+                .wrapContentHeight()
                 .fillMaxWidth()
         ) { page ->
             val pageOffset = (pagerState.currentPage - page + pagerState.currentPageOffsetFraction).absoluteValue
@@ -83,9 +94,8 @@ fun LtHomeCarousel(
                         alpha = pAlpha
                         rotationY = rotY
                         cameraDistance = 10_000f
-                    }
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(20.dp))
+                    }.fillMaxWidth().clip(RoundedCornerShape(20.dp)
+                )
             ) {
                 when (page) {
                     0 -> TodayScheduleCard(

@@ -24,7 +24,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -46,57 +45,33 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import kotlinx.coroutines.launch
-import org.lifetrack.ltapp.core.events.AuthUiEvent
 import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.ui.components.loginscreen.LTBrandAppBar
+import org.lifetrack.ltapp.ui.components.other.LTSnackbar
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 import org.lifetrack.ltapp.ui.state.UIState
 
 @Composable
-fun LoginScreen(
-    navController: NavController,
-    authPresenter: AuthPresenter,
-    sharedPresenter: SharedPresenter,
-) {
+fun LoginScreen(authPresenter: AuthPresenter, sharedPresenter: SharedPresenter) {
     val loginInfo by authPresenter.loginInfo.collectAsState()
-    val authUiState by authPresenter.uiState.collectAsStateWithLifecycle(UIState.Idle)
+    val authUiState by authPresenter.uiState.collectAsState()
 
     val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
     var passwordVisibility by remember { mutableStateOf(false) }
 
     LaunchedEffect(authUiState) {
-        when (authUiState) {
-            is UIState.Success -> {
-                val msg = (authUiState as UIState.Success).message
-                if (!msg.isNullOrBlank()) {
-                    snackbarHostState.showSnackbar(msg)
-                    authPresenter.resetUIState()
-                }
-            }
-
-            is UIState.Error -> {
-
+        if (authUiState is UIState.Error) {
+            val error = authUiState as UIState.Error
+            if (!error.isNetworkError) {
                 snackbarHostState.showSnackbar(
-                    message = (authUiState as UIState.Error).msg,
+                    message = error.msg,
+                    withDismissAction = true,
                     duration = SnackbarDuration.Long
                 )
                 authPresenter.resetUIState()
-            }
-
-            else -> {}
-        }
-    }
-    LaunchedEffect(Unit) {
-        authPresenter.uiEvent.collect { uiEvent ->
-            when(uiEvent) {
-                is AuthUiEvent.LoginSuccess -> {
-                    authPresenter.loadUserProfile()
-                }
-                else -> {}
             }
         }
     }
@@ -104,14 +79,11 @@ fun LoginScreen(
     Scaffold(
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState) { data ->
-                Snackbar(
-                    snackbarData = data,
-                    containerColor = MaterialTheme.colorScheme.errorContainer,
-                    contentColor = MaterialTheme.colorScheme.onErrorContainer
-                )
+                LTSnackbar(data)
             }
         }
     ) { paddingValues ->
+
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -167,7 +139,7 @@ fun LoginScreen(
                     Button(
                         onClick = {
                             if (loginInfo.emailAddress.isNotEmpty() && loginInfo.password.isNotEmpty()) {
-                                authPresenter.login(navController)
+                                authPresenter.login()
                             } else {
                                 coroutineScope.launch {
                                     snackbarHostState.showSnackbar("Please fill in all fields.")
@@ -182,7 +154,7 @@ fun LoginScreen(
                     ) {
                         if (authUiState is UIState.Loading) {
                             CircularProgressIndicator(
-                                color = Color.Green, //  MaterialTheme.colorScheme.onPrimary,
+                                color = Color.Green,
                                 modifier = Modifier.size(20.dp),
                                 strokeWidth = 2.5.dp
                             )
@@ -196,7 +168,7 @@ fun LoginScreen(
                     }
 
                     TextButton(
-                        onClick = { navController.navigate("restore") },
+                        onClick = { LTNavDispatcher.navigate("restore") },
                         enabled = authUiState !is UIState.Loading
                     ) {
                         Text(
@@ -223,7 +195,7 @@ fun LoginScreen(
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     TextButton(
-                        onClick = { navController.navigate("signup") },
+                        onClick = { LTNavDispatcher.navigate("signup") },
                         enabled = authUiState !is UIState.Loading
                     ) {
                         Text(

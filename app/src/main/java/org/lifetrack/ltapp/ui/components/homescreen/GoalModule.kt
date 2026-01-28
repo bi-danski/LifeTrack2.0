@@ -24,14 +24,8 @@ import org.lifetrack.ltapp.ui.theme.Purple40
 
 
 @Composable
-fun GoalModule(
-    label: String,
-    value: String,
-    progress: Float,
-    color: Color,
-    icon: ImageVector,
-    modifier: Modifier = Modifier,
-    animTime: Int
+fun GoalModule(label: String, value: String, progress: Float, color: Color, icon: ImageVector, animTime: Int,
+    modifier: Modifier = Modifier
 ) {
     val themeColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40
 

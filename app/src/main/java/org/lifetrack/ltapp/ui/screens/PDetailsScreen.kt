@@ -38,7 +38,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
-import androidx.navigation.NavController
 import org.lifetrack.ltapp.core.utility.ScheduleUtility
 import org.lifetrack.ltapp.core.utility.openDialer
 import org.lifetrack.ltapp.core.utility.openSMS
@@ -48,16 +47,13 @@ import org.lifetrack.ltapp.ui.components.detailscreen.ContactPharmacyCard
 import org.lifetrack.ltapp.ui.components.detailscreen.DetailHeaderCard
 import org.lifetrack.ltapp.ui.components.detailscreen.DosageTrackerCard
 import org.lifetrack.ltapp.ui.components.detailscreen.SafetyInfoGrid
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PDetailScreen(
-    navController: NavController,
-    prescription: Prescription,
-    authPresenter: AuthPresenter
-) {
+fun PDetailScreen(prescription: Prescription, authPresenter: AuthPresenter) {
     val context = LocalContext.current
     val scrollState = rememberScrollState()
     val drPhoneNumber = authPresenter.profileInfo.collectAsState()
@@ -95,7 +91,7 @@ fun PDetailScreen(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = { LTNavDispatcher.navigateBack() }) {
                         Icon(
                             Icons.Default.ArrowCircleLeft,
                             contentDescription = "Back",

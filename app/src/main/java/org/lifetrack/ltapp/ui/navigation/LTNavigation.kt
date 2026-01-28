@@ -7,20 +7,46 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.navigation.navigation
 import org.koin.androidx.compose.koinViewModel
-import org.lifetrack.ltapp.presenter.*
-import org.lifetrack.ltapp.ui.screens.*
+import org.lifetrack.ltapp.presenter.AuthPresenter
+import org.lifetrack.ltapp.presenter.ChatPresenter
+import org.lifetrack.ltapp.presenter.FUVPresenter
+import org.lifetrack.ltapp.presenter.HomePresenter
+import org.lifetrack.ltapp.presenter.PrescPresenter
+import org.lifetrack.ltapp.presenter.SharedPresenter
+import org.lifetrack.ltapp.presenter.TLinePresenter
+import org.lifetrack.ltapp.presenter.UserPresenter
+import org.lifetrack.ltapp.ui.screens.AboutScreen
+import org.lifetrack.ltapp.ui.screens.AlertScreen
+import org.lifetrack.ltapp.ui.screens.AlmaScreen
+import org.lifetrack.ltapp.ui.screens.AnalyticScreen
+import org.lifetrack.ltapp.ui.screens.AppointScreen
+import org.lifetrack.ltapp.ui.screens.ChatScreen
+import org.lifetrack.ltapp.ui.screens.FollowUpScreen
+import org.lifetrack.ltapp.ui.screens.HomeScreen
+import org.lifetrack.ltapp.ui.screens.LoginScreen
+import org.lifetrack.ltapp.ui.screens.MenuScreen
+import org.lifetrack.ltapp.ui.screens.OtherScreen
+import org.lifetrack.ltapp.ui.screens.PDetailScreen
+import org.lifetrack.ltapp.ui.screens.PrescriptScreen
+import org.lifetrack.ltapp.ui.screens.ProfileScreen
+import org.lifetrack.ltapp.ui.screens.RestoreScreen
+import org.lifetrack.ltapp.ui.screens.SignupScreen
+import org.lifetrack.ltapp.ui.screens.SupportScreen
+import org.lifetrack.ltapp.ui.screens.TelemedicineScreen
+import org.lifetrack.ltapp.ui.screens.TimeLineScreen
 
 @Composable
 fun LTNavigation(
     navController: NavHostController,
+    startDestination: String
 ) {
     val activity = LocalActivity.current as? ComponentActivity
         ?: throw IllegalStateException("LTNavigation must be hosted in a ComponentActivity")
@@ -29,104 +55,105 @@ fun LTNavigation(
     val userPresenter = koinViewModel<UserPresenter>(viewModelStoreOwner = activity)
     val sharedPresenter = koinViewModel<SharedPresenter>(viewModelStoreOwner = activity)
     val chatPresenter = koinViewModel<ChatPresenter>(viewModelStoreOwner = activity)
-
-    val isLoggedIn by authPresenter.isLoggedIn.collectAsState()
+    val homePresenter = koinViewModel<HomePresenter>(viewModelStoreOwner = activity)
+//    val prescPresenter = koinViewModel<PrescPresenter>(viewModelStoreOwner = activity)
+    val fuvPresenter = koinViewModel<FUVPresenter>(viewModelStoreOwner = activity)
 
     NavHost(
         navController = navController,
-        startDestination = if (isLoggedIn == true) "home" else "login",
-//        enterTransition = {
-//            slideIntoContainer(
-//                towards = AnimatedContentTransitionScope.SlideDirection.Start,
-//                animationSpec = tween(400)
-//            ) + fadeIn(animationSpec = tween(400))
-//        },
+        startDestination = startDestination,
         exitTransition = {
             slideOutOfContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Start,
-                animationSpec = tween(400)
-            ) + fadeOut(animationSpec = tween(400))
+                animationSpec = tween(100)
+            ) + fadeOut(animationSpec = tween(100))
         },
         popEnterTransition = {
             slideIntoContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.End,
-                animationSpec = tween(400)
-            ) + fadeIn(animationSpec = tween(400))
+                animationSpec = tween(100)
+            ) + fadeIn(animationSpec = tween(100))
         },
         popExitTransition = {
             slideOutOfContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.End,
-                animationSpec = tween(400)
-            ) + fadeOut(animationSpec = tween(400))
+                animationSpec = tween(100)
+            ) + fadeOut(animationSpec = tween(100))
         }
     ) {
-
-        composable("login") {
-            LoginScreen(navController, authPresenter = authPresenter, sharedPresenter = sharedPresenter)
-        }
-        composable("signup") {
-            SignupScreen(navController, authPresenter = authPresenter)
-        }
-
-        composable("home") {
-            HomeScreen(
-                navController = navController,
-                homePresenter = koinViewModel<HomePresenter>(),
-                userPresenter = userPresenter,
-                authPresenter = authPresenter,
-                sharedPresenter = sharedPresenter
-            )
-        }
-        composable("profile") {
-            ProfileScreen(navController, authPresenter = authPresenter, userPresenter = userPresenter)
-        }
-        composable("menu") {
-            MenuScreen(
-                navController = navController,
-                authPresenter = authPresenter,
-                sharedPresenter = sharedPresenter,
-            )
-        }
-
-        composable("alma") {
-            AlmaScreen(navController, presenter = chatPresenter)
-        }
-        composable("ltChats") {
-            ChatScreen(navController, presenter = chatPresenter)
-        }
-
-        composable("analytics") {
-            AnalyticScreen(navController, presenter = userPresenter)
-        }
-        composable("prescriptions") {
-            PrescriptScreen(
-                navController = navController,
-                userPresenter = userPresenter,
-                presenter = koinViewModel<PrescPresenter>()
-            )
-        }
-        composable("appointments") {
-            AppointScreen(navController, userPresenter = userPresenter)
-        }
-
-        composable(
-            route = "prescription_detail/{medId}",
-            arguments = listOf(navArgument("medId") { type = NavType.StringType })
-        ) { backStackEntry ->
-            val medId = backStackEntry.arguments?.getString("medId")
-            val prescription = userPresenter.dummyPrescriptions.find { it.id == medId }
-            if (prescription != null) {
-                PDetailScreen(navController, authPresenter = authPresenter, prescription = prescription)
+        navigation(startDestination = "login", route = "auth_graph") {
+            composable("login") {
+                LoginScreen(authPresenter, sharedPresenter)
+            }
+            composable("signup") {
+                SignupScreen(authPresenter)
+            }
+            composable("restore") {
+                RestoreScreen()
             }
         }
 
-        composable("about") { AboutScreen(navController, sharedPresenter = sharedPresenter) }
-        composable("FUV") { FollowUpScreen(navController, fuvPresenter = koinViewModel<FUVPresenter>()) }
-        composable("restore") { RestoreScreen(navController) }
-        composable("timeline") { TimeLineScreen(navController) }
-        composable("telemedicine") { TelemedicineScreen(navController) }
-        composable("alerts") { AlertScreen(navController) }
-        composable("other") { OtherScreen(navController) }
-        composable("support") { SupportScreen(navController) }
+        navigation(startDestination = "home", route = "home_graph") {
+            composable("home") {
+                HomeScreen(homePresenter, userPresenter, authPresenter, sharedPresenter)
+            }
+            composable("profile") {
+                ProfileScreen(authPresenter, userPresenter)
+            }
+            composable("menu") {
+                MenuScreen(authPresenter, sharedPresenter)
+            }
+            composable("alma") {
+                AlmaScreen(chatPresenter)
+            }
+            composable("ltChats") {
+                ChatScreen(chatPresenter)
+            }
+
+            addHealthFeatures( userPresenter, authPresenter)
+
+            addSupportFeatures(sharedPresenter)
+
+            addUtilityFeatures( fuvPresenter)
+        }
     }
+}
+
+fun NavGraphBuilder.addHealthFeatures(userPresenter: UserPresenter, authPresenter: AuthPresenter) {
+    composable("analytics") {
+        AnalyticScreen( userPresenter)
+    }
+    composable("prescriptions") {
+        PrescriptScreen(userPresenter, koinViewModel<PrescPresenter>())
+    }
+    composable("appointments") {
+        AppointScreen(userPresenter)
+    }
+    composable(
+        route = "prescription_detail/{medId}",
+        arguments = listOf(navArgument("medId") { type = NavType.StringType })
+    ) { backStackEntry ->
+        val medId = backStackEntry.arguments?.getString("medId")
+        val prescription = userPresenter.dummyPrescriptions.find { it.id == medId }
+        prescription?.let {
+            PDetailScreen(authPresenter = authPresenter, prescription = it)
+        }
+    }
+    composable("telemedicine") {
+        TelemedicineScreen()
+    }
+}
+
+fun NavGraphBuilder.addSupportFeatures(sharedPresenter: SharedPresenter) {
+    composable("about") { AboutScreen(sharedPresenter) }
+    composable("support") { SupportScreen() }
+    composable("alerts") { AlertScreen() }
+}
+
+fun NavGraphBuilder.addUtilityFeatures(fuvPresenter: FUVPresenter) {
+    composable("FUV") {
+        FollowUpScreen(fuvPresenter)
+    }
+    composable("timeline") { TimeLineScreen(koinViewModel<TLinePresenter>()) }
+    composable("other") { OtherScreen() }
 }

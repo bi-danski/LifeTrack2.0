@@ -24,7 +24,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,15 +33,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import org.lifetrack.ltapp.model.data.dclass.DoctorProfile
 import org.lifetrack.ltapp.model.data.mock.LtMockData
-import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DoctorSelectionDropDown(userPresenter: UserPresenter) {
+fun DoctorSelectionDropDown(selectedDoctor: DoctorProfile?, onSelectDoctorProfile: (doctor: DoctorProfile) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
-    val selectedDoctor = userPresenter.selectedDoctorProfile.collectAsState()
 
     Column {
         Text(
@@ -57,7 +55,7 @@ fun DoctorSelectionDropDown(userPresenter: UserPresenter) {
             onExpandedChange = { expanded = it }
         ) {
             OutlinedTextField(
-                value = selectedDoctor.value?.name ?: "Search for a specialist...",
+                value = selectedDoctor?.name ?: "Search for a specialist...",
                 onValueChange = {},
                 readOnly = true,
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
@@ -123,9 +121,8 @@ fun DoctorSelectionDropDown(userPresenter: UserPresenter) {
                             }
                         },
                         onClick = {
-                            userPresenter.onSelectDoctor(doctor)
-
-                            expanded = false
+                           onSelectDoctorProfile(doctor)
+                           expanded = false
                         },
                         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
                     )

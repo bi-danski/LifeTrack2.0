@@ -30,16 +30,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import kotlinx.coroutines.delay
 import org.lifetrack.ltapp.model.data.mock.LtMockData
 import org.lifetrack.ltapp.ui.components.alertscreen.AlertSummaryCard
 import org.lifetrack.ltapp.ui.components.alertscreen.EpidemicAlertCard
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AlertScreen(navController: NavController) {
+fun AlertScreen() {
     var isVisible by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
@@ -56,7 +56,7 @@ fun AlertScreen(navController: NavController) {
                     titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
                 ),
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = { LTNavDispatcher.navigateBack() }) {
                         Icon(Icons.Default.ArrowCircleLeft, "Back")
                     }
                 }

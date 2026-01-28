@@ -17,6 +17,15 @@ data class UserDataResponse @OptIn(ExperimentalTime::class) constructor(
 )
 
 @Serializable
+data class UserDataUpdate(
+    val fullName: String?,
+    val phoneNumber: Long?,
+    val userName: String?,
+    val emailAddress: String?,
+    val updatedAt: Instant?,
+)
+
+@Serializable
 data class LoginRequest(
     val emailAddress: String,
     val password: String

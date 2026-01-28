@@ -1,5 +1,6 @@
-package org.lifetrack.ltapp.core.network
+package org.lifetrack.ltapp.network
 
+import android.util.Log
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.android.Android
@@ -12,21 +13,24 @@ import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.request.HttpRequestPipeline
 import io.ktor.client.request.header
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.encodedPath
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.flow.first
 import kotlinx.serialization.json.Json
+import org.lifetrack.ltapp.core.exception.NoInternetException
 import org.lifetrack.ltapp.model.data.dclass.TokenPreferences
 import org.lifetrack.ltapp.model.repository.PreferenceRepository
 
 
 object KtorHttpClient {
-    fun create(prefs: PreferenceRepository): HttpClient {
+    fun create(prefs: PreferenceRepository, networkObserver: NetworkObserver): HttpClient {
         return HttpClient(Android) {
             expectSuccess = true
 
@@ -40,16 +44,39 @@ object KtorHttpClient {
             }
 
             install(HttpTimeout) {
-                requestTimeoutMillis = 30000
-                connectTimeoutMillis = 30000
-                socketTimeoutMillis = 30000
+                requestTimeoutMillis = 15000
+                connectTimeoutMillis = 10000
+                socketTimeoutMillis = 20000
+            }
+
+//            install(HttpRequestRetry) {
+//                maxRetries = 3
+//                retryIf { _, response -> response.status.value in 500..599 }
+//                retryOnExceptionIf { _, cause ->
+//                    cause is SocketTimeoutException ||
+//                            cause is ConnectTimeoutException
+//                }
+//                delayMillis { retry ->
+//                    val baseDelay = retry * 2000L
+//                    val jitter = (0..500).random()
+//                    baseDelay + jitter
+//                }
+//            }
+
+            install("ConnectivityCheck") {
+                requestPipeline.intercept(HttpRequestPipeline.Before) {
+                    if (!networkObserver.isConnected.value ) {
+                        throw NoInternetException()
+                    }
+                    proceed()
+                }
             }
 
             HttpResponseValidator {
                 validateResponse { response ->
                     val path = response.call.request.url.encodedPath
                     if (response.status == HttpStatusCode.Unauthorized && path.contains("/auth/refresh")) {
-                        android.util.Log.e("KtorValidator", "Refresh Token Expired. Hard Logout.")
+                        Log.e("KtorValidator", "Refresh Token Expired. Hard Logout.")
                         prefs.clearUserPreferences()
                     }
                 }
@@ -57,7 +84,7 @@ object KtorHttpClient {
 
             install(DefaultRequest) {
                 url("https://lifetrack-1071288890438.us-central1.run.app")
-                header(io.ktor.http.HttpHeaders.ContentType, ContentType.Application.Json)
+                header(HttpHeaders.ContentType, ContentType.Application.Json)
             }
 
             install(Auth) {
@@ -95,7 +122,7 @@ object KtorHttpClient {
                                 null
                             }
                         } catch (e: Exception) {
-                            android.util.Log.e("KtorAuth", "Refresh failed", e)
+                            Log.e("KtorAuth", "Refresh failed", e)
                             null
                         }
                     }
@@ -111,7 +138,7 @@ object KtorHttpClient {
 
             install(Logging) {
                 level = LogLevel.NONE
-                sanitizeHeader { it == io.ktor.http.HttpHeaders.Authorization }
+                sanitizeHeader { it == HttpHeaders.Authorization }
             }
         }
     }

@@ -18,11 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun MetricBadge(
-    value: String,
-    label: String,
-    isCritical: Boolean = false
-) {
+fun MetricBadge(value: String, label: String, isCritical: Boolean = false) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(
             contentAlignment = Alignment.Center,

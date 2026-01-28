@@ -31,8 +31,5 @@ data class UserPreferences(
     val createdAt: Instant? = null,
     val lastLoginAt: Instant? = null
 ) {
-    val isDefault: Boolean
-        get() = userEmail.isBlank() || userEmail.isEmpty() &&
-                userName.isBlank() || userName.isEmpty() &&
-                userPhoneNumber.isBlank() || userPhoneNumber.isEmpty()
+    val isDefault: Boolean get() = userEmail.isBlank()
 }

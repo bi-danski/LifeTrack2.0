@@ -36,28 +36,24 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.core.utility.openDialer
 import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.presenter.HomePresenter
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.presenter.UserPresenter
-import org.lifetrack.ltapp.ui.components.homescreen.carousels.LtHomeCarousel
 import org.lifetrack.ltapp.ui.components.homescreen.AppBottomBar
 import org.lifetrack.ltapp.ui.components.homescreen.AppTopBar
 import org.lifetrack.ltapp.ui.components.homescreen.GlassFloatingActionButton
+import org.lifetrack.ltapp.ui.components.homescreen.carousels.LtHomeCarousel
 import org.lifetrack.ltapp.ui.components.homescreen.featureGridContent
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 import org.lifetrack.ltapp.ui.state.UIState
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(
-    navController: NavController,
-    homePresenter: HomePresenter,
-    userPresenter: UserPresenter,
-    authPresenter: AuthPresenter,
+fun HomeScreen(homePresenter: HomePresenter, userPresenter: UserPresenter, authPresenter: AuthPresenter,
     sharedPresenter: SharedPresenter
 ) {
     val autoRotate2NextCard = homePresenter.autoRotate2NextCard
@@ -121,11 +117,11 @@ fun HomeScreen(
             }
         },
         floatingActionButton = {
-            GlassFloatingActionButton(onClick = { navController.navigate("alma") }) {
+            GlassFloatingActionButton(onClick = { LTNavDispatcher.navigate("alma") }) {
                 Icon(Icons.AutoMirrored.Filled.Chat, contentDescription = "Quick Chat")
             }
         },
-        bottomBar = { AppBottomBar(navController) },
+        bottomBar = { AppBottomBar() },
         containerColor = MaterialTheme.colorScheme.background
     ) { innerPadding ->
 
@@ -141,7 +137,7 @@ fun HomeScreen(
             item(span = { GridItemSpan(maxLineSpan) }) {
                 Column {
                     Spacer(Modifier.height(8.dp))
-                    AppTopBar(navController, userInfo.value.userName)
+                    AppTopBar(userInfo.value.userName)
                     Spacer(Modifier.height(18.dp))
                     LtHomeCarousel(
                         autoRotate = autoRotate2NextCard,
@@ -173,7 +169,7 @@ fun HomeScreen(
                 }
             }
 
-            featureGridContent(navController)
+            featureGridContent()
 
             item(span = { GridItemSpan(maxLineSpan) }) {
                 Spacer(Modifier.height(16.dp))

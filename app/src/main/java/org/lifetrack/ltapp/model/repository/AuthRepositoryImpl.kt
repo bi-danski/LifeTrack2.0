@@ -8,6 +8,7 @@ import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
+import org.lifetrack.ltapp.core.exception.NoInternetException
 import org.lifetrack.ltapp.core.utility.ZetuZetuUtil.sanitizeErrorMessage
 import org.lifetrack.ltapp.core.utility.toLoginRequest
 import org.lifetrack.ltapp.core.utility.toSignUpRequest
@@ -19,7 +20,7 @@ import org.lifetrack.ltapp.model.data.dclass.TokenPreferences
 
 class AuthRepositoryImpl(
     private val client: HttpClient,
-    private val prefs: PreferenceRepository
+    private val prefs: PreferenceRepository,
 ) : AuthRepository {
 
     override suspend fun login(loginInfo: LoginInfo): AuthResult {
@@ -35,28 +36,30 @@ class AuthRepositoryImpl(
             }else {
                 AuthResult.Error("Invalid credentials. Please check your email and password.")
             }
-        } catch (ex: Exception) {
+        }catch(_: NoInternetException){
+            AuthResult.Error(isNetworkError = true, message = "No Internet Connection")
+        }catch (ex: Exception) {
             AuthResult.Error(sanitizeErrorMessage(ex))
         }
     }
-
 
     override suspend fun signUp( signupInfo: SignUpInfo ): AuthResult {
         return try {
-            val response = client.post("/auth/register") {
+            val response = client.post("/auth/signup") {
                 contentType(ContentType.Application.Json)
                 setBody(signupInfo.toSignUpRequest())
             }
-            if (response.status == HttpStatusCode.Created){
+            if (response.status == HttpStatusCode.Created) {
                 AuthResult.Success
-            }else {
+            } else {
                 AuthResult.Error(response.bodyAsText())
             }
-        } catch (ex: Exception) {
+        }catch(_: NoInternetException){
+            AuthResult.Error(isNetworkError = true, message = "No Internet Connection")
+        }catch (ex: Exception) {
             AuthResult.Error(sanitizeErrorMessage(ex))
         }
     }
-
 
     override suspend fun refreshSession(): AuthResult {
         val currentRefreshToken = prefs.tokenPreferences.value.refreshToken
@@ -81,16 +84,26 @@ class AuthRepositoryImpl(
                 prefs.updateTokens(null, null)
                 AuthResult.Error("Session expired. Please login again.")
             }
-        } catch (e: Exception) {
+        }catch(_: NoInternetException){
+            AuthResult.Error(isNetworkError = true, message = "No Internet Connection")
+        }catch (e: Exception) {
             AuthResult.Error("Network error: ${e.message}")
         }
     }
 
     override suspend fun logout(): AuthResult {
         return try {
-            prefs.clearUserPreferences()
-            AuthResult.Success
-        } catch (ex: Exception) {
+            val response = client.post("/user/logout") {
+                contentType(ContentType.Application.Json)
+            }
+            if (response.status == HttpStatusCode.OK) {
+                AuthResult.Success
+            }else{
+                AuthResult.Error(response.bodyAsText())
+            }
+        }catch(_: NoInternetException){
+            AuthResult.Error(isNetworkError = true, message = "No Internet Connection")
+        }catch (ex: Exception) {
             AuthResult.Error(sanitizeErrorMessage(ex))
         }
     }

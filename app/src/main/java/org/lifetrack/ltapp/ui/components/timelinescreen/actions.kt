@@ -18,11 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 
 @Composable
-fun RecordActionsMenu(
-    onShare: () -> Unit,
-    onDownload: () -> Unit,
-    onBookmark: () -> Unit
-) {
+fun RecordActionsMenu(onShare: () -> Unit, onDownload: () -> Unit, onBookmark: () -> Unit) {
     var expanded by remember { mutableStateOf(false) }
 
     Box {

@@ -46,14 +46,6 @@ enum class AppointmentStatus(
     RESCHEDULED("Rescheduled", Color(0xFFE67E22), Icons.Default.History),
     DISMISSED("Dismissed", Color.Gray, Icons.Default.Cancel),
     CANCELLED("Cancelled", Color(0xFFE74C3C), Icons.Default.Block);
-
-//    companion object {
-//        val allEntries = entries
-//
-//        fun fromLabel(label: String): AppointmentStatus? {
-//            return entries.find { it.label == label }
-//        }
-//    }
 }
 
 enum class SessionStatus { INITIALIZING, LOGGED_IN, LOGGED_OUT }
