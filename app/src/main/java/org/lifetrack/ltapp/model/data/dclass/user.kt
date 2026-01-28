@@ -64,3 +64,14 @@ data class SignUpInfo(
     val emailAddress: String = "",
     val phoneNumber: String = "",
 )
+
+data class User(
+    val uuid: String,
+    val fullName: String,
+    val emailAddress: String,
+    val password: String,
+    val phoneNumber: String,
+    val lifetrackId: String,
+    val profileImageUrl: String,
+    val lastActive: String
+)

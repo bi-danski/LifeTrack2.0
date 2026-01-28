@@ -26,7 +26,6 @@ import org.lifetrack.ltapp.model.data.mock.LtMockData
 import org.lifetrack.ltapp.model.repository.UserRepository
 import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 
-
 class UserPresenter(
     private val userRepository: UserRepository,
     private val sessionManager: SessionManager
@@ -92,8 +91,28 @@ class UserPresenter(
 
             // for now we use existing mock users
             _myPatients.value = listOf(
-                User(fullName = "Denzil Okwako", emailAddress = "denzil@example.com", lifetrackId = "LT-001"),
-                User(fullName = "Aphiud Mositi", emailAddress = "aphiud@example.com", lifetrackId = "LT-002")
+                User(
+                    fullName = "Denzil Okwako",
+                    emailAddress = "denzil@example.com",
+                    lifetrackId = "LT-001",
+                    // Added missing fields to match the new User data class
+                    uuid = "p-001",
+                    phoneNumber = "0714322037",
+                    password = "",
+                    profileImageUrl = "",
+                    lastActive = "Active"
+                ),
+                User(
+                    fullName = "Aphiud Mositi",
+                    emailAddress = "aphiud@example.com",
+                    lifetrackId = "LT-002",
+                    // Added missing fields to match the new User data class
+                    uuid = "p-002",
+                    phoneNumber = "0700000000",
+                    password = "",
+                    profileImageUrl = "",
+                    lastActive = "Offline"
+                )
             )
         }
     }
