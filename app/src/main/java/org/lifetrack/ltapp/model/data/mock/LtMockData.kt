@@ -22,6 +22,7 @@ import org.lifetrack.ltapp.model.data.dclass.Premium
 import org.lifetrack.ltapp.model.data.dclass.Prescription
 import org.lifetrack.ltapp.model.data.dclass.SubVisit
 import org.lifetrack.ltapp.model.data.dclass.UpcomingVisit
+import org.lifetrack.ltapp.model.data.dclass.User
 import org.lifetrack.ltapp.model.data.dclass.VisitStatus
 import org.lifetrack.ltapp.ui.theme.PremiumGold
 import org.lifetrack.ltapp.ui.theme.PremiumPurple
@@ -513,5 +514,26 @@ object LtMockData {
             accentColor = PremiumTeal
         )
     )
-
+    val dDocPatients = listOf(
+        User(
+            fullName = "Denzil Okwako",
+            emailAddress = "denzil@example.com",
+            lifetrackId = "LT-001",
+            uuid = "p-001",
+            phoneNumber = "0714322037",
+            password = "",
+            profileImageUrl = "",
+            lastActive = "Active"
+        ),
+        User(
+            fullName = "Aphiud Mositi",
+            emailAddress = "aphiud@example.com",
+            lifetrackId = "LT-002",
+            uuid = "p-002",
+            phoneNumber = "0700000000",
+            password = "",
+            profileImageUrl = "",
+            lastActive = "Offline"
+        )
+    )
 }
