@@ -32,8 +32,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.model.data.dclass.AppointmentStatus
 import org.lifetrack.ltapp.presenter.UserPresenter
-import org.lifetrack.ltapp.ui.components.homescreen.cards.DailyGoalsCard
-import org.lifetrack.ltapp.ui.components.homescreen.cards.HealthSummaryCard
+import org.lifetrack.ltapp.ui.components.homescreen.cards.DailyActivities
+import org.lifetrack.ltapp.ui.components.homescreen.cards.VitalsCard
 import org.lifetrack.ltapp.ui.components.homescreen.cards.TodayScheduleCard
 import kotlin.math.absoluteValue
 
@@ -104,8 +104,8 @@ fun LtHomeCarousel(autoRotate: Boolean, itemsCount: Int, rotationInterval: Long 
                         onEmergencyClick = onEmergencyClickAction,
                         onEmergencyContactClick = onEmergencyContactClickAction
                         )
-                    1 -> HealthSummaryCard()
-                    2 -> DailyGoalsCard()
+                    1 -> VitalsCard()
+                    2 -> DailyActivities()
                 }
             }
         }

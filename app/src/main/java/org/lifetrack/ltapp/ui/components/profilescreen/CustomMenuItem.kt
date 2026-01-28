@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.lifetrack.ltapp.ui.theme.Purple40
 
 @Composable
 fun CustomProfileMenuItem(icon: ImageVector, leftIconColor: Color, title: String, onClick: () -> Unit) {
@@ -70,7 +71,7 @@ fun ProfileMenuItem(icon: ImageVector, title: String, onClick: () -> Unit) {
         Icon(
             imageVector = icon,
             contentDescription = title,
-            tint = colorScheme.primary,
+            tint = if (isSystemInDarkTheme()) colorScheme.primary else Purple40,
             modifier = Modifier.size(24.dp)
         )
         Spacer(modifier = Modifier.width(16.dp))
@@ -84,7 +85,7 @@ fun ProfileMenuItem(icon: ImageVector, title: String, onClick: () -> Unit) {
         Icon(
             imageVector = Icons.AutoMirrored.Filled.ArrowForwardIos,
             contentDescription = "Arrow",
-            tint = Color.Gray,
+            tint = if (isSystemInDarkTheme()) colorScheme.primary else Purple40,
             modifier = Modifier.size(16.dp)
         )
     }

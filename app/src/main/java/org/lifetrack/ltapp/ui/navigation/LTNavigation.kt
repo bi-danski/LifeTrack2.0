@@ -7,6 +7,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -51,6 +52,12 @@ fun LTNavigation(
     val activity = LocalActivity.current as? ComponentActivity
         ?: throw IllegalStateException("LTNavigation must be hosted in a ComponentActivity")
 
+    LaunchedEffect(navController) {
+        navController.currentBackStackEntryFlow.collect { backStackEntry ->
+            val baseRoute = backStackEntry.destination.route?.substringBefore("/")
+            LTNavDispatcher.updateCurrentRoute(baseRoute)
+        }
+    }
     val authPresenter = koinViewModel<AuthPresenter>(viewModelStoreOwner = activity)
     val userPresenter = koinViewModel<UserPresenter>(viewModelStoreOwner = activity)
     val sharedPresenter = koinViewModel<SharedPresenter>(viewModelStoreOwner = activity)
@@ -65,19 +72,23 @@ fun LTNavigation(
         exitTransition = {
             slideOutOfContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Start,
-                animationSpec = tween(100)
-            ) + fadeOut(animationSpec = tween(100))
+//                animationSpec = tween(100)
+            ) + fadeOut(
+//                animationSpec = tween(100)
+            )
         },
         popEnterTransition = {
             slideIntoContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.End,
-                animationSpec = tween(100)
-            ) + fadeIn(animationSpec = tween(100))
+//                animationSpec = tween(100)
+            ) + fadeIn(
+//                animationSpec = tween(100)
+            )
         },
         popExitTransition = {
             slideOutOfContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.End,
-                animationSpec = tween(100)
+//                animationSpec = tween(100)
             ) + fadeOut(animationSpec = tween(100))
         }
     ) {
@@ -121,7 +132,7 @@ fun LTNavigation(
 
 fun NavGraphBuilder.addHealthFeatures(userPresenter: UserPresenter, authPresenter: AuthPresenter) {
     composable("analytics") {
-        AnalyticScreen( userPresenter)
+        AnalyticScreen(userPresenter)
     }
     composable("prescriptions") {
         PrescriptScreen(userPresenter, koinViewModel<PrescPresenter>())

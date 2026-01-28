@@ -1,7 +1,8 @@
-package org.lifetrack.ltapp.ui.components.homescreen
+package org.lifetrack.ltapp.ui.components.navigation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -58,15 +59,16 @@ fun AppTopBar(username: String) {
             ) {
                 IconButton(onClick = { LTNavDispatcher.navigate("menu") },
                     modifier = Modifier
-                        .background(MaterialTheme.colorScheme.background))
-                {
-                    Icon(Icons.Filled.Menu, contentDescription = "", tint = Purple40) }
+                        .background(MaterialTheme.colorScheme.background)
+                ){
+                    Icon(Icons.Filled.Menu, contentDescription = "", tint = if (isSystemInDarkTheme()) Color.Green else Purple40)
+                }
             }
             Spacer(Modifier.width(10.dp))
             Text(
                 text = "LIFETRACK",
                 style = MaterialTheme.typography.titleMedium.copy(
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Black,
                     letterSpacing = 2.sp
                 ),
                 color =  MaterialTheme.colorScheme.primary
@@ -83,8 +85,8 @@ fun AppTopBar(username: String) {
             )
             Text("Patient",
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.secondary,
-                fontWeight = FontWeight.Bold)
+                color = if (isSystemInDarkTheme()) Color.Green else MaterialTheme.colorScheme.secondary,
+                fontWeight = FontWeight.Black)
         }
     }
 }

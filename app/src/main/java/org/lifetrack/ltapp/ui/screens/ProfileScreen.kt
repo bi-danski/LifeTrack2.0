@@ -51,6 +51,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
 import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.presenter.UserPresenter
+import org.lifetrack.ltapp.ui.components.navigation.AppBottomBar
 import org.lifetrack.ltapp.ui.components.profilescreen.CustomProfileMenuItem
 import org.lifetrack.ltapp.ui.components.profilescreen.ProfileMenuItem
 import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
@@ -88,14 +89,19 @@ fun ProfileScreen(authPresenter: AuthPresenter, userPresenter: UserPresenter) {
                         Icon(
                             imageVector = Icons.Default.ArrowCircleLeft,
                             contentDescription = "Back",
-                            tint = if (isSystemInDarkTheme()) Purple80 else colorScheme.primary
+                            tint = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onPrimary
+//                                if (isSystemInDarkTheme()) Purple80 else colorScheme.primaryContainer
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = if (isSystemInDarkTheme()) colorScheme.primary.copy(0.1f) else Purple40,
+                    titleContentColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onPrimary
                 )
             )
+        },
+        bottomBar = {
+            AppBottomBar()
         }
     ) { innerPadding ->
         PullToRefreshBox(

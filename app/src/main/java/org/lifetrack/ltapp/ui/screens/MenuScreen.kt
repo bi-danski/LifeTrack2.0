@@ -68,7 +68,7 @@ fun MenuScreen(authPresenter: AuthPresenter, sharedPresenter: SharedPresenter) {
                         Icon(
                             Icons.Default.ArrowCircleLeft,
                             contentDescription = "Back",
-                            tint = MaterialTheme.colorScheme.onPrimaryContainer
+                            tint = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onPrimary
                         )
                     }
                 },

@@ -1,5 +1,6 @@
 package org.lifetrack.ltapp.ui.components.homescreen.cards
 
+//import androidx.compose.material.icons.filled.ContactEmergency
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -19,7 +20,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ContactEmergency
-//import androidx.compose.material.icons.filled.ContactEmergency
 import androidx.compose.material.icons.filled.EventAvailable
 import androidx.compose.material.icons.filled.WifiTethering
 import androidx.compose.material3.Card
@@ -58,7 +58,7 @@ fun TodayScheduleCard(appointmentCount: Int, nextAppointment: Appointment?,
 //    )
     val themeColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40
     val subTextColor = if (isSystemInDarkTheme()) Color.Gray else Color(0xFF5F6368)
-    val highlightColor = if (isSystemInDarkTheme()) Color.Green else Purple40
+    val highlightColor = if (isSystemInDarkTheme()) Color.Green else MaterialTheme.colorScheme.secondary
 
     GlassCard(
         shape = RoundedCornerShape(22.dp),
@@ -90,9 +90,7 @@ fun TodayScheduleCard(appointmentCount: Int, nextAppointment: Appointment?,
                     )
             ) {
                 if (nextAppointment != null) {
-                    Row(modifier = Modifier
-                        .fillMaxSize()
-                    ) {
+                    Row(modifier = Modifier.fillMaxSize()) {
                         Box(
                             modifier = Modifier
                                 .fillMaxHeight()
@@ -102,63 +100,65 @@ fun TodayScheduleCard(appointmentCount: Int, nextAppointment: Appointment?,
 
                         Row(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 12.dp, vertical = 8.dp),
-                            verticalAlignment = Alignment.CenterVertically
+                                .fillMaxSize()
+                                .padding(horizontal = 12.dp, vertical = 0.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+
                         ) {
                             Column(
                                 modifier = Modifier
-                                    .weight(0.7f)
-                                    .padding(top = 5.dp)
+                                    .weight(0.5f)
+                                    .padding(top = 1.dp)
                             ) {
                                 Icon(
-                                    imageVector = Icons.Default.EventAvailable,
+                                    imageVector = Icons.Filled.EventAvailable,
                                     contentDescription = null,
                                     tint = themeColor,
-                                    modifier = Modifier.size(28.dp)
+                                    modifier = Modifier.size(22.dp)
                                 )
                                 Text(
                                     "NEXT",
-                                    fontSize = 13.5.sp,
+                                    fontSize = 12.sp,
                                     fontWeight = FontWeight.Bold,
                                     color = themeColor
                                 )
                                 Text(
-                                    "UP",
-                                    fontSize = 13.5.sp,
+                                    " UP",
+                                    fontSize = 12.sp,
                                     fontWeight = FontWeight.Bold,
                                     color = themeColor,
-                                    modifier = Modifier.padding(start = 2.dp)
+//                                    modifier = Modifier.padding(start = 2.dp)
                                 )
                             }
 
                             Column(
                                 horizontalAlignment = Alignment.End,
-                                verticalArrangement = Arrangement.SpaceBetween,
+                                verticalArrangement = Arrangement.SpaceEvenly,
                                 modifier = Modifier.weight(1.6f)
 
                             ) {
                                 Text(
                                     text = nextAppointment.doctor,
-                                    fontWeight = FontWeight.ExtraBold,
-                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Black,
+                                    fontSize = 18.5.sp,
                                     color = themeColor,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis
                                 )
                                 Text(
                                     text = nextAppointment.hospital,
-                                    fontSize = if (nextAppointment.doctor.length < nextAppointment.hospital.length) 16.5.sp else 18.5.sp,
+                                    fontSize = 16.5.sp ,
                                     color = highlightColor,
-                                    fontWeight = FontWeight.Bold,
+                                    fontWeight = FontWeight.Black,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis
                                 )
                                 Text(
-                                    text = nextAppointment.dateTime.customFormat("hh:mm a"),
-                                    fontSize = 22.5.sp,
+                                    text = nextAppointment.dateTime.customFormat("dd MMM yyyy HH:mm a"),
+//                                        "EEE, MMM dd, yyyy '@' hh:mm a"),
+                                    fontSize = 15.5.sp,
                                     fontWeight = FontWeight.Black,
-                                    color = themeColor.copy(0.85f)
+                                    color = themeColor
                                 )
                             }
                         }
@@ -219,6 +219,7 @@ fun TodayScheduleCard(appointmentCount: Int, nextAppointment: Appointment?,
 
                 Box(
                     modifier = Modifier
+                        .padding(1.dp)
                         .weight(1.2f)
                         .fillMaxHeight()
                         .clip(RoundedCornerShape(16.dp))
@@ -251,13 +252,13 @@ fun TodayScheduleCard(appointmentCount: Int, nextAppointment: Appointment?,
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.ContactEmergency,
-                                    contentDescription = "Contacts",
+                                    contentDescription = "Emergency Contact",
                                     tint = if (isSystemInDarkTheme()) Color.Green else Purple40,
                                     modifier = Modifier.size(20.dp)
                                 )
                             }
                             Text(
-                                text = "CONTACTS",
+                                text = "E-CONTACT",
                                 fontSize = 11.sp,
                                 fontWeight = FontWeight.Black,
                                 color = themeColor,

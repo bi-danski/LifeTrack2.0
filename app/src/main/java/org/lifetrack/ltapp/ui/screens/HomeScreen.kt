@@ -13,14 +13,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -42,11 +40,12 @@ import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.presenter.HomePresenter
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.presenter.UserPresenter
-import org.lifetrack.ltapp.ui.components.homescreen.AppBottomBar
-import org.lifetrack.ltapp.ui.components.homescreen.AppTopBar
 import org.lifetrack.ltapp.ui.components.homescreen.GlassFloatingActionButton
 import org.lifetrack.ltapp.ui.components.homescreen.carousels.LtHomeCarousel
 import org.lifetrack.ltapp.ui.components.homescreen.featureGridContent
+import org.lifetrack.ltapp.ui.components.navigation.AppBottomBar
+import org.lifetrack.ltapp.ui.components.navigation.AppTopBar
+import org.lifetrack.ltapp.ui.components.other.LTSnackbar
 import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 import org.lifetrack.ltapp.ui.state.UIState
 
@@ -65,11 +64,8 @@ fun HomeScreen(homePresenter: HomePresenter, userPresenter: UserPresenter, authP
     val hapticFeedbackContextInstance = LocalHapticFeedback.current
     val scope = rememberCoroutineScope ()
 
-    val callPermissionLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) {
-        permissionGrantedOrNot ->
-        if(permissionGrantedOrNot) {
+    val callPermissionLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { ifPermGranted ->
+        if(ifPermGranted) {
             sharedPresenter.handleEmergencyCall(homeScreenContextInstance)
         }else{
             homeScreenContextInstance.openDialer(phone = "911")
@@ -101,19 +97,7 @@ fun HomeScreen(homePresenter: HomePresenter, userPresenter: UserPresenter, authP
     Scaffold(
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState) { data ->
-                val isError = authUiState is UIState.Error
-                Snackbar(
-                    snackbarData = data,
-                    containerColor = if (isError)
-                        MaterialTheme.colorScheme.errorContainer
-                    else
-                        MaterialTheme.colorScheme.primaryContainer,
-                    contentColor = if (isError)
-                        MaterialTheme.colorScheme.onErrorContainer
-                    else
-                        MaterialTheme.colorScheme.onPrimaryContainer,
-                    shape = RoundedCornerShape(12.dp)
-                )
+                LTSnackbar(data)
             }
         },
         floatingActionButton = {
@@ -148,13 +132,10 @@ fun HomeScreen(homePresenter: HomePresenter, userPresenter: UserPresenter, authP
                                 HapticFeedbackType.LongPress
                             )
                             val permissionCheck = ContextCompat.checkSelfPermission(
-                                homeScreenContextInstance,
-                                Manifest.permission.CALL_PHONE
+                                homeScreenContextInstance,Manifest.permission.CALL_PHONE
                             )
                             if(permissionCheck == PackageManager.PERMISSION_GRANTED) {
-                                sharedPresenter.handleEmergencyCall(
-                                    homeScreenContextInstance
-                                )
+                                sharedPresenter.handleEmergencyCall(homeScreenContextInstance)
                             }else{
                                 callPermissionLauncher.launch(Manifest.permission.CALL_PHONE)
                             }

@@ -9,3 +9,4 @@ sealed class LTNavTarget {
 
     object Back : LTNavTarget()
 }
+

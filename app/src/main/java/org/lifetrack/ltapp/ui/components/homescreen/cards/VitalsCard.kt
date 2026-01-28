@@ -31,13 +31,14 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 @Composable
-fun HealthSummaryCard(
-    heartRate: String = "78",
+fun VitalsCard(
+    heartRate: String = "78 bpm",
     bloodPressure: String = "120/80",
     spo2: String = "98%",
     temperature: String = "98.6°F"
@@ -57,22 +58,12 @@ fun HealthSummaryCard(
 //            horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
-//            Text(
-//                text = "Vitals",
-//                fontWeight = FontWeight.Black,
-//                fontSize = 20.sp,
-//                color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40,
-//                modifier = Modifier.padding(4.dp)
-//            )
-//
-//            Spacer(Modifier.height(24.dp))
-
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 VitalsCircleMetric(Modifier.weight(1f), "Heart Rate", heartRate, Icons.Default.Favorite, Color(0xFFE74C3C))
-                VitalsCircleMetric(Modifier.weight(1f), "BP", bloodPressure, Icons.Default.MonitorHeart, Color(0xFF3498DB))
+                VitalsCircleMetric(Modifier.weight(1f), "Blood Pressure", bloodPressure, Icons.Default.MonitorHeart, Color(0xFF3498DB))
                 VitalsCircleMetric(Modifier.weight(1f), "SpO2", spo2, Icons.Default.Opacity, Color(0xFF2ECC71))
                 VitalsCircleMetric(Modifier.weight(1f), "Temp", temperature, Icons.Default.Thermostat, Color(0xFFFFA000))
             }
@@ -97,9 +88,9 @@ fun VitalsCircleMetric(
             shape = CircleShape,
             color = Color.White.copy(alpha = 0.05f),
             border = BorderStroke(
-                width = 1.5.dp,
+                width = 1.6.dp,
                 brush = Brush.linearGradient(
-                    listOf(accentColor.copy(alpha = 0.6f), Color.Transparent)
+                    listOf(accentColor.copy(alpha = 0.65f), Color.Transparent)
                 )
             )
         ) {
@@ -116,25 +107,22 @@ fun VitalsCircleMetric(
                 )
                 Spacer(Modifier.height(4.dp))
                 Text(
-                    text = value.split(" ")[0],
+                    text = value,
+                    maxLines = 1,
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
+                    overflow = TextOverflow.Ellipsis,
                     color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40
                 )
-//                if (value.contains(" ")) {
-//                    Text(
-//                        text = value.split(" ")[1],
-//                        fontSize = 8.sp,
-//                        color = Color.White.copy(alpha = 0.7f)
-//                    )
-//                }
             }
         }
         Spacer(Modifier.height(8.dp))
         Text(
             text = label,
-            fontSize = 10.sp,
-            fontWeight = FontWeight.Medium,
+            maxLines = 1,
+            fontSize = 10.5.sp,
+            fontWeight = FontWeight.Black,
+            overflow = TextOverflow.Ellipsis,
             color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40
 //                .copy(alpha = 0.6f)
         )

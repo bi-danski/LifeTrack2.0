@@ -1,12 +1,16 @@
 package org.lifetrack.ltapp.ui.navigation
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
-
 
 object LTNavDispatcher {
     private val _navigationEvents = Channel<LTNavTarget>(Channel.BUFFERED)
     val navigationEvents = _navigationEvents.receiveAsFlow()
+
+    private val _currentRoute = mutableStateOf("home")
+    val currentRoute: State<String> = _currentRoute
 
     private const val NAVIGATION_DEBOUNCE_THRESHOLD = 500L
     private var lastEventTime = 0L
@@ -30,6 +34,12 @@ object LTNavDispatcher {
     fun navigateBack() {
         if (canExecuteEvent()) {
             _navigationEvents.trySend(LTNavTarget.Back)
+        }
+    }
+
+    fun updateCurrentRoute(route: String?) {
+        route?.let {
+            _currentRoute.value = it
         }
     }
 
