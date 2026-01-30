@@ -48,7 +48,7 @@ fun VitalMetricRing(modifier: Modifier = Modifier, label: String, value: String,
                     imageVector = icon,
                     contentDescription = null,
                     tint = accentColor,
-                    modifier = Modifier.size(18.dp)
+                    modifier = Modifier.size(20.dp)
                 )
                 Spacer(Modifier.height(4.dp))
                 Text(
@@ -57,8 +57,7 @@ fun VitalMetricRing(modifier: Modifier = Modifier, label: String, value: String,
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
                     overflow = TextOverflow.Ellipsis,
-                    color = accentColor.copy(0.6f)
-//                        if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40
+                    color = accentColor.copy(0.7f)
                 )
             }
         }
@@ -66,12 +65,10 @@ fun VitalMetricRing(modifier: Modifier = Modifier, label: String, value: String,
         Text(
             text = label,
             maxLines = 2,
-            fontSize = 11.5.sp,
+            fontSize = 12.sp,
             fontWeight = FontWeight.Black,
             overflow = TextOverflow.Visible,
             color = accentColor
-//                if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40
-//                .copy(alpha = 0.6f)
         )
     }
 }

@@ -268,7 +268,7 @@ fun AlmaScreen(presenter: ChatPresenter) {
     if (showRenameDialog != null) {
         AlertDialog(
             modifier = Modifier.width(300.dp),
-            onDismissRequest = { showRenameDialog = null },
+            onDismissRequest = {  },
             title = { Text("Rename Chat", style = MaterialTheme.typography.titleMedium) },
             text = {
                 OutlinedTextField(

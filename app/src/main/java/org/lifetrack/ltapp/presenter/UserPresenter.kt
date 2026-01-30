@@ -38,8 +38,8 @@ class UserPresenter(
     val dummyPrescriptions =  mutableStateListOf<Prescription>().apply {
         addAll(LtMockData.dPrescriptions)
     }
-    private val _userRole = MutableStateFlow("PATIENT")
-    val userRole = _userRole.asStateFlow()
+//    private val _userRole = MutableStateFlow("PATIENT")
+//    val userRole = _userRole.asStateFlow()
 
     private val _allAppointments = MutableStateFlow(LtMockData.dummyAppointments)
     private val _selectedFilter = MutableStateFlow(AppointmentStatus.UPCOMING)
