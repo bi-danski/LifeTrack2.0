@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 
-object LTNavDispatcher {
+object LTNavDispatch {
     private val _navigationEvents = Channel<LTNavTarget>(Channel.BUFFERED)
     val navigationEvents = _navigationEvents.receiveAsFlow()
 
@@ -15,17 +15,13 @@ object LTNavDispatcher {
     private const val NAVIGATION_DEBOUNCE_THRESHOLD = 500L
     private var lastEventTime = 0L
 
-    fun navigate(
-        route: String,
-        clearBackstack: Boolean = false,
-        launchSingleTop: Boolean = true
-    ) {
+    fun navigate(route: String, clearBackstack: Boolean = false, launchSingleTop: Boolean = true) {
         if (canExecuteEvent()) {
             _navigationEvents.trySend(
                 LTNavTarget.Screen(
+                    launchSingleTop = launchSingleTop,
                     route = route,
-                    clearBackstack = clearBackstack,
-                    launchSingleTop = launchSingleTop
+                    clearBackstack = clearBackstack
                 )
             )
         }

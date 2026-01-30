@@ -56,7 +56,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
-import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 
 val FeatureTeal = Color(0xFF26A69A)
 val FeaturePurple = Color(0xFF7E57C2)
@@ -137,7 +137,7 @@ fun OtherScreen() {
                     titleContentColor = MaterialTheme.colorScheme.primary
                 ),
                 navigationIcon = {
-                    IconButton(onClick = { LTNavDispatcher.navigateBack() }) {
+                    IconButton(onClick = { LTNavDispatch.navigateBack() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
                     }
                 },

@@ -1,6 +1,5 @@
 package org.lifetrack.ltapp.ui.components.homescreen.cards
 
-//import androidx.compose.material.icons.filled.ContactEmergency
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -42,9 +41,9 @@ import org.lifetrack.ltapp.ui.theme.Purple40
 
 
 @Composable
-fun TodayScheduleCard(appointmentCount: Int, nextAppointment: Appointment?,
-    onEmergencyClick: () -> Unit,
-    onEmergencyContactClick: () -> Unit
+fun ScheduleCard(appointmentCount: Int, nextAppointment: Appointment?,
+                 onEmergencyClick: () -> Unit,
+                 onEmergencyContactClick: () -> Unit
 ) {
     val themeColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40
     val subTextColor = if (isSystemInDarkTheme()) Color.Gray else Color(0xFF5F6368)
@@ -73,7 +72,6 @@ fun TodayScheduleCard(appointmentCount: Int, nextAppointment: Appointment?,
                     .weight(1.1f)
                     .clip(RoundedCornerShape(16.dp))
                     .background( Purple40.copy(0.08f))
-//                        Color(0xFFBDCEDD).copy(0.1f))
                     .border(1.dp,
                         if (isSystemInDarkTheme()) nextAppointment?.status?.color?.copy(0.3f) ?: MaterialTheme.colorScheme.secondary.copy(0.3f)
                         else nextAppointment?.status?.color?.copy(0.15f) ?: Purple40.copy(0.15f),

@@ -15,7 +15,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.automirrored.filled.Logout
-import androidx.compose.material.icons.filled.ArrowCircleLeft
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Lock
@@ -23,8 +22,6 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
@@ -54,7 +51,7 @@ import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.ui.components.homescreen.AppBottomBar
 import org.lifetrack.ltapp.ui.components.profilescreen.CustomProfileMenuItem
 import org.lifetrack.ltapp.ui.components.profilescreen.ProfileMenuItem
-import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 import org.lifetrack.ltapp.ui.theme.DeepOrange
 import org.lifetrack.ltapp.ui.theme.Purple40
 import org.lifetrack.ltapp.ui.theme.Purple80
@@ -84,16 +81,16 @@ fun ProfileScreen(authPresenter: AuthPresenter, userPresenter: UserPresenter) {
         topBar = {
             TopAppBar(
                 title = { Text(text = "Profile") },
-                navigationIcon = {
-                    IconButton({ LTNavDispatcher.navigateBack() }) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowCircleLeft,
-                            contentDescription = "Back",
-                            tint = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onPrimary
+//                navigationIcon = {
+//                    IconButton({ LTNavDispatch.navigateBack() }) {
+//                        Icon(
+//                            imageVector = Icons.Default.ArrowCircleLeft,
+//                            contentDescription = "Back",
+//                            tint = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onPrimary
 //                                if (isSystemInDarkTheme()) Purple80 else colorScheme.primaryContainer
-                        )
-                    }
-                },
+//                        )
+//                    }
+//                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = if (isSystemInDarkTheme()) colorScheme.primary.copy(0.1f) else Purple40,
                     titleContentColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onPrimary
@@ -176,7 +173,7 @@ fun ProfileScreen(authPresenter: AuthPresenter, userPresenter: UserPresenter) {
                             ProfileMenuItem(
                                 icon = Icons.Default.Lock,
                                 title = "Change Password",
-                                onClick = { LTNavDispatcher.navigate("restore") }
+                                onClick = { LTNavDispatch.navigate("restore") }
                             )
                             ProfileMenuItem(
                                 icon = Icons.Default.Language,

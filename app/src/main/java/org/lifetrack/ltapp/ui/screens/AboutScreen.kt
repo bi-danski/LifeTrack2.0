@@ -45,7 +45,7 @@ import org.lifetrack.ltapp.R
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.ui.components.aboutscreen.FeatureItem
 import org.lifetrack.ltapp.ui.components.supportscreen.SectionCard
-import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 
@@ -64,7 +64,7 @@ fun AboutScreen(sharedPresenter: SharedPresenter) {
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { LTNavDispatcher.navigateBack() }) {
+                    IconButton(onClick = { LTNavDispatch.navigateBack() }) {
                         Icon(
                             Icons.Default.ArrowCircleLeft,
                             contentDescription = "Back",

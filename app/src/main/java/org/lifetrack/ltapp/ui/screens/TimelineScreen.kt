@@ -59,7 +59,7 @@ import org.lifetrack.ltapp.model.data.dclass.VisitStatus
 import org.lifetrack.ltapp.presenter.TLinePresenter
 import org.lifetrack.ltapp.ui.components.timelinescreen.MedicalVisitCard
 import org.lifetrack.ltapp.ui.components.timelinescreen.TimelineIndicator
-import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -207,7 +207,7 @@ fun TimeLineScreen(presenter: TLinePresenter = viewModel()) {
                             )
                         }
                     } else {
-                        IconButton(onClick = { LTNavDispatcher.navigateBack() }) {
+                        IconButton(onClick = { LTNavDispatch.navigateBack() }) {
                             Icon(
                                 Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = "Back",

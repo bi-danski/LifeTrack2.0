@@ -31,7 +31,7 @@ import org.lifetrack.ltapp.ui.components.medicalcharts.InfoRow
 import org.lifetrack.ltapp.ui.components.medicalcharts.LabTestItem
 import org.lifetrack.ltapp.ui.components.medicalcharts.MedicalCard
 import org.lifetrack.ltapp.ui.components.medicalcharts.MetricBadge
-import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 
 
 @SuppressLint("SimpleDateFormat")
@@ -58,7 +58,7 @@ fun AnalyticScreen(presenter: UserPresenter) {
                     }
                 },
                 navigationIcon = {
-                    IconButton(onClick = { LTNavDispatcher.navigateBack() }) {
+                    IconButton(onClick = { LTNavDispatch.navigateBack() }) {
                         Icon(Icons.Default.ArrowCircleLeft, "Back")
                     }
                 },

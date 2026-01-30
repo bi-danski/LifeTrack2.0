@@ -23,7 +23,7 @@ import org.lifetrack.ltapp.model.data.dclass.LabTest
 import org.lifetrack.ltapp.model.data.dclass.Prescription
 import org.lifetrack.ltapp.model.data.mock.LtMockData
 import org.lifetrack.ltapp.model.repository.UserRepository
-import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 
 class UserPresenter(
     private val userRepository: UserRepository,
@@ -98,7 +98,7 @@ class UserPresenter(
                     is AuthResult.Success -> {
                         sessionManager.logout()
                         launch(Dispatchers.Main) {
-                            LTNavDispatcher.navigate("signup")
+                            LTNavDispatch.navigate("signup")
                             }
                     }
                     is AuthResult.Error -> {

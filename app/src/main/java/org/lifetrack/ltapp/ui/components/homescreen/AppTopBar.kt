@@ -34,12 +34,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 
 @Composable
-fun AppTopBar(username: String) {
+fun AppTopBar(username: String, role: String = "Patient") {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
@@ -51,18 +51,15 @@ fun AppTopBar(username: String) {
                     .size(50.dp)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.background)
-                    .border(width = 2.dp,
-                        color = MaterialTheme.colorScheme.primary, //Purple40
-                        shape = CircleShape),
+                    .border(width = 2.dp, color = MaterialTheme.colorScheme.primary, shape = CircleShape),
                 contentAlignment = Alignment.Center
 
             ) {
-                IconButton(onClick = { LTNavDispatcher.navigate("menu") },
+                IconButton(onClick = { LTNavDispatch.navigate("menu") },
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.background)
                 ){
-                    Icon(Icons.Filled.Menu,
-                        contentDescription = "",
+                    Icon(Icons.Filled.Menu, contentDescription = "",
                         tint = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.secondary else Purple40)
                 }
             }
@@ -79,16 +76,21 @@ fun AppTopBar(username: String) {
         Column(horizontalAlignment = Alignment.End) {
             Text(
                 text = username,
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.titleSmall.copy(
+                    fontWeight = FontWeight.Black,
+                    letterSpacing = 0.7.sp
+                    ),
                 color = MaterialTheme.colorScheme.primary,
-                fontWeight = FontWeight.ExtraBold,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
-            Text("Patient",
-                style = MaterialTheme.typography.bodySmall,
+            Text(text = role,
+                style = MaterialTheme.typography.bodySmall.copy(
+                    fontWeight = FontWeight.Black,
+                ),
                 color = MaterialTheme.colorScheme.secondary,
-                fontWeight = FontWeight.Black)
+
+            )
         }
     }
 }

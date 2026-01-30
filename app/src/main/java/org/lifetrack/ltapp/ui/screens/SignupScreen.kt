@@ -58,7 +58,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.core.events.AuthUiEvent
 import org.lifetrack.ltapp.presenter.AuthPresenter
-import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 import org.lifetrack.ltapp.ui.state.UIState
 
 @Composable
@@ -82,7 +82,7 @@ fun SignupScreen(authPresenter: AuthPresenter) {
         authPresenter.uiEvent.collect { uiEvent ->
             when(uiEvent) {
                 is AuthUiEvent.SignupSuccess -> {
-                    LTNavDispatcher.navigate("login")
+                    LTNavDispatch.navigate("login")
                 }
                 else -> {}
             }
@@ -266,7 +266,7 @@ fun SignupScreen(authPresenter: AuthPresenter) {
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     TextButton(
-                        onClick = { LTNavDispatcher.navigate("login") },
+                        onClick = { LTNavDispatch.navigate("login") },
                         enabled = uiState !is UIState.Loading
                     ) {
                         Text(

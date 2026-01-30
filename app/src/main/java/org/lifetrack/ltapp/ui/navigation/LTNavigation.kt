@@ -46,17 +46,14 @@ import org.lifetrack.ltapp.ui.screens.TelemedicineScreen
 import org.lifetrack.ltapp.ui.screens.TimeLineScreen
 
 @Composable
-fun LTNavigation(
-    navController: NavHostController,
-    startDestination: String
-) {
+fun LTNavigation(navController: NavHostController, startDestination: String ) {
     val activity = LocalActivity.current as? ComponentActivity
         ?: throw IllegalStateException("LTNavigation must be hosted in a ComponentActivity")
 
     LaunchedEffect(navController) {
         navController.currentBackStackEntryFlow.collect { backStackEntry ->
             val baseRoute = backStackEntry.destination.route?.substringBefore("/")
-            LTNavDispatcher.updateCurrentRoute(baseRoute)
+            LTNavDispatch.updateCurrentRoute(baseRoute)
         }
     }
     val authPresenter = koinViewModel<AuthPresenter>(viewModelStoreOwner = activity)
@@ -64,7 +61,6 @@ fun LTNavigation(
     val sharedPresenter = koinViewModel<SharedPresenter>(viewModelStoreOwner = activity)
     val chatPresenter = koinViewModel<ChatPresenter>(viewModelStoreOwner = activity)
     val homePresenter = koinViewModel<HomePresenter>(viewModelStoreOwner = activity)
-//    val prescPresenter = koinViewModel<PrescPresenter>(viewModelStoreOwner = activity)
     val fuvPresenter = koinViewModel<FUVPresenter>(viewModelStoreOwner = activity)
 
     NavHost(
@@ -73,24 +69,19 @@ fun LTNavigation(
         exitTransition = {
             slideOutOfContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.Start,
-//                animationSpec = tween(100)
-            ) + fadeOut(
-//                animationSpec = tween(100)
-            )
+                animationSpec = tween(durationMillis = 150)
+            ) + fadeOut(animationSpec = tween(150))
         },
         popEnterTransition = {
-            slideIntoContainer(
-                towards = AnimatedContentTransitionScope.SlideDirection.End,
-//                animationSpec = tween(100)
-            ) + fadeIn(
-//                animationSpec = tween(100)
-            )
+            slideIntoContainer(towards = AnimatedContentTransitionScope.SlideDirection.End,
+                animationSpec = tween(durationMillis = 150)
+            ) + fadeIn(animationSpec = tween(150))
         },
         popExitTransition = {
             slideOutOfContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.End,
-//                animationSpec = tween(100)
-            ) + fadeOut(animationSpec = tween(100))
+                animationSpec = tween(durationMillis = 150) // faster
+            ) + fadeOut(animationSpec = tween(150))
         }
     ) {
         navigation(startDestination = "login", route = "auth_graph") {

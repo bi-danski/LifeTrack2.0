@@ -64,7 +64,7 @@ import org.lifetrack.ltapp.ui.components.chatscreen.BBarMessage
 import org.lifetrack.ltapp.ui.components.homescreen.LifeTrackTopBar
 import org.lifetrack.ltapp.ui.components.medicalcharts.MessageBubble
 import org.lifetrack.ltapp.ui.components.other.LTSnackbar
-import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 @Composable
@@ -201,7 +201,7 @@ fun AlmaScreen(presenter: ChatPresenter) {
                 LifeTrackTopBar(
                     title = "Alma Assistant",
                     navigationIcon = Icons.Default.ArrowCircleLeft,
-                    backCallback = { LTNavDispatcher.navigateBack() },
+                    backCallback = { LTNavDispatch.navigateBack() },
                     actionIcon = Icons.Rounded.LibraryAdd,
                     actionCallback = {
                         presenter.startNewChat()

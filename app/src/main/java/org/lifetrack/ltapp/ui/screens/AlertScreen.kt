@@ -34,7 +34,7 @@ import kotlinx.coroutines.delay
 import org.lifetrack.ltapp.model.data.mock.LtMockData
 import org.lifetrack.ltapp.ui.components.alertscreen.AlertSummaryCard
 import org.lifetrack.ltapp.ui.components.alertscreen.EpidemicAlertCard
-import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,7 +56,7 @@ fun AlertScreen() {
                     titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
                 ),
                 navigationIcon = {
-                    IconButton(onClick = { LTNavDispatcher.navigateBack() }) {
+                    IconButton(onClick = { LTNavDispatch.navigateBack() }) {
                         Icon(Icons.Default.ArrowCircleLeft, "Back")
                     }
                 }

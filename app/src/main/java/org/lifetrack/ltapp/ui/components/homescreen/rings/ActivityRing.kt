@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.ui.components.homescreen
+package org.lifetrack.ltapp.ui.components.homescreen.rings
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement

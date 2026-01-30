@@ -33,21 +33,19 @@ import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.model.data.dclass.AppointmentStatus
 import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.ui.components.homescreen.cards.DailyActivities
+import org.lifetrack.ltapp.ui.components.homescreen.cards.ScheduleCard
 import org.lifetrack.ltapp.ui.components.homescreen.cards.VitalsCard
-import org.lifetrack.ltapp.ui.components.homescreen.cards.TodayScheduleCard
 import kotlin.math.absoluteValue
 
 
 @SuppressLint("FrequentlyChangingValue")
 @Composable
-fun LtHomeCarousel(autoRotate: Boolean, itemsCount: Int, rotationInterval: Long = 5000L,
+fun LtHomeCarousel(autoRotate: Boolean, itemsCount: Int, rotationInterval: Long = 5000L, initialPage: Int = 0,
     userPresenter: UserPresenter,
     onEmergencyClickAction: () -> Unit,
     onEmergencyContactClickAction: () -> Unit
 ) {
-    val pagerState = rememberPagerState(
-        initialPage = 0,
-        initialPageOffsetFraction = 0f,
+    val pagerState = rememberPagerState(initialPage = initialPage, initialPageOffsetFraction = 0f,
         pageCount = { itemsCount }
     )
     val nextUp by userPresenter.nextUpcomingAppointment.collectAsState()
@@ -98,7 +96,7 @@ fun LtHomeCarousel(autoRotate: Boolean, itemsCount: Int, rotationInterval: Long 
                 )
             ) {
                 when (page) {
-                    0 -> TodayScheduleCard(
+                    0 -> ScheduleCard(
                         appointmentCount = totalCount,
                         nextAppointment = nextUp,
                         onEmergencyClick = onEmergencyClickAction,

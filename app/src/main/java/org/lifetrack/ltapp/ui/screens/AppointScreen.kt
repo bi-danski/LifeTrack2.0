@@ -53,7 +53,7 @@ import org.lifetrack.ltapp.ui.components.appointscreen.AppointmentCard
 import org.lifetrack.ltapp.ui.components.appointscreen.AppointmentSwipeCard
 import org.lifetrack.ltapp.ui.components.appointscreen.DoctorSelectionDropDown
 import org.lifetrack.ltapp.ui.components.appointscreen.StatusChip
-import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -71,19 +71,19 @@ fun AppointScreen(userPresenter: UserPresenter) {
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text(
-                        "Appointments",
-                        fontWeight = FontWeight.SemiBold,
-                        color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onPrimary
-                    )
+                    Text("Appointments", fontWeight = FontWeight.SemiBold)
                 },
                 navigationIcon = {
-                    IconButton(onClick = { LTNavDispatcher.navigateBack() }) {
-                        Icon(Icons.Default.ArrowCircleLeft, "Back", tint = Color.White)
+                    IconButton(onClick = { LTNavDispatch.navigateBack() }) {
+                        Icon(Icons.Default.ArrowCircleLeft,
+                            "Back",
+                        )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Purple40
+                    containerColor = Purple40,
+                    navigationIconContentColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onPrimary,
+                    titleContentColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onPrimary
                 )
             )
         },

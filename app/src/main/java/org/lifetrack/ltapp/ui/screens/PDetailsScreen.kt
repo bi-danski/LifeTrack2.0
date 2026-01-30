@@ -47,7 +47,7 @@ import org.lifetrack.ltapp.ui.components.detailscreen.ContactPharmacyCard
 import org.lifetrack.ltapp.ui.components.detailscreen.DetailHeaderCard
 import org.lifetrack.ltapp.ui.components.detailscreen.DosageTrackerCard
 import org.lifetrack.ltapp.ui.components.detailscreen.SafetyInfoGrid
-import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 
@@ -91,7 +91,7 @@ fun PDetailScreen(prescription: Prescription, authPresenter: AuthPresenter) {
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { LTNavDispatcher.navigateBack() }) {
+                    IconButton(onClick = { LTNavDispatch.navigateBack() }) {
                         Icon(
                             Icons.Default.ArrowCircleLeft,
                             contentDescription = "Back",

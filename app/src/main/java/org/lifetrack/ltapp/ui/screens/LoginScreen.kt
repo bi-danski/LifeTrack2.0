@@ -50,7 +50,7 @@ import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.ui.components.loginscreen.LTBrandAppBar
 import org.lifetrack.ltapp.ui.components.other.LTSnackbar
-import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 import org.lifetrack.ltapp.ui.state.UIState
 
 @Composable
@@ -168,7 +168,7 @@ fun LoginScreen(authPresenter: AuthPresenter, sharedPresenter: SharedPresenter) 
                     }
 
                     TextButton(
-                        onClick = { LTNavDispatcher.navigate("restore") },
+                        onClick = { LTNavDispatch.navigate("restore") },
                         enabled = authUiState !is UIState.Loading
                     ) {
                         Text(
@@ -195,7 +195,7 @@ fun LoginScreen(authPresenter: AuthPresenter, sharedPresenter: SharedPresenter) 
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     TextButton(
-                        onClick = { LTNavDispatcher.navigate("signup") },
+                        onClick = { LTNavDispatch.navigate("signup") },
                         enabled = authUiState !is UIState.Loading
                     ) {
                         Text(

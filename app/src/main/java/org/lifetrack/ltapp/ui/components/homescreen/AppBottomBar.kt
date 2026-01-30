@@ -16,7 +16,11 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -25,14 +29,18 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.lifetrack.ltapp.model.data.dclass.NavigationTab
-import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 import org.lifetrack.ltapp.ui.theme.BlueFulani
 import org.lifetrack.ltapp.ui.theme.Purple40
 
-
 @Composable
 fun AppBottomBar() {
-    val currentRoute by LTNavDispatcher.currentRoute
+    val currentRoute by LTNavDispatch.currentRoute
+    var selectedTab by remember { mutableStateOf(currentRoute) }
+
+    LaunchedEffect(currentRoute) {
+        selectedTab = currentRoute
+    }
     val shape = RoundedCornerShape(28.dp)
     val inactiveColor = Purple40
 
@@ -41,29 +49,24 @@ fun AppBottomBar() {
             .fillMaxWidth()
             .padding(horizontal = 6.dp, vertical = 1.dp)
             .clip(shape)
-//            .border(
-//                width = 1.dp,
-//                brush = Brush.verticalGradient(
-//                    colors = listOf(Color.White.copy(0.2f), Color.White.copy(0.05f))
-//                ),
-//                shape = shape
-//            )
             .background(color = Purple40.copy(0.08f), shape = shape),
         containerColor = Color.Transparent,
         tonalElevation = 0.dp
     ) {
 
         navigationTabs.forEach { item ->
-            val isSelected = currentRoute == item.route
-
             NavigationBarItem(
-                selected = isSelected,
-                onClick = { if (!isSelected) LTNavDispatcher.navigate(item.route) },
+                selected = selectedTab == item.route,
+                onClick = {
+                    if (currentRoute != item.route) {
+                        LTNavDispatch.navigate(item.route)
+                    }
+                },
                 icon = {
                     Icon(
                         imageVector = item.icon,
                         contentDescription = item.label,
-                        tint = if (isSelected) BlueFulani else inactiveColor,
+                        tint = if (selectedTab == item.route) BlueFulani else inactiveColor,
                         modifier = Modifier.size(24.dp)
                     )
                 },
@@ -76,7 +79,7 @@ fun AppBottomBar() {
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Black
                         ),
-                        color = if (isSelected) BlueFulani else inactiveColor
+                        color = if (selectedTab == item.route) BlueFulani else inactiveColor
                     )
                 },
                 colors = NavigationBarItemDefaults.colors(
@@ -87,7 +90,7 @@ fun AppBottomBar() {
     }
 }
 
-val navigationTabs = mutableListOf(
+val navigationTabs = listOf(
     NavigationTab("Home", "home", Icons.Filled.Home),
     NavigationTab("Medical Records", "analytics", Icons.Filled.BarChart),
     NavigationTab("Profile", "profile", Icons.Filled.AccountCircle)

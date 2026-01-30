@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.presenter.ChatPresenter
 import org.lifetrack.ltapp.ui.components.chatscreen.BBarMessage
 import org.lifetrack.ltapp.ui.components.medicalcharts.MessageBubble
-import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 
@@ -70,7 +70,7 @@ fun ChatScreen(presenter: ChatPresenter) {
                         }
                     },
                     navigationIcon = {
-                        IconButton(onClick = { LTNavDispatcher.navigateBack() }) {
+                        IconButton(onClick = { LTNavDispatch.navigateBack() }) {
                             Icon(Icons.Default.ArrowCircleLeft, "Back")
                         }
                     },

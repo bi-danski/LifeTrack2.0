@@ -34,6 +34,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.core.utility.openDialer
 import org.lifetrack.ltapp.presenter.AuthPresenter
@@ -46,7 +47,7 @@ import org.lifetrack.ltapp.ui.components.homescreen.GlassFloatingActionButton
 import org.lifetrack.ltapp.ui.components.homescreen.carousels.LtHomeCarousel
 import org.lifetrack.ltapp.ui.components.homescreen.featureGridContent
 import org.lifetrack.ltapp.ui.components.other.LTSnackbar
-import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 import org.lifetrack.ltapp.ui.state.UIState
 
 
@@ -99,8 +100,11 @@ fun HomeScreen(homePresenter: HomePresenter, userPresenter: UserPresenter, authP
             }
         },
         floatingActionButton = {
-            GlassFloatingActionButton(onClick = { LTNavDispatcher.navigate("alma") }) {
-                Icon(Icons.AutoMirrored.Filled.Chat, contentDescription = "Quick Chat")
+            GlassFloatingActionButton(onClick = { LTNavDispatch.navigate("alma") }) {
+                Icon(Icons.AutoMirrored.Filled.Chat,
+                    contentDescription = "Quick Chat"
+
+                )
             }
         },
         bottomBar = { AppBottomBar() },
@@ -113,7 +117,7 @@ fun HomeScreen(homePresenter: HomePresenter, userPresenter: UserPresenter, authP
                 .fillMaxSize()
                 .padding(innerPadding)
                 .padding(horizontal = 10.dp),
-            verticalArrangement = Arrangement.spacedBy(15.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item(span = { GridItemSpan(maxLineSpan) }) {
@@ -139,7 +143,7 @@ fun HomeScreen(homePresenter: HomePresenter, userPresenter: UserPresenter, authP
                             }
                         },
                         onEmergencyContactClickAction = {
-                            scope.launch {
+                            scope.launch(Dispatchers.Main) {
                                 snackbarHostState.showSnackbar("Coming Soon. Stay Tuned")
                             }
                         }
@@ -147,7 +151,6 @@ fun HomeScreen(homePresenter: HomePresenter, userPresenter: UserPresenter, authP
                     Spacer(Modifier.height(18.dp))
                 }
             }
-
             featureGridContent()
 
             item(span = { GridItemSpan(maxLineSpan) }) {

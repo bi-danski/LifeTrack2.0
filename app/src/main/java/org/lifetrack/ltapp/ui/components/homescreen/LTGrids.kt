@@ -13,7 +13,7 @@ import androidx.compose.material.icons.filled.DataExploration
 import androidx.compose.material.icons.filled.LocalHospital
 import androidx.compose.material.icons.filled.Notifications
 import org.lifetrack.ltapp.ui.components.homescreen.cards.GlassActionCard
-import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 
 
 fun LazyGridScope.featureGridContent() {
@@ -32,7 +32,7 @@ fun LazyGridScope.featureGridContent() {
     items(features) { (data, route) ->
         val (title, icon) = data
         GlassActionCard(title, icon) {
-            if (route.isNotEmpty()) LTNavDispatcher.navigate(route)
+            if (route.isNotEmpty()) LTNavDispatch.navigate(route)
         }
     }
 }

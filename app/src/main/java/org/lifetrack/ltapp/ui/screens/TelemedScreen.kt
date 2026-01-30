@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import org.lifetrack.ltapp.model.data.mock.LtMockData.dummyDoctors
 import org.lifetrack.ltapp.model.data.mock.LtMockData.dummyPremiums
-import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 import org.lifetrack.ltapp.ui.theme.*
 
 
@@ -61,7 +61,7 @@ fun TelemedicineScreen() {
                 ),
                 navigationIcon = {
                     IconButton(
-                        onClick = { LTNavDispatcher.navigateBack() },
+                        onClick = { LTNavDispatch.navigateBack() },
                         modifier = Modifier
                             .padding(8.dp)
                             .clip(CircleShape)

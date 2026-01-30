@@ -19,7 +19,7 @@ import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.ui.components.appointscreen.StatusChip
 import org.lifetrack.ltapp.ui.components.prescriptscreen.PrescriptionCard
 import org.lifetrack.ltapp.ui.components.prescriptscreen.SuccessRefillContent
-import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 
@@ -42,7 +42,7 @@ fun PrescriptScreen(userPresenter: UserPresenter, presenter: PrescPresenter) {
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { LTNavDispatcher.navigateBack() }) {
+                    IconButton(onClick = { LTNavDispatch.navigateBack() }) {
                         Icon(Icons.Default.ArrowCircleLeft,
                             "Back",
                             tint = Color.White
@@ -111,7 +111,7 @@ fun PrescriptScreen(userPresenter: UserPresenter, presenter: PrescPresenter) {
                                 presenter.triggerRefillRequest(med.medicationName)
                             },
                             onCardClick = {
-                                LTNavDispatcher.navigate("prescription_detail/${prescription.id}")
+                                LTNavDispatch.navigate("prescription_detail/${prescription.id}")
                             }
                         )
                     }

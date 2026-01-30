@@ -43,7 +43,7 @@ import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.ui.components.menuscreen.MenuListItem
 import org.lifetrack.ltapp.ui.components.menuscreen.ToggleMenuListItem
-import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 
@@ -64,7 +64,7 @@ fun MenuScreen(authPresenter: AuthPresenter, sharedPresenter: SharedPresenter) {
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { LTNavDispatcher.navigateBack() }) {
+                    IconButton(onClick = { LTNavDispatch.navigateBack() }) {
                         Icon(
                             Icons.Default.ArrowCircleLeft,
                             contentDescription = "Back",
@@ -92,7 +92,7 @@ fun MenuScreen(authPresenter: AuthPresenter, sharedPresenter: SharedPresenter) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 16.dp)
-                        .clickable { LTNavDispatcher.navigate("profile") },
+                        .clickable { LTNavDispatch.navigate("profile") },
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
@@ -178,7 +178,7 @@ fun MenuScreen(authPresenter: AuthPresenter, sharedPresenter: SharedPresenter) {
             items(sharedPresenter.menuItems) { item ->
                 MenuListItem(
                     onClick = {
-                        LTNavDispatcher.navigate(item.route)
+                        LTNavDispatch.navigate(item.route)
                     },
                     color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40,
                     menuItemData = item,

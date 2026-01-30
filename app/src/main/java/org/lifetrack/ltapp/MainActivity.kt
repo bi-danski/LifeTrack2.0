@@ -33,7 +33,7 @@ import org.lifetrack.ltapp.model.data.dclass.SessionStatus
 import org.lifetrack.ltapp.network.NetworkObserver
 import org.lifetrack.ltapp.presenter.SessionManager
 import org.lifetrack.ltapp.ui.components.other.LTRetry
-import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 import org.lifetrack.ltapp.ui.navigation.LTNavTarget
 import org.lifetrack.ltapp.ui.navigation.LTNavigation
 import org.lifetrack.ltapp.ui.theme.LTAppTheme
@@ -63,7 +63,7 @@ class MainActivity : ComponentActivity() {
                 val appNavController = rememberNavController()
 
                 LaunchedEffect(appNavController) {
-                    LTNavDispatcher.navigationEvents.collect { target ->
+                    LTNavDispatch.navigationEvents.collect { target ->
                         when (target) {
                             is LTNavTarget.Screen -> {
                                 appNavController.navigate(target.route) {

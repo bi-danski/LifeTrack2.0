@@ -25,7 +25,7 @@ import org.lifetrack.ltapp.model.data.dto.UserDataResponse
 import org.lifetrack.ltapp.model.repository.AuthRepository
 import org.lifetrack.ltapp.model.repository.PreferenceRepository
 import org.lifetrack.ltapp.model.repository.UserRepository
-import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
+import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 import org.lifetrack.ltapp.ui.state.UIState
 
 class AuthPresenter(
@@ -112,7 +112,7 @@ class AuthPresenter(
                 is AuthResult.Success -> {
                     sessionManager.logout()
                     _uiState.emit(UIState.Success("Logout Success"))
-                    LTNavDispatcher.navigate("login", clearBackstack = true)
+                    LTNavDispatch.navigate("login", clearBackstack = true)
                 }
                 is AuthResult.Error -> {
                     _uiState.emit(UIState.Error(
