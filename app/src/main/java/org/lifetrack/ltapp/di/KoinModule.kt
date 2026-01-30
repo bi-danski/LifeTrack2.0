@@ -3,8 +3,10 @@ package org.lifetrack.ltapp.di
 import android.content.Context
 import androidx.datastore.dataStore
 import androidx.lifecycle.SavedStateHandle
+import androidx.room.ExperimentalRoomApi
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import io.kotzilla.sdk.KotzillaSDK
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -52,6 +54,7 @@ private val Context.userDataStore by dataStore(
     serializer = UserPreferenceSerializer
 )
 
+@OptIn(ExperimentalRoomApi::class)
 val koinModule = module {
     single(named("koinScope"), createdAtStart = false) {
         CoroutineScope(SupervisorJob() + Dispatchers.Default)
@@ -79,47 +82,58 @@ val koinModule = module {
             .setTransactionExecutor(Dispatchers.IO.asExecutor())
             .setJournalMode(RoomDatabase.JournalMode.WRITE_AHEAD_LOGGING)
             .fallbackToDestructiveMigration(false)
+            .setInMemoryTrackingMode(true)
             .build()
     }
-
     single(createdAtStart = false) {
         get<LTRoomDatabase>().chatDao()
     }
+
     single(createdAtStart = false) {
         NetworkObserver(
             androidContext(),
             get(named("koinScope"))
         )
     }
-    single(createdAtStart = false) {
-        KtorHttpClient.create(
-            get(),
-            get()
-        )
+    KotzillaSDK.trace("KtorHttpClient::Trace") {
+        single(createdAtStart = false) {
+            KtorHttpClient.create(
+                get(),
+                get(),
+                get(named("koinScope"))
+            )
+        }
     }
-    single(createdAtStart = false) {
-        PreferenceRepository(
-            get(named("ltStore")),
-            get(named("tokenStore")),
-            get(named("userStore")),
-            get(named("koinScope"))
-        )
+    KotzillaSDK.trace("PreferenceRepository::Trace") {
+        single(createdAtStart = false) {
+            PreferenceRepository(
+                get(named("ltStore")),
+                get(named("tokenStore")),
+                get(named("userStore")),
+                get(named("koinScope"))
+            )
+        }
     }
     single<AuthRepository>(createdAtStart = false) {
         AuthRepositoryImpl(get(), get())
     }
+
     single<UserRepository>(createdAtStart = false) {
         UserRepositoryImpl(get(), get())
     }
+
     single(createdAtStart = false) {
         ChatRepository(get())
     }
-    single(createdAtStart = false) {
-        SessionManager(
-            get(),
-            get(),
-            get(named("koinScope"))
-        )
+
+    KotzillaSDK.trace("SessionManager::Trace") {
+        single(createdAtStart = false) {
+            SessionManager(
+                get(),
+                get(),
+                get(named("koinScope"))
+            )
+        }
     }
     single(createdAtStart = false) {
         AlmaService(get())
@@ -132,7 +146,6 @@ val koinModule = module {
     viewModelOf(::SharedPresenter)
     viewModelOf(::PrescPresenter)
     viewModelOf(::TLinePresenter)
-
     viewModel { (handle: SavedStateHandle) ->
         ChatPresenter(
             get(),
