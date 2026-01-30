@@ -37,20 +37,39 @@ import org.lifetrack.ltapp.presenter.TLinePresenter
 import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.service.AlmaService
 
-private val Context.tokenDataStore by dataStore("_prefs.json", TokenPreferenceSerializer)
-private val Context.ltDataStore by dataStore("lt_prefs.json", LTPreferenceSerializer)
-private val Context.userDataStore by dataStore("_u_prefs.json", UserPreferenceSerializer)
+private val Context.tokenDataStore by dataStore(
+    fileName = "_prefs.json",
+    serializer = TokenPreferenceSerializer
+)
+
+private val Context.ltDataStore by dataStore(
+    fileName = "lt_prefs.json",
+    serializer = LTPreferenceSerializer
+)
+
+private val Context.userDataStore by dataStore(
+    fileName = "_u_prefs.json",
+    serializer = UserPreferenceSerializer
+)
 
 val koinModule = module {
-    single (named("koinScope")) { CoroutineScope(SupervisorJob() + Dispatchers.Default) }
-    single { SessionManager(get(), get(), get(named("koinScope"))) }
-    single { NetworkObserver(androidContext(), get(named("koinScope"))) }
+    single(named("koinScope"), createdAtStart = false) {
+        CoroutineScope(SupervisorJob() + Dispatchers.Default)
+    }
 
-    single(named("tokenStore")) { androidContext().tokenDataStore }
-    single(named("ltStore")) { androidContext().ltDataStore }
-    single(named("userStore")) { androidContext().userDataStore }
+    single(named("tokenStore"), createdAtStart = false) {
+        androidContext().tokenDataStore
+    }
 
-    single {
+    single(named("ltStore"), createdAtStart = false) {
+        androidContext().ltDataStore
+    }
+
+    single(named("userStore"), createdAtStart = false) {
+        androidContext().userDataStore
+    }
+
+    single(createdAtStart = false) {
         Room.databaseBuilder(
             androidContext(),
             LTRoomDatabase::class.java,
@@ -63,10 +82,22 @@ val koinModule = module {
             .build()
     }
 
-    single { get<LTRoomDatabase>().chatDao() }
-    single { KtorHttpClient.create(get(), get()) }
-    single { AlmaService(get()) }
-    single {
+    single(createdAtStart = false) {
+        get<LTRoomDatabase>().chatDao()
+    }
+    single(createdAtStart = false) {
+        NetworkObserver(
+            androidContext(),
+            get(named("koinScope"))
+        )
+    }
+    single(createdAtStart = false) {
+        KtorHttpClient.create(
+            get(),
+            get()
+        )
+    }
+    single(createdAtStart = false) {
         PreferenceRepository(
             get(named("ltStore")),
             get(named("tokenStore")),
@@ -74,9 +105,25 @@ val koinModule = module {
             get(named("koinScope"))
         )
     }
-    single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
-    single<UserRepository> { UserRepositoryImpl(get(), get()) }
-    single { ChatRepository(get()) }
+    single<AuthRepository>(createdAtStart = false) {
+        AuthRepositoryImpl(get(), get())
+    }
+    single<UserRepository>(createdAtStart = false) {
+        UserRepositoryImpl(get(), get())
+    }
+    single(createdAtStart = false) {
+        ChatRepository(get())
+    }
+    single(createdAtStart = false) {
+        SessionManager(
+            get(),
+            get(),
+            get(named("koinScope"))
+        )
+    }
+    single(createdAtStart = false) {
+        AlmaService(get())
+    }
 
     viewModelOf(::AuthPresenter)
     viewModelOf(::HomePresenter)
@@ -85,8 +132,12 @@ val koinModule = module {
     viewModelOf(::SharedPresenter)
     viewModelOf(::PrescPresenter)
     viewModelOf(::TLinePresenter)
-    viewModel { (handle: SavedStateHandle) -> ChatPresenter(get(), handle,
-        get()
+
+    viewModel { (handle: SavedStateHandle) ->
+        ChatPresenter(
+            get(),
+            handle,
+            get()
         )
     }
 }

@@ -9,18 +9,18 @@ appcompat = "1.7.1"
 material = "1.13.0"
 material-icons = "1.7.8"
 material3Lint = "1.4.0"
-compose = "1.10.0"
-navCompose = "2.9.6"
-activityCompose = "1.12.2"
+compose = "1.10.2"
+navCompose = "2.9.7"
+activityCompose = "1.12.3"
 coil-compose = "2.7.0"
-composeBom = "2025.12.01"
+composeBom = "2026.01.01"
 coroutines = "1.10.2"
 lifecycleRuntimeKtx = "2.10.0"
-work-runtime-ktx  = "2.11.0"
-kotlin-serialization-json = "1.9.0"
-ui-viewbinding = "1.10.0"
+work-runtime-ktx  = "2.11.1"
+kotlin-serialization-json = "1.10.0"
+ui-viewbinding = "1.10.2"
 kotlinx-datetime = "0.7.1"
-ktor = "3.3.3"
+ktor = "3.4.0"
 koin-bom = "4.1.1"
 mpchart = "3.1.0"
 charts = "2.0.1"
@@ -30,7 +30,7 @@ accompanist= "0.36.0"
 coreSplashScreen = "1.2.0"
 datastorePreferences = "1.2.0"
 slf4j = "2.0.17"
-#kotzilla = "1.4.2"
+kotzilla = "1.4.2"
 #googleGmsGoogleServices = "4.4.4"
 #firebaseMessaging = "25.0.1"
 
@@ -82,7 +82,7 @@ koin-android = { module = "io.insert-koin:koin-android" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose" }
 koin-androidx-compose-navigation = { module = "io.insert-koin:koin-androidx-compose-navigation" }
 koin-androidx-startup = { module = "io.insert-koin:koin-androidx-startup" }
-#kotzilla-sdk-compose = { group = "io.kotzilla", name = "kotzilla-sdk-compose", version.ref = "kotzilla" }
+kotzilla-sdk-compose = { group = "io.kotzilla", name = "kotzilla-sdk-compose", version.ref = "kotzilla" }
 
 accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
 accompanist-navigation-animation = { group = "com.google.accompanist", name = "accompanist-navigation-animation", version.ref = "accompanist" }
@@ -104,6 +104,6 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-#kotzilla = { id = "io.kotzilla.kotzilla-plugin", version.ref = "kotzilla" }
+kotzilla = { id = "io.kotzilla.kotzilla-plugin", version.ref = "kotzilla" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp"}
 #google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
