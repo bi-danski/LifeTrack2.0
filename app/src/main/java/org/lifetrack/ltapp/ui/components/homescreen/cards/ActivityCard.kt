@@ -41,12 +41,20 @@ fun ActivityCard(
 ) {
     val animatedProgress = remember { Animatable(0f) }
 
-    if (isAnimEnabled){
-        LaunchedEffect(progress) {
+    LaunchedEffect(progress) {
+        if (isAnimEnabled) {
             animatedProgress.animateTo(
                 targetValue = progress,
                 animationSpec = tween(
                     durationMillis = animTime,
+                    easing = FastOutSlowInEasing
+                )
+            )
+        } else {
+            animatedProgress.animateTo(
+                targetValue = progress,
+                animationSpec = tween(
+                    durationMillis = 0,
                     easing = FastOutSlowInEasing
                 )
             )

@@ -135,9 +135,7 @@ fun MenuScreen(authPresenter: AuthPresenter, sharedPresenter: SharedPresenter) {
                 ToggleMenuListItem(
                     color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40,
                     toggleItem = ToggleItemData("Email Notifications", Icons.Default.Email),
-                    onToggle = {
-                        sharedPresenter.onEmailNotificationsUpdate()
-                    },
+                    onToggle = { sharedPresenter.onEmailNotificationsUpdate() },
                     toggleState = ltSettings.value.emailNotifications
                 )
             }
@@ -145,10 +143,8 @@ fun MenuScreen(authPresenter: AuthPresenter, sharedPresenter: SharedPresenter) {
             item {
                 ToggleMenuListItem(
                     color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40,
-                    toggleItem = ToggleItemData("App Animations", Icons.Default.Animation),
-                    onToggle = {
-                        sharedPresenter.onAppAnimationsUpdate()
-                    },
+                    toggleItem = ToggleItemData("In-App Animations", Icons.Default.Animation),
+                    onToggle = { sharedPresenter.onAppAnimationsUpdate() },
                     toggleState = ltSettings.value.animations
                 )
             }
@@ -156,10 +152,17 @@ fun MenuScreen(authPresenter: AuthPresenter, sharedPresenter: SharedPresenter) {
             item {
                 ToggleMenuListItem(
                     color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40,
+                    toggleItem = ToggleItemData("Carousel Animations", Icons.Default.Animation),
+                    onToggle = { sharedPresenter.onAppCarouselAnimationsUpdate() },
+                    toggleState = ltSettings.value.carouselAutoRotate
+                )
+            }
+
+            item {
+                ToggleMenuListItem(
+                    color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40,
                     toggleItem = ToggleItemData("App Notifications", Icons.Default.Notifications),
-                    onToggle = {
-                        sharedPresenter.onUserNotificationsUpdate()
-                    },
+                    onToggle = { sharedPresenter.onUserNotificationsUpdate() },
                     toggleState = ltSettings.value.notifications
                 )
             }
@@ -168,18 +171,14 @@ fun MenuScreen(authPresenter: AuthPresenter, sharedPresenter: SharedPresenter) {
                 ToggleMenuListItem(
                     color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40,
                     toggleItem = ToggleItemData("Patient Data Consent", Icons.Filled.MedicalInformation),
-                    onToggle = {
-                        sharedPresenter.onPatientInfoConsentUpdate()
-                    },
+                    onToggle = { sharedPresenter.onPatientInfoConsentUpdate() },
                     toggleState = ltSettings.value.dataConsent
                 )
             }
 
             items(sharedPresenter.menuItems) { item ->
                 MenuListItem(
-                    onClick = {
-                        LTNavDispatch.navigate(item.route)
-                    },
+                    onClick = { LTNavDispatch.navigate(item.route) },
                     color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40,
                     menuItemData = item,
                 )

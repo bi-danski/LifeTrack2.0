@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.lifetrack.ltapp.model.data.dto.Message
-import org.lifetrack.ltapp.core.utility.formatTimestamp
+import org.lifetrack.ltapp.core.utility.ZetuZetuUtil.formatTimestamp
 
 @Composable
 fun MessageBubble(message: Message) {

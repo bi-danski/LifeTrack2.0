@@ -68,6 +68,14 @@ class SharedPresenter(
         }
     }
 
+    fun onAppCarouselAnimationsUpdate(){
+        viewModelScope.launch {
+            prefRepository.updateLTPreferences { current ->
+                current.copy(appCarouselAutoRotationEnabled = !current.appCarouselAutoRotationEnabled)
+            }
+        }
+    }
+
     fun handleEmergencyCall(context: Context) {
         val emergencyNumber = "911"
         context.makeAutoCall(emergencyNumber)
