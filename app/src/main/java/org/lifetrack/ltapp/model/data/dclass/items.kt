@@ -35,7 +35,8 @@ data class LtSettings(
     val smsNotifications: Boolean = false,
     val animations: Boolean = true,
     val dataConsent: Boolean = false,
-    val reminders: Boolean = true
+    val reminders: Boolean = true,
+    val carouselAutoRotate: Boolean = true
 )
 
 

@@ -76,7 +76,7 @@ fun AppTopBar(username: String, role: String = "Patient") {
         Column(horizontalAlignment = Alignment.End) {
             Text(
                 text = username,
-                style = MaterialTheme.typography.titleSmall.copy(
+                style = MaterialTheme.typography.bodyLarge.copy(
                     fontWeight = FontWeight.Black,
                     letterSpacing = 0.7.sp
                     ),

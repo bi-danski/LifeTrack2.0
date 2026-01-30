@@ -1,6 +1,8 @@
 package org.lifetrack.ltapp.core.utility
 
 import androidx.compose.animation.core.Easing
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.toJavaLocalDateTime
 import org.lifetrack.ltapp.model.data.dclass.LTPreferences
 import org.lifetrack.ltapp.model.data.dclass.LoginInfo
 import org.lifetrack.ltapp.model.data.dclass.LtSettings
@@ -12,6 +14,11 @@ import org.lifetrack.ltapp.model.data.dto.Message
 import org.lifetrack.ltapp.model.data.dto.SignUpRequest
 import org.lifetrack.ltapp.model.data.dto.UserDataResponse
 import org.lifetrack.ltapp.model.roomdb.MessageEntity
+import java.time.LocalDate
+import java.time.YearMonth
+import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
+import java.util.Locale
 
 
 fun Message.toEntity(): MessageEntity{
@@ -97,19 +104,21 @@ fun LTPreferences.toLtSettings(): LtSettings {
         smsNotifications = this.appSmsNotificationsEnabled,
         animations = this.appAnimationsEnabled,
         dataConsent = this.userPatientDataConsentEnabled,
-        reminders = this.appReminderNotificationsEnabled
+        reminders = this.appReminderNotificationsEnabled,
+        carouselAutoRotate = this.appCarouselAutoRotationEnabled
     )
 }
 
-fun LtSettings.toLTPreferences(): LTPreferences {
-    return LTPreferences(
-        appNotificationsEnabled = this.notifications,
-        appEmailNotificationsEnabled = this.emailNotifications,
-        appSmsNotificationsEnabled = this.smsNotifications,
-        appAnimationsEnabled = this.animations,
-        userPatientDataConsentEnabled = this.dataConsent,
-        appReminderNotificationsEnabled = this.reminders
-    )
+fun LocalDateTime.customFormat(pattern: String): String {
+    val formatter = DateTimeFormatter.ofPattern(pattern)
+    return this.toJavaLocalDateTime().format(formatter)
+}
+
+fun LocalDate.toYearMonth(): YearMonth = YearMonth.from(this)
+
+fun YearMonth.formatMonthYear(): String {
+    val month = month.getDisplayName(TextStyle.FULL, Locale.getDefault())
+    return "$month $year"
 }
 
 fun Easing.transform(from: Float, to: Float, value: Float): Float {

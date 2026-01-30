@@ -33,7 +33,7 @@ fun VitalMetricRing(modifier: Modifier = Modifier, label: String, value: String,
             shape = CircleShape,
             color = Color.White.copy(alpha = 0.05f),
             border = BorderStroke(
-                width = 1.6.dp,
+                width = 1.8.dp,
                 brush = Brush.linearGradient(
                     listOf(accentColor.copy(alpha = 0.65f), Color.Transparent)
                 )
@@ -64,10 +64,10 @@ fun VitalMetricRing(modifier: Modifier = Modifier, label: String, value: String,
         Spacer(Modifier.height(8.dp))
         Text(
             text = label,
-            maxLines = 2,
+            maxLines = 1,
             fontSize = 12.sp,
             fontWeight = FontWeight.Black,
-            overflow = TextOverflow.Visible,
+            overflow = TextOverflow.Ellipsis,
             color = accentColor
         )
     }

@@ -27,6 +27,7 @@ fun DailyActivities(
     waterGoal: Float = 2.5f,
     sleepHours: Float = 6.5f,
     sleepGoal: Float = 8f,
+    isAnimationEnabled: Boolean
 ) {
     GlassCard(
         shape = RoundedCornerShape(22.dp),
@@ -53,7 +54,8 @@ fun DailyActivities(
                     icon = Icons.AutoMirrored.Filled.DirectionsRun,
                     modifier = Modifier.weight(1f),
                     animTime = 5000,
-                    activityVal = "$steps"
+                    activityVal = "$steps",
+                    isAnimEnabled = isAnimationEnabled
                 )
 
                 ActivityCard(
@@ -64,7 +66,8 @@ fun DailyActivities(
                     icon = Icons.Default.WaterDrop,
                     modifier = Modifier.weight(1f),
                     animTime = 7000,
-                    activityVal = "${waterLiters}L"
+                    activityVal = "${waterLiters}L",
+                    isAnimEnabled = isAnimationEnabled
                 )
 
                 ActivityCard(
@@ -75,7 +78,8 @@ fun DailyActivities(
                     icon = Icons.Default.Bedtime,
                     modifier = Modifier.weight(1f),
                     animTime = 10000,
-                    activityVal = "${sleepHours}h"
+                    activityVal = "${sleepHours}h",
+                    isAnimEnabled = isAnimationEnabled
                 )
             }
         }

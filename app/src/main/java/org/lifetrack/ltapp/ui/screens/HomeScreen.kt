@@ -24,6 +24,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -53,8 +54,13 @@ import org.lifetrack.ltapp.ui.state.UIState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(homePresenter: HomePresenter, userPresenter: UserPresenter, authPresenter: AuthPresenter, sharedPresenter: SharedPresenter) {
-    val autoRotate2NextCard = homePresenter.autoRotate2NextCard
+fun HomeScreen(
+    homePresenter: HomePresenter,
+    userPresenter: UserPresenter,
+    authPresenter: AuthPresenter,
+    sharedPresenter: SharedPresenter
+) {
+    val ltSettings by sharedPresenter.ltSettings.collectAsState()
     val caroItemsCount = homePresenter.caroItemsCount
     val userInfo = authPresenter.profileInfo.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -100,11 +106,8 @@ fun HomeScreen(homePresenter: HomePresenter, userPresenter: UserPresenter, authP
             }
         },
         floatingActionButton = {
-            GlassFloatingActionButton(onClick = { LTNavDispatch.navigate("alma") }) {
-                Icon(Icons.AutoMirrored.Filled.Chat,
-                    contentDescription = "Quick Chat"
-
-                )
+            GlassFloatingActionButton( onClick = { LTNavDispatch.navigate("alma") } ) {
+                Icon(Icons.AutoMirrored.Filled.Chat, contentDescription = "Quick Chat")
             }
         },
         bottomBar = { AppBottomBar() },
@@ -126,7 +129,8 @@ fun HomeScreen(homePresenter: HomePresenter, userPresenter: UserPresenter, authP
                     AppTopBar(userInfo.value.userName)
                     Spacer(Modifier.height(18.dp))
                     LtHomeCarousel(
-                        autoRotate = autoRotate2NextCard,
+                        isCarouselAutoRotateEnabled = ltSettings.carouselAutoRotate,
+                        isAppAnimationEnabled = ltSettings.animations,
                         itemsCount = caroItemsCount,
                         userPresenter = userPresenter,
                         onEmergencyClickAction = {
@@ -146,7 +150,8 @@ fun HomeScreen(homePresenter: HomePresenter, userPresenter: UserPresenter, authP
                             scope.launch(Dispatchers.Main) {
                                 snackbarHostState.showSnackbar("Coming Soon. Stay Tuned")
                             }
-                        }
+                        },
+
                     )
                     Spacer(Modifier.height(18.dp))
                 }

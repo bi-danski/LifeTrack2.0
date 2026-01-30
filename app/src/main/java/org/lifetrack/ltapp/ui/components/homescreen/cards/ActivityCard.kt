@@ -28,18 +28,29 @@ import org.lifetrack.ltapp.ui.components.homescreen.rings.ActivityRing
 
 
 @Composable
-fun ActivityCard(label: String, activityVal: String, targetVal: String, progress: Float, color: Color,
-                 icon: ImageVector, animTime: Int, modifier: Modifier = Modifier) {
+fun ActivityCard(
+    label: String,
+    activityVal: String,
+    targetVal: String,
+    progress: Float,
+    color: Color,
+    icon: ImageVector,
+    animTime: Int,
+    modifier: Modifier = Modifier,
+    isAnimEnabled: Boolean
+) {
     val animatedProgress = remember { Animatable(0f) }
 
-    LaunchedEffect(progress) {
-        animatedProgress.animateTo(
-            targetValue = progress,
-            animationSpec = tween(
-                durationMillis = animTime,
-                easing = FastOutSlowInEasing
+    if (isAnimEnabled){
+        LaunchedEffect(progress) {
+            animatedProgress.animateTo(
+                targetValue = progress,
+                animationSpec = tween(
+                    durationMillis = animTime,
+                    easing = FastOutSlowInEasing
+                )
             )
-        )
+        }
     }
 
     Column(

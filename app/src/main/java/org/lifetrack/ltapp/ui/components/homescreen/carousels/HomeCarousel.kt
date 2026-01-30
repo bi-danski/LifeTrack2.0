@@ -40,7 +40,12 @@ import kotlin.math.absoluteValue
 
 @SuppressLint("FrequentlyChangingValue")
 @Composable
-fun LtHomeCarousel(autoRotate: Boolean, itemsCount: Int, rotationInterval: Long = 5000L, initialPage: Int = 0,
+fun LtHomeCarousel(
+    isAppAnimationEnabled: Boolean,
+    isCarouselAutoRotateEnabled: Boolean,
+    itemsCount: Int,
+    rotationInterval: Long = 5000L,
+    initialPage: Int = 0,
     userPresenter: UserPresenter,
     onEmergencyClickAction: () -> Unit,
     onEmergencyContactClickAction: () -> Unit
@@ -52,7 +57,7 @@ fun LtHomeCarousel(autoRotate: Boolean, itemsCount: Int, rotationInterval: Long 
     val totalCount = userPresenter.getCountForStatus(AppointmentStatus.UPCOMING)
     val scope = rememberCoroutineScope()
 
-    if (autoRotate) {
+    if (isCarouselAutoRotateEnabled) {
         LaunchedEffect(Unit) {
             while (true) {
                 delay(rotationInterval)
@@ -103,7 +108,7 @@ fun LtHomeCarousel(autoRotate: Boolean, itemsCount: Int, rotationInterval: Long 
                         onEmergencyContactClick = onEmergencyContactClickAction
                         )
                     1 -> VitalsCard()
-                    2 -> DailyActivities()
+                    2 -> DailyActivities(isAnimationEnabled = isAppAnimationEnabled)
                 }
             }
         }

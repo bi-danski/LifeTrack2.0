@@ -4,6 +4,10 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.ui.unit.LayoutDirection
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 
 object ZetuZetuUtil {
@@ -21,6 +25,20 @@ object ZetuZetuUtil {
             .map { it.first() }
             .joinToString("")
             .uppercase()
+    }
+
+    fun formatTimestamp(timestamp: Long): String {
+        val date = Instant.ofEpochMilli(timestamp).atZone(ZoneId.systemDefault()).toLocalDate()
+        val time = Instant.ofEpochMilli(timestamp).atZone(ZoneId.systemDefault()).toLocalTime()
+            .format(DateTimeFormatter.ofPattern("hh:mm a"))
+        val today = LocalDate.now()
+        val yesterday = today.minusDays(1)
+
+        return when (date) {
+            today -> "$time"
+            yesterday -> "Yesterday • $time"
+            else -> date.format(DateTimeFormatter.ofPattern("dd MMM yyyy")) + " • $time"
+        }
     }
 
     fun sanitizeErrorMessage(e: Exception): String {
