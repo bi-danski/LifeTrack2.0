@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.ui.components.navigation
+package org.lifetrack.ltapp.ui.components.homescreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -61,7 +61,9 @@ fun AppTopBar(username: String) {
                     modifier = Modifier
                         .background(MaterialTheme.colorScheme.background)
                 ){
-                    Icon(Icons.Filled.Menu, contentDescription = "", tint = if (isSystemInDarkTheme()) Color.Green else Purple40)
+                    Icon(Icons.Filled.Menu,
+                        contentDescription = "",
+                        tint = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.secondary else Purple40)
                 }
             }
             Spacer(Modifier.width(10.dp))
@@ -85,7 +87,7 @@ fun AppTopBar(username: String) {
             )
             Text("Patient",
                 style = MaterialTheme.typography.bodySmall,
-                color = if (isSystemInDarkTheme()) Color.Green else MaterialTheme.colorScheme.secondary,
+                color = MaterialTheme.colorScheme.secondary,
                 fontWeight = FontWeight.Black)
         }
     }

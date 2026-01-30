@@ -25,7 +25,7 @@ fun LazyGridScope.featureGridContent() {
         "Messaging & Referrals" to Icons.AutoMirrored.Filled.Message to "ltChats",
         "E-Prescriptions" to Icons.Filled.LocalHospital to "prescriptions",
         "Reports & Analytics" to Icons.Filled.DataExploration to "analytics",
-        "Health Campaigns" to Icons.Filled.Campaign to "",
+        "Health Campaigns" to Icons.Filled.Campaign to "bar-bra",
         "Help & Support" to Icons.AutoMirrored.Filled.HelpCenter to "support"
     )
 

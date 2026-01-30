@@ -61,7 +61,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.presenter.ChatPresenter
 import org.lifetrack.ltapp.ui.components.chatscreen.BBarMessage
-import org.lifetrack.ltapp.ui.components.navigation.LifeTrackTopBar
+import org.lifetrack.ltapp.ui.components.homescreen.LifeTrackTopBar
 import org.lifetrack.ltapp.ui.components.medicalcharts.MessageBubble
 import org.lifetrack.ltapp.ui.components.other.LTSnackbar
 import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher

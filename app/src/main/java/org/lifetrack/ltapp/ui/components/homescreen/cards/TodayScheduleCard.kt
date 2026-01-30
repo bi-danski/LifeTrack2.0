@@ -46,19 +46,8 @@ fun TodayScheduleCard(appointmentCount: Int, nextAppointment: Appointment?,
     onEmergencyClick: () -> Unit,
     onEmergencyContactClick: () -> Unit
 ) {
-//    val infiniteTransition = rememberInfiniteTransition(label = "SOSPulse")
-//    val pulseScale by infiniteTransition.animateFloat(
-//        initialValue = 1f,
-//        targetValue = 1.1f,
-//        animationSpec = Repeatable(
-//            animation = tween(1000, easing = FastOutSlowInEasing),
-//            repeatMode = RepeatMode.Reverse
-//        ),
-//        label = "Pulse"
-//    )
     val themeColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40
     val subTextColor = if (isSystemInDarkTheme()) Color.Gray else Color(0xFF5F6368)
-    val highlightColor = if (isSystemInDarkTheme()) Color.Green else MaterialTheme.colorScheme.secondary
 
     GlassCard(
         shape = RoundedCornerShape(22.dp),
@@ -83,9 +72,11 @@ fun TodayScheduleCard(appointmentCount: Int, nextAppointment: Appointment?,
                     .fillMaxWidth()
                     .weight(1.1f)
                     .clip(RoundedCornerShape(16.dp))
-                    .background(themeColor.copy(alpha = 0.08f))
+                    .background( Purple40.copy(0.08f))
+//                        Color(0xFFBDCEDD).copy(0.1f))
                     .border(1.dp,
-                        if (isSystemInDarkTheme()) Color.Green.copy(alpha = 0.15f) else nextAppointment?.status?.color?.copy(0.15f) ?: Purple40.copy(0.15f) ,
+                        if (isSystemInDarkTheme()) nextAppointment?.status?.color?.copy(0.3f) ?: MaterialTheme.colorScheme.secondary.copy(0.3f)
+                        else nextAppointment?.status?.color?.copy(0.15f) ?: Purple40.copy(0.15f),
                         RoundedCornerShape(16.dp)
                     )
             ) {
@@ -148,7 +139,8 @@ fun TodayScheduleCard(appointmentCount: Int, nextAppointment: Appointment?,
                                 Text(
                                     text = nextAppointment.hospital,
                                     fontSize = 16.5.sp ,
-                                    color = highlightColor,
+                                    color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.secondary else
+                                        MaterialTheme.colorScheme.primary,
                                     fontWeight = FontWeight.Black,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis
@@ -188,7 +180,7 @@ fun TodayScheduleCard(appointmentCount: Int, nextAppointment: Appointment?,
                         .weight(0.5f)
                         .fillMaxHeight(),
 //                        .graphicsLayer(scaleX = pulseScale, scaleY = pulseScale),
-                    shape = RoundedCornerShape(16.dp),
+                    shape = RoundedCornerShape(20.dp),
                     colors = CardDefaults.cardColors(
                         containerColor = if (isSystemInDarkTheme()) Color(0xFFE74C3C).copy(0.5f)
                         else Color(0xFFE74C3C).copy(0.8f)
@@ -223,11 +215,11 @@ fun TodayScheduleCard(appointmentCount: Int, nextAppointment: Appointment?,
                         .weight(1.2f)
                         .fillMaxHeight()
                         .clip(RoundedCornerShape(16.dp))
-                        .background(themeColor.copy(alpha = 0.08f))
-                        .border(1.dp,
-                            if (isSystemInDarkTheme()) Color.Green.copy(alpha = 0.15f) else Purple40.copy(alpha = 0.15f),
-                            RoundedCornerShape(16.dp)
-                        )
+                        .background(Purple40.copy(alpha = 0.08f))
+//                        .border(1.dp,
+//                            if (isSystemInDarkTheme()) MaterialTheme.colorScheme.secondary else Purple40.copy(alpha = 0.15f),
+//                            RoundedCornerShape(16.dp)
+//                        )
                 ) {
                     Row(
                         modifier = Modifier.fillMaxSize(),
@@ -253,7 +245,7 @@ fun TodayScheduleCard(appointmentCount: Int, nextAppointment: Appointment?,
                                 Icon(
                                     imageVector = Icons.Default.ContactEmergency,
                                     contentDescription = "Emergency Contact",
-                                    tint = if (isSystemInDarkTheme()) Color.Green else Purple40,
+                                    tint = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.secondary else Purple40,
                                     modifier = Modifier.size(20.dp)
                                 )
                             }
@@ -290,7 +282,7 @@ fun TodayScheduleCard(appointmentCount: Int, nextAppointment: Appointment?,
                                 fontSize = 12.sp,
                                 maxLines = 1,
                                 fontWeight = FontWeight.Black,
-                                color = if (isSystemInDarkTheme()) Color.Green else Purple40,
+                                color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.secondary else Purple40,
 //                                    Color(0xFF5F6368),
                                 overflow = TextOverflow.Ellipsis,
                                 modifier = Modifier.padding(top = 2.dp)

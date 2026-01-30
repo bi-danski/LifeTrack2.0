@@ -40,11 +40,11 @@ import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.presenter.HomePresenter
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.presenter.UserPresenter
+import org.lifetrack.ltapp.ui.components.homescreen.AppBottomBar
+import org.lifetrack.ltapp.ui.components.homescreen.AppTopBar
 import org.lifetrack.ltapp.ui.components.homescreen.GlassFloatingActionButton
 import org.lifetrack.ltapp.ui.components.homescreen.carousels.LtHomeCarousel
 import org.lifetrack.ltapp.ui.components.homescreen.featureGridContent
-import org.lifetrack.ltapp.ui.components.navigation.AppBottomBar
-import org.lifetrack.ltapp.ui.components.navigation.AppTopBar
 import org.lifetrack.ltapp.ui.components.other.LTSnackbar
 import org.lifetrack.ltapp.ui.navigation.LTNavDispatcher
 import org.lifetrack.ltapp.ui.state.UIState
@@ -52,9 +52,7 @@ import org.lifetrack.ltapp.ui.state.UIState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(homePresenter: HomePresenter, userPresenter: UserPresenter, authPresenter: AuthPresenter,
-    sharedPresenter: SharedPresenter
-) {
+fun HomeScreen(homePresenter: HomePresenter, userPresenter: UserPresenter, authPresenter: AuthPresenter, sharedPresenter: SharedPresenter) {
     val autoRotate2NextCard = homePresenter.autoRotate2NextCard
     val caroItemsCount = homePresenter.caroItemsCount
     val userInfo = authPresenter.profileInfo.collectAsStateWithLifecycle()

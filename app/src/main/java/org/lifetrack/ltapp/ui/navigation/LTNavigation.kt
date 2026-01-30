@@ -33,6 +33,7 @@ import org.lifetrack.ltapp.ui.screens.ChatScreen
 import org.lifetrack.ltapp.ui.screens.FollowUpScreen
 import org.lifetrack.ltapp.ui.screens.HomeScreen
 import org.lifetrack.ltapp.ui.screens.LoginScreen
+import org.lifetrack.ltapp.ui.screens.MainScreen
 import org.lifetrack.ltapp.ui.screens.MenuScreen
 import org.lifetrack.ltapp.ui.screens.OtherScreen
 import org.lifetrack.ltapp.ui.screens.PDetailScreen
@@ -159,6 +160,7 @@ fun NavGraphBuilder.addSupportFeatures(sharedPresenter: SharedPresenter) {
     composable("about") { AboutScreen(sharedPresenter) }
     composable("support") { SupportScreen() }
     composable("alerts") { AlertScreen() }
+    composable("bar-bra") { MainScreen() }
 }
 
 fun NavGraphBuilder.addUtilityFeatures(fuvPresenter: FUVPresenter) {

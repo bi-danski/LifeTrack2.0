@@ -22,12 +22,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.lifetrack.ltapp.ui.theme.Purple40
-import org.lifetrack.ltapp.ui.theme.Purple80
 
 
 @Composable
@@ -38,11 +38,11 @@ fun GlassActionCard(title: String, icon: ImageVector, onClick: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .height(65.dp)
-//            .width(170.dp)
-            .clip(shape)
-            .background(color = MaterialTheme.colorScheme.background.copy(0.08f)),
+            .clip(shape),
+//            .background(color = MaterialTheme.colorScheme.background.copy(0.08f)),
         colors = CardDefaults.cardColors(
-            MaterialTheme.colorScheme.primary.copy(0.1f)
+            containerColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary.copy(0.08f)
+            else Color(0xFFE2E8EC).copy(0.8f)
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
@@ -60,12 +60,13 @@ fun GlassActionCard(title: String, icon: ImageVector, onClick: () -> Unit) {
                     .fillMaxWidth()
                     .clip(CircleShape)
                     .background(if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40),
+//                        Color(0xFF2969B0).copy(0.5f)),//Purple40),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     icon,
                     contentDescription = title,
-                    tint = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onPrimary else Purple80
+                    tint = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onPrimary else Color.White
                 )
             }
             Spacer(Modifier.width(10.dp))

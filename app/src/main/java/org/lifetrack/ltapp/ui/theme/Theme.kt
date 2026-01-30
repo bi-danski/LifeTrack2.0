@@ -14,6 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
+const val DEFAULT_PADDING = 44
 
 @SuppressLint("ContextCastToActivity")
 @RequiresApi(Build.VERSION_CODES.S)

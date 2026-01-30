@@ -1,5 +1,6 @@
 package org.lifetrack.ltapp.core.utility
 
+import androidx.compose.animation.core.Easing
 import org.lifetrack.ltapp.model.data.dclass.LTPreferences
 import org.lifetrack.ltapp.model.data.dclass.LoginInfo
 import org.lifetrack.ltapp.model.data.dclass.LtSettings
@@ -109,4 +110,8 @@ fun LtSettings.toLTPreferences(): LTPreferences {
         userPatientDataConsentEnabled = this.dataConsent,
         appReminderNotificationsEnabled = this.reminders
     )
+}
+
+fun Easing.transform(from: Float, to: Float, value: Float): Float {
+    return transform(((value - from) * (1f / (to - from))).coerceIn(0f, 1f))
 }

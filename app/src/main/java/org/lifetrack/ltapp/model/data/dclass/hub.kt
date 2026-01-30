@@ -109,3 +109,9 @@ data class Attachment(
     val type: AttachmentType,
     val uri: String
 )
+
+data class NavigationTab (
+    val label: String,
+    val route: String,
+    val icon: ImageVector
+)

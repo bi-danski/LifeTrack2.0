@@ -1,6 +1,20 @@
 package org.lifetrack.ltapp.core.utility
 
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.ui.unit.LayoutDirection
+
+
 object ZetuZetuUtil {
+
+    operator fun PaddingValues.times(value: Float): PaddingValues = PaddingValues(
+        top = calculateTopPadding() * value,
+        bottom = calculateBottomPadding() * value,
+        start = calculateStartPadding(LayoutDirection.Ltr) * value,
+        end = calculateEndPadding(LayoutDirection.Ltr) * value
+    )
+
     fun generateInitials(name: String): String {
         return name.split(" ")
             .filter { it.isNotBlank() }
@@ -27,4 +41,5 @@ object ZetuZetuUtil {
                 }
         }
     }
+
 }

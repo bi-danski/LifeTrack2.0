@@ -2,11 +2,14 @@ package org.lifetrack.ltapp.presenter
 
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Autorenew
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.EventBusy
+import androidx.compose.material.icons.filled.History
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
-import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.ViewModel
 import java.time.LocalDate
@@ -14,7 +17,6 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 class PrescPresenter : ViewModel() {
-
     var selectedFilter by mutableStateOf("Active")
     val filters = listOf("Active", "Refills", "Expired", "History")
     val listState = LazyListState()

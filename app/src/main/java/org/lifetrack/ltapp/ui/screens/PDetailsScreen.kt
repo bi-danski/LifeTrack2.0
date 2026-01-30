@@ -100,7 +100,7 @@ fun PDetailScreen(prescription: Prescription, authPresenter: AuthPresenter) {
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /* Share logic */ }) {
+                    IconButton(onClick = {  }) {
                         Icon(Icons.Default.Share, contentDescription = "Share", tint = Color.White)
                     }
                 },

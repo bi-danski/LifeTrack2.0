@@ -5,11 +5,12 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
 
 val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
+//val PurpleGrey80 = Color(0xFFCCC2DC)
 val Pink80 = Color(0xFFEFB8C8)
 val Purple40 = Color(0xFF6650a4)
 //val PurpleGrey40 = Color(0xFF625b71)
 //val Pink40 = Color(0xFF7D5260)
+//val ShadowColor = Color(0xFF94A0AC)
 
 val AvailableColor = Color(0xFF4CAF50)
 val BusyColor = Color(0xFFF44336)
@@ -35,10 +36,12 @@ val EmergencyRed = Color(0xFFE53935)
 //val SuccessGreen = Color(0xFF4CAF50)
 //val WarningYellow = Color(0xFFFFC107)
 
+val BlueFulani = Color(0xFF0288D1)
+
 val LightColors = lightColorScheme(
     primary = Color(0xFF4CAF50),
     onPrimary = Color.White,
-    secondary = Color(0xFF0288D1),
+    secondary = BlueFulani,
     background = Color(0xFFF5F5F5),
     surface = Color(0xFFE0E0E0),
     error = EmergencyRed,
@@ -49,7 +52,7 @@ val LightColors = lightColorScheme(
 
 val DarkColors = darkColorScheme(
     primary = Purple80,
-    secondary = PurpleGrey80,
+    secondary = Color(0xFF4CAF50),
     tertiary = Pink80,
     background = Color(0xFF121212),
     surface = Color(0xFF1E1E1E)

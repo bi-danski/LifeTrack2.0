@@ -13,5 +13,4 @@ class HomePresenter: ViewModel() {
 
     var caroItemsCount by mutableIntStateOf(3)
         private set
-
 }
