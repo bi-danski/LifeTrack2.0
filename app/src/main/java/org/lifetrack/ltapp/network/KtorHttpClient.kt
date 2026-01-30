@@ -167,7 +167,6 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.encodedPath
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import org.lifetrack.ltapp.core.exception.NoInternetException
@@ -219,7 +218,7 @@ object KtorHttpClient {
 
                     refreshTokens {
                         val currentPrefs = kotlin.runCatching {
-                            prefs.tokenPreferences.first()
+                            prefs.tokenPreferences.value
                         }.getOrNull()
                         val oldRefreshToken = currentPrefs?.refreshToken ?: return@refreshTokens null
 
