@@ -38,7 +38,6 @@ class UserPresenter(
     val dummyPrescriptions =  mutableStateListOf<Prescription>().apply {
         addAll(LtMockData.dPrescriptions)
     }
-    val isRefreshing = mutableStateOf(false)
 
     private val _allAppointments = MutableStateFlow(LtMockData.dummyAppointments)
     private val _selectedFilter = MutableStateFlow(AppointmentStatus.UPCOMING)
@@ -70,8 +69,8 @@ class UserPresenter(
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage = _errorMessage.asStateFlow()
 
-    private val _myPatients = MutableStateFlow(LtMockData.dDocPatients)
-    val myPatients = _myPatients.asStateFlow()
+//    private val _myPatients = MutableStateFlow(LtMockData.dDocPatients)
+//    val myPatients = _myPatients.asStateFlow()
 
     fun onFilterChanged(newFilter: AppointmentStatus) {
         _selectedFilter.value = newFilter
