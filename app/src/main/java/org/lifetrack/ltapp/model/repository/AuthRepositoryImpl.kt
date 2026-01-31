@@ -63,14 +63,11 @@ class AuthRepositoryImpl(
     }
 
     override suspend fun refreshSession(): AuthResult {
-        // BUG FIX: Changed .value.refreshToken to .first().refreshToken
-        // to handle the Flow transformation in PreferenceRepository
         val currentRefreshToken = try {
             prefs.tokenPreferences.first().refreshToken
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             null
         }
-
         if (currentRefreshToken.isNullOrBlank()) {
             return AuthResult.Error("No refresh token found")
         }
@@ -89,7 +86,6 @@ class AuthRepositoryImpl(
                 )
                 AuthResult.Success
             } else {
-                // If refresh fails at the manual repository level, we wipe tokens
                 prefs.updateTokenPreferences(null, null)
                 AuthResult.Error("Session expired. Please login again.")
             }
