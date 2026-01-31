@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -29,6 +30,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -82,17 +84,14 @@ fun HomeScreen(
             is UIState.Success -> {
                 val msg = (authUiState as UIState.Success).message
                 if (!msg.isNullOrBlank()) {
-                    snackbarHostState.showSnackbar(msg)
+                    snackbarHostState.showSnackbar(msg, duration = SnackbarDuration.Short)
                     authPresenter.resetUIState()
                 }
             }
 
             is UIState.Error -> {
                 val errorMsg = (authUiState as UIState.Error).msg
-                snackbarHostState.showSnackbar(
-                    message = errorMsg,
-                    duration = SnackbarDuration.Long
-                )
+                snackbarHostState.showSnackbar(message = errorMsg, duration = SnackbarDuration.Long)
                 authPresenter.resetUIState()
             }
             else -> {}
@@ -107,7 +106,10 @@ fun HomeScreen(
         },
         floatingActionButton = {
             GlassFloatingActionButton( onClick = { LTNavDispatch.navigate("alma") } ) {
-                Icon(Icons.AutoMirrored.Filled.Chat, contentDescription = "Quick Chat")
+                Icon(Icons.AutoMirrored.Filled.Chat,
+                    contentDescription = "Quick Chat",
+                    tint = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onPrimary else Color.White
+                    )
             }
         },
         bottomBar = { AppBottomBar() },
@@ -151,7 +153,6 @@ fun HomeScreen(
                                 snackbarHostState.showSnackbar("Coming Soon. Stay Tuned")
                             }
                         },
-
                     )
                     Spacer(Modifier.height(18.dp))
                 }

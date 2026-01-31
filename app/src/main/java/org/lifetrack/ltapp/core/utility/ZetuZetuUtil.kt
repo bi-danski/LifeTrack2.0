@@ -4,11 +4,18 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.ui.unit.LayoutDirection
+import io.ktor.client.network.sockets.SocketTimeoutException
+import io.ktor.client.plugins.ClientRequestException
+import io.ktor.client.plugins.HttpRequestTimeoutException
+import io.ktor.client.plugins.ResponseException
+import io.ktor.client.plugins.ServerResponseException
+import io.ktor.http.HttpStatusCode
+import java.net.ConnectException
+import java.net.UnknownHostException
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-
 
 object ZetuZetuUtil {
 
@@ -22,42 +29,69 @@ object ZetuZetuUtil {
     fun generateInitials(name: String): String {
         return name.split(" ")
             .filter { it.isNotBlank() }
+            .take(2)
             .map { it.first() }
             .joinToString("")
             .uppercase()
     }
 
     fun formatTimestamp(timestamp: Long): String {
-        val date = Instant.ofEpochMilli(timestamp).atZone(ZoneId.systemDefault()).toLocalDate()
-        val time = Instant.ofEpochMilli(timestamp).atZone(ZoneId.systemDefault()).toLocalTime()
-            .format(DateTimeFormatter.ofPattern("hh:mm a"))
+        val zoneId = ZoneId.systemDefault()
+        val zonedDateTime = Instant.ofEpochMilli(timestamp).atZone(zoneId)
+        val date = zonedDateTime.toLocalDate()
+        val time = zonedDateTime.format(DateTimeFormatter.ofPattern("hh:mm a"))
+
         val today = LocalDate.now()
         val yesterday = today.minusDays(1)
 
         return when (date) {
-            today -> "$time"
+            today -> time
             yesterday -> "Yesterday • $time"
             else -> date.format(DateTimeFormatter.ofPattern("dd MMM yyyy")) + " • $time"
         }
     }
 
     fun sanitizeErrorMessage(e: Exception): String {
-        val localizedMsg = e.localizedMessage!!
         return when (e) {
-            is io.ktor.client.network.sockets.ConnectTimeoutException, is java.net.ConnectException -> "Unable to connect to the server. Please check your internet connection."
-            is io.ktor.client.plugins.HttpRequestTimeoutException -> "The request took too long. Please try again."
-            else ->
-                if (localizedMsg.contains("https")) {
-                   localizedMsg
-                       .substringAfter(".app")
-                       .replace(Regex("[\\\\(){}]"), "")
-                       .replace(Regex("/[^/\\s]+/[^/\\s]+"), "")
-                       .replace(Regex("\\s+"), " ")
-                       .trim()
-                }else{
-                    localizedMsg
+            is UnknownHostException ->
+                "Unable to reach the server. Please check your internet connection."
+
+            is ConnectException ->
+                "Connection failed. The server might be down or unreachable."
+
+            is SocketTimeoutException, is HttpRequestTimeoutException ->
+                "The request timed out. Please try again later."
+
+            is ClientRequestException -> {
+                when (e.response.status) {
+                    HttpStatusCode.Unauthorized -> "Invalid email or password. Please try again."
+                    HttpStatusCode.BadRequest -> "Invalid credentials format. Please check your input."
+                    HttpStatusCode.Conflict -> "This account already exists."
+                    HttpStatusCode.Forbidden -> "Access denied. Please contact support."
+                    else -> "Client error: ${e.response.status.description}"
                 }
+            }
+
+            is ServerResponseException -> {
+                "Something went wrong on our end. Please try again shortly."
+            }
+
+            is ResponseException -> {
+                "Network error: ${e.response.status.description}"
+            }
+
+            else -> {
+                val msg = e.localizedMessage ?: "An unexpected error occurred. Try again shortly"
+
+                if (msg.contains("http")) {
+                    msg.substringAfterLast(":")
+                        .replace(Regex("[\\\\(){}\\[\\]]"), "")
+                        .trim()
+                        .ifBlank { "Network request failed." }
+                } else {
+                    msg
+                }
+            }
         }
     }
-
 }

@@ -57,7 +57,6 @@ import org.lifetrack.ltapp.ui.state.UIState
 fun LoginScreen(authPresenter: AuthPresenter, sharedPresenter: SharedPresenter) {
     val loginInfo by authPresenter.loginInfo.collectAsState()
     val authUiState by authPresenter.uiState.collectAsState()
-
     val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
     var passwordVisibility by remember { mutableStateOf(false) }

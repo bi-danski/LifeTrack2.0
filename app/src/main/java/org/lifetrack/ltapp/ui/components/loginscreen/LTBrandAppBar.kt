@@ -1,5 +1,6 @@
 package org.lifetrack.ltapp.ui.components.loginscreen
 
+//import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
@@ -17,16 +18,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.CompositingStrategy
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
-import org.lifetrack.ltapp.R
-import kotlinx.coroutines.delay
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
+import org.lifetrack.ltapp.R
 import org.lifetrack.ltapp.presenter.SharedPresenter
-//import androidx.compose.ui.tooling.preview.Preview
+import org.lifetrack.ltapp.ui.theme.AvailableColor
 import org.lifetrack.ltapp.ui.theme.Purple40
 import org.lifetrack.ltapp.ui.theme.Purple80
+import org.lifetrack.ltapp.ui.theme.ShadowColor
 
 @Composable
 fun LTBrandAppBar(modifier: Modifier = Modifier, sharedPresenter: SharedPresenter) {
@@ -67,9 +69,10 @@ fun LTBrandAppBar(modifier: Modifier = Modifier, sharedPresenter: SharedPresente
         )
         Text(
             text = "Better Healthcare, Simplified",
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurface
-//            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+            style = MaterialTheme.typography.bodySmall.copy(
+                fontWeight = FontWeight.Black
+            ),
+            color = if (isSystemInDarkTheme()) ShadowColor else AvailableColor
         )
     }
 }

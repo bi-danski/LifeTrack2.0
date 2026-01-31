@@ -17,6 +17,7 @@ import org.lifetrack.ltapp.model.data.dclass.AuthResult
 import org.lifetrack.ltapp.model.data.dclass.LoginInfo
 import org.lifetrack.ltapp.model.data.dclass.SignUpInfo
 import org.lifetrack.ltapp.model.data.dclass.TokenPreferences
+import org.lifetrack.ltapp.model.data.dto.SessionInfo
 
 class AuthRepositoryImpl(
     private val client: HttpClient,
@@ -30,10 +31,7 @@ class AuthRepositoryImpl(
                 setBody(loginInfo.toLoginRequest())
             }
             if (response.status == HttpStatusCode.OK) {
-                val tokens = response.body<TokenPreferences>()
-                // Atomic update to the root AppPreferences via PreferenceRepository
-                prefs.updateTokenPreferences(tokens.accessToken, tokens.refreshToken)
-                AuthResult.SuccessWithData(tokens)
+                AuthResult.SuccessWithData(response.body<SessionInfo>())
             } else {
                 AuthResult.Error("Invalid credentials. Please check your email and password.")
             }
@@ -68,6 +66,7 @@ class AuthRepositoryImpl(
         } catch (_: Exception) {
             null
         }
+
         if (currentRefreshToken.isNullOrBlank()) {
             return AuthResult.Error("No refresh token found")
         }

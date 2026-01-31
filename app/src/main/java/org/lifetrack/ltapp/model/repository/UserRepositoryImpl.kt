@@ -10,6 +10,7 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import kotlinx.coroutines.flow.first
 import org.lifetrack.ltapp.core.exception.NoInternetException
 import org.lifetrack.ltapp.model.data.dclass.AuthResult
 import org.lifetrack.ltapp.model.data.dto.PwdRestoreRequest
@@ -23,7 +24,7 @@ class UserRepositoryImpl(
 ) : UserRepository {
 
     override suspend fun getCurrentUserInfo(): AuthResult {
-        val currentTokens = prefRepository.tokenPreferences.value
+        val currentTokens = prefRepository.tokenPreferences.first()
         if (currentTokens.accessToken.isNullOrBlank()) {
             return AuthResult.Error("No active session found")
         }

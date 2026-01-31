@@ -61,6 +61,32 @@ class AuthPresenter(
     fun onSignupInfoUpdate(info: SignUpInfo) {
         _signupInfo.value = info
     }
+    fun resetUIState() {
+        viewModelScope.launch {
+            _uiState.emit(UIState.Idle)
+        }
+    }
+
+    fun signUp() {
+        viewModelScope.launch {
+            _uiState.emit(UIState.Loading)
+            when (val result = authRepository.signUp(_signupInfo.value)) {
+                is AuthResult.Success -> {
+                    _uiEvent.send(AuthUiEvent.SignupSuccess)
+                }
+                is AuthResult.SuccessWithData<*> -> {
+                    _uiState.emit(UIState.Success(result.data as? String))
+                }
+                is AuthResult.Error -> _uiState.emit(
+                    UIState.Error(
+                        result.message,
+                        isNetworkError = result.isNetworkError
+                    )
+                )
+                else -> _uiState.emit(UIState.Idle)
+            }
+        }
+    }
 
     fun login() {
         viewModelScope.launch {
