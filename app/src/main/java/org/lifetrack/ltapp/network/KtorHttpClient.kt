@@ -102,7 +102,7 @@ object KtorHttpClient {
                                 null
                             }
                         } catch (e: Exception) {
-                            Log.e("KtorAuth", "Refresh attempt failed", e)
+                            Log.e("KtorAuth", "Rotation attempt failed", e)
                             null
                         }
                     }
@@ -120,7 +120,7 @@ object KtorHttpClient {
                 validateResponse { response ->
                     val path = response.call.request.url.encodedPath
                     if (response.status == HttpStatusCode.Unauthorized && path.endsWith("/auth/refresh")) {
-                        Log.e("KtorValidator", "Session totally invalid. Wiping.")
+                        Log.e("KtorValidator", "Refresh token invalid. Wiping all Session data.")
                         koinScope.launch {
                             prefs.clearAllSessions()
                         }
