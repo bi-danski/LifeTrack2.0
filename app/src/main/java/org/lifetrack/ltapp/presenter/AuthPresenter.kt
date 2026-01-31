@@ -15,12 +15,12 @@ import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.core.events.AuthUiEvent
 import org.lifetrack.ltapp.core.utility.toProfileInfo
 import org.lifetrack.ltapp.core.utility.toUserPreferences
-import org.lifetrack.ltapp.core.utility.toUserProfileInformation
+import org.lifetrack.ltapp.core.utility.toUserProfileInfo
 import org.lifetrack.ltapp.model.data.dclass.AuthResult
 import org.lifetrack.ltapp.model.data.dclass.LoginInfo
 import org.lifetrack.ltapp.model.data.dclass.ProfileInfo
 import org.lifetrack.ltapp.model.data.dclass.SignUpInfo
-import org.lifetrack.ltapp.model.data.dclass.TokenPreferences
+import org.lifetrack.ltapp.model.data.dto.SessionInfo
 import org.lifetrack.ltapp.model.data.dto.UserDataResponse
 import org.lifetrack.ltapp.model.repository.AuthRepository
 import org.lifetrack.ltapp.model.repository.PreferenceRepository
@@ -55,51 +55,24 @@ class AuthPresenter(
     private val _signupInfo = MutableStateFlow(SignUpInfo())
     val signupInfo = _signupInfo.asStateFlow()
 
-    private val _isRefreshing = MutableStateFlow(false)
-    val isRefreshing = _isRefreshing.asStateFlow()
-
-    fun resetUIState() {
-        viewModelScope.launch {
-            _uiState.emit(UIState.Idle)
-        }
+    fun onLoginInfoUpdate(info: LoginInfo) {
+        _loginInfo.value = info
     }
-
-    fun onLoginInfoUpdate(info: LoginInfo) { _loginInfo.value = info }
-    fun onSignupInfoUpdate(info: SignUpInfo) { _signupInfo.value = info }
+    fun onSignupInfoUpdate(info: SignUpInfo) {
+        _signupInfo.value = info
+    }
 
     fun login() {
         viewModelScope.launch {
             _uiState.emit(UIState.Loading)
             when (val result = authRepository.login(_loginInfo.value)) {
                 is AuthResult.SuccessWithData<*> -> {
-                    val sessionTokens = result.data as TokenPreferences
-                    sessionManager.updateSessionTokens(sessionTokens.accessToken, sessionTokens.refreshToken)
+                    sessionManager.updateSessionPreferences(result.data as SessionInfo)
                     _uiState.emit(UIState.Success("Welcome back!"))
-                    loadUserProfile()
                 }
                 is AuthResult.Error -> {
-                    _uiState.emit(UIState.Error(
-                        msg = result.message,
-                        isNetworkError = result.isNetworkError
-                    ))
+                    _uiState.emit(UIState.Error(result.message, result.isNetworkError))
                 }
-                is AuthResult.Success -> _uiState.emit(UIState.Success())
-                else -> _uiState.emit(UIState.Idle)
-            }
-        }
-    }
-
-    fun signUp() {
-        viewModelScope.launch {
-            _uiState.emit(UIState.Loading)
-            when (val result = authRepository.signUp(_signupInfo.value)) {
-                is AuthResult.Success -> { _uiEvent.send(AuthUiEvent.SignupSuccess) }
-                is AuthResult.SuccessWithData<*> -> {
-                    _uiState.emit(UIState.Success(result.data as? String))
-                }
-                is AuthResult.Error -> _uiState.emit(UIState.Error(result.message,
-                    isNetworkError = result.isNetworkError)
-                )
                 else -> _uiState.emit(UIState.Idle)
             }
         }
@@ -108,43 +81,28 @@ class AuthPresenter(
     fun logout() {
         viewModelScope.launch {
             _uiState.emit(UIState.Loading)
-            when (val result = authRepository.logout()) {
-                is AuthResult.Success -> {
-                    sessionManager.logout()
-                    _uiState.emit(UIState.Success("Logout Success"))
-                    LTNavDispatch.navigate("login", clearBackstack = true)
-                }
-                is AuthResult.Error -> {
-                    _uiState.emit(UIState.Error(
-                        msg = result.message,
-                        isNetworkError = result.isNetworkError
-                    ))
-                }
-                else -> _uiState.emit(UIState.Idle)
-            }
+            sessionManager.logout()
+            _uiState.emit(UIState.Success("Logout Success"))
+            LTNavDispatch.navigate("login", clearBackstack = true)
         }
     }
 
     fun loadUserProfile() {
         viewModelScope.launch(Dispatchers.IO) {
-            val currentPrefs = prefRepository.userPreferences.first()
-            if (currentPrefs.isDefault) {
+            if (prefRepository.userPreferences.first().isDefault) {
                 _uiState.emit(UIState.Loading)
                 when (val result = userRepository.getCurrentUserInfo()) {
                     is AuthResult.SuccessWithData<*> -> {
                         val data = result.data as? UserDataResponse
                         data?.let { user ->
                             prefRepository.updateUserPreferences {
-                                user.toUserProfileInformation().toUserPreferences()
+                                user.toUserProfileInfo().toUserPreferences()
                             }
                         }
                         _uiState.emit(UIState.Idle)
                     }
                     is AuthResult.Error -> {
-                        _uiState.emit(UIState.Error(
-                            msg = result.message,
-                            isNetworkError = result.isNetworkError
-                        ))
+                        _uiState.emit(UIState.Error(result.message, result.isNetworkError))
                     }
                     else -> _uiState.emit(UIState.Idle)
                 }

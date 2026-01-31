@@ -49,7 +49,8 @@ data class ProfileInfo(
     val userPhoneNumber: String = "Loading...",
     val createdAt: Instant? = null,
     val updatedAt: Instant? = null,
-    val lastLoginAt: Instant? = null
+    val lastLoginAt: Instant? = null,
+    val role: String = ""
 )
 
 data class LoginInfo(

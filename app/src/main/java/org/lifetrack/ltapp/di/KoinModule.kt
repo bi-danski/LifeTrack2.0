@@ -16,9 +16,7 @@ import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
-import org.lifetrack.ltapp.model.datastore.LTPreferenceSerializer
-import org.lifetrack.ltapp.model.datastore.TokenPreferenceSerializer
-import org.lifetrack.ltapp.model.datastore.UserPreferenceSerializer
+import org.lifetrack.ltapp.model.datastore.LTPrefSerializer
 import org.lifetrack.ltapp.model.repository.AuthRepository
 import org.lifetrack.ltapp.model.repository.AuthRepositoryImpl
 import org.lifetrack.ltapp.model.repository.ChatRepository
@@ -39,19 +37,9 @@ import org.lifetrack.ltapp.presenter.TLinePresenter
 import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.service.AlmaService
 
-private val Context.tokenDataStore by dataStore(
-    fileName = "_prefs.json",
-    serializer = TokenPreferenceSerializer
-)
 
-private val Context.ltDataStore by dataStore(
-    fileName = "lt_prefs.json",
-    serializer = LTPreferenceSerializer
-)
-
-private val Context.userDataStore by dataStore(
-    fileName = "_u_prefs.json",
-    serializer = UserPreferenceSerializer
+private val Context.ltDataStore by dataStore(fileName = "_lt_prefs.json",
+    serializer = LTPrefSerializer
 )
 
 @OptIn(ExperimentalRoomApi::class)
@@ -60,16 +48,8 @@ val koinModule = module {
         CoroutineScope(SupervisorJob() + Dispatchers.Default)
     }
 
-    single(named("tokenStore"), createdAtStart = false) {
-        androidContext().tokenDataStore
-    }
-
     single(named("ltStore"), createdAtStart = false) {
         androidContext().ltDataStore
-    }
-
-    single(named("userStore"), createdAtStart = false) {
-        androidContext().userDataStore
     }
 
     single(createdAtStart = false) {
@@ -85,14 +65,10 @@ val koinModule = module {
             .setInMemoryTrackingMode(true)
             .build()
     }
-    single(createdAtStart = false) {
-        get<LTRoomDatabase>().chatDao()
-    }
+    single(createdAtStart = false) { get<LTRoomDatabase>().chatDao() }
 
     single(createdAtStart = false) {
-        NetworkObserver(
-            androidContext(),
-            get(named("koinScope"))
+        NetworkObserver(androidContext(), get(named("koinScope"))
         )
     }
     KotzillaSDK.trace("KtorHttpClient::Trace") {
@@ -108,8 +84,6 @@ val koinModule = module {
         single(createdAtStart = false) {
             PreferenceRepository(
                 get(named("ltStore")),
-                get(named("tokenStore")),
-                get(named("userStore")),
                 get(named("koinScope"))
             )
         }

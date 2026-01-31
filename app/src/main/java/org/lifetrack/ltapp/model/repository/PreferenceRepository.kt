@@ -5,84 +5,68 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import org.lifetrack.ltapp.model.data.dclass.AppPreferences
 import org.lifetrack.ltapp.model.data.dclass.LTPreferences
 import org.lifetrack.ltapp.model.data.dclass.TokenPreferences
 import org.lifetrack.ltapp.model.data.dclass.UserPreferences
 import java.io.IOException
 
-
 class PreferenceRepository(
-    private val ltDataStore: DataStore<LTPreferences>,
-    private val tokenDataStore: DataStore<TokenPreferences>,
-    private val userDataStore: DataStore<UserPreferences>,
+    private val appDataStore: DataStore<AppPreferences>,
     private val scope: CoroutineScope
 ) {
-
-    val tokenPreferences: StateFlow<TokenPreferences> = tokenDataStore.data
+    // Single source of truth root flow
+    val appPreferences: StateFlow<AppPreferences> = appDataStore.data
         .catch { e ->
-            if (e is IOException) emit(TokenPreferences()) else throw e
-        }
-        .stateIn(
-            scope = scope,
-            started = SharingStarted.Eagerly,
-            initialValue = TokenPreferences()
-        )
-
-    val ltPreferences: StateFlow<LTPreferences> = ltDataStore.data
-        .catch { e ->
-            if (e is IOException) emit(LTPreferences()) else throw e
-        }
-        .stateIn(
-            scope = scope,
-            started = SharingStarted.WhileSubscribed(5000L),
-            initialValue = LTPreferences()
-        )
-
-    val userPreferences: StateFlow<UserPreferences> = userDataStore.data
-        .catch { e ->
-            if (e is IOException) emit(UserPreferences()) else throw e
+            if (e is IOException) emit(AppPreferences()) else throw e
         }.stateIn(
             scope = scope,
             started = SharingStarted.WhileSubscribed(5000L),
-            initialValue = UserPreferences()
+            initialValue = AppPreferences()
         )
 
+    val tokenPreferences = appPreferences
+        .map { it.tokenDatastore }
+        .distinctUntilChanged()
 
-    suspend fun updateLTPreferences(transform: (LTPreferences) -> LTPreferences) {
-        ltDataStore.updateData { transform(it) }
+    val userPreferences = appPreferences
+        .map { it.userDatastore }
+        .distinctUntilChanged()
+
+    val ltPreferences = appPreferences
+        .map { it.ltDatastore }
+        .distinctUntilChanged()
+
+    private suspend fun updateAppPreferences(transform: (AppPreferences) -> AppPreferences) {
+        appDataStore.updateData { current -> transform(current) }
     }
 
-    suspend fun updateUserPreferences(transform: (UserPreferences) -> UserPreferences) {
-        userDataStore.updateData {
-            transform(it)
-        }
-    }
-    suspend fun updateTokens(accessToken: String?, refreshToken: String?) {
-        tokenDataStore.updateData { current ->
-            current.copy(
+    suspend fun updateTokenPreferences(accessToken: String?, refreshToken: String?) {
+        updateAppPreferences { it.copy(
+            tokenDatastore = it.tokenDatastore.copy(
                 accessToken = accessToken,
                 refreshToken = refreshToken
             )
-        }
+        )}
     }
 
-    suspend fun clearTokenPreferences() {
-        tokenDataStore.updateData {
-            TokenPreferences()
-        }
+    suspend fun updateUserPreferences(transform: (UserPreferences) -> UserPreferences) {
+        updateAppPreferences { it.copy(userDatastore = transform(it.userDatastore)) }
     }
 
-    suspend fun clearUserPreferences(){
-        userDataStore.updateData {
-            UserPreferences()
-        }
+    suspend fun updateLTPreferences(transform: (LTPreferences) -> LTPreferences) {
+        updateAppPreferences { it.copy(ltDatastore = transform(it.ltDatastore)) }
     }
 
-//    suspend fun clearLTPreferences(){ ltDataStore.updateData { LTPreferences() } }
-
-    suspend fun clearAllSessions(){
-        clearUserPreferences()
-        clearTokenPreferences()
+    suspend fun clearAllSessions() {
+        updateAppPreferences {
+            it.copy(
+                userDatastore = UserPreferences(),
+                tokenDatastore = TokenPreferences()
+            )
+        }
     }
 }

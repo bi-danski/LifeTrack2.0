@@ -58,7 +58,7 @@ fun SignUpInfo.toSignUpRequest(): SignUpRequest{
     )
 }
 
-fun UserDataResponse.toUserProfileInformation(): ProfileInfo{
+fun UserDataResponse.toUserProfileInfo(): ProfileInfo{
     val displayName = this.fullName ?: "N/A"
     return ProfileInfo(
         userName = this.userName.replaceFirstChar { it.uppercase() },
@@ -67,7 +67,8 @@ fun UserDataResponse.toUserProfileInformation(): ProfileInfo{
         userPhoneNumber = this.phoneNumber.toString(),
         userInitials = ZetuZetuUtil.generateInitials(displayName),
         createdAt = this.createdAt,
-        updatedAt = this.updatedAt
+        updatedAt = this.updatedAt,
+        role = this.role
     )
 }
 
@@ -80,7 +81,8 @@ fun ProfileInfo.toUserPreferences(): UserPreferences{
         userPhoneNumber = this.userPhoneNumber,
         createdAt = this.createdAt,
         updatedAt = this.updatedAt,
-        lastLoginAt = this.lastLoginAt
+        lastLoginAt = this.lastLoginAt,
+        userRole = this.role
     )
 }
 

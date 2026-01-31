@@ -31,7 +31,7 @@ class AuthRepositoryImpl(
             }
             if (response.status == HttpStatusCode.OK) {
                 val tokens = response.body<TokenPreferences>()
-                prefs.updateTokens(tokens.accessToken, tokens.refreshToken)
+                prefs.updateTokenPreferences(tokens.accessToken, tokens.refreshToken)
                 AuthResult.SuccessWithData(tokens)
             }else {
                 AuthResult.Error("Invalid credentials. Please check your email and password.")
@@ -75,13 +75,13 @@ class AuthRepositoryImpl(
             if (response.status == HttpStatusCode.OK) {
                 val newTokens = response.body<TokenPreferences>()
 
-                prefs.updateTokens(
+                prefs.updateTokenPreferences(
                     accessToken = newTokens.accessToken,
                     refreshToken = newTokens.refreshToken
                 )
                 AuthResult.Success
             } else {
-                prefs.updateTokens(null, null)
+                prefs.updateTokenPreferences(null, null)
                 AuthResult.Error("Session expired. Please login again.")
             }
         }catch(_: NoInternetException){

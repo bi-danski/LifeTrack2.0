@@ -30,7 +30,18 @@ data class UserPreferences(
     val userPhoneNumber: String = "",
     val updatedAt: Instant? = null,
     val createdAt: Instant? = null,
-    val lastLoginAt: Instant? = null
+    val lastLoginAt: Instant? = null,
+    val userRole: String = ""
 ) {
     val isDefault: Boolean get() = userEmail.isBlank()
 }
+
+@Serializable
+data class AppPreferences(
+    val tokenDatastore: TokenPreferences = TokenPreferences(),
+    val userDatastore: UserPreferences = UserPreferences(),
+    val ltDatastore: LTPreferences = LTPreferences()
+)
+
+
+

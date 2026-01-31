@@ -231,7 +231,7 @@ object KtorHttpClient {
                                 val newTokens = response.body<TokenPreferences>()
 
                                 koinScope.launch {
-                                    prefs.updateTokens(
+                                    prefs.updateTokenPreferences(
                                         accessToken = newTokens.accessToken,
                                         refreshToken = newTokens.refreshToken
                                     )
