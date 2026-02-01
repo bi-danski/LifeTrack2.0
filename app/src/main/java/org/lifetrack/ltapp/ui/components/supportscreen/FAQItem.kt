@@ -2,12 +2,23 @@ package org.lifetrack.ltapp.ui.components.supportscreen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
-import androidx.compose.material3.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,17 +37,15 @@ fun FAQItem(question: String, answer: String) {
             .clickable(onClick = { expanded = !expanded }),
         colors = CardDefaults.cardColors(
             containerColor = if (expanded) {
-                MaterialTheme.colorScheme.primaryContainer
+                if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primaryContainer.copy(0.5f)
+                    else MaterialTheme.colorScheme.primaryContainer
             }else{
-                if (isSystemInDarkTheme()){
-                    MaterialTheme.colorScheme.primaryContainer.copy(0.4f)
-                }else {
-                    MaterialTheme.colorScheme.primaryContainer
-                }
+                if (isSystemInDarkTheme()) MaterialTheme.colorScheme.background//MaterialTheme.colorScheme.primaryContainer.copy(0.1f)
+                    else MaterialTheme.colorScheme.primaryContainer
             }
         ),
         shape = RoundedCornerShape(12.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)// if (expanded) 4.dp else 1.dp)
+//        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)// if (expanded) 4.dp else 1.dp)
     ) {
         Column(
             modifier = Modifier
@@ -59,10 +68,7 @@ fun FAQItem(question: String, answer: String) {
                     imageVector = if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
                     contentDescription = if (expanded) "Collapse" else "Expand",
                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier
-                        .clickable(onClick = {
-                            expanded = !expanded
-                        })
+                    modifier = Modifier.clickable(onClick = { expanded = !expanded } )
                 )
             }
 

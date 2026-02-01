@@ -76,9 +76,10 @@ fun ContactItem(icon: ImageVector, label: String, value: String, onClick: () -> 
             .padding(vertical = 4.dp)
             .clickable(onClick = onClick),
         colors = CardDefaults.cardColors(
-            containerColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primaryContainer.copy(.2f) else MaterialTheme.colorScheme.primaryContainer
+            containerColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.background//MaterialTheme.colorScheme.primaryContainer.copy(.2f)
+                else MaterialTheme.colorScheme.primaryContainer
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
+//        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
         shape = RoundedCornerShape(12.dp)
     ) {
         Row(

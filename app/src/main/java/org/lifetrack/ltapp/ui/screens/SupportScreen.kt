@@ -34,6 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import org.lifetrack.ltapp.core.utility.openDialer
 import org.lifetrack.ltapp.core.utility.openEmail
+import org.lifetrack.ltapp.core.utility.openSMS
 import org.lifetrack.ltapp.ui.components.supportscreen.ContactItem
 import org.lifetrack.ltapp.ui.components.supportscreen.FAQItem
 import org.lifetrack.ltapp.ui.components.supportscreen.SectionCard
@@ -60,16 +61,15 @@ fun SupportScreen() {
                         Icon(
                             Icons.Default.ArrowCircleLeft,
                             contentDescription = "Back",
-//                            tint = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primaryContainer else Purple40,
+                    containerColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.background else Purple40,
+                    titleContentColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onPrimary,
                     scrolledContainerColor = Color.Unspecified,
-                    navigationIconContentColor = Color.Unspecified,
-                    titleContentColor = Color.White, // MaterialTheme.colorScheme.onPrimaryContainer,
-                    actionIconContentColor = Color.White, // MaterialTheme.colorScheme.onPrimaryContainer
+                    navigationIconContentColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onPrimary,
+                    actionIconContentColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onPrimary, //Color.White,
                 )
             )
         },
@@ -126,19 +126,19 @@ fun SupportScreen() {
                         icon = Icons.Default.Email,
                         label = "Email Support",
                         value = "support@lifetrack.org",
-                        onClick = { context.openEmail("support@lifetrack.app") }
+                        onClick = { context.openEmail("support@lifetrack.org") }
                     )
                     ContactItem(
                         icon = Icons.Default.Phone,
                         label = "Phone Support",
-                        value = "+254 790 938 365",
-                        onClick = { context.openDialer("+254790038365") }
+                        value = "+254790938365",
+                        onClick = { context.openDialer("+254790938365") }
                     )
                     ContactItem(
                         icon = Icons.AutoMirrored.Default.Chat,
                         label = "Live Chat",
                         value = "Available 24/7",
-                        onClick = { }
+                        onClick = { context.openSMS("+254790938365") }
                     )
                 }
             }
@@ -150,7 +150,7 @@ fun SupportScreen() {
                 ) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "By Enabling this, you allow Alma A.I Assistant and the Doctors assigned to have access to all your health records information for better guidance and treatment",
+                        text = "By Enabling this, You allow Alma A.I Assistant and your Practitioners to have access to all your health records information for better guidance and treatment.",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(start = 10.dp , end = 10.dp)

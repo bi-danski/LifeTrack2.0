@@ -30,7 +30,7 @@ accompanist= "0.36.0"
 coreSplashScreen = "1.2.0"
 datastorePreferences = "1.2.0"
 slf4j = "2.0.17"
-kotzilla = "1.4.2"
+#kotzilla = "1.4.2"
 #googleGmsGoogleServices = "4.4.4"
 #firebaseMessaging = "25.0.1"
 
@@ -82,7 +82,7 @@ koin-android = { module = "io.insert-koin:koin-android" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose" }
 koin-androidx-compose-navigation = { module = "io.insert-koin:koin-androidx-compose-navigation" }
 koin-androidx-startup = { module = "io.insert-koin:koin-androidx-startup" }
-kotzilla-sdk-compose = { group = "io.kotzilla", name = "kotzilla-sdk-compose", version.ref = "kotzilla" }
+#kotzilla-sdk-compose = { group = "io.kotzilla", name = "kotzilla-sdk-compose", version.ref = "kotzilla" }
 
 accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
 accompanist-navigation-animation = { group = "com.google.accompanist", name = "accompanist-navigation-animation", version.ref = "accompanist" }
@@ -104,6 +104,6 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-kotzilla = { id = "io.kotzilla.kotzilla-plugin", version.ref = "kotzilla" }
+#kotzilla = { id = "io.kotzilla.kotzilla-plugin", version.ref = "kotzilla" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp"}
 #google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }

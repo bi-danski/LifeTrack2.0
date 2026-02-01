@@ -10,7 +10,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.kotzilla)
+//    alias(libs.plugins.kotzilla)
     id("kotlin-parcelize")
 //    alias(libs.plugins.google.gms.google.services)
 }
@@ -148,7 +148,7 @@ dependencies {
     implementation(libs.koin.androidx.compose)
     implementation(libs.koin.androidx.compose.navigation)
     implementation(libs.koin.androidx.startup)
-    implementation(libs.kotzilla.sdk.compose)
+//    implementation(libs.kotzilla.sdk.compose)
 
     implementation(libs.charts)
     implementation(libs.room.ktx)
@@ -170,6 +170,6 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 }
 
-kotzilla {
-    composeInstrumentation = true
-}
+//kotzilla {
+//    composeInstrumentation = true
+//}

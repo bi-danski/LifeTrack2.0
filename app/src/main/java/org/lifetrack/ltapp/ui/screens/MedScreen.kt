@@ -124,7 +124,7 @@ fun TimeLineScreen(presenter: TLinePresenter) {
                         IconButton(onClick = presenter::openFilterSheet) { Icon(Icons.Default.FilterList, null, tint = Color.White) }
                     }
                 },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = if (isDark) MaterialTheme.colorScheme.background else Purple40,
                 )
             )
