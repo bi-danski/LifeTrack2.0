@@ -28,8 +28,6 @@ import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -79,9 +77,9 @@ fun ProfileScreen(authPresenter: AuthPresenter, userPresenter: UserPresenter) {
 
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
-        topBar = {
-            TopAppBar(
-                title = { Text(text = "Profile") },
+//        topBar = {
+//            TopAppBar(
+//                title = { Text(text = "Profile") },
 //                navigationIcon = {
 //                    IconButton({ LTNavDispatch.navigateBack() }) {
 //                        Icon(
@@ -92,12 +90,12 @@ fun ProfileScreen(authPresenter: AuthPresenter, userPresenter: UserPresenter) {
 //                        )
 //                    }
 //                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = if (isSystemInDarkTheme()) colorScheme.primary.copy(0.1f) else Purple40,
-                    titleContentColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onPrimary
-                )
-            )
-        },
+//                colors = TopAppBarDefaults.topAppBarColors(
+//                    containerColor = if (isSystemInDarkTheme()) colorScheme.primary.copy(0.1f) else Purple40,
+//                    titleContentColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onPrimary
+//                )
+//            )
+//        },
         bottomBar = {
             AppBottomBar()
         }

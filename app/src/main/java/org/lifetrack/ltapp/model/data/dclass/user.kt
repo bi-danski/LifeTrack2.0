@@ -50,7 +50,7 @@ data class ProfileInfo(
     val createdAt: Instant? = null,
     val updatedAt: Instant? = null,
     val lastLoginAt: Instant? = null,
-    val role: String = ""
+    val role: String? = null
 )
 
 data class LoginInfo(

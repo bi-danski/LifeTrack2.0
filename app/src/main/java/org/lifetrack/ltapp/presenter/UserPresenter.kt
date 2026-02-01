@@ -35,9 +35,10 @@ class UserPresenter(
     val dummyLabTests =  mutableStateListOf<LabTest>().apply {
         addAll(LtMockData.dLabTests)
     }
-    val dummyPrescriptions =  mutableStateListOf<Prescription>().apply {
+    val dummyPrescriptions = mutableStateListOf<Prescription>().apply {
         addAll(LtMockData.dPrescriptions)
     }
+    var isBookingExpanded = mutableStateOf(false)
 
     private val _allAppointments = MutableStateFlow(LtMockData.dummyAppointments)
     private val _selectedFilter = MutableStateFlow(AppointmentStatus.UPCOMING)
@@ -75,15 +76,12 @@ class UserPresenter(
     fun onFilterChanged(newFilter: AppointmentStatus) {
         _selectedFilter.value = newFilter
     }
-
     fun onSelectDoctor(doctor: DoctorProfile) {
         _selectedDoctorProfile.value = doctor
     }
-
     fun clearError() {
         _errorMessage.value = null
     }
-
     fun getCountForStatus(status: AppointmentStatus): Int {
         return _allAppointments.value.count { it.status == status }
     }

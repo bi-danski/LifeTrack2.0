@@ -31,7 +31,7 @@ data class UserPreferences(
     val updatedAt: Instant? = null,
     val createdAt: Instant? = null,
     val lastLoginAt: Instant? = null,
-    val userRole: String = ""
+    val userRole: String? = null
 ) {
     val isDefault: Boolean get() = userEmail.isBlank()
 }

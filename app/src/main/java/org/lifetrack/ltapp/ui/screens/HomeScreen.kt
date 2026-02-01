@@ -109,7 +109,7 @@ fun HomeScreen(
                 Icon(Icons.AutoMirrored.Filled.Chat,
                     contentDescription = "Quick Chat",
                     tint = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onPrimary else Color.White
-                    )
+                )
             }
         },
         bottomBar = { AppBottomBar() },
@@ -128,7 +128,7 @@ fun HomeScreen(
             item(span = { GridItemSpan(maxLineSpan) }) {
                 Column {
                     Spacer(Modifier.height(8.dp))
-                    AppTopBar(userInfo.value.userName)
+                    AppTopBar(username = userInfo.value.userName, role = userInfo.value.role ?: "...")
                     Spacer(Modifier.height(18.dp))
                     LtHomeCarousel(
                         isCarouselAutoRotateEnabled = ltSettings.carouselAutoRotate,

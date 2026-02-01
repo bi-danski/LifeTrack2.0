@@ -95,7 +95,8 @@ fun UserPreferences.toProfileInfo(): ProfileInfo {
         userPhoneNumber = this.userPhoneNumber.ifBlank { "Loading ..." },
         createdAt = this.createdAt,
         updatedAt = this.updatedAt,
-        lastLoginAt = this.lastLoginAt
+        lastLoginAt = this.lastLoginAt,
+        role = this.userRole?.lowercase()?.replaceFirstChar { it.uppercase() }
     )
 }
 

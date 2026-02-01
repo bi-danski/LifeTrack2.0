@@ -1,6 +1,5 @@
 package org.lifetrack.ltapp.ui.components.appointscreen
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -35,7 +34,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.lifetrack.ltapp.model.data.dclass.DoctorProfile
 import org.lifetrack.ltapp.model.data.mock.LtMockData
-import org.lifetrack.ltapp.ui.theme.Purple40
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,13 +41,6 @@ fun DoctorSelectionDropDown(selectedDoctor: DoctorProfile?, onSelectDoctorProfil
     var expanded by remember { mutableStateOf(false) }
 
     Column {
-        Text(
-            "Book New Appointment",
-            fontWeight = FontWeight.ExtraBold,
-            style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.padding(bottom = 12.dp, top = 8.dp),
-            color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40
-        )
         ExposedDropdownMenuBox(
             expanded = expanded,
             onExpandedChange = { expanded = it }

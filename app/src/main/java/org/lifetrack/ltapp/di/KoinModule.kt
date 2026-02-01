@@ -71,7 +71,7 @@ val koinModule = module {
         NetworkObserver(androidContext(), get(named("koinScope"))
         )
     }
-    KotzillaSDK.trace("KtorHttpClient::Trace") {
+//    KotzillaSDK.trace("KtorHttpClient::Trace") {
         single(createdAtStart = false) {
             KtorHttpClient.create(
                 get(),
@@ -79,18 +79,28 @@ val koinModule = module {
                 get(named("koinScope"))
             )
         }
-    }
-    KotzillaSDK.trace("PreferenceRepository::Trace") {
+//    }
+//    KotzillaSDK.trace("PreferenceRepository::Trace") {
         single(createdAtStart = false) {
             PreferenceRepository(
                 get(named("ltStore")),
                 get(named("koinScope"))
             )
         }
-    }
+//    }
     single<AuthRepository>(createdAtStart = false) {
         AuthRepositoryImpl(get(), get())
     }
+
+//    KotzillaSDK.trace("SessionManager::Trace") {
+        single(createdAtStart = false) {
+            SessionManager(
+                get(),
+                get(),
+                get(named("koinScope"))
+            )
+        }
+//    }
 
     single<UserRepository>(createdAtStart = false) {
         UserRepositoryImpl(get(), get())
@@ -100,15 +110,7 @@ val koinModule = module {
         ChatRepository(get())
     }
 
-    KotzillaSDK.trace("SessionManager::Trace") {
-        single(createdAtStart = false) {
-            SessionManager(
-                get(),
-                get(),
-                get(named("koinScope"))
-            )
-        }
-    }
+
     single(createdAtStart = false) {
         AlmaService(get())
     }
