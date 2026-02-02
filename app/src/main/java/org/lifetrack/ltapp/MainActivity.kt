@@ -31,7 +31,7 @@ import org.koin.android.ext.android.inject
 import org.lifetrack.ltapp.core.notification.DroidNotification
 import org.lifetrack.ltapp.model.data.dclass.SessionStatus
 import org.lifetrack.ltapp.network.NetworkObserver
-import org.lifetrack.ltapp.presenter.SessionManager
+import org.lifetrack.ltapp.service.SessionManager
 import org.lifetrack.ltapp.ui.components.other.LTRetry
 import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 import org.lifetrack.ltapp.ui.navigation.LTNavTarget

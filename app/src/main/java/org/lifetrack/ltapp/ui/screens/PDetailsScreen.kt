@@ -105,7 +105,12 @@ fun PDetailScreen(prescription: Prescription, authPresenter: AuthPresenter) {
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = if (isSystemInDarkTheme()) Color(0xFF121212) else Purple40
+                    containerColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.background else Purple40,
+                    titleContentColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onPrimary,
+                    scrolledContainerColor = Color.Unspecified,
+                    navigationIconContentColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onPrimary,
+                    actionIconContentColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onPrimary, //Color.White,
+//                    containerColor = if (isSystemInDarkTheme()) Color(0xFF121212) else Purple40
                 )
             )
         }

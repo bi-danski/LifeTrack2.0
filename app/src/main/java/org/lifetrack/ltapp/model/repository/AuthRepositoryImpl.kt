@@ -2,6 +2,7 @@ package org.lifetrack.ltapp.model.repository
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.plugins.auth.clearAuthTokens
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.bodyAsText
@@ -31,6 +32,7 @@ class AuthRepositoryImpl(
                 setBody(loginInfo.toLoginRequest())
             }
             if (response.status == HttpStatusCode.OK) {
+                client.clearAuthTokens()
                 AuthResult.SuccessWithData(response.body<SessionInfo>())
             } else {
                 AuthResult.Error("Invalid credentials. Please check your email and password.")
@@ -101,10 +103,12 @@ class AuthRepositoryImpl(
                 contentType(ContentType.Application.Json)
             }
             if (response.status == HttpStatusCode.OK) {
+                client.clearAuthTokens()
                 AuthResult.Success
             } else {
                 AuthResult.Error(response.bodyAsText())
             }
+
         } catch (_: NoInternetException) {
             AuthResult.Error(isNetworkError = true, message = "No Internet Connection")
         } catch (ex: Exception) {

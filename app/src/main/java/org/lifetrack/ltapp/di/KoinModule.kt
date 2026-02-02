@@ -31,7 +31,7 @@ import org.lifetrack.ltapp.presenter.ChatPresenter
 import org.lifetrack.ltapp.presenter.FUVPresenter
 import org.lifetrack.ltapp.presenter.HomePresenter
 import org.lifetrack.ltapp.presenter.PrescPresenter
-import org.lifetrack.ltapp.presenter.SessionManager
+import org.lifetrack.ltapp.service.SessionManager
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.presenter.TLinePresenter
 import org.lifetrack.ltapp.presenter.UserPresenter

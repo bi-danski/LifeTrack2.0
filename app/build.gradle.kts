@@ -149,18 +149,25 @@ dependencies {
     implementation(libs.koin.androidx.compose.navigation)
     implementation(libs.koin.androidx.startup)
 //    implementation(libs.kotzilla.sdk.compose)
+//    implementation(libs.firebase.messaging)
 
-    implementation(libs.charts)
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)
     implementation(libs.room.compiler)
-    implementation(libs.mpandroidchart)
-//    implementation(libs.firebase.messaging)
-
     ksp(libs.room.compiler)
+
     implementation(libs.slf4j.nop)
     implementation(libs.accompanist.systemuicontroller)
     implementation(libs.accompanist.navigation.animation)
+
+    implementation(libs.charts)
+    implementation(libs.mpandroidchart)
+    implementation(libs.vico.compose)
+    implementation(libs.vico.compose.m3)
+    implementation(libs.vico.core)
+    implementation(libs.koalaplot.core)
+//    implementation(libs.d2v.shape)
+//    implementation(libs.d2v.color)
 
     testImplementation(libs.junit)
     testImplementation(libs.androidx.ui.test.junit4)

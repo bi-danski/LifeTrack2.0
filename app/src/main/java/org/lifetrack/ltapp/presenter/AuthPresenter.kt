@@ -25,6 +25,7 @@ import org.lifetrack.ltapp.model.data.dto.UserDataResponse
 import org.lifetrack.ltapp.model.repository.AuthRepository
 import org.lifetrack.ltapp.model.repository.PreferenceRepository
 import org.lifetrack.ltapp.model.repository.UserRepository
+import org.lifetrack.ltapp.service.SessionManager
 import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 import org.lifetrack.ltapp.ui.state.UIState
 

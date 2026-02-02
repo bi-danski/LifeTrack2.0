@@ -8,27 +8,34 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import kotlinx.datetime.LocalDateTime
 import org.lifetrack.ltapp.R
+import org.lifetrack.ltapp.model.data.dclass.ActivityMetrics
 import org.lifetrack.ltapp.model.data.dclass.Appointment
 import org.lifetrack.ltapp.model.data.dclass.AppointmentStatus
 import org.lifetrack.ltapp.model.data.dclass.Attachment
 import org.lifetrack.ltapp.model.data.dclass.AttachmentType
+import org.lifetrack.ltapp.model.data.dclass.CardioMetrics
 import org.lifetrack.ltapp.model.data.dclass.DoctorProfile
 import org.lifetrack.ltapp.model.data.dclass.EpidemicAlert
 import org.lifetrack.ltapp.model.data.dclass.HospitalVisit
-import org.lifetrack.ltapp.model.data.dclass.LabTest
+import org.lifetrack.ltapp.model.data.dclass.Intensity
 import org.lifetrack.ltapp.model.data.dclass.MedicalVisit
 import org.lifetrack.ltapp.model.data.dclass.Patient
 import org.lifetrack.ltapp.model.data.dclass.Premium
-import org.lifetrack.ltapp.model.data.dclass.Prescription
+import org.lifetrack.ltapp.model.data.dclass.RecoveryMetrics
+import org.lifetrack.ltapp.model.data.dclass.RespiratoryMetrics
 import org.lifetrack.ltapp.model.data.dclass.SubVisit
-import org.lifetrack.ltapp.model.data.dclass.UpcomingVisit
-import org.lifetrack.ltapp.model.data.dclass.User
 import org.lifetrack.ltapp.model.data.dclass.VisitStatus
 import org.lifetrack.ltapp.ui.theme.PremiumGold
 import org.lifetrack.ltapp.ui.theme.PremiumPurple
 import org.lifetrack.ltapp.ui.theme.PremiumTeal
 import java.time.LocalDate
 import java.util.Date
+import kotlin.random.Random
+import kotlin.time.Clock.System.now
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.minutes
+
 
 object LtMockData {
     val allHospitalVisits = listOf(
@@ -61,24 +68,6 @@ object LtMockData {
             subVisits = listOf(
                 SubVisit("Post-Op Checkup", LocalDateTime(2025, 12, 5, 8, 15))
             )
-        )
-    )
-
-    val upcomingData = listOf(
-        UpcomingVisit(
-            location = "Mama Lucy Kibaki",
-            treatment = "Chemotherapy",
-            timestamp = LocalDateTime(2025, 12, 28, 10, 0)
-        ),
-        UpcomingVisit(
-            location = "Kenyatta National",
-            treatment = "Radiology",
-            timestamp = LocalDateTime(2025, 12, 30, 14, 0)
-        ),
-        UpcomingVisit(
-            location = "Avenue Hospital",
-            treatment = "Suture Removal",
-            timestamp = LocalDateTime(2026, 1, 5, 9, 30)
         )
     )
 
@@ -264,115 +253,6 @@ object LtMockData {
         )
     )
 
-    val bPressureData = sortedMapOf(
-        Date(System.currentTimeMillis() - 6 * 86400000L) to 150f,
-        Date(System.currentTimeMillis() - 5 * 86400000L) to 145f,
-        Date(System.currentTimeMillis() - 4 * 86400000L) to 160f,
-        Date(System.currentTimeMillis() - 3 * 86400000L) to 170f,
-        Date(System.currentTimeMillis() - 2 * 86400000L) to 190f,
-        Date(System.currentTimeMillis() - 86400000L) to 185f,
-        Date() to 180f
-    )
-
-    val dPatient = Patient(
-        id = "LT997654321",
-        name = "Dr. Najma",
-        age = 45,
-        gender = "Female",
-        bloodPressure = "190/120",
-        lastVisit = "April 26, 2024",
-        condition = "Hypertensive Crisis"
-    )
-
-    val dLabTests = listOf(
-        LabTest(
-            name = "Complete Blood Count",
-            date = "Apr 20, 2024",
-            results = mapOf(
-                "WBC" to "6.5 (Normal)",
-                "RBC" to "4.2 (Normal)",
-                "Hemoglobin" to "12.8 (Low)"
-            )
-        ),
-        LabTest(
-            name = "Lipid Panel",
-            date = "Apr 15, 2024",
-            results = mapOf(
-                "Cholesterol" to "210 (High)",
-                "Triglycerides" to "150 (Borderline)"
-            )
-        )
-    )
-
-    val dPrescriptions = listOf(
-        Prescription(
-            id = "1",
-            medicationName = "Amoxicillin 500mg",
-            dosage = "1 tablet, twice daily",
-            instructions = "Take after meals. Complete full course.",
-            prescribedBy = "Anya Sharma",
-            startDate = "Dec 18, 2025",
-            endDate = "Dec 28, 2025", // ACTIVE
-            status = "Active",
-            refillProgress = 0.3f
-        ),
-        Prescription(
-            id = "2",
-            medicationName = "Lisinopril 10mg",
-            dosage = "1 tablet daily",
-            instructions = "Take in the morning. Avoid salt substitutes.",
-            prescribedBy = "James Mwangi",
-            startDate = "Nov 15, 2025",
-            endDate = "Dec 22, 2025", // REFILL DUE (Ends tomorrow)
-            status = "Refill Due",
-            refillProgress = 0.9f
-        ),
-        Prescription(
-            id = "3",
-            medicationName = "Ibuprofen 400mg",
-            dosage = "1 tablet every 6 hours",
-            instructions = "Take for pain. Do not exceed 3/day.",
-            prescribedBy = "Anya Sharma",
-            startDate = "Dec 01, 2025",
-            endDate = "Dec 15, 2025", // EXPIRED (Passed)
-            status = "History",
-            refillProgress = 0f
-        ),
-        Prescription(
-            id = "4",
-            medicationName = "Ventolin Inhaler",
-            dosage = "2 puffs as needed",
-            instructions = "Use for shortness of breath.",
-            prescribedBy = "Sarah Chen",
-            startDate = "Oct 10, 2025",
-            endDate = "Nov 10, 2025", // EXPIRED (Passed)
-            status = "History",
-            refillProgress = 0f
-        ),
-        Prescription(
-            id = "5",
-            medicationName = "Metformin 500mg",
-            dosage = "1 tablet with dinner",
-            instructions = "Monitor blood sugar levels daily.",
-            prescribedBy = "James Mwangi",
-            startDate = "Dec 20, 2025",
-            endDate = "Jan 20, 2026", // ACTIVE
-            status = "Active",
-            refillProgress = 0.05f
-        ),
-        Prescription(
-            id = "6",
-            medicationName = "Vitamin D3 2000IU",
-            dosage = "1 softgel daily",
-            instructions = "Take with a fat-containing meal.",
-            prescribedBy = "Sarah Chen",
-            startDate = "Dec 01, 2025",
-            endDate = "Jun 01, 2026", // ACTIVE
-            status = "Active",
-            refillProgress = 0.1f
-        )
-    )
-
     val dummyDoctors = listOf(
         DoctorProfile(
             id = 1,
@@ -514,26 +394,183 @@ object LtMockData {
             accentColor = PremiumTeal
         )
     )
-    val dDocPatients = listOf(
-        User(
-            fullName = "Denzil Okwako",
-            emailAddress = "denzil@example.com",
-            lifetrackId = "LT-001",
-            uuid = "p-001",
-            phoneNumber = "0714322037",
-            password = "",
-            profileImageUrl = "",
-            lastActive = "Active"
+
+    val bPressureData = sortedMapOf(
+        Date(System.currentTimeMillis() - 6 * 86400000L) to 148f,
+        Date(System.currentTimeMillis() - 5 * 86400000L) to 152f,
+        Date(System.currentTimeMillis() - 4 * 86400000L) to 145f,
+        Date(System.currentTimeMillis() - 3 * 86400000L) to 170f,
+        Date(System.currentTimeMillis() - 2 * 86400000L) to 195f, // Peak of Crisis
+        Date(System.currentTimeMillis() - 86400000L) to 188f,
+        Date() to 190f // Current value
+    )
+
+    val dPatient = Patient(
+        id = "LT997654321",
+        name = "Dr. Najma",
+        age = 45,
+        gender = "Female",
+        bloodPressure = "190/120", // Matches peak data
+        lastVisit = "April 26, 2024",
+        condition = "Hypertensive Crisis" // Used for EHR error state UI
+    )
+
+    val dLabTests = listOf(
+        org.lifetrack.ltapp.model.data.dclass.LabTest(
+            name = "Comprehensive Metabolic Panel",
+            date = "Apr 20, 2024",
+            results = mapOf(
+                "Glucose (Fasting)" to "126 (High)",
+                "Creatinine" to "1.2 (Normal)",
+                "eGFR" to "88 (Normal)",
+                "Sodium" to "138 (Normal)"
+            )
         ),
-        User(
-            fullName = "Aphiud Mositi",
-            emailAddress = "aphiud@example.com",
-            lifetrackId = "LT-002",
-            uuid = "p-002",
-            phoneNumber = "0700000000",
-            password = "",
-            profileImageUrl = "",
-            lastActive = "Offline"
+        org.lifetrack.ltapp.model.data.dclass.LabTest(
+            name = "Lipid Panel",
+            date = "Apr 15, 2024",
+            results = mapOf(
+                "Total Cholesterol" to "240 (High)",
+                "LDL Cholesterol" to "162 (Critical)",
+                "HDL Cholesterol" to "38 (Low)",
+                "Triglycerides" to "155 (Borderline)"
+            )
         )
     )
+
+    val dPrescriptions = listOf(
+        org.lifetrack.ltapp.model.data.dclass.Prescription(
+            id = "RX-8801",
+            medicationName = "Lisinopril 20mg",
+            dosage = "1 tablet, daily",
+            instructions = "Take in the morning. Do not skip doses.",
+            prescribedBy = "Dr. James Mwangi",
+            startDate = "Dec 18, 2025",
+            endDate = "Jan 18, 2026",
+            status = "Active",
+            refillProgress = 0.85f
+        ),
+        org.lifetrack.ltapp.model.data.dclass.Prescription(
+            id = "RX-4402",
+            medicationName = "Metformin 500mg",
+            dosage = "1 tablet, twice daily",
+            instructions = "Take with meals to reduce GI upset.",
+            prescribedBy = "Dr. Anya Sharma",
+            startDate = "Nov 15, 2025",
+            endDate = "Dec 22, 2025",
+            status = "Refill Due", // Triggers warning state in UI
+            refillProgress = 0.95f
+        ),
+        org.lifetrack.ltapp.model.data.dclass.Prescription(
+            id = "RX-9122",
+            medicationName = "Atorvastatin 40mg",
+            dosage = "1 tablet nightly",
+            instructions = "Oral. Avoid grapefruit juice.",
+            prescribedBy = "Dr. Mercy Baraka",
+            startDate = "Dec 01, 2025",
+            endDate = "Jun 01, 2026",
+            status = "Active",
+            refillProgress = 0.42f
+        )
+    )
+
+    val upcomingData = listOf(
+        org.lifetrack.ltapp.model.data.dclass.UpcomingVisit(
+            location = "Mama Lucy Kibaki",
+            treatment = "Cardiology Follow-up",
+            timestamp = LocalDateTime(2025, 12, 28, 10, 0)
+        ),
+        org.lifetrack.ltapp.model.data.dclass.UpcomingVisit(
+            location = "Metropolitan Hospital",
+            treatment = "HbA1c Lab Test",
+            timestamp = LocalDateTime(2025, 12, 30, 14, 0)
+        )
+    )
+    val vitalsCorrelationData = sortedMapOf(
+        Date(System.currentTimeMillis() - 6 * 86400000L) to Triple(148f, 72f, 98f),
+        Date(System.currentTimeMillis() - 5 * 86400000L) to Triple(152f, 75f, 97f),
+        Date(System.currentTimeMillis() - 4 * 86400000L) to Triple(145f, 70f, 99f),
+        Date(System.currentTimeMillis() - 3 * 86400000L) to Triple(170f, 88f, 96f),
+        Date(System.currentTimeMillis() - 2 * 86400000L) to Triple(195f, 102f, 94f),
+        Date(System.currentTimeMillis() - 86400000L) to Triple(188f, 95f, 95f),
+        Date() to Triple(190f, 98f, 95f)
+    )
+
+    val vitalsRiskHeatmap = List(7) { List(6) { (0..100).random() / 100f } }
+
+    val bpFrequencyDistribution = mapOf(
+        "110-120" to 2,
+        "120-130" to 5,
+        "130-140" to 12,
+        "140-150" to 8,
+        "150-160" to 4,
+        "160+" to 3
+    )
+
+    val systolicHistory = sortedMapOf(
+        Date(System.currentTimeMillis() - 4 * 86400000L) to 145f,
+        Date(System.currentTimeMillis() - 3 * 86400000L) to 170f,
+        Date(System.currentTimeMillis() - 2 * 86400000L) to 195f,
+        Date() to 190f
+    )
+
+    val diastolicHistory = sortedMapOf(
+        Date(System.currentTimeMillis() - 4 * 86400000L) to 90f,
+        Date(System.currentTimeMillis() - 3 * 86400000L) to 105f,
+        Date(System.currentTimeMillis() - 2 * 86400000L) to 125f,
+        Date() to 120f
+    )
+
+    val dailyActivityHistory = List(7) { dayOffset ->
+        val timestamp = now().minus(dayOffset.days)
+        ActivityMetrics(
+            timestamp = timestamp,
+            stepCount = (4000..12000).random(),
+            cadence = (90..115).random(),
+            distanceMeters = Random.nextDouble(3000.0, 8500.0), // Corrected
+            elevationGainMeters = Random.nextDouble(5.0, 40.0), // Corrected
+            caloriesBurned = Random.nextDouble(1800.0, 2600.0), // Corrected
+            activeMinutes = (20..100).random().minutes,
+            intensityLevel = if (dayOffset % 3 == 0) Intensity.VIGOROUS else Intensity.MODERATE
+        )
+    }
+
+    val liveCardioVitals = List(24) { hourOffset ->
+        val timestamp = now().minus(hourOffset.hours)
+        CardioMetrics(
+            timestamp = timestamp,
+            heartRateBpm = (75..95).random(),
+            hrvMilliseconds = Random.nextDouble(30.0, 55.0), // Fixed: used Random.nextDouble
+            hasArrhythmiaDetected = false,
+            ecgWaveform = null,
+            systolicBP = if(hourOffset < 5) 190 else 145,
+            diastolicBP = if(hourOffset < 5) 120 else 90
+        )
+    }
+
+    val respiratoryHistory = List(7) { dayOffset ->
+        val timestamp = now().minus(dayOffset.days)
+        RespiratoryMetrics(
+            timestamp = timestamp,
+            spo2Percentage = Random.nextDouble(94.0, 99.0), // Fixed
+            vo2Max = 42.5,
+            breathsPerMinute = (14..20).random(),
+            respiratoryEffort = Random.nextDouble(15.0, 45.0), // Fixed
+            hydrationLevel = Random.nextDouble(60.0, 80.0)    // Fixed
+        )
+    }
+
+    val weeklyRecoveryTrends = List(7) { dayOffset ->
+        val syncTime = now().minus(dayOffset.days)
+        RecoveryMetrics(
+            lastSyncTime = syncTime,
+            sleepDuration = (6..8).random().hours,
+            sleepScore = (60..88).random(),
+            remDuration = (60..110).random().minutes,
+            deepSleepDuration = (40..90).random().minutes,
+            skinTempOffset = Random.nextDouble(-0.5, 0.5), // Fixed
+            stressLevel = (6..9).random(),
+            readinessScore = (40..75).random()
+        )
+    }
 }

@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.presenter
+package org.lifetrack.ltapp.service
 
 import android.util.Log
 import kotlinx.coroutines.CoroutineScope

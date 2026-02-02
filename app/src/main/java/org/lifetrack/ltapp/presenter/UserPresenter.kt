@@ -23,6 +23,7 @@ import org.lifetrack.ltapp.model.data.dclass.LabTest
 import org.lifetrack.ltapp.model.data.dclass.Prescription
 import org.lifetrack.ltapp.model.data.mock.LtMockData
 import org.lifetrack.ltapp.model.repository.UserRepository
+import org.lifetrack.ltapp.service.SessionManager
 import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 
 class UserPresenter(

@@ -30,6 +30,9 @@ accompanist= "0.36.0"
 coreSplashScreen = "1.2.0"
 datastorePreferences = "1.2.0"
 slf4j = "2.0.17"
+vico = "2.4.3"
+koalaplot = "0.11.0"
+#data2viz = "0.10.0"
 #kotzilla = "1.4.2"
 #googleGmsGoogleServices = "4.4.4"
 #firebaseMessaging = "25.0.1"
@@ -86,8 +89,15 @@ koin-androidx-startup = { module = "io.insert-koin:koin-androidx-startup" }
 
 accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
 accompanist-navigation-animation = { group = "com.google.accompanist", name = "accompanist-navigation-animation", version.ref = "accompanist" }
+
 charts = {module = "io.github.dautovicharis:charts-android", version.ref = "charts"}
 mpandroidchart = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mpchart" }
+vico-compose = { group = "com.patrykandpatrick.vico", name = "compose", version.ref = "vico" }
+vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
+vico-core = { group = "com.patrykandpatrick.vico", name = "core", version.ref = "vico" }
+koalaplot-core = { group = "io.github.koalaplot", name = "koalaplot-core", version.ref = "koalaplot" }
+#d2v-shape = { group = "io.data2viz.d2v", name = "d2v-shape", version.ref = "data2viz" }
+#d2v-color = { group = "io.data2viz.d2v", name = "d2v-color", version.ref = "data2viz" }
 
 slf4j-nop = { group = "org.slf4j", name = "slf4j-nop", version.ref = "slf4j" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }

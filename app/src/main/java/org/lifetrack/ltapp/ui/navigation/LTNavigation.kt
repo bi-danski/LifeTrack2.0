@@ -44,6 +44,7 @@ import org.lifetrack.ltapp.ui.screens.SignupScreen
 import org.lifetrack.ltapp.ui.screens.SupportScreen
 import org.lifetrack.ltapp.ui.screens.TelemedicineScreen
 import org.lifetrack.ltapp.ui.screens.TimeLineScreen
+import org.lifetrack.ltapp.ui.screens.VitalScreen
 
 @Composable
 fun LTNavigation(navController: NavHostController, startDestination: String ) {
@@ -109,7 +110,7 @@ fun LTNavigation(navController: NavHostController, startDestination: String ) {
             composable("alma") {
                 AlmaScreen(chatPresenter)
             }
-            composable("ltChats") {
+            composable("chats") {
                 ChatScreen(chatPresenter)
             }
 
@@ -124,7 +125,7 @@ fun LTNavigation(navController: NavHostController, startDestination: String ) {
 
 fun NavGraphBuilder.addHealthFeatures(userPresenter: UserPresenter, authPresenter: AuthPresenter) {
     composable("analytics") {
-        AnalyticScreen(userPresenter)
+        AnalyticScreen()//userPresenter)
     }
     composable("prescriptions") {
         PrescriptScreen(userPresenter, koinViewModel<PrescPresenter>())
@@ -152,6 +153,7 @@ fun NavGraphBuilder.addSupportFeatures(sharedPresenter: SharedPresenter) {
     composable("support") { SupportScreen() }
     composable("alerts") { AlertScreen() }
     composable("bar-bra") { MainScreen() }
+    composable("koala") { VitalScreen() }
 }
 
 fun NavGraphBuilder.addUtilityFeatures(fuvPresenter: FUVPresenter) {

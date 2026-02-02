@@ -4,6 +4,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.datetime.LocalDateTime
 import org.lifetrack.ltapp.R
 import java.time.LocalDate
+import kotlin.time.Duration
+import kotlin.time.Instant
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -115,3 +117,63 @@ data class NavigationTab (
     val route: String,
     val icon: ImageVector
 )
+
+
+/**
+ * 1. MOVEMENT & ACTIVITY
+ * Focuses on physical displacement and kinetic energy.
+ */
+data class ActivityMetrics(
+    val timestamp: Instant,
+    val stepCount: Int,
+    val cadence: Int,               // Steps per minute
+    val distanceMeters: Double,
+    val elevationGainMeters: Double,
+    val caloriesBurned: Double,
+    val activeMinutes: Duration,
+    val intensityLevel: Intensity   // Enum: LOW, MODERATE, VIGOROUS
+)
+
+/**
+ * 2. CARDIOVASCULAR HEALTH
+ * Data derived from PPG sensors and electrical heart signals.
+ */
+data class CardioMetrics(
+    val timestamp: Instant,
+    val heartRateBpm: Int,
+    val hrvMilliseconds: Double,    // Heart Rate Variability
+    val hasArrhythmiaDetected: Boolean,
+    val ecgWaveform: List<Double>?, // Voltage samples if a scan was taken
+    val systolicBP: Int?,           // Estimated Blood Pressure
+    val diastolicBP: Int?
+)
+
+/**
+ * 3. BLOOD & RESPIRATORY METRICS
+ * Focuses on gas exchange and metabolic efficiency.
+ */
+data class RespiratoryMetrics(
+    val timestamp: Instant,
+    val spo2Percentage: Double,     // Blood Oxygen Saturation
+    val vo2Max: Double?,            // Cardio Fitness score
+    val breathsPerMinute: Int,
+    val respiratoryEffort: Double,  // New for 2026: measuring lung strain
+    val hydrationLevel: Double?     // Bio-impedance based (percentage)
+)
+
+/**
+ * 4. SLEEP & RECOVERY
+ * High-level interpretation of physiological readiness.
+ */
+data class RecoveryMetrics(
+    val lastSyncTime: Instant,
+    val sleepDuration: Duration,
+    val sleepScore: Int,            // 0-100 scale
+    val remDuration: Duration,
+    val deepSleepDuration: Duration,
+    val skinTempOffset: Double,     // Deviation from baseline (e.g., +0.4°C)
+    val stressLevel: Int,           // 1-10 scale based on GSR and HRV
+    val readinessScore: Int         // "Body Battery" or "Daily Readiness"
+)
+
+enum class Intensity { LOW, MODERATE, VIGOROUS }

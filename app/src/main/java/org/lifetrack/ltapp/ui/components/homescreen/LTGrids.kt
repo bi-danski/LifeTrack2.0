@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.Campaign
 import androidx.compose.material.icons.filled.DataExploration
 import androidx.compose.material.icons.filled.LocalHospital
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.SlowMotionVideo
 import org.lifetrack.ltapp.ui.components.homescreen.cards.GlassActionCard
 import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 
@@ -22,10 +23,11 @@ fun LazyGridScope.featureGridContent() {
         "Appointments" to Icons.Filled.CalendarMonth to "appointments",
         "Follow Ups & Visits" to Icons.AutoMirrored.Filled.MultilineChart to "FUV",
         "Emergency Alerts" to Icons.Filled.Notifications to "alerts",
-        "Messaging & Referrals" to Icons.AutoMirrored.Filled.Message to "ltChats",
+        "Messaging & Referrals" to Icons.AutoMirrored.Filled.Message to "chats",
         "E-Prescriptions" to Icons.Filled.LocalHospital to "prescriptions",
         "Reports & Analytics" to Icons.Filled.DataExploration to "analytics",
-        "Health Campaigns" to Icons.Filled.Campaign to "bar-bra",
+        "Tele   Medicine" to Icons.Filled.SlowMotionVideo to "telemedicine",
+        "Koala" to Icons.Filled.Campaign to "koala",
         "Help & Support" to Icons.AutoMirrored.Filled.HelpCenter to "support"
     )
 

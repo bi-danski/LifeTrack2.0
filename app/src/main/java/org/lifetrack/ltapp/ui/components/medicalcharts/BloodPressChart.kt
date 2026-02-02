@@ -1,13 +1,17 @@
 package org.lifetrack.ltapp.ui.components.medicalcharts
 
+//import androidx.compose.ui.platform.LocalContext
+//import org.lifetrack.ltapp.ui.components.medicalcharts.configureBaseChart
+//import org.lifetrack.ltapp.ui.components.medicalcharts.configureBloodPressureAxes
+//import org.lifetrack.ltapp.ui.components.medicalcharts.styleLineDataSet
 import android.annotation.SuppressLint
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-//import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.github.mikephil.charting.charts.LineChart
@@ -17,23 +21,24 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
-//import org.lifetrack.ltapp.ui.components.medicalcharts.configureBaseChart
-//import org.lifetrack.ltapp.ui.components.medicalcharts.configureBloodPressureAxes
-//import org.lifetrack.ltapp.ui.components.medicalcharts.styleLineDataSet
-//import org.lifetrack.ltapp.ui.theme.EmergencyRed
-//import org.lifetrack.ltapp.ui.theme.HospitalBlue
-//import org.lifetrack.ltapp.ui.theme.SuccessGreen
+import org.lifetrack.ltapp.ui.theme.DisabledColor
 import java.text.SimpleDateFormat
 import java.util.Date
 
 
 @Composable
 fun BloodPressChart(systolicData: Map<Date, Float>, diastolicData: Map<Date, Float>) {
+    val isSystemInDarkTheme = isSystemInDarkTheme()
     AndroidView(
         factory = { context ->
             LineChart(context).apply {
+                isFocusable = true
+                isHovered = true
+                xAxis.textColor = if (isSystemInDarkTheme) DisabledColor.toArgb() else Color.Black.copy(0.87f).toArgb()
+                axisLeft.textColor = if (isSystemInDarkTheme) DisabledColor.toArgb() else Color.Black.copy(0.87f).toArgb()
                 description.isEnabled = false
                 legend.isEnabled = true
+                legend.textColor = if (isSystemInDarkTheme) DisabledColor.toArgb() else Color.Black.copy(0.87f).toArgb()
 
                 val systolicEntries = systolicData.map {
                     Entry(it.key.time.toFloat(), it.value)
@@ -62,6 +67,7 @@ fun BloodPressChart(systolicData: Map<Date, Float>, diastolicData: Map<Date, Flo
                 )
 
                 xAxis.apply {
+                    setPadding(0,1, 0, 10)
                     position = XAxis.XAxisPosition.BOTTOM
                     granularity = 86400000f // 1 day
                     valueFormatter = object : ValueFormatter() {
@@ -73,10 +79,12 @@ fun BloodPressChart(systolicData: Map<Date, Float>, diastolicData: Map<Date, Flo
                 }
 
                 axisLeft.apply {
+                    setPadding(0,0,2,0)
                     axisMinimum = 50f
                     axisMaximum = 200f
                     addLimitLine(LimitLine(140f, "Normal").apply {
                         lineColor = Color(0xFF4CAF50).toArgb()
+                        textColor = Color.Green.toArgb()
                         lineWidth = 1f
                     })
                 }
@@ -88,6 +96,7 @@ fun BloodPressChart(systolicData: Map<Date, Float>, diastolicData: Map<Date, Flo
         modifier = Modifier
             .fillMaxWidth()
             .height(250.dp)
+
     )
 }
 
