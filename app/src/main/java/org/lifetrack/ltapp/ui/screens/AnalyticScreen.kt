@@ -200,7 +200,6 @@ fun MultiVitalTrendChart(data: Map<Date, Triple<Float, Float, Float>>) {
 }
 
 
-// --- COMPONENT: LAB RANGE BARS ---
 @Composable
 fun LabResultRangeBar(label: String, valueStr: String) {
     val isAbnormal = valueStr.contains("High") || valueStr.contains("Critical") || valueStr.contains("Low")
@@ -229,7 +228,6 @@ fun LabCorrelationGroup(test: LabTest) {
     }
 }
 
-// --- UTILITY COMPONENTS ---
 @Composable
 fun AnalyticSectionCard(title: String, content: @Composable () -> Unit) {
     Surface(tonalElevation = 1.dp, shape = RoundedCornerShape(24.dp), border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outlineVariant), modifier = Modifier.fillMaxWidth()) {
