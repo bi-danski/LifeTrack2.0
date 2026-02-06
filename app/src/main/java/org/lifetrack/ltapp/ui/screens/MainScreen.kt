@@ -47,8 +47,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import org.lifetrack.ltapp.core.utility.ZetuZetuUtil.times
-import org.lifetrack.ltapp.core.utility.transform
+import org.lifetrack.ltapp.utility.ZetuZetuUtil.times
+import org.lifetrack.ltapp.utility.transform
 import org.lifetrack.ltapp.ui.theme.DEFAULT_PADDING
 import kotlin.math.PI
 import kotlin.math.sin

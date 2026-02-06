@@ -30,7 +30,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.lifetrack.ltapp.model.data.dclass.AppointmentStatus
+import org.lifetrack.ltapp.model.data.dclass.UIAppointmentStatus
 import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.ui.components.homescreen.cards.DailyActivities
 import org.lifetrack.ltapp.ui.components.homescreen.cards.ScheduleCard
@@ -54,7 +54,7 @@ fun LtHomeCarousel(
         pageCount = { itemsCount }
     )
     val nextUp by userPresenter.nextUpcomingAppointment.collectAsState()
-    val totalCount = userPresenter.getCountForStatus(AppointmentStatus.UPCOMING)
+    val totalCount = userPresenter.getCountForStatus(UIAppointmentStatus.UPCOMING)
     val scope = rememberCoroutineScope()
 
     if (isCarouselAutoRotateEnabled) {

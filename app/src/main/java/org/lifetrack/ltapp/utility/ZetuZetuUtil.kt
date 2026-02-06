@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.core.utility
+package org.lifetrack.ltapp.utility
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding

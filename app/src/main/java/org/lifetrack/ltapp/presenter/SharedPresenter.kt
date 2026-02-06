@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import org.lifetrack.ltapp.core.utility.makeAutoCall
-import org.lifetrack.ltapp.core.utility.toLtSettings
+import org.lifetrack.ltapp.utility.makeAutoCall
+import org.lifetrack.ltapp.utility.toLtSettings
 import org.lifetrack.ltapp.model.data.dclass.MenuItemData
 import org.lifetrack.ltapp.model.data.dclass.menuListItems
 import org.lifetrack.ltapp.model.repository.PreferenceRepository

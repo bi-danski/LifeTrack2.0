@@ -6,6 +6,8 @@ import org.lifetrack.ltapp.model.data.dto.UserDataUpdate
 
 interface UserRepository {
     suspend fun getCurrentUserInfo(): AuthResult
+
+    suspend fun getUserAppointments(): AuthResult
     suspend fun updateCurrentUserInfo(user: UserDataUpdate): AuthResult
     suspend fun changePassword(passwordRequest: PwdRestoreRequest): AuthResult
     suspend fun deleteAccount(): AuthResult

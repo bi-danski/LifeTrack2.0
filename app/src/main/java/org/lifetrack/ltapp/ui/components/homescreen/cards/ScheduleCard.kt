@@ -35,7 +35,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.lifetrack.ltapp.core.utility.customFormat
+import org.lifetrack.ltapp.utility.customFormat
 import org.lifetrack.ltapp.model.data.dclass.Appointment
 import org.lifetrack.ltapp.ui.theme.Purple40
 
@@ -144,7 +144,7 @@ fun ScheduleCard(appointmentCount: Int, nextAppointment: Appointment?,
                                     overflow = TextOverflow.Ellipsis
                                 )
                                 Text(
-                                    text = nextAppointment.dateTime.customFormat("dd MMM yyyy HH:mm a"),
+                                    text = nextAppointment.scheduledAt.customFormat("dd MMM yyyy HH:mm a"),
 //                                        "EEE, MMM dd, yyyy '@' hh:mm a"),
                                     fontSize = 15.5.sp,
                                     fontWeight = FontWeight.Black,

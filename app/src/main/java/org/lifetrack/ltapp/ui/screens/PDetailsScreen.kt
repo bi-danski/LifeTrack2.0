@@ -38,9 +38,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
-import org.lifetrack.ltapp.core.utility.ScheduleUtility
-import org.lifetrack.ltapp.core.utility.openDialer
-import org.lifetrack.ltapp.core.utility.openSMS
+import org.lifetrack.ltapp.utility.ScheduleUtility
+import org.lifetrack.ltapp.utility.openDialer
+import org.lifetrack.ltapp.utility.openSMS
 import org.lifetrack.ltapp.model.data.dclass.Prescription
 import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.ui.components.detailscreen.ContactPharmacyCard

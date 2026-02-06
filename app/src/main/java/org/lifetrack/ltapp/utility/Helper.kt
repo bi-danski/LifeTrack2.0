@@ -1,14 +1,19 @@
-package org.lifetrack.ltapp.core.utility
+package org.lifetrack.ltapp.utility
 
 import androidx.compose.animation.core.Easing
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.toJavaLocalDateTime
+import kotlinx.datetime.toKotlinLocalDateTime
+import org.lifetrack.ltapp.model.data.dclass.Appointment
 import org.lifetrack.ltapp.model.data.dclass.LTPreferences
 import org.lifetrack.ltapp.model.data.dclass.LoginInfo
 import org.lifetrack.ltapp.model.data.dclass.LtSettings
 import org.lifetrack.ltapp.model.data.dclass.ProfileInfo
 import org.lifetrack.ltapp.model.data.dclass.SignUpInfo
+import org.lifetrack.ltapp.model.data.dclass.UIAppointmentStatus
 import org.lifetrack.ltapp.model.data.dclass.UserPreferences
+import org.lifetrack.ltapp.model.data.dto.AppointmentStatus
+import org.lifetrack.ltapp.model.data.dto.AppointmentUpdate
 import org.lifetrack.ltapp.model.data.dto.LoginRequest
 import org.lifetrack.ltapp.model.data.dto.Message
 import org.lifetrack.ltapp.model.data.dto.SignUpRequest
@@ -19,6 +24,8 @@ import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 
 fun Message.toEntity(): MessageEntity{
@@ -126,4 +133,23 @@ fun YearMonth.formatMonthYear(): String {
 
 fun Easing.transform(from: Float, to: Float, value: Float): Float {
     return transform(((value - from) * (1f / (to - from))).coerceIn(0f, 1f))
+}
+
+@OptIn(ExperimentalUuidApi::class)
+fun AppointmentUpdate.toAppointment(): Appointment {
+    return Appointment(
+        id = this.id ?: Uuid.random().toHexString(),
+        doctor = this.doctor,
+        hospital = this.hospital,
+        status = when (this.status) {
+            AppointmentStatus.UPCOMING -> UIAppointmentStatus.UPCOMING
+            AppointmentStatus.ATTENDED -> UIAppointmentStatus.ATTENDED
+            AppointmentStatus.RECENTLY_BOOKED -> UIAppointmentStatus.RECENTLY_BOOKED
+            AppointmentStatus.RESCHEDULED -> UIAppointmentStatus.RESCHEDULED
+            AppointmentStatus.DISMISSED -> UIAppointmentStatus.DISMISSED
+            AppointmentStatus.CANCELLED -> UIAppointmentStatus.CANCELLED
+        },
+        bookedAt = this.bookedAt,
+        scheduledAt = this.scheduledAt.toKotlinLocalDateTime()
+    )
 }

@@ -2,8 +2,8 @@ package org.lifetrack.ltapp.model.repository
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import org.lifetrack.ltapp.core.utility.toDto
-import org.lifetrack.ltapp.core.utility.toEntity
+import org.lifetrack.ltapp.utility.toDto
+import org.lifetrack.ltapp.utility.toEntity
 import org.lifetrack.ltapp.model.data.dto.Message
 import org.lifetrack.ltapp.model.roomdb.ChatDao
 

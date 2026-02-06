@@ -4,10 +4,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.datetime.LocalDateTime
 import org.lifetrack.ltapp.R
 import java.time.LocalDate
+import kotlin.time.Clock
 import kotlin.time.Duration
 import kotlin.time.Instant
 import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
 data class MissionItem(
     val id: Int,
@@ -86,11 +86,12 @@ data class UpcomingVisit(
 )
 
 data class Appointment @OptIn(ExperimentalUuidApi::class) constructor(
-    val id: String = Uuid.random().toString(),
+    val id: String,
     val doctor: String,
-    val dateTime: LocalDateTime,
+    val scheduledAt: LocalDateTime,
     val hospital: String,
-    val status: AppointmentStatus
+    val status: UIAppointmentStatus,
+    val bookedAt: Instant = Clock.System.now()
 )
 
 data class Prescription(
@@ -102,7 +103,7 @@ data class Prescription(
     val startDate: String,
     val endDate: String,
     val status: String,
-    val refillProgress: Float = 0f // 0.0 to 1.0
+    val refillProgress: Float = 0f
 )
 
 data class Attachment(
@@ -118,11 +119,6 @@ data class NavigationTab (
     val icon: ImageVector
 )
 
-
-/**
- * 1. MOVEMENT & ACTIVITY
- * Focuses on physical displacement and kinetic energy.
- */
 data class ActivityMetrics(
     val timestamp: Instant,
     val stepCount: Int,
@@ -134,10 +130,6 @@ data class ActivityMetrics(
     val intensityLevel: Intensity   // Enum: LOW, MODERATE, VIGOROUS
 )
 
-/**
- * 2. CARDIOVASCULAR HEALTH
- * Data derived from PPG sensors and electrical heart signals.
- */
 data class CardioMetrics(
     val timestamp: Instant,
     val heartRateBpm: Int,
@@ -148,10 +140,6 @@ data class CardioMetrics(
     val diastolicBP: Int?
 )
 
-/**
- * 3. BLOOD & RESPIRATORY METRICS
- * Focuses on gas exchange and metabolic efficiency.
- */
 data class RespiratoryMetrics(
     val timestamp: Instant,
     val spo2Percentage: Double,     // Blood Oxygen Saturation
@@ -161,17 +149,13 @@ data class RespiratoryMetrics(
     val hydrationLevel: Double?     // Bio-impedance based (percentage)
 )
 
-/**
- * 4. SLEEP & RECOVERY
- * High-level interpretation of physiological readiness.
- */
 data class RecoveryMetrics(
     val lastSyncTime: Instant,
     val sleepDuration: Duration,
     val sleepScore: Int,            // 0-100 scale
     val remDuration: Duration,
     val deepSleepDuration: Duration,
-    val skinTempOffset: Double,     // Deviation from baseline (e.g., +0.4°C)
+    val skinTempOffset: Double,     // Deviation from baseline
     val stressLevel: Int,           // 1-10 scale based on GSR and HRV
     val readinessScore: Int         // "Body Battery" or "Daily Readiness"
 )

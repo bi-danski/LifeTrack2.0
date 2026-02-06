@@ -10,7 +10,6 @@ import kotlinx.datetime.LocalDateTime
 import org.lifetrack.ltapp.R
 import org.lifetrack.ltapp.model.data.dclass.ActivityMetrics
 import org.lifetrack.ltapp.model.data.dclass.Appointment
-import org.lifetrack.ltapp.model.data.dclass.AppointmentStatus
 import org.lifetrack.ltapp.model.data.dclass.Attachment
 import org.lifetrack.ltapp.model.data.dclass.AttachmentType
 import org.lifetrack.ltapp.model.data.dclass.CardioMetrics
@@ -24,6 +23,7 @@ import org.lifetrack.ltapp.model.data.dclass.Premium
 import org.lifetrack.ltapp.model.data.dclass.RecoveryMetrics
 import org.lifetrack.ltapp.model.data.dclass.RespiratoryMetrics
 import org.lifetrack.ltapp.model.data.dclass.SubVisit
+import org.lifetrack.ltapp.model.data.dclass.UIAppointmentStatus
 import org.lifetrack.ltapp.model.data.dclass.VisitStatus
 import org.lifetrack.ltapp.ui.theme.PremiumGold
 import org.lifetrack.ltapp.ui.theme.PremiumPurple
@@ -35,6 +35,7 @@ import kotlin.time.Clock.System.now
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
+import kotlin.uuid.Uuid
 
 
 object LtMockData {
@@ -159,34 +160,40 @@ object LtMockData {
     @OptIn(kotlin.uuid.ExperimentalUuidApi::class)
     val dummyAppointments = listOf(
         Appointment(
+            id = Uuid.random().toHexString(),
             doctor = "Dr. Anya Sharma",
-            dateTime = LocalDateTime(2025, 12, 29, 10, 0),
+            scheduledAt = LocalDateTime(2025, 12, 29, 10, 0),
             hospital = "Nairobi West Hospital",
-            status = AppointmentStatus.UPCOMING
+            status = UIAppointmentStatus.UPCOMING
+
         ),
         Appointment(
+            id = Uuid.random().toHexString(),
             doctor = "Dr. Ben Carter",
-            dateTime = LocalDateTime(2025, 12, 28, 14, 30),
+            scheduledAt = LocalDateTime(2025, 12, 28, 14, 30),
             hospital = "Mama Lucy Kibaki",
-            status = AppointmentStatus.ATTENDED
+            status = UIAppointmentStatus.UPCOMING
         ),
         Appointment(
+            id = Uuid.random().toHexString(),
             doctor = "Dr. Hilary Otieno",
-            dateTime = LocalDateTime(2025, 12, 30, 9, 0),
+            scheduledAt = LocalDateTime(2025, 12, 30, 9, 0),
             hospital = "Nakuru General",
-            status = AppointmentStatus.UPCOMING
+            status = UIAppointmentStatus.ATTENDED
         ),
         Appointment(
             doctor = "Dr. Tabitha Kerry",
-            dateTime = LocalDateTime(2025, 12, 15, 11, 30),
+            id = Uuid.random().toHexString(),
+            scheduledAt = LocalDateTime(2025, 12, 15, 11, 30),
             hospital = "Kabarak Mission",
-            status = AppointmentStatus.DISMISSED
+            status = UIAppointmentStatus.DISMISSED
         ),
         Appointment(
             doctor = "Dr. James Mwangi",
-            dateTime = LocalDateTime(2026, 1, 5, 14, 0),
+            scheduledAt = LocalDateTime(2026, 1, 5, 14, 0),
             hospital = "Nairobi City",
-            status = AppointmentStatus.RESCHEDULED
+            id = Uuid.random().toHexString(),
+            status = UIAppointmentStatus.RESCHEDULED
         )
     )
 
@@ -400,9 +407,9 @@ object LtMockData {
         Date(System.currentTimeMillis() - 5 * 86400000L) to 152f,
         Date(System.currentTimeMillis() - 4 * 86400000L) to 145f,
         Date(System.currentTimeMillis() - 3 * 86400000L) to 170f,
-        Date(System.currentTimeMillis() - 2 * 86400000L) to 195f, // Peak of Crisis
+        Date(System.currentTimeMillis() - 2 * 86400000L) to 195f,
         Date(System.currentTimeMillis() - 86400000L) to 188f,
-        Date() to 190f // Current value
+        Date() to 190f
     )
 
     val dPatient = Patient(
@@ -410,9 +417,9 @@ object LtMockData {
         name = "Dr. Najma",
         age = 45,
         gender = "Female",
-        bloodPressure = "190/120", // Matches peak data
+        bloodPressure = "190/120",
         lastVisit = "April 26, 2024",
-        condition = "Hypertensive Crisis" // Used for EHR error state UI
+        condition = "Hypertensive Crisis" // EHR error state UI
     )
 
     val dLabTests = listOf(

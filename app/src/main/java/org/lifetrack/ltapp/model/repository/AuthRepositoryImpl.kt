@@ -11,9 +11,9 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
 import kotlinx.coroutines.flow.first
 import org.lifetrack.ltapp.core.exception.NoInternetException
-import org.lifetrack.ltapp.core.utility.ZetuZetuUtil.sanitizeErrorMessage
-import org.lifetrack.ltapp.core.utility.toLoginRequest
-import org.lifetrack.ltapp.core.utility.toSignUpRequest
+import org.lifetrack.ltapp.utility.ZetuZetuUtil.sanitizeErrorMessage
+import org.lifetrack.ltapp.utility.toLoginRequest
+import org.lifetrack.ltapp.utility.toSignUpRequest
 import org.lifetrack.ltapp.model.data.dclass.AuthResult
 import org.lifetrack.ltapp.model.data.dclass.LoginInfo
 import org.lifetrack.ltapp.model.data.dclass.SignUpInfo

@@ -35,8 +35,8 @@ enum class AttachmentType {
     PDF, IMAGE, LAB_RESULT
 }
 
-enum class AppointmentStatus(
-    val label: String,
+enum class UIAppointmentStatus(
+    val status: String,
     val color: Color,
     val icon: ImageVector
 ) {

@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.lifetrack.ltapp.core.utility.toUserPreferences
-import org.lifetrack.ltapp.core.utility.toUserProfileInfo
+import org.lifetrack.ltapp.utility.toUserPreferences
+import org.lifetrack.ltapp.utility.toUserProfileInfo
 import org.lifetrack.ltapp.model.data.dclass.SessionStatus
 import org.lifetrack.ltapp.model.data.dto.SessionInfo
 import org.lifetrack.ltapp.model.repository.AuthRepository

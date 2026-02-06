@@ -57,8 +57,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
-import org.lifetrack.ltapp.core.utility.formatMonthYear
-import org.lifetrack.ltapp.core.utility.toYearMonth
+import org.lifetrack.ltapp.utility.formatMonthYear
+import org.lifetrack.ltapp.utility.toYearMonth
 import org.lifetrack.ltapp.model.data.dclass.MedicalVisit
 import org.lifetrack.ltapp.presenter.TLinePresenter
 import org.lifetrack.ltapp.ui.components.timelinescreen.StatusChip

@@ -16,49 +16,47 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.model.data.dclass.Appointment
-import org.lifetrack.ltapp.model.data.dclass.AppointmentStatus
 import org.lifetrack.ltapp.model.data.dclass.AuthResult
 import org.lifetrack.ltapp.model.data.dclass.DoctorProfile
-import org.lifetrack.ltapp.model.data.dclass.LabTest
 import org.lifetrack.ltapp.model.data.dclass.Prescription
+import org.lifetrack.ltapp.model.data.dclass.UIAppointmentStatus
 import org.lifetrack.ltapp.model.data.mock.LtMockData
 import org.lifetrack.ltapp.model.repository.UserRepository
 import org.lifetrack.ltapp.service.SessionManager
 import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 class UserPresenter(
     private val userRepository: UserRepository,
     private val sessionManager: SessionManager
 ) : ViewModel() {
     @SuppressLint("MutableCollectionMutableState")
-    val dummyBpData = mutableStateOf(LtMockData.bPressureData)
-    val dummyPatient = mutableStateOf(LtMockData.dPatient)
-    val dummyLabTests =  mutableStateListOf<LabTest>().apply {
-        addAll(LtMockData.dLabTests)
-    }
+//    val dummyBpData = mutableStateOf(LtMockData.bPressureData)
+//    val dummyPatient = mutableStateOf(LtMockData.dPatient)
+//    val dummyLabTests =  mutableStateListOf<LabTest>().apply {
+//        addAll(LtMockData.dLabTests)
+//    }
     val dummyPrescriptions = mutableStateListOf<Prescription>().apply {
         addAll(LtMockData.dPrescriptions)
     }
     var isBookingExpanded = mutableStateOf(false)
 
     private val _allAppointments = MutableStateFlow(LtMockData.dummyAppointments)
-    private val _selectedFilter = MutableStateFlow(AppointmentStatus.UPCOMING)
+    private val _selectedFilter = MutableStateFlow(UIAppointmentStatus.UPCOMING)
     val selectedFilter = _selectedFilter.asStateFlow()
 
     private val _selectedDoctorProfile = MutableStateFlow<DoctorProfile?>(null)
     val selectedDoctorProfile = _selectedDoctorProfile.asStateFlow()
 
     val nextUpcomingAppointment = _allAppointments.map { list ->
-        list.filter { it.status == AppointmentStatus.UPCOMING }
-            .minByOrNull { it.dateTime }
+        list.filter { it.status == UIAppointmentStatus.UPCOMING }.minByOrNull { it.scheduledAt }
     }.stateIn(viewModelScope,
         SharingStarted.WhileSubscribed(5000),
         null
     )
-    val userAppointments: StateFlow<List<Appointment>> = combine(
-        _allAppointments,
-        _selectedFilter
-    ) { appointments, filter ->
+    val userAppointments: StateFlow<List<Appointment>> = combine(_allAppointments, _selectedFilter)
+    { appointments, filter ->
         appointments.filter { it.status == filter }
     }.stateIn(
         viewModelScope,
@@ -67,14 +65,10 @@ class UserPresenter(
     )
 
     private val _isLoading = MutableStateFlow(false)
-
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage = _errorMessage.asStateFlow()
 
-//    private val _myPatients = MutableStateFlow(LtMockData.dDocPatients)
-//    val myPatients = _myPatients.asStateFlow()
-
-    fun onFilterChanged(newFilter: AppointmentStatus) {
+    fun onFilterChanged(newFilter: UIAppointmentStatus) {
         _selectedFilter.value = newFilter
     }
     fun onSelectDoctor(doctor: DoctorProfile) {
@@ -83,7 +77,7 @@ class UserPresenter(
     fun clearError() {
         _errorMessage.value = null
     }
-    fun getCountForStatus(status: AppointmentStatus): Int {
+    fun getCountForStatus(status: UIAppointmentStatus): Int {
         return _allAppointments.value.count { it.status == status }
     }
 
@@ -109,26 +103,28 @@ class UserPresenter(
         }
     }
 
+    @OptIn(ExperimentalUuidApi::class)
     fun bookAppointment() {
         val selectedDoc = _selectedDoctorProfile.value ?: return
         val newAppointment = Appointment(
             doctor = selectedDoc.name,
-            dateTime = kotlinx.datetime.LocalDateTime(2025, 12, 29, 10, 0),
+            scheduledAt = kotlinx.datetime.LocalDateTime(2025, 12, 29, 10, 0),
             hospital = selectedDoc.hospital,
-            status = AppointmentStatus.RECENTLY_BOOKED
+            status = UIAppointmentStatus.RECENTLY_BOOKED,
+            id = Uuid.random().toHexString()
         )
         _allAppointments.update { it + newAppointment }
-        onFilterChanged(AppointmentStatus.RECENTLY_BOOKED)
+        onFilterChanged(UIAppointmentStatus.RECENTLY_BOOKED)
         _selectedDoctorProfile.value = null
     }
 
     fun dismissAppointment(appointment: Appointment) {
         _allAppointments.update { list ->
-            list.map { if (it.id == appointment.id) it.copy(status = AppointmentStatus.DISMISSED) else it }
+            list.map { if (it.id == appointment.id) it.copy(status = UIAppointmentStatus.DISMISSED) else it }
         }
     }
 
-    fun undoDismiss(appointment: Appointment, originalStatus: AppointmentStatus) {
+    fun undoDismiss(appointment: Appointment, originalStatus: UIAppointmentStatus) {
         _allAppointments.update { list ->
             list.map { if (it.id == appointment.id) it.copy(status = originalStatus) else it }
         }
@@ -136,7 +132,7 @@ class UserPresenter(
 
     fun restoreAppointment(appointment: Appointment) {
         _allAppointments.update { list ->
-            list.map { if (it.id == appointment.id) it.copy(status = AppointmentStatus.UPCOMING) else it }
+            list.map { if (it.id == appointment.id) it.copy(status = UIAppointmentStatus.UPCOMING) else it }
         }
     }
 }

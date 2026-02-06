@@ -8,11 +8,14 @@ import io.ktor.client.request.get
 import io.ktor.client.request.patch
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
+import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import io.ktor.http.isSuccess
 import kotlinx.coroutines.flow.first
 import org.lifetrack.ltapp.core.exception.NoInternetException
 import org.lifetrack.ltapp.model.data.dclass.AuthResult
+import org.lifetrack.ltapp.model.data.dto.AppointmentUpdate
 import org.lifetrack.ltapp.model.data.dto.PwdRestoreRequest
 import org.lifetrack.ltapp.model.data.dto.UserDataResponse
 import org.lifetrack.ltapp.model.data.dto.UserDataUpdate
@@ -29,10 +32,12 @@ class UserRepositoryImpl(
             return AuthResult.Error("No active session found")
         }
         return try {
-            val response = client.get("user/info") {
-                expectSuccess = true
+            val response = client.get("/user/info") { expectSuccess = true }
+            if (response.status.isSuccess()) {
+                AuthResult.SuccessWithData(response.body<UserDataResponse>())
+            }else{
+                AuthResult.Error(response.bodyAsText())
             }
-            AuthResult.SuccessWithData(response.body<UserDataResponse>())
         }catch(_: NoInternetException){
             AuthResult.Error(isNetworkError = true, message = "No Internet Connection")
         }catch (e: Exception) {
@@ -40,9 +45,24 @@ class UserRepositoryImpl(
         }
     }
 
+    override suspend fun getUserAppointments(): AuthResult {
+        return try {
+            val httpResponse = client.get("/user/appointment") { expectSuccess = true }
+            if (httpResponse.status.isSuccess()){
+                AuthResult.SuccessWithData(httpResponse.body<List<AppointmentUpdate>>())
+            }else {
+                AuthResult.Error(httpResponse.bodyAsText())
+            }
+        }catch (ex: Exception){
+            AuthResult.Error(ex.message ?: ex.localizedMessage)
+        }catch(_: NoInternetException) {
+            AuthResult.Error(isNetworkError = true, message = "No Internet Connection")
+        }
+    }
+
     override suspend fun updateCurrentUserInfo(user: UserDataUpdate): AuthResult {
         return try {
-            val response = client.patch("user/updateAccount") {
+            val response = client.patch("/user/updateAccount") {
                 contentType(ContentType.Application.Json)
                 setBody(user)
             }
@@ -60,7 +80,7 @@ class UserRepositoryImpl(
 
     override suspend fun changePassword(passwordRequest: PwdRestoreRequest): AuthResult {
         return try {
-            val response = client.post("user/changePassword") {
+            val response = client.post("/user/changePassword") {
                 contentType(ContentType.Application.Json)
                 setBody(passwordRequest)
             }
@@ -78,7 +98,7 @@ class UserRepositoryImpl(
 
     override suspend fun deleteAccount(): AuthResult {
         return try {
-            val response = client.delete("user/deleteAccount")
+            val response = client.delete("/user/deleteAccount")
             if (response.status.value in 200..299) {
                 prefRepository.clearAllSessions()
                 AuthResult.Success

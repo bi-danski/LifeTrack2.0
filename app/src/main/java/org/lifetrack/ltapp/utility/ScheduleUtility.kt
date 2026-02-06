@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.core.utility
+package org.lifetrack.ltapp.utility
 
 import android.Manifest
 import android.app.AlarmManager

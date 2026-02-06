@@ -32,9 +32,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import org.lifetrack.ltapp.core.utility.openDialer
-import org.lifetrack.ltapp.core.utility.openEmail
-import org.lifetrack.ltapp.core.utility.openSMS
+import org.lifetrack.ltapp.utility.openDialer
+import org.lifetrack.ltapp.utility.openEmail
+import org.lifetrack.ltapp.utility.openSMS
 import org.lifetrack.ltapp.ui.components.supportscreen.ContactItem
 import org.lifetrack.ltapp.ui.components.supportscreen.FAQItem
 import org.lifetrack.ltapp.ui.components.supportscreen.SectionCard

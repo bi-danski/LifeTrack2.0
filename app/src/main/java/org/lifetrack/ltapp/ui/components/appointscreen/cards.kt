@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import org.lifetrack.ltapp.core.utility.customFormat
+import org.lifetrack.ltapp.utility.customFormat
 import org.lifetrack.ltapp.model.data.dclass.Appointment
 import org.lifetrack.ltapp.ui.theme.Purple40
 
@@ -51,7 +51,7 @@ fun AppointmentCard(appointment: Appointment) {
                 )
 
                 Text(
-                    text = "${appointment.dateTime.customFormat("MMM dd, yyyy")} - ${appointment.dateTime.customFormat("hh:mm a")}",
+                    text = "${appointment.scheduledAt.customFormat("MMM dd, yyyy")} - ${appointment.scheduledAt.customFormat("hh:mm a")}",
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.SemiBold,
                     color = if (isDark) Color(0xFFB39DDB) else Purple40

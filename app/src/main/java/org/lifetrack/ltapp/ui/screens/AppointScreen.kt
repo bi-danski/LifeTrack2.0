@@ -63,7 +63,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
-import org.lifetrack.ltapp.model.data.dclass.AppointmentStatus
+import org.lifetrack.ltapp.model.data.dclass.UIAppointmentStatus
 import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.ui.components.appointscreen.AppointmentCard
 import org.lifetrack.ltapp.ui.components.appointscreen.AppointmentSwipeCard
@@ -191,9 +191,9 @@ fun AppointScreen(userPresenter: UserPresenter) {
                         contentPadding = PaddingValues(horizontal = 16.dp),
                         horizontalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
-                        items(AppointmentStatus.entries) { status ->
+                        items(UIAppointmentStatus.entries) { status ->
                             StatusChip(
-                                label = status.label,
+                                label = status.status,
                                 count = userPresenter.getCountForStatus(status).toString(),
                                 accentColor = status.color,
                                 icon = status.icon,
@@ -206,7 +206,7 @@ fun AppointScreen(userPresenter: UserPresenter) {
 
                 item {
                     Text(
-                        text = "${currentFilter.label} Appointments",
+                        text = "${currentFilter.status} Appointments",
                         fontWeight = FontWeight.ExtraBold,
                         style = MaterialTheme.typography.titleLarge,
                         modifier = Modifier.padding(horizontal = 16.dp),
@@ -219,12 +219,12 @@ fun AppointScreen(userPresenter: UserPresenter) {
                 if (appointments.isEmpty()) {
                     item {
                         Box(Modifier.fillMaxWidth().padding(32.dp), contentAlignment = Alignment.Center) {
-                            Text("No ${currentFilter.label} appointments found.", color = Color.Gray)
+                            Text("No ${currentFilter.status} appointments found.", color = Color.Gray)
                         }
                     }
                 } else {
                     items(items = appointments, key = { it.id }) { appointment ->
-                        if (currentFilter != AppointmentStatus.DISMISSED) {
+                        if (currentFilter != UIAppointmentStatus.DISMISSED) {
                             AppointmentSwipeCard(
                                 appointment = appointment,
                                 onDismiss = {

@@ -13,9 +13,9 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.core.events.AuthUiEvent
-import org.lifetrack.ltapp.core.utility.toProfileInfo
-import org.lifetrack.ltapp.core.utility.toUserPreferences
-import org.lifetrack.ltapp.core.utility.toUserProfileInfo
+import org.lifetrack.ltapp.utility.toProfileInfo
+import org.lifetrack.ltapp.utility.toUserPreferences
+import org.lifetrack.ltapp.utility.toUserProfileInfo
 import org.lifetrack.ltapp.model.data.dclass.AuthResult
 import org.lifetrack.ltapp.model.data.dclass.LoginInfo
 import org.lifetrack.ltapp.model.data.dclass.ProfileInfo

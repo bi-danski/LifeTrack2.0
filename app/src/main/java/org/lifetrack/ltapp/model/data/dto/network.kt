@@ -1,7 +1,8 @@
 package org.lifetrack.ltapp.model.data.dto
 
-//import kotlinx.serialization.Contextual
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
+import java.time.LocalDateTime
 import kotlin.time.Instant
 
 @Serializable
@@ -51,3 +52,22 @@ data class PwdRestoreRequest(
     val emailAddress: String
 )
 
+@Serializable
+data class AppointmentUpdate(
+    val id: String? = null,
+    val doctor: String,
+    val hospital: String,
+    val status: AppointmentStatus,
+    @Contextual val scheduledAt: LocalDateTime,
+    @Contextual val bookedAt: Instant
+)
+
+@Serializable
+enum class AppointmentStatus {
+    UPCOMING,
+    ATTENDED,
+    RECENTLY_BOOKED,
+    RESCHEDULED,
+    DISMISSED,
+    CANCELLED
+}
