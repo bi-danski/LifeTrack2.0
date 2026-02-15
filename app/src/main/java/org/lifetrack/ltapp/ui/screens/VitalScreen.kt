@@ -325,9 +325,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.DirectionsRun
 import androidx.compose.material.icons.filled.Air
 import androidx.compose.material.icons.filled.Bedtime
-import androidx.compose.material.icons.filled.DirectionsRun
 import androidx.compose.material.icons.filled.MonitorHeart
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Card
@@ -368,8 +368,8 @@ import com.patrykandpatrick.vico.core.cartesian.decoration.HorizontalLine
 import com.patrykandpatrick.vico.core.cartesian.layer.LineCartesianLayer
 import com.patrykandpatrick.vico.core.common.Fill
 import com.patrykandpatrick.vico.core.common.component.LineComponent
-import org.lifetrack.ltapp.model.data.dclass.RecoveryMetrics
 import org.lifetrack.ltapp.model.LtMockData
+import org.lifetrack.ltapp.model.data.dclass.RecoveryMetrics
 import java.util.Locale
 import com.github.mikephil.charting.charts.LineChart as MPLineChart
 import com.github.mikephil.charting.charts.RadarChart as MPRadarChart
@@ -413,7 +413,8 @@ fun VitalScreen() {
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             item {
-                HealthCard("Movement & Kinetics", Icons.Default.DirectionsRun, Color(0xFFFF9800)) {
+                HealthCard("Movement & Kinetics",
+                    Icons.AutoMirrored.Filled.DirectionsRun, Color(0xFFFF9800)) {
                     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                             VitalMetric("Intensity", activity.intensityLevel.name, "")
@@ -421,7 +422,6 @@ fun VitalScreen() {
                             VitalMetric("Elevation", "${activity.elevationGainMeters.toInt()}", "m")
                         }
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                            // Fixed Locale bug
                             val distStr = "%.1f".format(Locale.US, activity.distanceMeters / 1000.0)
                             VitalMetric("Distance", distStr, "km")
                             VitalMetric("Active", "${activity.activeMinutes.inWholeMinutes}", "min")
