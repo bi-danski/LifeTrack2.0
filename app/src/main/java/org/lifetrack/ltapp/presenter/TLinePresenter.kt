@@ -7,7 +7,7 @@
 //import kotlinx.coroutines.launch
 //import org.lifetrack.ltapp.model.data.dclass.MedicalVisit
 //import org.lifetrack.ltapp.model.data.dclass.VisitStatus
-//import org.lifetrack.ltapp.model.data.mock.LtMockData
+//import org.lifetrack.ltapp.model.LtMockData
 //
 //class TLinePresenter : ViewModel() {
 //
@@ -151,7 +151,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.model.data.dclass.MedicalVisit
 import org.lifetrack.ltapp.model.data.dclass.VisitStatus
-import org.lifetrack.ltapp.model.data.mock.LtMockData
+import org.lifetrack.ltapp.model.LtMockData
 
 class TLinePresenter : ViewModel() {
 

@@ -43,7 +43,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.lifetrack.ltapp.model.data.dclass.LabTest
-import org.lifetrack.ltapp.model.data.mock.LtMockData
+import org.lifetrack.ltapp.model.LtMockData
 import org.lifetrack.ltapp.ui.components.medicalcharts.BloodPressChart
 import org.lifetrack.ltapp.ui.components.medicalcharts.MetricBadge
 import java.util.Date

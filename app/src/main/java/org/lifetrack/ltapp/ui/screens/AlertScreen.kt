@@ -31,7 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
-import org.lifetrack.ltapp.model.data.mock.LtMockData
+import org.lifetrack.ltapp.model.LtMockData
 import org.lifetrack.ltapp.ui.components.alertscreen.AlertSummaryCard
 import org.lifetrack.ltapp.ui.components.alertscreen.EpidemicAlertCard
 import org.lifetrack.ltapp.ui.navigation.LTNavDispatch

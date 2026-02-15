@@ -33,7 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.lifetrack.ltapp.model.data.dclass.DoctorProfile
-import org.lifetrack.ltapp.model.data.mock.LtMockData
+import org.lifetrack.ltapp.model.LtMockData
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

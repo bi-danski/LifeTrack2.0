@@ -5,7 +5,9 @@ import androidx.compose.material.icons.filled.Block
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Emergency
 import androidx.compose.material.icons.filled.History
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.NewReleases
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -30,10 +32,10 @@ val filterOptions = listOf(
     VisitFilter.Oldest,
     VisitFilter.Alphabetical
 )
-
-enum class AttachmentType {
-    PDF, IMAGE, LAB_RESULT
-}
+val menuListItems: Collection<MenuItemData> = mutableListOf(
+    MenuItemData("Emergency Contacts", Icons.Filled.Emergency, "epidemic_alert", rightIcon = null),
+    MenuItemData("About LifeTrack", Icons.Filled.Info, "about", rightIcon = null)
+)
 
 enum class UIAppointmentStatus(
     val status: String,
@@ -48,5 +50,14 @@ enum class UIAppointmentStatus(
     CANCELLED("Cancelled", Color(0xFFE74C3C), Icons.Default.Block);
 }
 
-enum class SessionStatus { INITIALIZING, LOGGED_IN, LOGGED_OUT }
+enum class SessionStatus {
+    INITIALIZING, LOGGED_IN, LOGGED_OUT
+}
 
+enum class Intensity {
+    LOW, MODERATE, VIGOROUS
+}
+
+enum class AttachmentType {
+    PDF, IMAGE, LAB_RESULT
+}

@@ -54,7 +54,7 @@
 //import com.patrykandpatrick.vico.core.cartesian.layer.LineCartesianLayer
 //import com.patrykandpatrick.vico.core.common.Fill
 //import com.patrykandpatrick.vico.core.common.component.LineComponent
-//import org.lifetrack.ltapp.model.data.mock.LtMockData
+//import org.lifetrack.ltapp.model.LtMockData
 //import com.github.mikephil.charting.charts.LineChart as MPLineChart
 //
 //@OptIn(ExperimentalMaterial3Api::class)
@@ -369,7 +369,7 @@ import com.patrykandpatrick.vico.core.cartesian.layer.LineCartesianLayer
 import com.patrykandpatrick.vico.core.common.Fill
 import com.patrykandpatrick.vico.core.common.component.LineComponent
 import org.lifetrack.ltapp.model.data.dclass.RecoveryMetrics
-import org.lifetrack.ltapp.model.data.mock.LtMockData
+import org.lifetrack.ltapp.model.LtMockData
 import java.util.Locale
 import com.github.mikephil.charting.charts.LineChart as MPLineChart
 import com.github.mikephil.charting.charts.RadarChart as MPRadarChart

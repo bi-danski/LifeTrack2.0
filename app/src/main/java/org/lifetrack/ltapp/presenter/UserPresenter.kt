@@ -20,7 +20,7 @@ import org.lifetrack.ltapp.model.data.dclass.AuthResult
 import org.lifetrack.ltapp.model.data.dclass.DoctorProfile
 import org.lifetrack.ltapp.model.data.dclass.Prescription
 import org.lifetrack.ltapp.model.data.dclass.UIAppointmentStatus
-import org.lifetrack.ltapp.model.data.mock.LtMockData
+import org.lifetrack.ltapp.model.LtMockData
 import org.lifetrack.ltapp.model.repository.UserRepository
 import org.lifetrack.ltapp.service.SessionManager
 import org.lifetrack.ltapp.ui.navigation.LTNavDispatch

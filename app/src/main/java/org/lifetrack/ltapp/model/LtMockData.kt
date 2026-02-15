@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.model.data.mock
+package org.lifetrack.ltapp.model
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FlashOn
@@ -7,7 +7,6 @@ import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import kotlinx.datetime.LocalDateTime
-import org.lifetrack.ltapp.R
 import org.lifetrack.ltapp.model.data.dclass.ActivityMetrics
 import org.lifetrack.ltapp.model.data.dclass.Appointment
 import org.lifetrack.ltapp.model.data.dclass.Attachment
@@ -17,13 +16,16 @@ import org.lifetrack.ltapp.model.data.dclass.DoctorProfile
 import org.lifetrack.ltapp.model.data.dclass.EpidemicAlert
 import org.lifetrack.ltapp.model.data.dclass.HospitalVisit
 import org.lifetrack.ltapp.model.data.dclass.Intensity
+import org.lifetrack.ltapp.model.data.dclass.LabTest
 import org.lifetrack.ltapp.model.data.dclass.MedicalVisit
 import org.lifetrack.ltapp.model.data.dclass.Patient
 import org.lifetrack.ltapp.model.data.dclass.Premium
+import org.lifetrack.ltapp.model.data.dclass.Prescription
 import org.lifetrack.ltapp.model.data.dclass.RecoveryMetrics
 import org.lifetrack.ltapp.model.data.dclass.RespiratoryMetrics
 import org.lifetrack.ltapp.model.data.dclass.SubVisit
 import org.lifetrack.ltapp.model.data.dclass.UIAppointmentStatus
+import org.lifetrack.ltapp.model.data.dclass.UpcomingVisit
 import org.lifetrack.ltapp.model.data.dclass.VisitStatus
 import org.lifetrack.ltapp.ui.theme.PremiumGold
 import org.lifetrack.ltapp.ui.theme.PremiumPurple
@@ -31,12 +33,12 @@ import org.lifetrack.ltapp.ui.theme.PremiumTeal
 import java.time.LocalDate
 import java.util.Date
 import kotlin.random.Random
-import kotlin.time.Clock.System.now
+import kotlin.time.Clock
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
+import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
-
 
 object LtMockData {
     val allHospitalVisits = listOf(
@@ -157,7 +159,7 @@ object LtMockData {
         )
     )
 
-    @OptIn(kotlin.uuid.ExperimentalUuidApi::class)
+    @OptIn(ExperimentalUuidApi::class)
     val dummyAppointments = listOf(
         Appointment(
             id = Uuid.random().toHexString(),
@@ -211,7 +213,7 @@ object LtMockData {
                 "Seek immediate treatment for symptoms"
             ),
             status = "Active",
-            localImageRes = R.drawable.malaria
+            localImageRes = org.lifetrack.ltapp.R.drawable.malaria
         ),
         EpidemicAlert(
             id = 2,
@@ -226,7 +228,7 @@ object LtMockData {
                 "Oral rehydration for symptoms"
             ),
             status = "New",
-            localImageRes = R.drawable.who
+            localImageRes = org.lifetrack.ltapp.R.drawable.who
         ),
         EpidemicAlert(
             id = 3,
@@ -241,7 +243,7 @@ object LtMockData {
                 "Monitor for symptoms"
             ),
             status = "Active",
-            localImageRes = R.drawable.covid
+            localImageRes = org.lifetrack.ltapp.R.drawable.covid
         ),
         EpidemicAlert(
             id = 4,
@@ -256,7 +258,7 @@ object LtMockData {
                 "Visit health centers if symptoms persist"
             ),
             status = "Contained",
-            localImageRes = R.drawable.alerts
+            localImageRes = org.lifetrack.ltapp.R.drawable.alerts
         )
     )
 
@@ -419,11 +421,11 @@ object LtMockData {
         gender = "Female",
         bloodPressure = "190/120",
         lastVisit = "April 26, 2024",
-        condition = "Hypertensive Crisis" // EHR error state UI
+        condition = "Hypertensive Crisis" 
     )
 
     val dLabTests = listOf(
-        org.lifetrack.ltapp.model.data.dclass.LabTest(
+        LabTest(
             name = "Comprehensive Metabolic Panel",
             date = "Apr 20, 2024",
             results = mapOf(
@@ -433,7 +435,7 @@ object LtMockData {
                 "Sodium" to "138 (Normal)"
             )
         ),
-        org.lifetrack.ltapp.model.data.dclass.LabTest(
+        LabTest(
             name = "Lipid Panel",
             date = "Apr 15, 2024",
             results = mapOf(
@@ -446,7 +448,7 @@ object LtMockData {
     )
 
     val dPrescriptions = listOf(
-        org.lifetrack.ltapp.model.data.dclass.Prescription(
+        Prescription(
             id = "RX-8801",
             medicationName = "Lisinopril 20mg",
             dosage = "1 tablet, daily",
@@ -457,7 +459,7 @@ object LtMockData {
             status = "Active",
             refillProgress = 0.85f
         ),
-        org.lifetrack.ltapp.model.data.dclass.Prescription(
+        Prescription(
             id = "RX-4402",
             medicationName = "Metformin 500mg",
             dosage = "1 tablet, twice daily",
@@ -465,10 +467,10 @@ object LtMockData {
             prescribedBy = "Dr. Anya Sharma",
             startDate = "Nov 15, 2025",
             endDate = "Dec 22, 2025",
-            status = "Refill Due", // Triggers warning state in UI
+            status = "Refill Due", 
             refillProgress = 0.95f
         ),
-        org.lifetrack.ltapp.model.data.dclass.Prescription(
+        Prescription(
             id = "RX-9122",
             medicationName = "Atorvastatin 40mg",
             dosage = "1 tablet nightly",
@@ -482,12 +484,12 @@ object LtMockData {
     )
 
     val upcomingData = listOf(
-        org.lifetrack.ltapp.model.data.dclass.UpcomingVisit(
+        UpcomingVisit(
             location = "Mama Lucy Kibaki",
             treatment = "Cardiology Follow-up",
             timestamp = LocalDateTime(2025, 12, 28, 10, 0)
         ),
-        org.lifetrack.ltapp.model.data.dclass.UpcomingVisit(
+        UpcomingVisit(
             location = "Metropolitan Hospital",
             treatment = "HbA1c Lab Test",
             timestamp = LocalDateTime(2025, 12, 30, 14, 0)
@@ -529,46 +531,49 @@ object LtMockData {
     )
 
     val dailyActivityHistory = List(7) { dayOffset ->
-        val timestamp = now().minus(dayOffset.days)
+        val timestamp = Clock.System.now().minus(dayOffset.days)
         ActivityMetrics(
             timestamp = timestamp,
             stepCount = (4000..12000).random(),
             cadence = (90..115).random(),
-            distanceMeters = Random.nextDouble(3000.0, 8500.0), // Corrected
-            elevationGainMeters = Random.nextDouble(5.0, 40.0), // Corrected
-            caloriesBurned = Random.nextDouble(1800.0, 2600.0), // Corrected
+            distanceMeters = Random.nextDouble(3000.0, 8500.0),
+            elevationGainMeters = Random.nextDouble(5.0, 40.0),
+            caloriesBurned = Random.nextDouble(1800.0, 2600.0),
             activeMinutes = (20..100).random().minutes,
             intensityLevel = if (dayOffset % 3 == 0) Intensity.VIGOROUS else Intensity.MODERATE
         )
     }
 
     val liveCardioVitals = List(24) { hourOffset ->
-        val timestamp = now().minus(hourOffset.hours)
+        val timestamp = Clock.System.now().minus(hourOffset.hours)
         CardioMetrics(
             timestamp = timestamp,
             heartRateBpm = (75..95).random(),
-            hrvMilliseconds = Random.nextDouble(30.0, 55.0), // Fixed: used Random.nextDouble
+            hrvMilliseconds = Random.nextDouble(
+                30.0,
+                55.0
+            ), 
             hasArrhythmiaDetected = false,
             ecgWaveform = null,
-            systolicBP = if(hourOffset < 5) 190 else 145,
-            diastolicBP = if(hourOffset < 5) 120 else 90
+            systolicBP = if (hourOffset < 5) 190 else 145,
+            diastolicBP = if (hourOffset < 5) 120 else 90
         )
     }
 
     val respiratoryHistory = List(7) { dayOffset ->
-        val timestamp = now().minus(dayOffset.days)
+        val timestamp = Clock.System.now().minus(dayOffset.days)
         RespiratoryMetrics(
             timestamp = timestamp,
-            spo2Percentage = Random.nextDouble(94.0, 99.0), // Fixed
+            spo2Percentage = Random.nextDouble(94.0, 99.0),
             vo2Max = 42.5,
             breathsPerMinute = (14..20).random(),
-            respiratoryEffort = Random.nextDouble(15.0, 45.0), // Fixed
-            hydrationLevel = Random.nextDouble(60.0, 80.0)    // Fixed
+            respiratoryEffort = Random.nextDouble(15.0, 45.0),
+            hydrationLevel = Random.nextDouble(60.0, 80.0)
         )
     }
 
     val weeklyRecoveryTrends = List(7) { dayOffset ->
-        val syncTime = now().minus(dayOffset.days)
+        val syncTime = Clock.System.now().minus(dayOffset.days)
         RecoveryMetrics(
             lastSyncTime = syncTime,
             sleepDuration = (6..8).random().hours,

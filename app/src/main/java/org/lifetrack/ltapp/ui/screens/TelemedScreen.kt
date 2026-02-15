@@ -57,8 +57,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
-import org.lifetrack.ltapp.model.data.mock.LtMockData.dummyDoctors
-import org.lifetrack.ltapp.model.data.mock.LtMockData.dummyPremiums
+import org.lifetrack.ltapp.model.LtMockData.dummyDoctors
+import org.lifetrack.ltapp.model.LtMockData.dummyPremiums
 import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 import org.lifetrack.ltapp.ui.theme.AvailableColor
 import org.lifetrack.ltapp.ui.theme.BusyColor

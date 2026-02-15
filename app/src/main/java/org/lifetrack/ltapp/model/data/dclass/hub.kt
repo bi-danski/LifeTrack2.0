@@ -1,5 +1,6 @@
 package org.lifetrack.ltapp.model.data.dclass
 
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.datetime.LocalDateTime
 import org.lifetrack.ltapp.R
@@ -122,42 +123,68 @@ data class NavigationTab (
 data class ActivityMetrics(
     val timestamp: Instant,
     val stepCount: Int,
-    val cadence: Int,               // Steps per minute
+    val cadence: Int,               
     val distanceMeters: Double,
     val elevationGainMeters: Double,
     val caloriesBurned: Double,
     val activeMinutes: Duration,
-    val intensityLevel: Intensity   // Enum: LOW, MODERATE, VIGOROUS
+    val intensityLevel: Intensity   
 )
 
 data class CardioMetrics(
     val timestamp: Instant,
     val heartRateBpm: Int,
-    val hrvMilliseconds: Double,    // Heart Rate Variability
+    val hrvMilliseconds: Double,    
     val hasArrhythmiaDetected: Boolean,
-    val ecgWaveform: List<Double>?, // Voltage samples if a scan was taken
-    val systolicBP: Int?,           // Estimated Blood Pressure
+    val ecgWaveform: List<Double>?, 
+    val systolicBP: Int?,           
     val diastolicBP: Int?
 )
 
 data class RespiratoryMetrics(
     val timestamp: Instant,
-    val spo2Percentage: Double,     // Blood Oxygen Saturation
-    val vo2Max: Double?,            // Cardio Fitness score
+    val spo2Percentage: Double,     
+    val vo2Max: Double?,            
     val breathsPerMinute: Int,
-    val respiratoryEffort: Double,  // New for 2026: measuring lung strain
-    val hydrationLevel: Double?     // Bio-impedance based (percentage)
+    val respiratoryEffort: Double,  
+    val hydrationLevel: Double?     
 )
 
 data class RecoveryMetrics(
     val lastSyncTime: Instant,
     val sleepDuration: Duration,
-    val sleepScore: Int,            // 0-100 scale
+    val sleepScore: Int,            
     val remDuration: Duration,
     val deepSleepDuration: Duration,
-    val skinTempOffset: Double,     // Deviation from baseline
-    val stressLevel: Int,           // 1-10 scale based on GSR and HRV
-    val readinessScore: Int         // "Body Battery" or "Daily Readiness"
+    val skinTempOffset: Double,     
+    val stressLevel: Int,           
+    val readinessScore: Int         
 )
 
-enum class Intensity { LOW, MODERATE, VIGOROUS }
+data class LtSettings(
+    val notifications: Boolean = true,
+    val emailNotifications: Boolean = false,
+    val smsNotifications: Boolean = false,
+    val animations: Boolean = true,
+    val dataConsent: Boolean = false,
+    val reminders: Boolean = true,
+    val carouselAutoRotate: Boolean = true
+)
+
+data class MenuItemData(
+    val title: String,
+    val icon: ImageVector,
+    val route: String,
+    val rightIcon: ImageVector?,
+)
+
+data class ToggleItemData(
+    val title: String,
+    var icon: ImageVector,
+)
+
+data class StatusChipData(
+    val label: String,
+    val color: Color,
+    val icon: ImageVector
+)
