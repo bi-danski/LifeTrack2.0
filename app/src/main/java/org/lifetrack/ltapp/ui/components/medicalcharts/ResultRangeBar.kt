@@ -28,17 +28,40 @@ import org.lifetrack.ltapp.model.data.dclass.LabTest
 fun LabResultRangeBar(label: String, valueStr: String) {
     val isAbnormal = valueStr.contains("High") || valueStr.contains("Critical") || valueStr.contains("Low")
     val bias = when {
-        valueStr.contains("Critical") -> 0.9f; valueStr.contains("High") -> 0.75f; valueStr.contains("Low") -> 0.2f; else -> 0.5f
+        valueStr.contains("Critical") -> 0.9f
+        valueStr.contains("High") -> 0.75f
+        valueStr.contains("Low") -> 0.2f
+        else -> 0.5f
     }
     Column(Modifier.padding(vertical = 8.dp)) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Text(label, style = MaterialTheme.typography.bodySmall)
-            Text(valueStr, style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Bold, color = if (isAbnormal) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface)
+            Text(label,
+                style = MaterialTheme.typography.bodySmall,
+                fontWeight = FontWeight.SemiBold
+            )
+            Text(valueStr,
+                style = MaterialTheme.typography.bodySmall,
+                fontWeight = FontWeight.SemiBold,
+                color = if (isAbnormal) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface)
         }
         Spacer(Modifier.height(6.dp))
-        Box(Modifier.fillMaxWidth().height(10.dp).background(MaterialTheme.colorScheme.surfaceVariant, CircleShape)) {
-            Box(Modifier.fillMaxWidth(0.4f).fillMaxHeight().align(Alignment.Center).background(MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)))
-            Canvas(Modifier.fillMaxSize()) { drawCircle(if (isAbnormal) Color(0xFFE74C3C) else Color(0xFF3498DB), 5.dp.toPx(), Offset(size.width * bias, size.height / 2)) }
+        Box(Modifier
+            .fillMaxWidth()
+            .height(10.dp)
+            .background(MaterialTheme.colorScheme.surfaceVariant, CircleShape)
+        ) {
+            Box(Modifier
+                .fillMaxWidth(0.4f)
+                .fillMaxHeight()
+                .align(Alignment.Center)
+                .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.5f))
+            )
+            Canvas(Modifier.fillMaxSize()) {
+                drawCircle(if (isAbnormal) Color(0xFFE74C3C) else Color(0xFF3498DB),
+                    5.dp.toPx(),
+                    Offset(size.width * bias, size.height / 2)
+                )
+            }
         }
     }
 }
@@ -46,7 +69,7 @@ fun LabResultRangeBar(label: String, valueStr: String) {
 @Composable
 fun LabCorrelationGroup(test: LabTest) {
     Column {
-        Text(test.name, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Bold)
+        Text(test.name, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold)
         test.results.forEach { (key, value) -> LabResultRangeBar(key, value) }
     }
 }

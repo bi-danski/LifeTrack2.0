@@ -404,29 +404,20 @@ object LtMockData {
         )
     )
 
-    val bPressureData = sortedMapOf(
-        Date(System.currentTimeMillis() - 6 * 86400000L) to 148f,
-        Date(System.currentTimeMillis() - 5 * 86400000L) to 152f,
-        Date(System.currentTimeMillis() - 4 * 86400000L) to 145f,
-        Date(System.currentTimeMillis() - 3 * 86400000L) to 170f,
-        Date(System.currentTimeMillis() - 2 * 86400000L) to 195f,
-        Date(System.currentTimeMillis() - 86400000L) to 188f,
-        Date() to 190f
-    )
 
     val dPatient = Patient(
         id = "LT997654321",
         name = "Dr. Najma",
         age = 45,
         gender = "Female",
-        bloodPressure = "190/120",
+        bloodPressure = "145",
         lastVisit = "April 26, 2024",
         condition = "Hypertensive Crisis" 
     )
 
     val dLabTests = listOf(
         LabTest(
-            name = "Comprehensive Metabolic Panel",
+            name = "Metabolic Panel",
             date = "Apr 20, 2024",
             results = mapOf(
                 "Glucose (Fasting)" to "126 (High)",
@@ -495,15 +486,6 @@ object LtMockData {
             timestamp = LocalDateTime(2025, 12, 30, 14, 0)
         )
     )
-    val vitalsCorrelationData = sortedMapOf(
-        Date(System.currentTimeMillis() - 6 * 86400000L) to Triple(148f, 72f, 98f),
-        Date(System.currentTimeMillis() - 5 * 86400000L) to Triple(152f, 75f, 97f),
-        Date(System.currentTimeMillis() - 4 * 86400000L) to Triple(145f, 70f, 99f),
-        Date(System.currentTimeMillis() - 3 * 86400000L) to Triple(170f, 88f, 96f),
-        Date(System.currentTimeMillis() - 2 * 86400000L) to Triple(195f, 102f, 94f),
-        Date(System.currentTimeMillis() - 86400000L) to Triple(188f, 95f, 95f),
-        Date() to Triple(190f, 98f, 95f)
-    )
 
     val vitalsRiskHeatmap = List(7) { List(6) { (0..100).random() / 100f } }
 
@@ -549,10 +531,7 @@ object LtMockData {
         CardioMetrics(
             timestamp = timestamp,
             heartRateBpm = (75..95).random(),
-            hrvMilliseconds = Random.nextDouble(
-                30.0,
-                55.0
-            ), 
+            hrvMilliseconds = Random.nextDouble(30.0,55.0),
             hasArrhythmiaDetected = false,
             ecgWaveform = listOf(27.0, 33.3, 29.5, 40.49, 30.55, 47.0, 35.67, 49.49 ),
             systolicBP = if (hourOffset < 5) 190 else 145,
@@ -580,7 +559,7 @@ object LtMockData {
             sleepScore = (60..88).random(),
             remDuration = (60..110).random().minutes,
             deepSleepDuration = (40..90).random().minutes,
-            skinTempOffset = Random.nextDouble(-0.5, 0.5), // Fixed
+            skinTempOffset = kotlin.math.truncate(Random.nextDouble(-0.5, 0.5)),
             stressLevel = (6..9).random(),
             readinessScore = (40..75).random()
         )

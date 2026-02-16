@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import org.lifetrack.ltapp.R
 import org.lifetrack.ltapp.presenter.SharedPresenter
-import org.lifetrack.ltapp.ui.theme.AvailableColor
+import org.lifetrack.ltapp.ui.theme.GreenFulani
 import org.lifetrack.ltapp.ui.theme.Purple40
 import org.lifetrack.ltapp.ui.theme.Purple80
 import org.lifetrack.ltapp.ui.theme.ShadowColor
@@ -72,7 +72,7 @@ fun LTBrandAppBar(modifier: Modifier = Modifier, sharedPresenter: SharedPresente
             style = MaterialTheme.typography.bodySmall.copy(
                 fontWeight = FontWeight.Black
             ),
-            color = if (isSystemInDarkTheme()) ShadowColor else AvailableColor
+            color = if (isSystemInDarkTheme()) ShadowColor else GreenFulani
         )
     }
 }

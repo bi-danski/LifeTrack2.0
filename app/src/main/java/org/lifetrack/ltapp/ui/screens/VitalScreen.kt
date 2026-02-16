@@ -47,7 +47,7 @@ import com.patrykandpatrick.vico.core.cartesian.layer.LineCartesianLayer
 import com.patrykandpatrick.vico.core.common.Fill
 import com.patrykandpatrick.vico.core.common.component.LineComponent
 import org.lifetrack.ltapp.model.LtMockData
-import org.lifetrack.ltapp.ui.components.medicalcharts.cards.HealthCard
+import org.lifetrack.ltapp.ui.components.medicalcharts.cards.SectionCard
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -88,7 +88,7 @@ fun VitalScreen() {
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             item {
-                HealthCard("Movement & Kinetics",
+                SectionCard("Movement & Kinetics",
                     Icons.AutoMirrored.Filled.DirectionsRun, Color(0xFFFF9800)) {
                     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -109,7 +109,7 @@ fun VitalScreen() {
 
 
             item {
-                HealthCard("Respiratory & Metabolic", Icons.Default.Air, Color(0xFF00BCD4)) {
+                SectionCard("Respiratory & Metabolic", Icons.Default.Air, Color(0xFF00BCD4)) {
                     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                             VitalMetric("VO2 Max", "${respiratory.vo2Max ?: "--"}", "ml/kg")

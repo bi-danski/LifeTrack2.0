@@ -1,5 +1,6 @@
 package org.lifetrack.ltapp.ui.screens
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,6 +15,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowCircleLeft
 import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.MonitorHeart
+import androidx.compose.material.icons.filled.QueryStats
+import androidx.compose.material.icons.filled.StackedBarChart
+import androidx.compose.material.icons.filled.StackedLineChart
+import androidx.compose.material.icons.filled.ThermostatAuto
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -33,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import com.patrykandpatrick.vico.core.cartesian.data.CartesianChartModelProducer
 import com.patrykandpatrick.vico.core.cartesian.data.lineSeries
 import org.lifetrack.ltapp.model.LtMockData
+import org.lifetrack.ltapp.ui.components.homescreen.AppBottomBar
 import org.lifetrack.ltapp.ui.components.medicalcharts.BloodPressChart
 import org.lifetrack.ltapp.ui.components.medicalcharts.ConditionAlertBanner
 import org.lifetrack.ltapp.ui.components.medicalcharts.ECGRenderer
@@ -41,9 +47,13 @@ import org.lifetrack.ltapp.ui.components.medicalcharts.LabHistogram
 import org.lifetrack.ltapp.ui.components.medicalcharts.MPRadarChart
 import org.lifetrack.ltapp.ui.components.medicalcharts.MetricBadge
 import org.lifetrack.ltapp.ui.components.medicalcharts.VitalsHeatMap
-import org.lifetrack.ltapp.ui.components.medicalcharts.cards.AnalyticSectionCard
-import org.lifetrack.ltapp.ui.components.medicalcharts.cards.HealthCard
+import org.lifetrack.ltapp.ui.components.medicalcharts.cards.AnalyticCard
+import org.lifetrack.ltapp.ui.components.medicalcharts.cards.SectionCard
 import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
+import org.lifetrack.ltapp.ui.theme.BlueFulani
+import org.lifetrack.ltapp.ui.theme.DeepOrange
+import org.lifetrack.ltapp.ui.theme.GradientEnd
+import org.lifetrack.ltapp.ui.theme.HospitalBlue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -89,7 +99,8 @@ fun AnalyticScreen() {
                     containerColor = MaterialTheme.colorScheme.background
                 )
             )
-        }
+        },
+        bottomBar = { AppBottomBar() }
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier.fillMaxSize().padding(innerPadding),
@@ -99,7 +110,7 @@ fun AnalyticScreen() {
             item { ConditionAlertBanner(patient.condition, patient.bloodPressure) }
 
             item {
-                AnalyticSectionCard(title = "BP FREQUENCY DISTRIBUTION") {
+                AnalyticCard(title = "BP FREQUENCY DISTRIBUTION", icon = Icons.Default.StackedBarChart, color = GradientEnd) {
                     Text(
                         "Historical Reading Density (30 Days)",
                         style = MaterialTheme.typography.labelSmall
@@ -110,10 +121,30 @@ fun AnalyticScreen() {
             }
 
             item {
-                AnalyticSectionCard(title = "VITALS CORRELATION ANALYSIS") {
+                SectionCard("CARDIOVASCULAR SCAN", Icons.Default.MonitorHeart, DeepOrange) {
+                    Column {
+                        if (cardio.hasArrhythmiaDetected) AlertBadge("Arrhythmia Alert", Color.Red)
+                        Text("ECG Waveform", style = MaterialTheme.typography.labelSmall)
+                        ECGRenderer(cardio.ecgWaveform ?: emptyList(), isSystemInDarkTheme())
+                        Row(
+                            Modifier.padding(top = 12.dp).fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            VitalMetric("BPM", "${cardio.heartRateBpm}", "bpm")
+                            VitalMetric("HRV", "${cardio.hrvMilliseconds.toInt()}", "ms")
+                            VitalMetric("BP", "${cardio.systolicBP}/${cardio.diastolicBP}", "mmHg")
+                        }
+                        VicoDualLine(bpProducer, Color.Red, Color(0xFFFF8A80))
+                    }
+                }
+            }
+
+            item {
+                AnalyticCard(title = "VITALS CORRELATION ANALYSIS", icon = Icons.Default.StackedLineChart, color = BlueFulani) {
                     BloodPressChart(
                         systolicData = LtMockData.systolicHistory,
-                        diastolicData = LtMockData.diastolicHistory
+                        diastolicData = LtMockData.diastolicHistory,
+                        isSystemInDarkTheme()
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                     Row(
@@ -132,7 +163,7 @@ fun AnalyticScreen() {
             }
 
             item {
-                AnalyticSectionCard(title = "DIURNAL RISK HEATMAP") {
+                AnalyticCard(title = "DIURNAL RISK HEATMAP", icon = Icons.Filled.QueryStats, color = DeepOrange) {
                     Text(
                         "Risk Intensity by Day & Time Block",
                         style = MaterialTheme.typography.labelSmall
@@ -143,7 +174,7 @@ fun AnalyticScreen() {
             }
 
             item {
-                AnalyticSectionCard(title = "LABORATORY INSIGHTS") {
+                AnalyticCard(title = "LABORATORY INSIGHTS", icon = Icons.Default.ThermostatAuto, color = HospitalBlue) {
                     LtMockData.dLabTests.forEach { test ->
                         LabCorrelationGroup(test)
                         if (test != LtMockData.dLabTests.last()) HorizontalDivider(
@@ -156,7 +187,7 @@ fun AnalyticScreen() {
             }
 
             item {
-                HealthCard("Recovery & Thermal", Icons.Default.Bedtime, Color(0xFF9C27B0)) {
+                SectionCard("Recovery & Thermal", Icons.Default.Bedtime, Color(0xFF9C27B0)) {
                     Column {
                         Row(
                             Modifier.fillMaxWidth(),
@@ -165,35 +196,18 @@ fun AnalyticScreen() {
                             VitalMetric("Readiness", "${recovery.readinessScore}", "/100")
                             VitalMetric(
                                 "Temp Offset",
-                                "${if (recovery.skinTempOffset >= 0) "+" else ""}${recovery.skinTempOffset}°C",
+                                "${if (recovery.skinTempOffset >= 0) "" else ""}${recovery.skinTempOffset}°C",
                                 "off"
                             )
                             VitalMetric("Stress", "${recovery.stressLevel}", "/10")
                         }
                         Spacer(Modifier.height(16.dp))
-                        MPRadarChart(recovery)
+                        MPRadarChart(recovery, isSystemInDarkTheme())
                     }
                 }
             }
 
-            item {
-                HealthCard("Cardiovascular Scan", Icons.Default.MonitorHeart, Color.Red) {
-                    Column {
-                        if (cardio.hasArrhythmiaDetected) AlertBadge("Arrhythmia Alert", Color.Red)
-                        Text("ECG Waveform", style = MaterialTheme.typography.labelSmall)
-                        ECGRenderer(cardio.ecgWaveform ?: emptyList())
-                        Row(
-                            Modifier.padding(top = 12.dp).fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            VitalMetric("BPM", "${cardio.heartRateBpm}", "bpm")
-                            VitalMetric("HRV", "${cardio.hrvMilliseconds.toInt()}", "ms")
-                            VitalMetric("BP", "${cardio.systolicBP}/${cardio.diastolicBP}", "mmHg")
-                        }
-                        VicoDualLine(bpProducer, Color.Red, Color(0xFFFF8A80))
-                    }
-                }
-            }
+
         }
     }
 }

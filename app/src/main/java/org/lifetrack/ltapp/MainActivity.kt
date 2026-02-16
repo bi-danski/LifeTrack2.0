@@ -86,7 +86,6 @@ class MainActivity : ComponentActivity() {
                 }
 
                 Box(modifier = Modifier.fillMaxSize()) {
-
                     Surface(modifier = Modifier.fillMaxSize()) {
                         when (sessionStatus) {
                             SessionStatus.LOGGED_IN -> {

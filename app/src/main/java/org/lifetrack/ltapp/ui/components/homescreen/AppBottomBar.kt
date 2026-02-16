@@ -1,6 +1,7 @@
 package org.lifetrack.ltapp.ui.components.homescreen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -31,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import org.lifetrack.ltapp.model.data.dclass.NavigationTab
 import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 import org.lifetrack.ltapp.ui.theme.BlueFulani
+import org.lifetrack.ltapp.ui.theme.Pink80
 import org.lifetrack.ltapp.ui.theme.Purple40
 
 @Composable
@@ -42,7 +44,8 @@ fun AppBottomBar() {
         selectedTab = currentRoute
     }
     val shape = RoundedCornerShape(28.dp)
-    val inactiveColor = Purple40
+    val inactiveColor = if (isSystemInDarkTheme()) BlueFulani else Purple40
+    val activeColor = if (isSystemInDarkTheme()) Pink80 else BlueFulani
 
     NavigationBar(
         modifier = Modifier
@@ -66,7 +69,7 @@ fun AppBottomBar() {
                     Icon(
                         imageVector = item.icon,
                         contentDescription = item.label,
-                        tint = if (selectedTab == item.route) BlueFulani else inactiveColor,
+                        tint = if (selectedTab == item.route) activeColor else inactiveColor,
                         modifier = Modifier.size(24.dp)
                     )
                 },
@@ -79,7 +82,7 @@ fun AppBottomBar() {
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Black
                         ),
-                        color = if (selectedTab == item.route) BlueFulani else inactiveColor
+                        color = if (selectedTab == item.route) activeColor else inactiveColor
                     )
                 },
                 colors = NavigationBarItemDefaults.colors(

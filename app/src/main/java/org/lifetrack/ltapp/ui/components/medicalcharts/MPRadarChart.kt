@@ -17,7 +17,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import org.lifetrack.ltapp.model.data.dclass.RecoveryMetrics
 
 @Composable
-fun MPRadarChart(metrics: RecoveryMetrics) {
+fun MPRadarChart(metrics: RecoveryMetrics, themeMode: Boolean) {
     val categories = arrayOf("Readiness", "Sleep", "Relaxation", "Deep", "REM")
     val entries = remember(metrics) {
         listOf(
@@ -35,15 +35,15 @@ fun MPRadarChart(metrics: RecoveryMetrics) {
             RadarChart(context).apply {
                 description.isEnabled = false
                 legend.isEnabled = false
-                webColor = Color.LightGray.toArgb()
+                webColor = if (themeMode) Color.LightGray.toArgb() else Color.Black.copy(0.5f).toArgb()
                 webAlpha = 100
-                webColorInner = Color.LightGray.toArgb()
+                webColorInner = if (themeMode) Color.LightGray.toArgb() else Color.Black.copy(0.5f).toArgb()
 
 
                 xAxis.apply {
                     valueFormatter = IndexAxisValueFormatter(categories)
                     textSize = 10f
-                    textColor = Color.White.toArgb()
+                    textColor = if (themeMode) Color.White.toArgb() else Color.Black.copy(0.8f).toArgb()
                 }
 
                 yAxis.apply {

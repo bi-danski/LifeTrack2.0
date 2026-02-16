@@ -17,12 +17,13 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
+import org.lifetrack.ltapp.ui.theme.BlueFulani
 import java.text.SimpleDateFormat
 import java.util.Date
 
 
 @Composable
-fun BloodPressChart(systolicData: Map<Date, Float>, diastolicData: Map<Date, Float>) {
+fun BloodPressChart(systolicData: Map<Date, Float>, diastolicData: Map<Date, Float>, themeMode: Boolean) {
     val isSystemInDarkTheme = isSystemInDarkTheme()
     AndroidView(
         factory = { context ->
@@ -79,7 +80,7 @@ fun BloodPressChart(systolicData: Map<Date, Float>, diastolicData: Map<Date, Flo
                     axisMaximum = 200f
                     addLimitLine(LimitLine(140f, "Normal").apply {
                         lineColor = Color(0xFF4CAF50).toArgb()
-                        textColor = Color.Green.toArgb()
+                        textColor = if (themeMode) Color.Green.toArgb() else BlueFulani.toArgb()
                         lineWidth = 1f
                     })
                 }

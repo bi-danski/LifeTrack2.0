@@ -60,7 +60,7 @@ import kotlinx.coroutines.delay
 import org.lifetrack.ltapp.model.LtMockData.dummyDoctors
 import org.lifetrack.ltapp.model.LtMockData.dummyPremiums
 import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
-import org.lifetrack.ltapp.ui.theme.AvailableColor
+import org.lifetrack.ltapp.ui.theme.GreenFulani
 import org.lifetrack.ltapp.ui.theme.BusyColor
 import org.lifetrack.ltapp.ui.theme.CardBackground
 import org.lifetrack.ltapp.ui.theme.DisabledColor
@@ -230,14 +230,14 @@ fun TelemedicineScreen() {
                                     imageVector = if (doctor.status == "Available") Icons.Filled.CheckCircle else Icons.Filled.Schedule,
                                     contentDescription = "Status",
                                     modifier = Modifier.size(24.dp),
-                                    tint = if (doctor.status == "Available") AvailableColor else BusyColor
+                                    tint = if (doctor.status == "Available") GreenFulani else BusyColor
                                 )
                                 Spacer(modifier = Modifier.width(12.dp))
                                 Column {
                                     Text(
                                         text = "Status: ${doctor.status}",
                                         style = MaterialTheme.typography.bodyLarge,
-                                        color = if (doctor.status == "Available") AvailableColor else BusyColor,
+                                        color = if (doctor.status == "Available") GreenFulani else BusyColor,
                                         fontWeight = FontWeight.SemiBold
                                     )
                                     Text(
@@ -262,7 +262,7 @@ fun TelemedicineScreen() {
                                     .fillMaxWidth()
                                     .height(48.dp),
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = if (doctor.status == "Available") AvailableColor else BusyColor,
+                                    containerColor = if (doctor.status == "Available") GreenFulani else BusyColor,
                                     disabledContainerColor = DisabledColor
                                 ),
                                 enabled = doctor.status == "Available",

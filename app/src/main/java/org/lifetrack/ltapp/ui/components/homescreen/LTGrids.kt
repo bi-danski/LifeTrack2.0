@@ -23,13 +23,13 @@ fun LazyGridScope.featureGridContent() {
         "Medical Timeline" to Icons.Filled.BarChart to "timeline",
         "Appointments" to Icons.Filled.CalendarMonth to "appointments",
         "Follow Ups & Visits" to Icons.AutoMirrored.Filled.MultilineChart to "FUV",
-        "Emergency Alerts" to Icons.Filled.Notifications to "alerts",
+        "Notifications" to Icons.Filled.Notifications to "",
         "Messaging & Referrals" to Icons.AutoMirrored.Filled.Message to "chats",
         "E-Prescriptions" to Icons.Filled.LocalHospital to "prescriptions",
         "Reports & Analytics" to Icons.Filled.DataExploration to "analytics",
         "Tele-Medicine" to Icons.Filled.SlowMotionVideo to "telemedicine",
-        "Koala" to Icons.Filled.Campaign to "koala",
-        "Claims (SHA)" to Icons.Default.MonetizationOn to " ", // "sha-claims",
+        "News & Alerts" to Icons.Filled.Campaign to "alerts",
+        "Claims (SHA)" to Icons.Default.MonetizationOn to "koala", // "sha-claims",
         "Help & Support" to Icons.AutoMirrored.Filled.HelpCenter to "support"
     )
 

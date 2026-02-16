@@ -81,17 +81,8 @@ fun ProfileScreen(authPresenter: AuthPresenter, userPresenter: UserPresenter) {
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         topBar = {
             TopAppBar(
+                modifier = Modifier.height(50.dp),
                 title = { Text(text = "") },
-//                navigationIcon = {
-//                    IconButton({ LTNavDispatch.navigateBack() }) {
-//                        Icon(
-//                            imageVector = Icons.Default.ArrowCircleLeft,
-//                            contentDescription = "Back",
-//                            tint = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onPrimary
-//                                if (isSystemInDarkTheme()) Purple80 else colorScheme.primaryContainer
-//                        )
-//                    }
-//                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = if (isSystemInDarkTheme()) colorScheme.primary.copy(0.1f) else Purple40,
                     titleContentColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onPrimary
