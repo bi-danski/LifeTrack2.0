@@ -31,7 +31,7 @@ package org.lifetrack.ltapp.ui.screens
 //import org.lifetrack.ltapp.ui.components.medicalcharts.BloodPressChart
 //import org.lifetrack.ltapp.ui.components.medicalcharts.InfoRow
 //import org.lifetrack.ltapp.ui.components.medicalcharts.LabTestItem
-//import org.lifetrack.ltapp.ui.components.medicalcharts.MedicalCard
+//import org.lifetrack.ltapp.ui.components.medicalcharts.cards.MedicalCard
 //import org.lifetrack.ltapp.ui.components.medicalcharts.MetricBadge
 //import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 //

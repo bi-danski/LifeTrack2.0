@@ -1,5 +1,6 @@
 package org.lifetrack.ltapp.ui.components.other
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.expandHorizontally
@@ -38,7 +39,7 @@ import kotlinx.coroutines.delay
 fun LTRetry(
     modifier: Modifier = Modifier,
     title: String = "Connection Lost",
-    onRetry: () -> Unit = {}
+    onDubClick: () -> Unit = {}
 ) {
     var isExpanded by remember { mutableStateOf(true) }
 
@@ -63,7 +64,10 @@ fun LTRetry(
                 .clip(MaterialTheme.shapes.extraLarge)
                 .combinedClickable(
                     onClick = { isExpanded = true },
-                    onDoubleClick = { onRetry() }
+                    onDoubleClick = {
+                        Log.d("Double-Click", "True")
+                        onDubClick()
+                    }
                 )
                 .padding(horizontal = 16.dp, vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically,

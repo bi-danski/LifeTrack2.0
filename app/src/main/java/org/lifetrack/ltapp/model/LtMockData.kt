@@ -554,7 +554,7 @@ object LtMockData {
                 55.0
             ), 
             hasArrhythmiaDetected = false,
-            ecgWaveform = null,
+            ecgWaveform = listOf(27.0, 33.3, 29.5, 40.49, 30.55, 47.0, 35.67, 49.49 ),
             systolicBP = if (hourOffset < 5) 190 else 145,
             diastolicBP = if (hourOffset < 5) 120 else 90
         )

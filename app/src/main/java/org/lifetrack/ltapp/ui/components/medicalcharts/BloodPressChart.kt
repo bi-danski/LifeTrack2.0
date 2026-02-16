@@ -1,9 +1,5 @@
 package org.lifetrack.ltapp.ui.components.medicalcharts
 
-//import androidx.compose.ui.platform.LocalContext
-//import org.lifetrack.ltapp.ui.components.medicalcharts.configureBaseChart
-//import org.lifetrack.ltapp.ui.components.medicalcharts.configureBloodPressureAxes
-//import org.lifetrack.ltapp.ui.components.medicalcharts.styleLineDataSet
 import android.annotation.SuppressLint
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,7 +17,6 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
-import org.lifetrack.ltapp.ui.theme.DisabledColor
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -34,11 +29,11 @@ fun BloodPressChart(systolicData: Map<Date, Float>, diastolicData: Map<Date, Flo
             LineChart(context).apply {
                 isFocusable = true
                 isHovered = true
-                xAxis.textColor = if (isSystemInDarkTheme) DisabledColor.toArgb() else Color.Black.copy(0.87f).toArgb()
-                axisLeft.textColor = if (isSystemInDarkTheme) DisabledColor.toArgb() else Color.Black.copy(0.87f).toArgb()
+                xAxis.textColor = if (isSystemInDarkTheme) Color.White.toArgb() else Color.Black.copy(0.87f).toArgb()
+                axisLeft.textColor = if (isSystemInDarkTheme) Color.White.toArgb() else Color.Black.copy(0.87f).toArgb()
                 description.isEnabled = false
                 legend.isEnabled = true
-                legend.textColor = if (isSystemInDarkTheme) DisabledColor.toArgb() else Color.Black.copy(0.87f).toArgb()
+                legend.textColor = if (isSystemInDarkTheme) Color.White.toArgb() else Color.Black.copy(0.87f).toArgb()
 
                 val systolicEntries = systolicData.map {
                     Entry(it.key.time.toFloat(), it.value)

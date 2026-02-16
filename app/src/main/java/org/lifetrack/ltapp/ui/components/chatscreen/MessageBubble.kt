@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.ui.components.medicalcharts
+package org.lifetrack.ltapp.ui.components.chatscreen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column

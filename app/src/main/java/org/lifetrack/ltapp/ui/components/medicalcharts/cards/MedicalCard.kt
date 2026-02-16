@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.ui.components.medicalcharts
+package org.lifetrack.ltapp.ui.components.medicalcharts.cards
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope

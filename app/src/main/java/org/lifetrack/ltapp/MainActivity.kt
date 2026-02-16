@@ -61,6 +61,7 @@ class MainActivity : ComponentActivity() {
                 val isOnline by networkObserver.isConnected.collectAsStateWithLifecycle()
                 val sessionStatus by sessionManager.sessionState.collectAsState()
                 val appNavController = rememberNavController()
+//                var manualOverride by remember { mutableStateOf(isOnline) }
 
                 LaunchedEffect(appNavController) {
                     LTNavDispatch.navigationEvents.collect { target ->
@@ -98,6 +99,7 @@ class MainActivity : ComponentActivity() {
                         }
                     }
 
+
                     AnimatedVisibility(
                         visible = !isOnline,
                         enter = slideInVertically(initialOffsetY = { -it }) + fadeIn(),
@@ -106,7 +108,9 @@ class MainActivity : ComponentActivity() {
                             .align(Alignment.TopCenter)
                             .padding(top = 24.dp)
                     ) {
-                        LTRetry()
+                        LTRetry(
+//                            onDubClick = { manualOverride = true }
+                        )
                     }
                 }
             }
