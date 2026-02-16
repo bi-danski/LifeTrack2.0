@@ -546,8 +546,8 @@ object LtMockData {
             spo2Percentage = Random.nextDouble(94.0, 99.0),
             vo2Max = 42.5,
             breathsPerMinute = (14..20).random(),
-            respiratoryEffort = Random.nextDouble(15.0, 45.0),
-            hydrationLevel = Random.nextDouble(60.0, 80.0)
+            respiratoryEffort = kotlin.math.round(Random.nextDouble(15.0, 45.0)),
+            hydrationLevel = kotlin.math.round(Random.nextDouble(60.0, 80.0))
         )
     }
 
@@ -559,7 +559,7 @@ object LtMockData {
             sleepScore = (60..88).random(),
             remDuration = (60..110).random().minutes,
             deepSleepDuration = (40..90).random().minutes,
-            skinTempOffset = kotlin.math.truncate(Random.nextDouble(-0.5, 0.5)),
+            skinTempOffset = kotlin.math.round(Random.nextDouble(-0.5, 0.5)),
             stressLevel = (6..9).random(),
             readinessScore = (40..75).random()
         )
