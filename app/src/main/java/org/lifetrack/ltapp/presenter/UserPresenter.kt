@@ -23,7 +23,6 @@ import org.lifetrack.ltapp.model.data.dclass.Prescription
 import org.lifetrack.ltapp.model.data.dclass.UIAppointmentStatus
 import org.lifetrack.ltapp.model.repository.UserRepository
 import org.lifetrack.ltapp.service.SessionManager
-import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -32,11 +31,6 @@ class UserPresenter(
     private val sessionManager: SessionManager
 ) : ViewModel() {
     @SuppressLint("MutableCollectionMutableState")
-//    val dummyBpData = mutableStateOf(LtMockData.bPressureData)
-//    val dummyPatient = mutableStateOf(LtMockData.dPatient)
-//    val dummyLabTests =  mutableStateListOf<LabTest>().apply {
-//        addAll(LtMockData.dLabTests)
-//    }
     val dummyPrescriptions = mutableStateListOf<Prescription>().apply {
         addAll(LtMockData.dPrescriptions)
     }
@@ -157,8 +151,7 @@ class UserPresenter(
                 when (val result = userRepository.deleteAccount()) {
                     is AuthResult.Success -> {
                         _errorMessage.value = "Account deleted successfully"
-                        sessionManager.logout()
-                        LTNavDispatch.navigate("login", clearBackstack = true)
+//                        LTNavDispatch.navigate("login", clearBackstack = true)
                     }
                     is AuthResult.Error -> {
                         _errorMessage.value = result.message
