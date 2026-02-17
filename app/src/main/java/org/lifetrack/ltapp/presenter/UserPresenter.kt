@@ -81,28 +81,6 @@ class UserPresenter(
         return _allAppointments.value.count { it.status == status }
     }
 
-//    fun deleteAccount() {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            _isLoading.value = true
-//            try {
-//                when (val result = userRepository.deleteAccount()) {
-//                    is AuthResult.Success -> {
-//                        sessionManager.logout()
-//                        launch(Dispatchers.Main) {
-//                            LTNavDispatch.navigate("signup")
-//                            }
-//                    }
-//                    is AuthResult.Error -> {
-//                        _errorMessage.value = result.message
-//                    }
-//                    else -> {}
-//                }
-//            } finally {
-//                _isLoading.value = false
-//            }
-//        }
-//    }
-
     @OptIn(ExperimentalUuidApi::class)
     fun bookAppointment() {
         val selectedDoc = _selectedDoctorProfile.value ?: return
@@ -179,7 +157,7 @@ class UserPresenter(
                 when (val result = userRepository.deleteAccount()) {
                     is AuthResult.Success -> {
                         _errorMessage.value = "Account deleted successfully"
-                        // Navigate to login after deletion
+                        sessionManager.logout()
                         LTNavDispatch.navigate("login", clearBackstack = true)
                     }
                     is AuthResult.Error -> {

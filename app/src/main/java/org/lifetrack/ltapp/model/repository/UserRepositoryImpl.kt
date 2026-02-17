@@ -99,7 +99,7 @@ class UserRepositoryImpl(
     override suspend fun deleteAccount(): AuthResult {
         return try {
             val response = client.delete("/user/deleteAccount")
-            if (response.status.value in 200..299) {
+            if (response.status.isSuccess()) {
                 prefRepository.clearAllSessions()
                 AuthResult.Success
             } else {

@@ -2,8 +2,16 @@
 <resources>
     <string name="app_name">LifeTrack</string>
     <string name="app_version">2.0.0</string>
+    <string name="whoAmI">contact@lifetrack.org</string>
+    <string name="whoWeAre">LifeTrack Health Solutions</string>
+    <string name="whoAmISite">www.lifetrack.org</string>
+    <string name="companion">LifeTrack Health Companion</string>
+    <string name="companionDesc">Your complete health management solution</string>
+    <string name="whatWeDo">Innovating for Your Well-Being </string>
+    <string name="copyright">© 2023 LifeTrack. All rights reserved.</string>
+    <string name="app_description">LifeTrack is your digital health companion app providing telemedicine, health tracking, and emergency alerts. Our mission is to empower patients with accessible health data and real-time medical assistance.</string>
 
-    <!-- Common -->
+
     <string name="ok">Aceptar</string>
     <string name="cancel">Cancelar</string>
     <string name="save">Guardar</string>
@@ -13,7 +21,7 @@
     <string name="next">Siguiente</string>
     <string name="skip">Omitir</string>
     <string name="done">Listo</string>
-    <string name="loading">Cargando...</string>
+    <string name="loading">Cargando…</string>
     <string name="error">Error</string>
     <string name="success">Éxito</string>
 
