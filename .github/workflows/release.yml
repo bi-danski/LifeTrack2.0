@@ -1,4 +1,4 @@
-name: Build and Release LifeTrack2.0 App
+name: Build and Release LifeTrack2.0 App (Release)
 
 on:
   push:
@@ -25,16 +25,20 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build with Gradle
-        run: ./gradlew assembleRelease 
+      - name: Build Release Application
+        run: ./gradlew assembleRelease
+        env:
+          GRADLE_OPTS: -Xmx4g -XX:MaxMetaspaceSize=512m
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
             app/build/outputs/apk/release/*.apk
+            app/build/outputs/bundle/release/*.aab
             build/libs/*.jar
           draft: false
           prerelease: false
+          generate_release_notes: true 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
