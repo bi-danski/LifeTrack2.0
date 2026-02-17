@@ -11,11 +11,12 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import org.lifetrack.ltapp.utility.makeAutoCall
-import org.lifetrack.ltapp.utility.toLtSettings
+import org.lifetrack.ltapp.core.localization.LocaleManager
 import org.lifetrack.ltapp.model.data.dclass.MenuItemData
 import org.lifetrack.ltapp.model.data.dclass.menuListItems
 import org.lifetrack.ltapp.model.repository.PreferenceRepository
+import org.lifetrack.ltapp.utility.makeAutoCall
+import org.lifetrack.ltapp.utility.toLtSettings
 
 class SharedPresenter(
     private val prefRepository: PreferenceRepository
@@ -27,6 +28,14 @@ class SharedPresenter(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000L),
             initialValue = org.lifetrack.ltapp.model.data.dclass.LtSettings()
+        )
+
+    val currentLanguage = prefRepository.ltPreferences
+        .map { it.preferredLanguage }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000L),
+            initialValue = "en"
         )
 
     var version by mutableStateOf("2.0.0")
@@ -72,6 +81,18 @@ class SharedPresenter(
         viewModelScope.launch {
             prefRepository.updateLTPreferences { current ->
                 current.copy(appCarouselAutoRotationEnabled = !current.appCarouselAutoRotationEnabled)
+            }
+        }
+    }
+
+    fun updateLanguage(languageCode: String) {
+        // Fast path: write a synchronous preference for attachBaseContext and startup usage
+        LocaleManager.setPreferredLanguage(languageCode)
+
+        // Persist the change in DataStore asynchronously
+        viewModelScope.launch {
+            prefRepository.updateLTPreferences { current ->
+                current.copy(preferredLanguage = languageCode)
             }
         }
     }

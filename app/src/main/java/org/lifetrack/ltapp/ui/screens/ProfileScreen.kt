@@ -155,7 +155,7 @@ fun ProfileScreen(authPresenter: AuthPresenter, userPresenter: UserPresenter) {
                             ProfileMenuItem(
                                 icon = Icons.Default.Person,
                                 title = "Personal Information",
-                                onClick = {}
+                                onClick = { LTNavDispatch.navigate("personal_info") }
                             )
                             ProfileMenuItem(
                                 icon = Icons.AutoMirrored.Filled.List,
@@ -170,13 +170,13 @@ fun ProfileScreen(authPresenter: AuthPresenter, userPresenter: UserPresenter) {
                             ProfileMenuItem(
                                 icon = Icons.Default.Language,
                                 title = "Change Language",
-                                onClick = {}
+                                onClick = { LTNavDispatch.navigate("change_language") }
                             )
                             CustomProfileMenuItem(
                                 icon = Icons.Default.Delete,
                                 leftIconColor = Color.Red,
                                 title = "Delete My Account",
-                                onClick = { userPresenter.deleteAccount() }
+                                onClick = { userPresenter.deleteUserAccount() }
                             )
                             CustomProfileMenuItem(
                                 icon = Icons.AutoMirrored.Filled.Logout,

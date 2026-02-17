@@ -29,6 +29,7 @@ import org.lifetrack.ltapp.ui.screens.AlertScreen
 import org.lifetrack.ltapp.ui.screens.AlmaScreen
 import org.lifetrack.ltapp.ui.screens.AnalyticScreen
 import org.lifetrack.ltapp.ui.screens.AppointScreen
+import org.lifetrack.ltapp.ui.screens.ChangeLanguageScreen
 import org.lifetrack.ltapp.ui.screens.ChatScreen
 import org.lifetrack.ltapp.ui.screens.FollowUpScreen
 import org.lifetrack.ltapp.ui.screens.HomeScreen
@@ -37,6 +38,7 @@ import org.lifetrack.ltapp.ui.screens.MainScreen
 import org.lifetrack.ltapp.ui.screens.MenuScreen
 import org.lifetrack.ltapp.ui.screens.OtherScreen
 import org.lifetrack.ltapp.ui.screens.PDetailScreen
+import org.lifetrack.ltapp.ui.screens.PersonalInfoScreen
 import org.lifetrack.ltapp.ui.screens.PrescriptScreen
 import org.lifetrack.ltapp.ui.screens.ProfileScreen
 import org.lifetrack.ltapp.ui.screens.RestoreScreen
@@ -103,6 +105,12 @@ fun LTNavigation(navController: NavHostController, startDestination: String ) {
             }
             composable("profile") {
                 ProfileScreen(authPresenter, userPresenter)
+            }
+            composable("personal_info") {
+                PersonalInfoScreen(authPresenter, userPresenter)
+            }
+            composable("change_language") {
+                ChangeLanguageScreen(sharedPresenter)
             }
             composable("menu") {
                 MenuScreen(authPresenter, sharedPresenter)

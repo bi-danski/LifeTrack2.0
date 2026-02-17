@@ -12,7 +12,8 @@ data class LTPreferences(
     val appAnimationsEnabled: Boolean = true,
     val userPatientDataConsentEnabled: Boolean = false,
     val appReminderNotificationsEnabled: Boolean = true,
-    val appCarouselAutoRotationEnabled: Boolean = false
+    val appCarouselAutoRotationEnabled: Boolean = false,
+    val preferredLanguage: String = "en"
 )
 
 @Serializable

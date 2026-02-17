@@ -15,12 +15,12 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.lifetrack.ltapp.model.LtMockData
 import org.lifetrack.ltapp.model.data.dclass.Appointment
 import org.lifetrack.ltapp.model.data.dclass.AuthResult
 import org.lifetrack.ltapp.model.data.dclass.DoctorProfile
 import org.lifetrack.ltapp.model.data.dclass.Prescription
 import org.lifetrack.ltapp.model.data.dclass.UIAppointmentStatus
-import org.lifetrack.ltapp.model.LtMockData
 import org.lifetrack.ltapp.model.repository.UserRepository
 import org.lifetrack.ltapp.service.SessionManager
 import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
@@ -81,27 +81,27 @@ class UserPresenter(
         return _allAppointments.value.count { it.status == status }
     }
 
-    fun deleteAccount() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _isLoading.value = true
-            try {
-                when (val result = userRepository.deleteAccount()) {
-                    is AuthResult.Success -> {
-                        sessionManager.logout()
-                        launch(Dispatchers.Main) {
-                            LTNavDispatch.navigate("signup")
-                            }
-                    }
-                    is AuthResult.Error -> {
-                        _errorMessage.value = result.message
-                    }
-                    else -> {}
-                }
-            } finally {
-                _isLoading.value = false
-            }
-        }
-    }
+//    fun deleteAccount() {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            _isLoading.value = true
+//            try {
+//                when (val result = userRepository.deleteAccount()) {
+//                    is AuthResult.Success -> {
+//                        sessionManager.logout()
+//                        launch(Dispatchers.Main) {
+//                            LTNavDispatch.navigate("signup")
+//                            }
+//                    }
+//                    is AuthResult.Error -> {
+//                        _errorMessage.value = result.message
+//                    }
+//                    else -> {}
+//                }
+//            } finally {
+//                _isLoading.value = false
+//            }
+//        }
+//    }
 
     @OptIn(ExperimentalUuidApi::class)
     fun bookAppointment() {
@@ -133,6 +133,67 @@ class UserPresenter(
     fun restoreAppointment(appointment: Appointment) {
         _allAppointments.update { list ->
             list.map { if (it.id == appointment.id) it.copy(status = UIAppointmentStatus.UPCOMING) else it }
+        }
+    }
+
+    fun updateUserProfile(
+        fullName: String,
+        userName: String,
+        phoneNumber: String,
+        onComplete: () -> Unit = {}
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                _isLoading.value = true
+                val updateRequest = org.lifetrack.ltapp.model.data.dto.UserDataUpdate(
+                    fullName = fullName,
+                    userName = userName,
+                    phoneNumber = phoneNumber.toLongOrNull(),
+                    emailAddress = null,
+                    updatedAt = null
+                )
+                when (val result = userRepository.updateCurrentUserInfo(updateRequest)) {
+                    is AuthResult.Success -> {
+                        _errorMessage.value = "Profile updated successfully!"
+                        onComplete()
+                    }
+                    is AuthResult.Error -> {
+                        _errorMessage.value = result.message
+                    }
+                    else -> {
+                        _errorMessage.value = "Update failed"
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = "Error: ${e.message}"
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun deleteUserAccount() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                _isLoading.value = true
+                when (val result = userRepository.deleteAccount()) {
+                    is AuthResult.Success -> {
+                        _errorMessage.value = "Account deleted successfully"
+                        // Navigate to login after deletion
+                        LTNavDispatch.navigate("login", clearBackstack = true)
+                    }
+                    is AuthResult.Error -> {
+                        _errorMessage.value = result.message
+                    }
+                    else -> {
+                        _errorMessage.value = "Account deletion failed"
+                    }
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = "Error: ${e.message}"
+            } finally {
+                _isLoading.value = false
+            }
         }
     }
 }

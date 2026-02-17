@@ -3,7 +3,7 @@ name: Build and Release LifeTrack2.0 App (Release)
 on:
   push:
     tags:
-      - 'v*' 
+      - 'v*'
 
 jobs:
   build:
@@ -39,6 +39,6 @@ jobs:
             build/libs/*.jar
           draft: false
           prerelease: false
-          generate_release_notes: true 
+          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
