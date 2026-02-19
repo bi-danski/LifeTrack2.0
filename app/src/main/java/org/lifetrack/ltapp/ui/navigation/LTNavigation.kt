@@ -19,7 +19,6 @@ import org.koin.androidx.compose.koinViewModel
 import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.presenter.ChatPresenter
 import org.lifetrack.ltapp.presenter.FUVPresenter
-import org.lifetrack.ltapp.presenter.HomePresenter
 import org.lifetrack.ltapp.presenter.PrescPresenter
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.presenter.TLinePresenter
@@ -29,10 +28,10 @@ import org.lifetrack.ltapp.ui.screens.AlertScreen
 import org.lifetrack.ltapp.ui.screens.AlmaScreen
 import org.lifetrack.ltapp.ui.screens.AnalyticScreen
 import org.lifetrack.ltapp.ui.screens.AppointScreen
-import org.lifetrack.ltapp.ui.screens.LanguageScreen
 import org.lifetrack.ltapp.ui.screens.ChatScreen
 import org.lifetrack.ltapp.ui.screens.FollowUpScreen
 import org.lifetrack.ltapp.ui.screens.HomeScreen
+import org.lifetrack.ltapp.ui.screens.LanguageScreen
 import org.lifetrack.ltapp.ui.screens.LoginScreen
 import org.lifetrack.ltapp.ui.screens.MainScreen
 import org.lifetrack.ltapp.ui.screens.MenuScreen
@@ -63,7 +62,6 @@ fun LTNavigation(navController: NavHostController, startDestination: String ) {
     val userPresenter = koinViewModel<UserPresenter>(viewModelStoreOwner = activity)
     val sharedPresenter = koinViewModel<SharedPresenter>(viewModelStoreOwner = activity)
     val chatPresenter = koinViewModel<ChatPresenter>(viewModelStoreOwner = activity)
-    val homePresenter = koinViewModel<HomePresenter>(viewModelStoreOwner = activity)
     val fuvPresenter = koinViewModel<FUVPresenter>(viewModelStoreOwner = activity)
 
     NavHost(
@@ -101,7 +99,7 @@ fun LTNavigation(navController: NavHostController, startDestination: String ) {
 
         navigation(startDestination = "home", route = "home_graph") {
             composable("home") {
-                HomeScreen(homePresenter, userPresenter, authPresenter, sharedPresenter)
+                HomeScreen(userPresenter, authPresenter, sharedPresenter)
             }
             composable("profile") {
                 ProfileScreen(authPresenter, userPresenter)
