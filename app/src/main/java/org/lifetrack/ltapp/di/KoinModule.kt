@@ -38,8 +38,7 @@ import org.lifetrack.ltapp.service.AlmaService
 import org.lifetrack.ltapp.service.SessionManager
 
 object KoinModule {
-    private val Context.ltDataStore by dataStore(
-        fileName = "_lt_prefs.json",
+    private val Context.ltDataStore by dataStore(fileName = "_lt_prefs.json",
         serializer = LTPrefSerializer
     )
 

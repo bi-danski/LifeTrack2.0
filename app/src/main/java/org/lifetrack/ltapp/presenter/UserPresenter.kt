@@ -25,14 +25,10 @@ import org.lifetrack.ltapp.model.data.dclass.DoctorProfile
 import org.lifetrack.ltapp.model.data.dclass.Prescription
 import org.lifetrack.ltapp.model.data.dclass.UIAppointmentStatus
 import org.lifetrack.ltapp.model.repository.UserRepository
-import org.lifetrack.ltapp.service.SessionManager
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
-class UserPresenter(
-    private val userRepository: UserRepository,
-    private val sessionManager: SessionManager
-) : ViewModel() {
+class UserPresenter(private val userRepository: UserRepository) : ViewModel() {
     @SuppressLint("MutableCollectionMutableState")
     val dummyPrescriptions = mutableStateListOf<Prescription>().apply {
         addAll(LtMockData.dPrescriptions)
