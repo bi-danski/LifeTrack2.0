@@ -81,7 +81,7 @@ fun LTNavigation(navController: NavHostController, startDestination: String ) {
         popExitTransition = {
             slideOutOfContainer(
                 towards = AnimatedContentTransitionScope.SlideDirection.End,
-                animationSpec = tween(durationMillis = 150) // faster
+                animationSpec = tween(durationMillis = 150)
             ) + fadeOut(animationSpec = tween(150))
         }
     ) {

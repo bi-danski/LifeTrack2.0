@@ -49,12 +49,14 @@ object CryptoCBC {
             .generateKey()
     }
 
+    @Suppress("unused")
     fun doEncrypt(bytes: ByteArray): ByteArray {
         cipher.init(Cipher.ENCRYPT_MODE, getKey())
         val encrypted = cipher.doFinal(bytes)
         return cipher.iv + encrypted
     }
 
+    @Suppress("unused")
     fun doDecrypt(bytes: ByteArray): ByteArray {
         val iv = bytes.copyOfRange(0, cipher.blockSize)
         val data = bytes.copyOfRange(cipher.blockSize, bytes.size)
