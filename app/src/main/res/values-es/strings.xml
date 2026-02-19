@@ -2,15 +2,14 @@
 <resources>
     <string name="app_name">LifeTrack</string>
     <string name="app_version">2.0.0</string>
-    <string name="whoAmI">contact@lifetrack.org</string>
+    <string name="whoAmI" translatable="false">contact@lifetrack.org</string>
     <string name="whoWeAre">LifeTrack Health Solutions</string>
-    <string name="whoAmISite">www.lifetrack.org</string>
-    <string name="companion">LifeTrack Health Companion</string>
-    <string name="companionDesc">Your complete health management solution</string>
-    <string name="whatWeDo">Innovating for Your Well-Being </string>
-    <string name="copyright">© 2023 LifeTrack. All rights reserved.</string>
-    <string name="app_description">LifeTrack is your digital health companion app providing telemedicine, health tracking, and emergency alerts. Our mission is to empower patients with accessible health data and real-time medical assistance.</string>
-
+    <string name="whoAmISite" translatable="false">www.lifetrack.org</string>
+    <string name="companion">Compañero de Salud LifeTrack</string>
+    <string name="companionDesc">Tu solución completa de gestión de la salud</string>
+    <string name="whatWeDo">Innovando para su bienestar</string>
+    <string name="copyright">© 2023 LifeTrack. Todos los derechos reservados.</string>
+    <string name="app_description">LifeTrack es tu aplicación compañera de salud digital que ofrece telemedicina, seguimiento de la salud y alertas de emergencia. Nuestra misión es empoderar a los pacientes con datos de salud accesibles y asistencia médica en tiempo real.</string>
 
     <string name="ok">Aceptar</string>
     <string name="cancel">Cancelar</string>
@@ -106,5 +105,6 @@
     <string name="medical_records">Registros Médicos</string>
     <string name="lab_tests">Pruebas de Laboratorio</string>
     <string name="visit_history">Historial de Visitas</string>
+    <string name="dismiss">Descartar</string>
+    <string name="account_overview">Resumen de la Cuenta.</string>
 </resources>
-

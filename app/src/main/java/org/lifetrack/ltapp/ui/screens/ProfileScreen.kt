@@ -42,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -109,7 +110,7 @@ fun ProfileScreen(authPresenter: AuthPresenter, userPresenter: UserPresenter) {
                     Spacer(modifier = Modifier.height(20.dp))
                     Image(
                         painter = rememberAsyncImagePainter("https://i.pravatar.cc/300"),
-                        contentDescription = "Profile Image",
+                        contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .size(100.dp)
@@ -145,7 +146,7 @@ fun ProfileScreen(authPresenter: AuthPresenter, userPresenter: UserPresenter) {
                                 .fillMaxSize()
                         ) {
                             Text(
-                                text = "Account Overview",
+                                text = stringResource(org.lifetrack.ltapp.R.string.account_overview),
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = colorScheme.onBackground
@@ -154,34 +155,34 @@ fun ProfileScreen(authPresenter: AuthPresenter, userPresenter: UserPresenter) {
 
                             ProfileMenuItem(
                                 icon = Icons.Default.Person,
-                                title = "Personal Information",
+                                title = stringResource(org.lifetrack.ltapp.R.string.personal_information),
                                 onClick = { LTNavDispatch.navigate("personOfInterest") }
                             )
                             ProfileMenuItem(
                                 icon = Icons.AutoMirrored.Filled.List,
-                                title = "My Medical History",
+                                title = stringResource(org.lifetrack.ltapp.R.string.my_medical_history),
                                 onClick = {}
                             )
                             ProfileMenuItem(
                                 icon = Icons.Default.Lock,
-                                title = "Change Password",
+                                title = stringResource(org.lifetrack.ltapp.R.string.change_password),
                                 onClick = { LTNavDispatch.navigate("restore") }
                             )
                             ProfileMenuItem(
                                 icon = Icons.Default.Language,
-                                title = "Change Language",
+                                title = stringResource(org.lifetrack.ltapp.R.string.change_language),
                                 onClick = { LTNavDispatch.navigate("changeLanguage") }
                             )
                             CustomProfileMenuItem(
                                 icon = Icons.Default.Delete,
                                 leftIconColor = Color.Red,
-                                title = "Delete My Account",
+                                title = stringResource(org.lifetrack.ltapp.R.string.delete_my_account),
                                 onClick = { userPresenter.deleteUserAccount() }
                             )
                             CustomProfileMenuItem(
                                 icon = Icons.AutoMirrored.Filled.Logout,
                                 leftIconColor = DeepOrange,
-                                title = "Logout",
+                                title = stringResource(org.lifetrack.ltapp.R.string.logout),
                                 onClick = { authPresenter.logout() }
                             )
                         }

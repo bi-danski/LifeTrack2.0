@@ -27,21 +27,35 @@ object LTPrefSerializer : Serializer<AppPreferences> {
         get() = AppPreferences()
 
     override suspend fun readFrom(input: InputStream): AppPreferences {
-        val encryptedBytes = input.readBytes()
-        if (encryptedBytes.isEmpty()) return defaultValue
+        return withContext(Dispatchers.IO) {
+            val encryptedBytes = try {
+                input.readBytes()
+            } catch (e: IOException) {
+                Log.e("AppSerializer", "Failed to read input stream", e)
+                return@withContext defaultValue
+            }
 
-        return try {
-            val decryptedBytes = CryptoGCM.doDecrypt(encryptedBytes)
-            json.decodeFromString(
-                deserializer = AppPreferences.serializer(),
-                string = decryptedBytes.decodeToString()
-            )
-        } catch (e: SerializationException) {
-            Log.e("AppSerializer", "Failed to deserialize AppPreferences", e)
-            throw CorruptionException("Data structure mismatch in AppPreferences", e)
-        } catch (e: Exception) {
-            Log.e("AppSerializer", "Decryption failed. Keystore might be out of sync.", e)
-            if (isKeyInvalidated(e)) defaultValue else throw IOException(e)
+            if (encryptedBytes.isEmpty()) return@withContext defaultValue
+
+            try {
+                
+                val decryptedBytes = CryptoGCM.doDecrypt(encryptedBytes)
+
+                json.decodeFromString(
+                    deserializer = AppPreferences.serializer(),
+                    string = decryptedBytes.decodeToString()
+                )
+            } catch (e: SerializationException) {
+                Log.e("AppSerializer", "Data structure mismatch in AppPreferences", e)
+                throw CorruptionException("Failed to deserialize AppPreferences", e)
+            } catch (e: Exception) {
+                Log.e("AppSerializer", "Decryption failed. Keystore might be out of sync.", e)
+                if (isKeyInvalidated(e)) {
+                    defaultValue
+                } else {
+                    throw IOException("Unrecoverable decryption error", e)
+                }
+            }
         }
     }
 

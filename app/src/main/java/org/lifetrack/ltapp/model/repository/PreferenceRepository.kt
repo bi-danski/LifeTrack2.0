@@ -18,7 +18,6 @@ class PreferenceRepository(
     private val appDataStore: DataStore<AppPreferences>,
     private val scope: CoroutineScope
 ) {
-    // Single source of truth root flow
     val appPreferences: StateFlow<AppPreferences> = appDataStore.data
         .catch { e ->
             if (e is IOException) emit(AppPreferences()) else throw e

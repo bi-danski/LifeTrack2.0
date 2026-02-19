@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">LifeTrack</string>
     <string name="app_version">2.0.0</string>
     <string name="whoAmI" translatable="false">contact@lifetrack.org</string>
@@ -10,7 +10,6 @@
     <string name="copyright">© 2023 LifeTrack. All rights reserved.</string>
     <string name="app_description">LifeTrack is your digital health companion app providing telemedicine, health tracking, and emergency alerts. Our mission is to empower patients with accessible health data and real-time medical assistance.</string>
 
-    <!-- Common -->
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
@@ -32,7 +31,6 @@
     <string name="help">Help</string>
     <string name="about">About</string>
 
-    <!-- Profile Screen -->
     <string name="personal_information">Personal Information</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="save_changes">Save Changes</string>
@@ -49,7 +47,7 @@
     <string name="change_language">Change Language</string>
     <string name="select_preferred_language">Select your preferred language</string>
     <string name="choose_language_description">Choose the language in which you want to use in the app</string>
-    <string name="language_change_note">💡 Language changes may take effect after restarting the app.</string>
+    <string name="language_change_note">💡 On some devices changes may take effect after restarting the app.</string>
 
     <string name="appointments">Appointments</string>
     <string name="upcoming_appointments">Upcoming Appointments</string>
@@ -88,6 +86,8 @@
     <string name="login_failed">Login failed. Please check your credentials.</string>
     <string name="signup_failed">Sign up failed. Please try again.</string>
 
+    <string name="dismiss">Dismiss</string>
+    <string name="account_overview">Account Overview.</string>
     <string name="welcome">Welcome</string>
     <string name="no_data_available">No data available</string>
     <string name="try_again">Try Again</string>

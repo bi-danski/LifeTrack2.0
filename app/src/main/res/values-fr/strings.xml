@@ -103,5 +103,6 @@
     <string name="medical_records">Dossiers Médicaux</string>
     <string name="lab_tests">Tests de Laboratoire</string>
     <string name="visit_history">Historique des Visites</string>
+    <string name="dismiss">Fermer</string>
+    <string name="account_overview">Aperçu du Compte.</string>
 </resources>
-
