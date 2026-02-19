@@ -1,8 +1,11 @@
 package org.lifetrack.ltapp.presenter
 
 import android.annotation.SuppressLint
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -39,13 +42,15 @@ class UserPresenter(
     private val _allAppointments = MutableStateFlow(LtMockData.dummyAppointments)
     private val _selectedFilter = MutableStateFlow(UIAppointmentStatus.UPCOMING)
     val selectedFilter = _selectedFilter.asStateFlow()
-
+    var caroItemsCount by mutableIntStateOf(3)
+        private set
     private val _selectedDoctorProfile = MutableStateFlow<DoctorProfile?>(null)
     val selectedDoctorProfile = _selectedDoctorProfile.asStateFlow()
 
     val nextUpcomingAppointment = _allAppointments.map { list ->
         list.filter { it.status == UIAppointmentStatus.UPCOMING }.minByOrNull { it.scheduledAt }
-    }.stateIn(viewModelScope,
+    }.stateIn(
+        viewModelScope,
         SharingStarted.WhileSubscribed(5000),
         null
     )

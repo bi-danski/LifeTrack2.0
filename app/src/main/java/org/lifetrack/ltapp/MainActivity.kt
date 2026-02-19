@@ -10,8 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -33,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     private val sharedPresenter: SharedPresenter by inject()
 
     override fun attachBaseContext(newBase: Context) {
-        LocaleManager.init(newBase)
+//        LocaleManager.init(newBase)
         val lang = LocaleManager.getPreferredLanguage()
         val context = LocalizationProvider.getLocalizedContext(newBase, lang)
         super.attachBaseContext(context)
@@ -56,18 +54,11 @@ class MainActivity : AppCompatActivity() {
         setContent {
             val isOnline by networkObserver.isConnected.collectAsStateWithLifecycle()
             val sessionStatus by sessionManager.sessionState.collectAsState()
-            val currentLanguage by sharedPresenter.currentLanguage.collectAsStateWithLifecycle()
-            val lastAppliedLanguage = rememberSaveable { mutableStateOf(currentLanguage) }
+            val ltSettings by sharedPresenter.ltSettings.collectAsStateWithLifecycle()
 
-            LaunchedEffect(currentLanguage) {
-                if (lastAppliedLanguage.value != currentLanguage) {
-                    val appliedInPlace = LocalizationProvider.setLocale(this@MainActivity, currentLanguage)
-                    LocaleManager.setPreferredLanguage(currentLanguage)
-                    lastAppliedLanguage.value = currentLanguage
-                    if (!appliedInPlace) {
-                        recreate()
-                    }
-                }
+            LaunchedEffect(ltSettings.preferredLanguage) {
+                LocalizationProvider.setLocale(this@MainActivity, ltSettings.preferredLanguage)
+                LocaleManager.setPreferredLanguage(ltSettings.preferredLanguage)
             }
 
             LTAppTheme {

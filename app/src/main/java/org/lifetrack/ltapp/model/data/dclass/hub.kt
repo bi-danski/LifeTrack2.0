@@ -168,7 +168,8 @@ data class LtSettings(
     val animations: Boolean = true,
     val dataConsent: Boolean = false,
     val reminders: Boolean = true,
-    val carouselAutoRotate: Boolean = true
+    val carouselAutoRotate: Boolean = true,
+    val preferredLanguage: String = "en"
 )
 
 data class MenuItemData(
@@ -187,4 +188,11 @@ data class StatusChipData(
     val label: String,
     val color: Color,
     val icon: ImageVector
+)
+
+data class LanguageOption(
+    val code: String,
+    val name: String,
+    val nativeName: String,
+    val flag: String
 )

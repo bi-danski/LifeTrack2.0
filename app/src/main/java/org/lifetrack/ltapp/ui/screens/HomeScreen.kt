@@ -39,9 +39,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.lifetrack.ltapp.utility.openDialer
 import org.lifetrack.ltapp.presenter.AuthPresenter
-import org.lifetrack.ltapp.presenter.HomePresenter
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.ui.components.homescreen.AppBottomBar
@@ -52,18 +50,17 @@ import org.lifetrack.ltapp.ui.components.homescreen.featureGridContent
 import org.lifetrack.ltapp.ui.components.other.LTSnackbar
 import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 import org.lifetrack.ltapp.ui.state.UIState
+import org.lifetrack.ltapp.utility.openDialer
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    homePresenter: HomePresenter,
     userPresenter: UserPresenter,
     authPresenter: AuthPresenter,
     sharedPresenter: SharedPresenter
 ) {
     val ltSettings by sharedPresenter.ltSettings.collectAsState()
-    val caroItemsCount = homePresenter.caroItemsCount
     val userInfo = authPresenter.profileInfo.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
     val authUiState by authPresenter.uiState.collectAsStateWithLifecycle(UIState.Idle)
@@ -133,7 +130,7 @@ fun HomeScreen(
                     LtHomeCarousel(
                         isCarouselAutoRotateEnabled = ltSettings.carouselAutoRotate,
                         isAppAnimationEnabled = ltSettings.animations,
-                        itemsCount = caroItemsCount,
+                        itemsCount = userPresenter.caroItemsCount,
                         userPresenter = userPresenter,
                         onEmergencyClickAction = {
                             hapticFeedbackContextInstance.performHapticFeedback(

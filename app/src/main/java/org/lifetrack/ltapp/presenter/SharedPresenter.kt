@@ -12,15 +12,14 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.core.localization.LocaleManager
+import org.lifetrack.ltapp.model.data.dclass.LanguageOption
 import org.lifetrack.ltapp.model.data.dclass.MenuItemData
 import org.lifetrack.ltapp.model.data.dclass.menuListItems
 import org.lifetrack.ltapp.model.repository.PreferenceRepository
 import org.lifetrack.ltapp.utility.makeAutoCall
 import org.lifetrack.ltapp.utility.toLtSettings
 
-class SharedPresenter(
-    private val prefRepository: PreferenceRepository
-) : ViewModel() {
+class SharedPresenter(private val prefRepository: PreferenceRepository) : ViewModel() {
 
     val ltSettings = prefRepository.ltPreferences
         .map { it.toLtSettings() }
@@ -28,14 +27,6 @@ class SharedPresenter(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000L),
             initialValue = org.lifetrack.ltapp.model.data.dclass.LtSettings()
-        )
-
-    val currentLanguage = prefRepository.ltPreferences
-        .map { it.preferredLanguage }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000L),
-            initialValue = "en"
         )
 
     var version by mutableStateOf("2.0.0")
@@ -86,10 +77,7 @@ class SharedPresenter(
     }
 
     fun updateLanguage(languageCode: String) {
-        // Fast path: write a synchronous preference for attachBaseContext and startup usage
         LocaleManager.setPreferredLanguage(languageCode)
-
-        // Persist the change in DataStore asynchronously
         viewModelScope.launch {
             prefRepository.updateLTPreferences { current ->
                 current.copy(preferredLanguage = languageCode)
@@ -101,4 +89,20 @@ class SharedPresenter(
         val emergencyNumber = "911"
         context.makeAutoCall(emergencyNumber)
     }
+
+    val AVAILABLE_LANGUAGES = listOf(
+        LanguageOption("en", "English", "English", "🇬🇧"),
+        LanguageOption("es", "Spanish", "Español", "🇪🇸"),
+        LanguageOption("fr", "French", "Français", "🇫🇷"),
+        LanguageOption("de", "German", "Deutsch", "🇩🇪"),
+        LanguageOption("it", "Italian", "Italiano", "🇮🇹"),
+        LanguageOption("pt", "Portuguese", "Português", "🇵🇹"),
+        LanguageOption("ru", "Russian", "Русский", "🇷🇺"),
+        LanguageOption("zh", "Chinese", "中文", "🇨🇳"),
+        LanguageOption("ja", "Japanese", "日本語", "🇯🇵"),
+        LanguageOption("ko", "Korean", "한국어", "🇰🇷"),
+        LanguageOption("ar", "Arabic", "العربية", "🇸🇦"),
+        LanguageOption("hi", "Hindi", "हिन्दी", "🇮🇳"),
+        LanguageOption("sw", "Swahili", "Kiswahili", "🇰🇪"),
+    )
 }

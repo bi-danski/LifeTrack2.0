@@ -115,7 +115,8 @@ fun LTPreferences.toLtSettings(): LtSettings {
         animations = this.appAnimationsEnabled,
         dataConsent = this.userPatientDataConsentEnabled,
         reminders = this.appReminderNotificationsEnabled,
-        carouselAutoRotate = this.appCarouselAutoRotationEnabled
+        carouselAutoRotate = this.appCarouselAutoRotationEnabled,
+        preferredLanguage = this.preferredLanguage
     )
 }
 

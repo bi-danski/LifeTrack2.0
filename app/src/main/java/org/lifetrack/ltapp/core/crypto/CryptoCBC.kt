@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.core.security.crypto
+package org.lifetrack.ltapp.core.crypto
 
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties

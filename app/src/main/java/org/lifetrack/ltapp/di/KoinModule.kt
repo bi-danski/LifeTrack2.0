@@ -1,12 +1,12 @@
 package org.lifetrack.ltapp.di
 
+//import io.kotzilla.sdk.KotzillaSDK
 import android.content.Context
 import androidx.datastore.dataStore
 import androidx.lifecycle.SavedStateHandle
 import androidx.room.ExperimentalRoomApi
 import androidx.room.Room
 import androidx.room.RoomDatabase
-//import io.kotzilla.sdk.KotzillaSDK
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -31,51 +31,51 @@ import org.lifetrack.ltapp.presenter.ChatPresenter
 import org.lifetrack.ltapp.presenter.FUVPresenter
 import org.lifetrack.ltapp.presenter.HomePresenter
 import org.lifetrack.ltapp.presenter.PrescPresenter
-import org.lifetrack.ltapp.service.SessionManager
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.presenter.TLinePresenter
 import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.service.AlmaService
+import org.lifetrack.ltapp.service.SessionManager
 
+object KoinModule {
+    private val Context.ltDataStore by dataStore(
+        fileName = "_lt_prefs.json",
+        serializer = LTPrefSerializer
+    )
 
-private val Context.ltDataStore by dataStore(fileName = "_lt_prefs.json",
-    serializer = LTPrefSerializer
-)
+    @OptIn(ExperimentalRoomApi::class)
+    val koinModules = module {
+        single(named("koinScope"), createdAtStart = false) {
+            CoroutineScope(SupervisorJob() + Dispatchers.Default)
+        }
 
-@OptIn(ExperimentalRoomApi::class)
-val koinModule = module {
-    single(named("koinScope"), createdAtStart = false) {
-        CoroutineScope(SupervisorJob() + Dispatchers.Default)
-    }
+        single(named("ltStore"), createdAtStart = false) {
+            androidContext().ltDataStore
+        }
 
-    single(named("ltStore"), createdAtStart = false) {
-        androidContext().ltDataStore
-    }
+        single(createdAtStart = false) {
+            Room.databaseBuilder(
+                androidContext(),
+                LTRoomDatabase::class.java,
+                "lifetrack_db"
+            )
+                .setQueryExecutor(Dispatchers.IO.asExecutor())
+                .setTransactionExecutor(Dispatchers.IO.asExecutor())
+                .setJournalMode(RoomDatabase.JournalMode.WRITE_AHEAD_LOGGING)
+                .fallbackToDestructiveMigration(false)
+                .setInMemoryTrackingMode(true)
+                .build()
+        }
+        single(createdAtStart = false) {
+            get<LTRoomDatabase>().chatDao()
+        }
 
-    single(createdAtStart = false) {
-        Room.databaseBuilder(
-            androidContext(),
-            LTRoomDatabase::class.java,
-            "lifetrack_db"
-        )
-            .setQueryExecutor(Dispatchers.IO.asExecutor())
-            .setTransactionExecutor(Dispatchers.IO.asExecutor())
-            .setJournalMode(RoomDatabase.JournalMode.WRITE_AHEAD_LOGGING)
-            .fallbackToDestructiveMigration(false)
-            .setInMemoryTrackingMode(true)
-            .build()
-    }
-    single(createdAtStart = false) { get<LTRoomDatabase>().chatDao() }
-
-    single(createdAtStart = false) {
-        NetworkObserver(androidContext(), get(named("koinScope"))
-        )
-    }
+        single(createdAtStart = false) {
+            NetworkObserver(androidContext(), get(named("koinScope")))
+        }
 //    KotzillaSDK.trace("KtorHttpClient::Trace") {
         single(createdAtStart = false) {
-            KtorHttpClient.create(
-                get(),
-                get(),
+            KtorHttpClient.create(get(), get(),
                 get(named("koinScope"))
             )
         }
@@ -88,9 +88,9 @@ val koinModule = module {
             )
         }
 //    }
-    single<AuthRepository>(createdAtStart = false) {
-        AuthRepositoryImpl(get(), get())
-    }
+        single<AuthRepository>(createdAtStart = false) {
+            AuthRepositoryImpl(get(), get())
+        }
 
 //    KotzillaSDK.trace("SessionManager::Trace") {
         single(createdAtStart = false) {
@@ -101,32 +101,27 @@ val koinModule = module {
             )
         }
 //    }
+        single<UserRepository>(createdAtStart = false) {
+            UserRepositoryImpl(get(), get())
+        }
 
-    single<UserRepository>(createdAtStart = false) {
-        UserRepositoryImpl(get(), get())
-    }
+        single(createdAtStart = false) {
+            ChatRepository(get())
+        }
 
-    single(createdAtStart = false) {
-        ChatRepository(get())
-    }
+        single(createdAtStart = false) {
+            AlmaService(get())
+        }
 
-
-    single(createdAtStart = false) {
-        AlmaService(get())
-    }
-
-    viewModelOf(::AuthPresenter)
-    viewModelOf(::HomePresenter)
-    viewModelOf(::UserPresenter)
-    viewModelOf(::FUVPresenter)
-    viewModelOf(::SharedPresenter)
-    viewModelOf(::PrescPresenter)
-    viewModelOf(::TLinePresenter)
-    viewModel { (handle: SavedStateHandle) ->
-        ChatPresenter(
-            get(),
-            handle,
-            get()
-        )
+        viewModelOf(::AuthPresenter)
+        viewModelOf(::HomePresenter)
+        viewModelOf(::UserPresenter)
+        viewModelOf(::FUVPresenter)
+        viewModelOf(::SharedPresenter)
+        viewModelOf(::PrescPresenter)
+        viewModelOf(::TLinePresenter)
+        viewModel { (handle: SavedStateHandle) ->
+            ChatPresenter(get(), handle, get() )
+        }
     }
 }

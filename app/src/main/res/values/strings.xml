@@ -46,13 +46,11 @@
     <string name="edit_your_profile">Edit Your Profile</string>
     <string name="profile_updated_successfully">Profile updated successfully!</string>
 
-    <!-- Language -->
     <string name="change_language">Change Language</string>
     <string name="select_preferred_language">Select your preferred language</string>
-    <string name="choose_language_description">Choose the language in which you want to use the app</string>
-    <string name="language_change_note">💡 Language changes will take effect after restarting the app.</string>
+    <string name="choose_language_description">Choose the language in which you want to use in the app</string>
+    <string name="language_change_note">💡 Language changes may take effect after restarting the app.</string>
 
-    <!-- Appointments -->
     <string name="appointments">Appointments</string>
     <string name="upcoming_appointments">Upcoming Appointments</string>
     <string name="book_appointment">Book Appointment</string>
@@ -61,7 +59,6 @@
     <string name="date">Date</string>
     <string name="time">Time</string>
 
-    <!-- Prescriptions -->
     <string name="prescriptions">Prescriptions</string>
     <string name="medication">Medication</string>
     <string name="dosage">Dosage</string>
@@ -72,7 +69,6 @@
     <string name="history">History</string>
     <string name="refill_due">Refill Due</string>
 
-    <!-- Health -->
     <string name="vitals">Vitals</string>
     <string name="heart_rate">Heart Rate</string>
     <string name="blood_pressure">Blood Pressure</string>
@@ -82,7 +78,6 @@
     <string name="sleep">Sleep</string>
     <string name="activity">Activity</string>
 
-    <!-- Authentication -->
     <string name="login">Login</string>
     <string name="signup">Sign Up</string>
     <string name="logout">Logout</string>
@@ -93,7 +88,6 @@
     <string name="login_failed">Login failed. Please check your credentials.</string>
     <string name="signup_failed">Sign up failed. Please try again.</string>
 
-    <!-- Messages -->
     <string name="welcome">Welcome</string>
     <string name="no_data_available">No data available</string>
     <string name="try_again">Try Again</string>

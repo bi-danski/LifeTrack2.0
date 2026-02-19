@@ -17,15 +17,14 @@ class KoinApplication: Application(), KoinStartup {
 
     override fun onCreate() {
         super.onCreate()
-        // Initialize LocaleManager synchronously for fast reads during Activity attach
-        LocaleManager.init(this)
+//        LocaleManager.init(this)
         LocalizationProvider.setLocale(this, LocaleManager.getPreferredLanguage())
     }
 
     override fun onKoinStartup(): KoinConfiguration = koinConfiguration {
         androidContext(this@KoinApplication)
         androidLogger(Level.NONE)
-        modules(koinModule)
+        modules(KoinModule.koinModules)
         createEagerInstances()
 //        analytics()
     }

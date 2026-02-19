@@ -29,7 +29,7 @@ import org.lifetrack.ltapp.ui.screens.AlertScreen
 import org.lifetrack.ltapp.ui.screens.AlmaScreen
 import org.lifetrack.ltapp.ui.screens.AnalyticScreen
 import org.lifetrack.ltapp.ui.screens.AppointScreen
-import org.lifetrack.ltapp.ui.screens.ChangeLanguageScreen
+import org.lifetrack.ltapp.ui.screens.LanguageScreen
 import org.lifetrack.ltapp.ui.screens.ChatScreen
 import org.lifetrack.ltapp.ui.screens.FollowUpScreen
 import org.lifetrack.ltapp.ui.screens.HomeScreen
@@ -110,7 +110,7 @@ fun LTNavigation(navController: NavHostController, startDestination: String ) {
                 PersonalInfoScreen(authPresenter, userPresenter)
             }
             composable("change_language") {
-                ChangeLanguageScreen(sharedPresenter)
+                LanguageScreen(sharedPresenter)
             }
             composable("menu") {
                 MenuScreen(authPresenter, sharedPresenter)

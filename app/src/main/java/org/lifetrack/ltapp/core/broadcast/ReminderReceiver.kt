@@ -16,19 +16,19 @@ import org.lifetrack.ltapp.R
 class ReminderReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        val medName = intent.getStringExtra("MED_NAME") ?: "Medication"
-        val prescriptionId = intent.getIntExtra("PRESCRIPTION_ID", 0)
+        buildMedicNotification(context, intent)
+    }
 
+    private fun buildMedicNotification(context: Context, intent: Intent) {
+        val medName = intent.getStringExtra("MED_NAME") ?: "Medication"
         val tapIntent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
-        val pendingIntent = PendingIntent.getActivity(
-            context,
-            prescriptionId,
+        val pendingIntent = PendingIntent.getActivity(context,
+            intent.getIntExtra("PRESCRIPTION_ID", 0),
             tapIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
-
         val builder = NotificationCompat.Builder(context, "MED_REMINDER_CH")
             .setSmallIcon(R.drawable.app_icon)
             .setContentTitle("Medication Reminder")
@@ -39,13 +39,11 @@ class ReminderReceiver : BroadcastReceiver() {
             .setAutoCancel(true)
 
         val notificationManager = NotificationManagerCompat.from(context)
-
-        if (ActivityCompat.checkSelfPermission(
-                context,
-                Manifest.permission.POST_NOTIFICATIONS
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS)
+            == PackageManager.PERMISSION_GRANTED)
+        {
             notificationManager.notify(medName.hashCode(), builder.build())
         }
     }
+
 }
