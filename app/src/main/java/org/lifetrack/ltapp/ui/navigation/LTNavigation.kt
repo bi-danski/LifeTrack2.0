@@ -68,8 +68,7 @@ fun LTNavigation(navController: NavHostController, startDestination: String ) {
         navController = navController,
         startDestination = startDestination,
         exitTransition = {
-            slideOutOfContainer(
-                towards = AnimatedContentTransitionScope.SlideDirection.Start,
+            slideOutOfContainer(towards = AnimatedContentTransitionScope.SlideDirection.Start,
                 animationSpec = tween(durationMillis = 150)
             ) + fadeOut(animationSpec = tween(150))
         },
@@ -79,78 +78,47 @@ fun LTNavigation(navController: NavHostController, startDestination: String ) {
             ) + fadeIn(animationSpec = tween(150))
         },
         popExitTransition = {
-            slideOutOfContainer(
-                towards = AnimatedContentTransitionScope.SlideDirection.End,
+            slideOutOfContainer(towards = AnimatedContentTransitionScope.SlideDirection.End,
                 animationSpec = tween(durationMillis = 150)
             ) + fadeOut(animationSpec = tween(150))
         }
     ) {
         navigation(startDestination = "login", route = "auth_graph") {
-            composable("login") {
-                LoginScreen(authPresenter, sharedPresenter)
-            }
-            composable("signup") {
-                SignupScreen(authPresenter)
-            }
-            composable("restore") {
-                RestoreScreen()
-            }
+            composable("login") { LoginScreen(authPresenter, sharedPresenter) }
+            composable("signup") { SignupScreen(authPresenter) }
+            composable("restore") { RestoreScreen() }
         }
 
         navigation(startDestination = "home", route = "home_graph") {
-            composable("home") {
-                HomeScreen(userPresenter, authPresenter, sharedPresenter)
-            }
-            composable("profile") {
-                ProfileScreen(authPresenter, userPresenter)
-            }
-            composable("personal_info") {
-                PersonalInfoScreen(authPresenter, userPresenter)
-            }
-            composable("change_language") {
-                LanguageScreen(sharedPresenter)
-            }
-            composable("menu") {
-                MenuScreen(authPresenter, sharedPresenter)
-            }
-            composable("alma") {
-                AlmaScreen(chatPresenter)
-            }
-            composable("chats") {
-                ChatScreen(chatPresenter)
-            }
+            composable("home") { HomeScreen(userPresenter, authPresenter, sharedPresenter) }
+            composable("profile") { ProfileScreen(authPresenter, userPresenter) }
+            composable("personOfInterest") { PersonalInfoScreen(authPresenter, userPresenter) }
+            composable("changeLanguage") { LanguageScreen(sharedPresenter) }
+            composable("menu") { MenuScreen(authPresenter, sharedPresenter) }
+            composable("alma") { AlmaScreen(chatPresenter) }
+            composable("chats") { ChatScreen(chatPresenter) }
 
-            addHealthFeatures( userPresenter, authPresenter)
-
+            addHealthFeatures( userPresenter, authPresenter, fuvPresenter)
             addSupportFeatures(sharedPresenter)
-
-            addUtilityFeatures( fuvPresenter)
         }
     }
 }
 
-fun NavGraphBuilder.addHealthFeatures(userPresenter: UserPresenter, authPresenter: AuthPresenter) {
-    composable("analytics") {
-        AnalyticScreen()//userPresenter)
-    }
-    composable("prescriptions") {
-        PrescriptScreen(userPresenter, koinViewModel<PrescPresenter>())
-    }
-    composable("appointments") {
-        AppointScreen(userPresenter)
-    }
-    composable(
-        route = "prescription_detail/{medId}",
+fun NavGraphBuilder.addHealthFeatures(userPresenter: UserPresenter, authPresenter: AuthPresenter, fuvPresenter: FUVPresenter) {
+    composable("analytics") { AnalyticScreen() }
+    composable("prescriptions") { PrescriptScreen(userPresenter, koinViewModel<PrescPresenter>()) }
+    composable("timeline") { TimeLineScreen(koinViewModel<TLinePresenter>()) }
+    composable("telemedicine") { TelemedicineScreen() }
+    composable("FUV") { FollowUpScreen(fuvPresenter) }
+    composable("appointments") { AppointScreen(userPresenter) }
+    composable(route = "prescription_detail/{medId}",
         arguments = listOf(navArgument("medId") { type = NavType.StringType })
     ) { backStackEntry ->
-        val medId = backStackEntry.arguments?.getString("medId")
-        val prescription = userPresenter.dummyPrescriptions.find { it.id == medId }
-        prescription?.let {
+        userPresenter.dummyPrescriptions.find {
+            it.id == backStackEntry.arguments?.getString("medId")
+        }?.let {
             PDetailScreen(authPresenter = authPresenter, prescription = it)
         }
-    }
-    composable("telemedicine") {
-        TelemedicineScreen()
     }
 }
 
@@ -160,12 +128,5 @@ fun NavGraphBuilder.addSupportFeatures(sharedPresenter: SharedPresenter) {
     composable("alerts") { AlertScreen() }
     composable("bar-bra") { MainScreen() }
     composable("koala") { VitalScreen() }
-}
-
-fun NavGraphBuilder.addUtilityFeatures(fuvPresenter: FUVPresenter) {
-    composable("FUV") {
-        FollowUpScreen(fuvPresenter)
-    }
-    composable("timeline") { TimeLineScreen(koinViewModel<TLinePresenter>()) }
     composable("other") { OtherScreen() }
 }

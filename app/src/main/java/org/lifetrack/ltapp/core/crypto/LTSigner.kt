@@ -9,6 +9,7 @@ import java.security.PrivateKey
 import java.security.PublicKey
 import java.security.Signature
 
+@Suppress("unused")
 object LTSigner {
     private const val SIGNING_ALIAS = "LT_SIGNING_KEY"
     private const val ANDROID_KEY_STORE = "AndroidKeyStore"

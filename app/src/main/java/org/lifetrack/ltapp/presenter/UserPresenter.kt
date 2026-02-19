@@ -33,16 +33,20 @@ class UserPresenter(private val userRepository: UserRepository) : ViewModel() {
     val dummyPrescriptions = mutableStateListOf<Prescription>().apply {
         addAll(LtMockData.dPrescriptions)
     }
-    var isBookingExpanded = mutableStateOf(false)
-
-    private val _allAppointments = MutableStateFlow(LtMockData.dummyAppointments)
-    private val _selectedFilter = MutableStateFlow(UIAppointmentStatus.UPCOMING)
-    val selectedFilter = _selectedFilter.asStateFlow()
     var caroItemsCount by mutableIntStateOf(3)
         private set
-    private val _selectedDoctorProfile = MutableStateFlow<DoctorProfile?>(null)
-    val selectedDoctorProfile = _selectedDoctorProfile.asStateFlow()
+    var isBookingExpanded = mutableStateOf(false)
+    private val _allAppointments = MutableStateFlow(LtMockData.dummyAppointments)
+    private val _isLoading = MutableStateFlow(false)
+    private val _selectedFilter = MutableStateFlow(UIAppointmentStatus.UPCOMING)
 
+    val selectedFilter = _selectedFilter.asStateFlow()
+    private val _errorMessage = MutableStateFlow<String?>(null)
+
+    val errorMessage = _errorMessage.asStateFlow()
+    private val _selectedDoctorProfile = MutableStateFlow<DoctorProfile?>(null)
+
+    val selectedDoctorProfile = _selectedDoctorProfile.asStateFlow()
     val nextUpcomingAppointment = _allAppointments.map { list ->
         list.filter { it.status == UIAppointmentStatus.UPCOMING }.minByOrNull { it.scheduledAt }
     }.stateIn(
@@ -58,10 +62,6 @@ class UserPresenter(private val userRepository: UserRepository) : ViewModel() {
         SharingStarted.WhileSubscribed(5000),
         emptyList()
     )
-
-    private val _isLoading = MutableStateFlow(false)
-    private val _errorMessage = MutableStateFlow<String?>(null)
-    val errorMessage = _errorMessage.asStateFlow()
 
     fun onFilterChanged(newFilter: UIAppointmentStatus) {
         _selectedFilter.value = newFilter
@@ -109,11 +109,7 @@ class UserPresenter(private val userRepository: UserRepository) : ViewModel() {
         }
     }
 
-    fun updateUserProfile(
-        fullName: String,
-        userName: String,
-        phoneNumber: String,
-        onComplete: () -> Unit = {}
+    fun updateUserProfile(fullName: String, userName: String, phoneNumber: String, onComplete: () -> Unit = {}
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
