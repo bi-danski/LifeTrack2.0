@@ -75,7 +75,7 @@ fun UserDataResponse.toUserProfileInfo(): ProfileInfo{
         userInitials = ZetuZetuUtil.generateInitials(displayName),
         createdAt = this.createdAt,
         updatedAt = this.updatedAt,
-        role = this.role
+        role = this.whoami
     )
 }
 

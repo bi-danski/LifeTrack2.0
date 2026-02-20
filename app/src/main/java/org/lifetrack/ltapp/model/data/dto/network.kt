@@ -13,7 +13,7 @@ data class UserDataResponse(
     val emailAddress: String,
     val createdAt: Instant,
     val updatedAt: Instant?,
-    val role: String,
+    val whoami: String,
 )
 
 @Serializable

@@ -13,9 +13,6 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.core.events.AuthUiEvent
-import org.lifetrack.ltapp.utility.toProfileInfo
-import org.lifetrack.ltapp.utility.toUserPreferences
-import org.lifetrack.ltapp.utility.toUserProfileInfo
 import org.lifetrack.ltapp.model.data.dclass.AuthResult
 import org.lifetrack.ltapp.model.data.dclass.LoginInfo
 import org.lifetrack.ltapp.model.data.dclass.ProfileInfo
@@ -28,6 +25,9 @@ import org.lifetrack.ltapp.model.repository.UserRepository
 import org.lifetrack.ltapp.service.SessionManager
 import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 import org.lifetrack.ltapp.ui.state.UIState
+import org.lifetrack.ltapp.utility.toProfileInfo
+import org.lifetrack.ltapp.utility.toUserPreferences
+import org.lifetrack.ltapp.utility.toUserProfileInfo
 
 class AuthPresenter(
     private val authRepository: AuthRepository,
@@ -75,9 +75,10 @@ class AuthPresenter(
                 is AuthResult.Success -> {
                     _uiEvent.send(AuthUiEvent.SignupSuccess)
                 }
-                is AuthResult.SuccessWithData<*> -> {
-                    _uiState.emit(UIState.Success(result.data as? String))
-                }
+//                is AuthResult.SuccessWithData<*> -> {
+//                    _uiState.emit(UIState.Success(result.data as? String))
+//                    _uiEvent.send(AuthUiEvent.SignupSuccess)
+//                }
                 is AuthResult.Error -> _uiState.emit(
                     UIState.Error(
                         result.message,
