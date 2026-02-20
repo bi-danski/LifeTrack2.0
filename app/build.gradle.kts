@@ -1,11 +1,10 @@
-@file:Suppress("UnstableApiUsage")
+//@file:Suppress("UnstableApiUsage")
 import com.android.build.api.dsl.ApplicationExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
@@ -114,7 +113,10 @@ dependencies {
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
     implementation(libs.coil.compose)
+    implementation(libs.slf4j.nop)
     implementation(libs.navigation.compose)
+    implementation(libs.accompanist.systemuicontroller)
+    implementation(libs.accompanist.navigation.animation)
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.kotlinx.serialization.json)
@@ -137,10 +139,6 @@ dependencies {
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
-
-    implementation(libs.slf4j.nop)
-    implementation(libs.accompanist.systemuicontroller)
-    implementation(libs.accompanist.navigation.animation)
 
     implementation(libs.charts)
     implementation(libs.mpandroidchart)
