@@ -8,15 +8,13 @@ import java.util.Locale
 
 object LocalizationProvider {
 
-    @Suppress("UNUSED_PARAMETER")
-    fun setLocale(context: Context, languageCode: String): Boolean {
+    fun setLocale(languageCode: String): Boolean {
         return try {
             val localeList = LocaleListCompat.forLanguageTags(languageCode)
             AppCompatDelegate.setApplicationLocales(localeList)
-            val locale = Locale.forLanguageTag(languageCode)
-            Locale.setDefault(locale)
-            AppCompatDelegate.getApplicationLocales() == localeList
-        } catch (t: Throwable) {
+            Locale.setDefault(Locale.forLanguageTag(languageCode))
+            true
+        } catch (_: Throwable) {
             false
         }
     }
@@ -26,7 +24,7 @@ object LocalizationProvider {
         Locale.setDefault(locale)
         val config = Configuration(context.resources.configuration)
         config.setLocale(locale)
-
+        config.setLayoutDirection(locale)
         return context.createConfigurationContext(config)
     }
 }

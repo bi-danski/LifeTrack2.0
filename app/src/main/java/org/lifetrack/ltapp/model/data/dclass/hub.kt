@@ -1,5 +1,6 @@
 package org.lifetrack.ltapp.model.data.dclass
 
+import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.datetime.LocalDateTime
@@ -115,7 +116,7 @@ data class Attachment(
 )
 
 data class NavigationTab (
-    val label: String,
+    @StringRes val labelRes: Int,
     val route: String,
     val icon: ImageVector
 )

@@ -24,15 +24,14 @@
     <string name="error">Error</string>
     <string name="success">Éxito</string>
 
-    <!-- Navigation -->
     <string name="home">Inicio</string>
     <string name="profile">Perfil</string>
     <string name="menu">Menú</string>
     <string name="settings">Configuración</string>
     <string name="help">Ayuda</string>
     <string name="about">Acerca de</string>
+    <string name="medical_records">Registros Médicos</string>
 
-    <!-- Profile Screen -->
     <string name="personal_information">Información Personal</string>
     <string name="edit_profile">Editar Perfil</string>
     <string name="save_changes">Guardar Cambios</string>
@@ -102,7 +101,6 @@
     <string name="my_medical_history">Mi Historial Médico</string>
     <string name="change_password">Cambiar Contraseña</string>
     <string name="account_information">Información de Cuenta</string>
-    <string name="medical_records">Registros Médicos</string>
     <string name="lab_tests">Pruebas de Laboratorio</string>
     <string name="visit_history">Historial de Visitas</string>
     <string name="dismiss">Descartar</string>

@@ -25,10 +25,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.lifetrack.ltapp.R
 import org.lifetrack.ltapp.model.data.dclass.NavigationTab
 import org.lifetrack.ltapp.ui.navigation.LTNavDispatch
 import org.lifetrack.ltapp.ui.theme.BlueFulani
@@ -68,14 +70,14 @@ fun AppBottomBar() {
                 icon = {
                     Icon(
                         imageVector = item.icon,
-                        contentDescription = item.label,
+                        contentDescription = null,
                         tint = if (selectedTab == item.route) activeColor else inactiveColor,
                         modifier = Modifier.size(24.dp)
                     )
                 },
                 label = {
                     Text(
-                        text = item.label,
+                        text = stringResource(item.labelRes),
                         maxLines = 2,
                         overflow = TextOverflow.Visible,
                         style = MaterialTheme.typography.labelSmall.copy(
@@ -94,7 +96,7 @@ fun AppBottomBar() {
 }
 
 val navigationTabs = listOf(
-    NavigationTab("Home", "home", Icons.Filled.Home),
-    NavigationTab("Medical Records", "analytics", Icons.Filled.BarChart),
-    NavigationTab("Profile", "profile", Icons.Filled.AccountCircle)
+    NavigationTab(R.string.home, "home", Icons.Filled.Home),
+    NavigationTab(R.string.medical_records, "analytics", Icons.Filled.BarChart),
+    NavigationTab(R.string.profile, "profile", Icons.Filled.AccountCircle)
 )

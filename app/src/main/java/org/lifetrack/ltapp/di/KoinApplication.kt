@@ -18,7 +18,7 @@ class KoinApplication: Application(), KoinStartup {
     override fun onCreate() {
         super.onCreate()
         LocaleManager.init(this)
-        LocalizationProvider.setLocale(this, LocaleManager.getPreferredLanguage())
+        LocalizationProvider.setLocale(LocaleManager.getPreferredLanguage())
     }
 
     override fun onKoinStartup(): KoinConfiguration = koinConfiguration {

@@ -29,7 +29,6 @@ import org.lifetrack.ltapp.network.NetworkObserver
 import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.presenter.ChatPresenter
 import org.lifetrack.ltapp.presenter.FUVPresenter
-import org.lifetrack.ltapp.presenter.HomePresenter
 import org.lifetrack.ltapp.presenter.PrescPresenter
 import org.lifetrack.ltapp.presenter.SharedPresenter
 import org.lifetrack.ltapp.presenter.TLinePresenter
@@ -113,7 +112,6 @@ object KoinModule {
         }
 
         viewModelOf(::AuthPresenter)
-        viewModelOf(::HomePresenter)
         viewModelOf(::UserPresenter)
         viewModelOf(::FUVPresenter)
         viewModelOf(::SharedPresenter)

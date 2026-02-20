@@ -95,7 +95,7 @@ fun LanguageScreen(sharedPresenter: SharedPresenter) {
                 LanguageCard(
                     language = availableLanguages[index],
                     isSelected = availableLanguages[index].code == currentLanguage.preferredLanguage,
-                    onClick = { sharedPresenter.updateLanguage(availableLanguages[index].code) },
+                    onClick = { sharedPresenter.onLanguageUpdate(availableLanguages[index].code) },
                 )
                 Spacer(modifier = Modifier.height(12.dp))
             }

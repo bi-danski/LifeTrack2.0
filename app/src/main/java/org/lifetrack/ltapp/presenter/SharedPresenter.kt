@@ -76,7 +76,8 @@ class SharedPresenter(private val prefRepository: PreferenceRepository) : ViewMo
         }
     }
 
-    fun updateLanguage(languageCode: String) {
+
+    fun onLanguageUpdate(languageCode: String) {
         LocaleManager.setPreferredLanguage(languageCode)
         viewModelScope.launch {
             prefRepository.updateLTPreferences { current ->

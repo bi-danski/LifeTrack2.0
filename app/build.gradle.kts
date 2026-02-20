@@ -1,8 +1,6 @@
-
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.FileInputStream
 import java.util.Properties
-
 
 plugins {
     alias(libs.plugins.android.application)
@@ -10,9 +8,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
-//    alias(libs.plugins.kotzilla)
     id("kotlin-parcelize")
-//    alias(libs.plugins.google.gms.google.services)
 }
 
 val ltKeystorePropertiesFile = rootProject.file("keystore.properties")
@@ -24,7 +20,6 @@ val ltKeystoreProperties = Properties().apply {
 
 android {
     namespace = "org.lifetrack.ltapp"
-    //noinspection GradleDependency
     compileSdk = 36
 
     defaultConfig {
@@ -34,7 +29,6 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -48,10 +42,6 @@ android {
     }
 
     buildTypes {
-//        debug {
-//            buildConfigField("String", "ASS_ISTANT","\"$assistantServiceString\"")
-//        }
-
         release {
             isMinifyEnabled = true
             isShrinkResources = true
@@ -64,33 +54,35 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.toVersion(25)
+        targetCompatibility = JavaVersion.toVersion(25)
     }
 
-    kotlin {
-        compilerOptions {
-            freeCompilerArgs.addAll(
-                listOf(
-                    "-P", "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=${project.rootDir}/compose-metrics",
-                    "-P", "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=${project.rootDir}/compose-reports",
-                    "-Xdata-flow-based-exhaustiveness"
-//                    "-Xbuild-cache"
-                )
-            )
-            jvmTarget.set(JvmTarget.JVM_21)
-        }
-    }
     buildFeatures {
         viewBinding = true
         buildConfig = true
     }
+
     dependenciesInfo {
         includeInApk = false
         includeInBundle = false
     }
+
     buildToolsVersion = "36.0.0"
     ndkVersion = "29.0.13599879 rc2"
+}
+
+kotlin {
+    jvmToolchain(25)
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_25)
+        freeCompilerArgs.addAll(
+            "-P", "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=${project.rootDir}/compose-metrics",
+            "-P", "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=${project.rootDir}/compose-reports",
+            "-Xdata-flow-based-exhaustiveness",
+            "-XXLanguage:+PropertyParamAnnotationDefaultTargetMode"
+        )
+    }
 }
 
 configurations.all {
@@ -105,7 +97,6 @@ configurations.all {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.appcompat)
@@ -149,12 +140,9 @@ dependencies {
     implementation(libs.koin.androidx.compose)
     implementation(libs.koin.androidx.compose.navigation)
     implementation(libs.koin.androidx.startup)
-//    implementation(libs.kotzilla.sdk.compose)
-//    implementation(libs.firebase.messaging)
 
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)
-    implementation(libs.room.compiler)
     ksp(libs.room.compiler)
 
     implementation(libs.slf4j.nop)
@@ -167,8 +155,6 @@ dependencies {
     implementation(libs.vico.compose.m3)
     implementation(libs.vico.core)
     implementation(libs.koalaplot.core)
-//    implementation(libs.d2v.shape)
-//    implementation(libs.d2v.color)
 
     testImplementation(libs.junit)
     testImplementation(libs.androidx.ui.test.junit4)
@@ -177,7 +163,3 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
-
-//kotzilla {
-//    composeInstrumentation = true
-//}

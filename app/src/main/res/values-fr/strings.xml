@@ -5,12 +5,11 @@
     <string name="whoAmI">contact@lifetrack.org</string>
     <string name="whoWeAre">LifeTrack Health Solutions</string>
     <string name="whoAmISite">www.lifetrack.org</string>
-    <string name="companion">LifeTrack Health Companion</string>
-    <string name="companionDesc">Your complete health management solution</string>
-    <string name="whatWeDo">Innovating for Your Well-Being </string>
-    <string name="copyright">© 2023 LifeTrack. All rights reserved.</string>
-    <string name="app_description">LifeTrack is your digital health companion app providing telemedicine, health tracking, and emergency alerts. Our mission is to empower patients with accessible health data and real-time medical assistance.</string>
-
+    <string name="companion">Compañero de Salud LifeTrack</string>
+    <string name="companionDesc">Su solución integral para la gestión de la salud</string>
+    <string name="whatWeDo">Innovando para su Bienestar</string>
+    <string name="copyright">© 2023 LifeTrack. Todos los derechos reservados.</string>
+    <string name="app_description">LifeTrack es su aplicación complementaria de salud digital que ofrece telemedicina, seguimiento de salud y alertas de emergencia. Nuestra misión es empoderar a los pacientes con datos de salud accesibles y asistencia médica en tiempo real.</string>
     <string name="ok">OK</string>
     <string name="cancel">Annuler</string>
     <string name="save">Enregistrer</string>
@@ -23,14 +22,13 @@
     <string name="loading">Chargement…</string>
     <string name="error">Erreur</string>
     <string name="success">Succès</string>
-
     <string name="home">Accueil</string>
     <string name="profile">Profil</string>
     <string name="menu">Menu</string>
     <string name="settings">Paramètres</string>
     <string name="help">Aide</string>
     <string name="about">À Propos</string>
-
+    <string name="medical_records">Dossiers Médicaux</string>
     <string name="personal_information">Informations Personnelles</string>
     <string name="edit_profile">Modifier le Profil</string>
     <string name="save_changes">Enregistrer les Modifications</string>
@@ -43,14 +41,10 @@
     <string name="account_role">Rôle du Compte</string>
     <string name="edit_your_profile">Modifiez Votre Profil</string>
     <string name="profile_updated_successfully">Profil mis à jour avec succès!</string>
-
-    <!-- Language -->
     <string name="change_language">Changer la Langue</string>
     <string name="select_preferred_language">Sélectionnez votre langue préférée</string>
     <string name="choose_language_description">Choisissez la langue dans laquelle vous souhaitez utiliser l\'application</string>
     <string name="language_change_note">💡 Les modifications de langue prendront effet après le redémarrage de l\'application.</string>
-
-    <!-- Appointments -->
     <string name="appointments">Rendez-vous</string>
     <string name="upcoming_appointments">Rendez-vous à Venir</string>
     <string name="book_appointment">Prendre un Rendez-vous</string>
@@ -58,8 +52,6 @@
     <string name="hospital">Hôpital</string>
     <string name="date">Date</string>
     <string name="time">Heure</string>
-
-    <!-- Prescriptions -->
     <string name="prescriptions">Ordonnances</string>
     <string name="medication">Médicament</string>
     <string name="dosage">Dosage</string>
@@ -69,8 +61,6 @@
     <string name="active">Actif</string>
     <string name="history">Historique</string>
     <string name="refill_due">Renouvellement Dû</string>
-
-    <!-- Health -->
     <string name="vitals">Signes Vitaux</string>
     <string name="heart_rate">Fréquence Cardiaque</string>
     <string name="blood_pressure">Pression Artérielle</string>
@@ -79,8 +69,6 @@
     <string name="steps">Pas</string>
     <string name="sleep">Sommeil</string>
     <string name="activity">Activité</string>
-
-    <!-- Authentication -->
     <string name="login">Connexion</string>
     <string name="signup">S\'inscrire</string>
     <string name="logout">Déconnexion</string>
@@ -90,8 +78,6 @@
     <string name="remember_me">Se Souvenir de Moi</string>
     <string name="login_failed">Echec de la connexion. Vérifiez vos identifiants.</string>
     <string name="signup_failed">L\'inscription a échoué. Veuillez réessayer.</string>
-
-    <!-- Messages -->
     <string name="welcome">Bienvenue</string>
     <string name="no_data_available">Aucune donnée disponible</string>
     <string name="try_again">Réessayer</string>
@@ -100,7 +86,6 @@
     <string name="my_medical_history">Mon Historique Médical</string>
     <string name="change_password">Changer le Mot de Passe</string>
     <string name="account_information">Informations du Compte</string>
-    <string name="medical_records">Dossiers Médicaux</string>
     <string name="lab_tests">Tests de Laboratoire</string>
     <string name="visit_history">Historique des Visites</string>
     <string name="dismiss">Fermer</string>
