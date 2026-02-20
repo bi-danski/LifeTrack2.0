@@ -116,7 +116,7 @@ data class Attachment(
 )
 
 data class NavigationTab (
-    @StringRes val labelRes: Int,
+    val labelRes: String,
     val route: String,
     val icon: ImageVector
 )

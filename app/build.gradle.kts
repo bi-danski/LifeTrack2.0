@@ -1,5 +1,6 @@
+@file:Suppress("UnstableApiUsage")
+import com.android.build.api.dsl.ApplicationExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
@@ -11,14 +12,17 @@ plugins {
     id("kotlin-parcelize")
 }
 
-val ltKeystorePropertiesFile = rootProject.file("keystore.properties")
-val ltKeystoreProperties = Properties().apply {
-    if (ltKeystorePropertiesFile.exists()) {
-        load(FileInputStream(ltKeystorePropertiesFile))
+val ltKeystoreProperties by lazy {
+    Properties().apply {
+        rootProject.file("keystore.properties").takeIf {
+            it.exists()
+        }?.inputStream()?.use {
+            load(it)
+        }
     }
 }
 
-android {
+configure<ApplicationExtension> {
     namespace = "org.lifetrack.ltapp"
     compileSdk = 36
 
@@ -45,17 +49,14 @@ android {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             signingConfig = signingConfigs.getByName("release")
         }
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.toVersion(25)
-        targetCompatibility = JavaVersion.toVersion(25)
+        sourceCompatibility = JavaVersion.VERSION_25
+        targetCompatibility = JavaVersion.VERSION_25
     }
 
     buildFeatures {
@@ -63,13 +64,8 @@ android {
         buildConfig = true
     }
 
-    dependenciesInfo {
-        includeInApk = false
-        includeInBundle = false
-    }
-
     buildToolsVersion = "36.0.0"
-    ndkVersion = "29.0.13599879 rc2"
+    ndkVersion = "28.2.13676358"
 }
 
 kotlin {
@@ -77,10 +73,7 @@ kotlin {
     compilerOptions {
         jvmTarget.set(JvmTarget.JVM_25)
         freeCompilerArgs.addAll(
-            "-P", "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=${project.rootDir}/compose-metrics",
-            "-P", "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=${project.rootDir}/compose-reports",
             "-Xdata-flow-based-exhaustiveness",
-            "-XXLanguage:+PropertyParamAnnotationDefaultTargetMode"
         )
     }
 }

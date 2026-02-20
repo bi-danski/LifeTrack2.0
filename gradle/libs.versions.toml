@@ -1,7 +1,7 @@
 [versions]
-agp = "8.13.2"
+agp = "9.0.1"
 kotlin = "2.3.0"
-foojay = "1.0.0"# "2.1.21"
+foojay = "1.0.0"
 coreKtx = "1.17.0"
 junit = "4.13.2"
 junitVersion = "1.3.0"
@@ -26,7 +26,7 @@ koin-bom = "4.1.1"
 mpchart = "3.1.0"
 charts = "2.2.0"
 room = "2.8.4"
-ksp = "2.3.0"
+ksp = "2.3.2"
 accompanist= "0.36.0"
 coreSplashScreen = "1.2.0"
 datastorePreferences = "1.2.0"
@@ -115,7 +115,7 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-#kotzilla = { id = "io.kotzilla.kotzilla-plugin", version.ref = "kotzilla" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp"}
+#kotzilla = { id = "io.kotzilla.kotzilla-plugin", version.ref = "kotzilla" }
 #google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 foojay-resolver = { id = "org.gradle.toolchains.foojay-resolver-convention", version.ref = "foojay" }

@@ -41,14 +41,17 @@ import org.lifetrack.ltapp.ui.theme.Purple40
 fun AppBottomBar() {
     val currentRoute by LTNavDispatch.currentRoute
     var selectedTab by remember { mutableStateOf(currentRoute) }
-
     LaunchedEffect(currentRoute) {
         selectedTab = currentRoute
     }
     val shape = RoundedCornerShape(28.dp)
     val inactiveColor = if (isSystemInDarkTheme()) BlueFulani else Purple40
     val activeColor = if (isSystemInDarkTheme()) Pink80 else BlueFulani
-
+    val navigationTabs = listOf(
+        NavigationTab(stringResource(R.string.home), "home", Icons.Filled.Home),
+        NavigationTab(stringResource(R.string.medical_records), "analytics", Icons.Filled.BarChart),
+        NavigationTab(stringResource(R.string.profile), "profile", Icons.Filled.AccountCircle)
+    )
     NavigationBar(
         modifier = Modifier
             .fillMaxWidth()
@@ -76,12 +79,10 @@ fun AppBottomBar() {
                     )
                 },
                 label = {
-                    Text(
-                        text = stringResource(item.labelRes),
-                        maxLines = 2,
+                    Text(maxLines = 2,
+                        text = item.labelRes,
                         overflow = TextOverflow.Visible,
-                        style = MaterialTheme.typography.labelSmall.copy(
-                            fontSize = 11.sp,
+                        style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp,
                             fontWeight = FontWeight.Black
                         ),
                         color = if (selectedTab == item.route) activeColor else inactiveColor
@@ -94,9 +95,3 @@ fun AppBottomBar() {
         }
     }
 }
-
-val navigationTabs = listOf(
-    NavigationTab(R.string.home, "home", Icons.Filled.Home),
-    NavigationTab(R.string.medical_records, "analytics", Icons.Filled.BarChart),
-    NavigationTab(R.string.profile, "profile", Icons.Filled.AccountCircle)
-)
