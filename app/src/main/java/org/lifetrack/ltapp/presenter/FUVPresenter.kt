@@ -9,8 +9,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.lifetrack.ltapp.model.data.dclass.*
 import org.lifetrack.ltapp.model.LtMockData
+import org.lifetrack.ltapp.model.data.dclass.HospitalVisit
+import org.lifetrack.ltapp.model.data.dclass.UpcomingVisit
+import org.lifetrack.ltapp.model.data.dclass.VisitFilter
 
 
 class FUVPresenter : ViewModel() {
@@ -28,6 +30,10 @@ class FUVPresenter : ViewModel() {
 
     private val _selectedFilter = MutableStateFlow<VisitFilter>(VisitFilter.Recent)
     val selectedFilter = _selectedFilter.asStateFlow()
+
+    private val _filterOptions = MutableStateFlow(listOf(VisitFilter.Recent, VisitFilter.Oldest, VisitFilter.Alphabetical))
+    val filterOptions = _filterOptions.asStateFlow()
+
 
     fun toggleUpcomingExpansion() = _isUpcomingExpanded.update { !it }
 
@@ -48,11 +54,9 @@ class FUVPresenter : ViewModel() {
                     is VisitFilter.Alphabetical -> {
                         hospitalData.sortedBy { it.hospitalName }
                     }
-
                     is VisitFilter.Oldest -> {
                         hospitalData.sortedBy { it.subVisits.firstOrNull()?.timestamp }
                     }
-
                     is VisitFilter.Recent -> {
                         hospitalData.sortedByDescending { it.subVisits.firstOrNull()?.timestamp }
                     }

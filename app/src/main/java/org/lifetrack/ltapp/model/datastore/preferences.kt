@@ -1,4 +1,4 @@
-package org.lifetrack.ltapp.model.data.dclass
+package org.lifetrack.ltapp.model.datastore
 
 import kotlinx.serialization.Serializable
 import kotlin.time.Instant
@@ -13,7 +13,8 @@ data class LTPreferences(
     val userPatientDataConsentEnabled: Boolean = false,
     val appReminderNotificationsEnabled: Boolean = true,
     val appCarouselAutoRotationEnabled: Boolean = false,
-    val preferredLanguage: String = "en"
+    val preferredLanguage: String = "en",
+    val appVersion: String = "v2.0.0"
 )
 
 @Serializable

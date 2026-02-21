@@ -1,10 +1,6 @@
 package org.lifetrack.ltapp.presenter
 
 import android.content.Context
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.SharingStarted
@@ -13,8 +9,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.lifetrack.ltapp.core.localization.LocaleManager
 import org.lifetrack.ltapp.model.data.dclass.LanguageOption
-import org.lifetrack.ltapp.model.data.dclass.MenuItemData
-import org.lifetrack.ltapp.model.data.dclass.menuListItems
 import org.lifetrack.ltapp.model.repository.PreferenceRepository
 import org.lifetrack.ltapp.utility.makeAutoCall
 import org.lifetrack.ltapp.utility.toLtSettings
@@ -28,13 +22,6 @@ class SharedPresenter(private val prefRepository: PreferenceRepository) : ViewMo
             started = SharingStarted.WhileSubscribed(5000L),
             initialValue = org.lifetrack.ltapp.model.data.dclass.LtSettings()
         )
-
-    var version by mutableStateOf("2.0.0")
-        private set
-
-    val menuItems = mutableStateListOf<MenuItemData>().apply {
-        addAll(menuListItems)
-    }
 
     fun onUserNotificationsUpdate() {
         viewModelScope.launch {

@@ -5,9 +5,7 @@ import androidx.compose.material.icons.filled.Block
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.Emergency
 import androidx.compose.material.icons.filled.History
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.NewReleases
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -26,16 +24,6 @@ sealed class VisitFilter(val displayName: String) {
     object Oldest : VisitFilter("Oldest First")
     object Alphabetical : VisitFilter("Hospital A-Z")
 }
-
-val filterOptions = listOf(
-    VisitFilter.Recent,
-    VisitFilter.Oldest,
-    VisitFilter.Alphabetical
-)
-val menuListItems: Collection<MenuItemData> = mutableListOf(
-    MenuItemData("Emergency Contacts", Icons.Filled.Emergency, "epidemic_alert", rightIcon = null),
-    MenuItemData("About LifeTrack", Icons.Filled.Info, "about", rightIcon = null)
-)
 
 enum class UIAppointmentStatus(
     val status: String,
@@ -61,3 +49,4 @@ enum class Intensity {
 enum class AttachmentType {
     PDF, IMAGE, LAB_RESULT
 }
+

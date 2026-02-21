@@ -17,7 +17,7 @@ import org.lifetrack.ltapp.utility.toSignUpRequest
 import org.lifetrack.ltapp.model.data.dclass.AuthResult
 import org.lifetrack.ltapp.model.data.dclass.LoginInfo
 import org.lifetrack.ltapp.model.data.dclass.SignUpInfo
-import org.lifetrack.ltapp.model.data.dclass.TokenPreferences
+import org.lifetrack.ltapp.model.datastore.TokenPreferences
 import org.lifetrack.ltapp.model.data.dto.SessionInfo
 
 class AuthRepositoryImpl(

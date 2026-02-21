@@ -14,13 +14,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Animation
 import androidx.compose.material.icons.filled.ArrowCircleLeft
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Emergency
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.MedicalInformation
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -35,9 +36,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.lifetrack.ltapp.R
+import org.lifetrack.ltapp.model.data.dclass.MenuItemData
 import org.lifetrack.ltapp.model.data.dclass.ToggleItemData
 import org.lifetrack.ltapp.presenter.AuthPresenter
 import org.lifetrack.ltapp.presenter.SharedPresenter
@@ -58,7 +62,7 @@ fun MenuScreen(authPresenter: AuthPresenter, sharedPresenter: SharedPresenter) {
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = "Menu",
+                        text = stringResource(R.string.menu),
                         color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onPrimary,
                         style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
                     )
@@ -67,7 +71,7 @@ fun MenuScreen(authPresenter: AuthPresenter, sharedPresenter: SharedPresenter) {
                     IconButton(onClick = { LTNavDispatch.navigateBack() }) {
                         Icon(
                             Icons.Default.ArrowCircleLeft,
-                            contentDescription = "Back",
+                            contentDescription = null,
                             tint = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onPrimary
                         )
                     }
@@ -125,7 +129,7 @@ fun MenuScreen(authPresenter: AuthPresenter, sharedPresenter: SharedPresenter) {
                     Spacer(modifier = Modifier.weight(1f))
                     Icon(
                         Icons.Filled.ChevronRight,
-                        contentDescription = "Go to profile",
+                        contentDescription = null,
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
@@ -134,7 +138,7 @@ fun MenuScreen(authPresenter: AuthPresenter, sharedPresenter: SharedPresenter) {
             item {
                 ToggleMenuListItem(
                     color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40,
-                    toggleItem = ToggleItemData("Email Notifications", Icons.Default.Email),
+                    toggleItem = ToggleItemData(stringResource(R.string.email_notifications), Icons.Default.Email),
                     onToggle = { sharedPresenter.onEmailNotificationsUpdate() },
                     toggleState = ltSettings.value.emailNotifications
                 )
@@ -143,7 +147,7 @@ fun MenuScreen(authPresenter: AuthPresenter, sharedPresenter: SharedPresenter) {
             item {
                 ToggleMenuListItem(
                     color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40,
-                    toggleItem = ToggleItemData("In-App Animations", Icons.Default.Animation),
+                    toggleItem = ToggleItemData(stringResource(R.string.in_app_animations), Icons.Default.Animation),
                     onToggle = { sharedPresenter.onAppAnimationsUpdate() },
                     toggleState = ltSettings.value.animations
                 )
@@ -152,7 +156,7 @@ fun MenuScreen(authPresenter: AuthPresenter, sharedPresenter: SharedPresenter) {
             item {
                 ToggleMenuListItem(
                     color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40,
-                    toggleItem = ToggleItemData("Carousel Animations", Icons.Default.Animation),
+                    toggleItem = ToggleItemData(stringResource(R.string.caro_animations), Icons.Default.Animation),
                     onToggle = { sharedPresenter.onAppCarouselAnimationsUpdate() },
                     toggleState = ltSettings.value.carouselAutoRotate
                 )
@@ -161,7 +165,7 @@ fun MenuScreen(authPresenter: AuthPresenter, sharedPresenter: SharedPresenter) {
             item {
                 ToggleMenuListItem(
                     color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40,
-                    toggleItem = ToggleItemData("App Notifications", Icons.Default.Notifications),
+                    toggleItem = ToggleItemData(stringResource(R.string.app_notifications), Icons.Default.Notifications),
                     onToggle = { sharedPresenter.onUserNotificationsUpdate() },
                     toggleState = ltSettings.value.notifications
                 )
@@ -170,17 +174,31 @@ fun MenuScreen(authPresenter: AuthPresenter, sharedPresenter: SharedPresenter) {
             item {
                 ToggleMenuListItem(
                     color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40,
-                    toggleItem = ToggleItemData("Patient Data Consent", Icons.Filled.MedicalInformation),
+                    toggleItem = ToggleItemData(stringResource(R.string.pdc), Icons.Filled.MedicalInformation),
                     onToggle = { sharedPresenter.onPatientInfoConsentUpdate() },
                     toggleState = ltSettings.value.dataConsent
                 )
             }
 
-            items(sharedPresenter.menuItems) { item ->
+            item {
                 MenuListItem(
-                    onClick = { LTNavDispatch.navigate(item.route) },
+                    onClick = { LTNavDispatch.navigate("epidemic_alert") },
                     color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40,
-                    menuItemData = item,
+                    menuItemData = MenuItemData(stringResource(R.string.emergency_contact),
+                        Icons.Filled.Emergency,
+                        rightIcon = null
+                    )
+                )
+            }
+
+            item {
+                MenuListItem(
+                    onClick = { LTNavDispatch.navigate("about") },
+                    color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40,
+                    menuItemData = MenuItemData(stringResource(R.string.about_lt),
+                        Icons.Filled.Info,
+                        rightIcon = null,
+                    )
                 )
             }
         }

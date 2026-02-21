@@ -41,9 +41,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import org.lifetrack.ltapp.model.data.dclass.filterOptions
+import org.lifetrack.ltapp.R
+import org.lifetrack.ltapp.model.data.dclass.Items
 import org.lifetrack.ltapp.presenter.FUVPresenter
 import org.lifetrack.ltapp.ui.components.fuvscreen.FollowUpDetailCard
 import org.lifetrack.ltapp.ui.components.fuvscreen.HospitalVisitNode
@@ -52,9 +54,7 @@ import org.lifetrack.ltapp.ui.theme.Purple40
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FollowUpScreen(
-    fuvPresenter: FUVPresenter
-) {
+fun FollowUpScreen(fuvPresenter: FUVPresenter) {
     val history = fuvPresenter.hospitalData
     val upcoming = fuvPresenter.upcomingVisits
     val isExpanded by fuvPresenter.isUpcomingExpanded.collectAsState()
@@ -68,7 +68,7 @@ fun FollowUpScreen(
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = "Visits",
+                        text = stringResource(R.string.visits),
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
                         color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.onPrimaryContainer else Color.White
@@ -106,7 +106,7 @@ fun FollowUpScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            "Upcoming",
+                            stringResource(R.string.upcoming),
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.ExtraBold,
                             color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40
@@ -144,7 +144,7 @@ fun FollowUpScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        "History",
+                        stringResource(R.string.history),
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.ExtraBold,
                         color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.primary else Purple40
@@ -183,14 +183,14 @@ fun FollowUpScreen(
                         .padding(bottom = 32.dp)
                 ) {
                     Text(
-                        "Sort By",
+                        stringResource(R.string.sort_by),
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(bottom = 16.dp),
 //                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
 
-                    filterOptions.forEach { filter ->
+                    Items.filterOptions.forEach { filter ->
                         ListItem(
                             headlineContent = { Text(filter.displayName, fontWeight = FontWeight.SemiBold) },
                             leadingContent = {

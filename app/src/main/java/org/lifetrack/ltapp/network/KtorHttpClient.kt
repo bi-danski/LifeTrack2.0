@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import org.lifetrack.ltapp.core.exception.NoInternetException
-import org.lifetrack.ltapp.model.data.dclass.TokenPreferences
+import org.lifetrack.ltapp.model.datastore.TokenPreferences
 import org.lifetrack.ltapp.model.repository.PreferenceRepository
 
 object KtorHttpClient {

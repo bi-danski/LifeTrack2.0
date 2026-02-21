@@ -34,7 +34,7 @@ fun SectionCard(title: String, icon: ImageVector? = null, content: @Composable C
     Card(
         modifier = Modifier
             .fillMaxWidth(),
-//            .padding(10.dp),
+//            .padding(2.dp),
         colors = CardDefaults.cardColors(
             containerColor = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.surfaceContainer),
         shape = RoundedCornerShape(16.dp),

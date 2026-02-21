@@ -11,32 +11,28 @@ val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 val ShadowColor = Color(0xFF94A0AC)
-
 val GreenFulani = Color(0xFF4CAF50)
 val BusyColor = Color(0xFFF44336)
 val DisabledColor = Color(0xFF9E9E9E)
 val CardBackground = Color(0xFFF5F5F5)
 val RatingColor = Color(0xFFFFC107)
-
 val PremiumTeal = Color(0xFF26A69A)
 val PremiumGold = Color(0xFFFDD835)
 val PremiumPurple = Color(0xFFAB47BC)
 val DeepOrange = Color(0xFFFF5722)
-
 val GradientStart = Color(0xFFE0F7FA)
 val GradientEnd = Color(0xFF80DEEA)
-
 val CriticalAlert = Color(0xFFD32F2F)
 val HighAlert = Color(0xFFFFA000)
 val MediumAlert = Color(0xFFFFC107)
 val LowAlert = Color(0xFF388E3C)
-
 val HospitalBlue = Color(0xFF0077B6)
 val EmergencyRed = Color(0xFFE53935)
 //val SuccessGreen = Color(0xFF4CAF50)
 //val WarningYellow = Color(0xFFFFC107)
-
 val BlueFulani = Color(0xFF0288D1)
+val ThatOneColor = Color(0xFF6C757D)
+
 
 val LightColors = lightColorScheme(
     primary = Color(0xFF4CAF50),

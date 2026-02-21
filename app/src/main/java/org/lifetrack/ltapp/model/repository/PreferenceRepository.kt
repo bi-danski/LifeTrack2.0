@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import org.lifetrack.ltapp.model.data.dclass.AppPreferences
-import org.lifetrack.ltapp.model.data.dclass.LTPreferences
-import org.lifetrack.ltapp.model.data.dclass.TokenPreferences
-import org.lifetrack.ltapp.model.data.dclass.UserPreferences
+import org.lifetrack.ltapp.model.datastore.AppPreferences
+import org.lifetrack.ltapp.model.datastore.LTPreferences
+import org.lifetrack.ltapp.model.datastore.TokenPreferences
+import org.lifetrack.ltapp.model.datastore.UserPreferences
 import java.io.IOException
 
 class PreferenceRepository(

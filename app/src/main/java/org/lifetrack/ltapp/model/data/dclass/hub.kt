@@ -1,6 +1,5 @@
 package org.lifetrack.ltapp.model.data.dclass
 
-import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.datetime.LocalDateTime
@@ -170,14 +169,15 @@ data class LtSettings(
     val dataConsent: Boolean = false,
     val reminders: Boolean = true,
     val carouselAutoRotate: Boolean = true,
-    val preferredLanguage: String = "en"
+    val preferredLanguage: String = "en",
+    val appVersion: String = "v2.0.0"
 )
 
 data class MenuItemData(
     val title: String,
     val icon: ImageVector,
-    val route: String,
-    val rightIcon: ImageVector?,
+//    val route: String,
+    val rightIcon: ImageVector?
 )
 
 data class ToggleItemData(

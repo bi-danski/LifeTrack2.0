@@ -5,19 +5,19 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toKotlinLocalDateTime
 import org.lifetrack.ltapp.model.data.dclass.Appointment
-import org.lifetrack.ltapp.model.data.dclass.LTPreferences
 import org.lifetrack.ltapp.model.data.dclass.LoginInfo
 import org.lifetrack.ltapp.model.data.dclass.LtSettings
 import org.lifetrack.ltapp.model.data.dclass.ProfileInfo
 import org.lifetrack.ltapp.model.data.dclass.SignUpInfo
 import org.lifetrack.ltapp.model.data.dclass.UIAppointmentStatus
-import org.lifetrack.ltapp.model.data.dclass.UserPreferences
 import org.lifetrack.ltapp.model.data.dto.AppointmentStatus
 import org.lifetrack.ltapp.model.data.dto.AppointmentUpdate
 import org.lifetrack.ltapp.model.data.dto.LoginRequest
 import org.lifetrack.ltapp.model.data.dto.Message
 import org.lifetrack.ltapp.model.data.dto.SignUpRequest
 import org.lifetrack.ltapp.model.data.dto.UserDataResponse
+import org.lifetrack.ltapp.model.datastore.LTPreferences
+import org.lifetrack.ltapp.model.datastore.UserPreferences
 import org.lifetrack.ltapp.model.roomdb.MessageEntity
 import java.time.LocalDate
 import java.time.YearMonth
@@ -116,7 +116,8 @@ fun LTPreferences.toLtSettings(): LtSettings {
         dataConsent = this.userPatientDataConsentEnabled,
         reminders = this.appReminderNotificationsEnabled,
         carouselAutoRotate = this.appCarouselAutoRotationEnabled,
-        preferredLanguage = this.preferredLanguage
+        preferredLanguage = this.preferredLanguage,
+        appVersion = this.appVersion
     )
 }
 

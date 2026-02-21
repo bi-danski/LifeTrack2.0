@@ -22,8 +22,6 @@
     <string name="loading">Loading…</string>
     <string name="error">Error</string>
     <string name="success">Success</string>
-
-    <!-- Navigation -->
     <string name="home">Home</string>
     <string name="profile">Profile</string>
     <string name="menu">Menu</string>
@@ -99,4 +97,50 @@
     <string name="account_information">Account Information</string>
     <string name="lab_tests">Lab Tests</string>
     <string name="visit_history">Visit History</string>
+
+    <string name="email_notifications">Email Notifications</string>
+    <string name="in_app_animations">In-App Animations</string>
+    <string name="pdc">Patient Data Consent</string>
+    <string name="caro_animations">Carousel Animations</string>
+    <string name="app_notifications">App Notifications</string>
+    <string name="ongoing">Ongoing </string>
+    <string name="completed">Completed</string>
+    <string name="follow_up">Follow-Up </string>
+    <string name="recent_visits">Recent Visits</string>
+    <string name="oldest_first">Oldest First</string>
+    <string name="hospital_a2z">Hospital A-Z</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="attended">Attended</string>
+    <string name="recently_booked">Recently Booked</string>
+    <string name="dismissed">Dismissed</string>
+    <string name="cancelled">Cancelled</string>
+    <string name="rescheduled">Rescheduled</string>
+    <string name="about_lt">About LifeTrack</string>
+    <string name="emergency_contact">Emergency Contact</string>
+    <string name="key_features">Key Features</string>
+    <string name="med_timeline_records">Medical Timeline and Records</string>
+    <string name="med_timeline_records_desc">Organize and access your medical history with ease.</string>
+    <string name="tele_med_appointment">Tele-Medicine Appointments</string>
+    <string name="tele_med_appointment_desc" > Connect with healthcare professionals from home.</string>
+    <string name="emergency_triggers_and_alerts">Emergency Triggers And Alerts</string>
+    <string name="emergency_triggers_and_alerts_desc">"Instantly notify contacts in urgent situations."</string>
+    <string name="med_reminder">Medication Reminders</string>
+    <string name="med_reminder_desc">"Never miss a dose with customizable alerts."</string>
+    <string name="hiva">Health Insights, Visualizations and Analytics</string>
+    <string name="hiva_desc">Access real-time tailored health visualizations, statistics, insights and analytics powered by Alma.</string>
+    <string name="alma">Alma Health Assistant</string>
+    <string name="alma_desc">Versatile A.I powered health assistant.</string>
+    <string name="presc_manager">E-Prescription Manager</string>
+    <string name="presc_manager_desc">Manage all your prescriptions from your mobile.</string>
+    <string name="fuva">Medical Follow-Ups and Appointments</string>
+    <string name="fuva_desc">View and manage all medical follow ups and appointments.</string>
+    <string name="version">"Version"</string>
+    <string name="connect_with_us">Connect with us through:</string>
+    <string name="developer">Developer</string>
+    <string name="sort_by">Sort By</string>
+    <string name="visits">Visits</string>
+<!--    <string name=""></string>-->
+<!--    <string name=""></string>-->
+<!--    <string name=""></string>-->
+<!--    <string name=""></string>-->
 </resources>

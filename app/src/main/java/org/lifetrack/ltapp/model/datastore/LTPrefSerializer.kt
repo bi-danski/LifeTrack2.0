@@ -9,7 +9,6 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import org.lifetrack.ltapp.core.crypto.CryptoGCM
-import org.lifetrack.ltapp.model.data.dclass.AppPreferences
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
