@@ -45,7 +45,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.lifetrack.ltapp.R
-import org.lifetrack.ltapp.model.data.dclass.Items
 import org.lifetrack.ltapp.presenter.FUVPresenter
 import org.lifetrack.ltapp.ui.components.fuvscreen.FollowUpDetailCard
 import org.lifetrack.ltapp.ui.components.fuvscreen.HospitalVisitNode
@@ -60,6 +59,7 @@ fun FollowUpScreen(fuvPresenter: FUVPresenter) {
     val isExpanded by fuvPresenter.isUpcomingExpanded.collectAsState()
     val showSheet by fuvPresenter.showFilterSheet.collectAsState()
     val activeFilter by fuvPresenter.selectedFilter.collectAsState()
+    val filterOptions by fuvPresenter.filterOptions.collectAsState()
 
     val sheetState = rememberModalBottomSheetState()
 
@@ -190,7 +190,7 @@ fun FollowUpScreen(fuvPresenter: FUVPresenter) {
 //                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
 
-                    Items.filterOptions.forEach { filter ->
+                    filterOptions.forEach { filter ->
                         ListItem(
                             headlineContent = { Text(filter.displayName, fontWeight = FontWeight.SemiBold) },
                             leadingContent = {
