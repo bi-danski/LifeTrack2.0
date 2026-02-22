@@ -25,10 +25,18 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Decode Keystore and Setup Properties
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > app/lt-release-key.jks
+          echo "ltStoreFile=lt-release-key.jks" > keystore.properties
+          echo "ltStorePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> keystore.properties
+          echo "ltKeyAlias=${{ secrets.KEY_ALIAS }}" >> keystore.properties
+          echo "ltKeyPassword=${{ secrets.KEY_PASSWORD }}" >> keystore.properties
+
       - name: Build Release Application
-        run: ./gradlew assembleRelease --info
+        run: ./gradlew assembleRelease bundleRelease --info
         env:
-          GRADLE_OPTS: -Xmx4g -XX:MaxMetaspaceSize=512m
+          GRADLE_OPTS: -Xmx4g -XX:MaxMetaspaceSize=1g
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -36,7 +44,6 @@ jobs:
           files: |
             app/build/outputs/apk/release/*.apk
             app/build/outputs/bundle/release/*.aab
-            build/libs/*.jar
           draft: false
           prerelease: false
           generate_release_notes: true
