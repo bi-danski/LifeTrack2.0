@@ -26,9 +26,9 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build Debug Application
-        run: ./gradlew assembleDebug
+        run: ./gradlew assembleDebug --info
         env:
-          GRADLE_OPTS: -Xmx4g -XX:MaxMetaspaceSize=512m
+          GRADLE_OPTS: -Xmx4g -XX:MaxMetaspaceSize=1g
 
       - name: Create or Update GitHub Release
         uses: softprops/action-gh-release@v2

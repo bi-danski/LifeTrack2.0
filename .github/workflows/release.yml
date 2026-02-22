@@ -27,8 +27,8 @@ jobs:
 
       - name: Decode Keystore and Setup Properties
         run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > app/lt-release-key.jks
-          echo "ltStoreFile=lt-release-key.jks" > keystore.properties
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > lt-release-key.jks
+          echo "ltStoreFile=../lt-release-key.jks" > keystore.properties
           echo "ltStorePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> keystore.properties
           echo "ltKeyAlias=${{ secrets.KEY_ALIAS }}" >> keystore.properties
           echo "ltKeyPassword=${{ secrets.KEY_PASSWORD }}" >> keystore.properties
