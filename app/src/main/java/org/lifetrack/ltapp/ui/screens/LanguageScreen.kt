@@ -45,13 +45,6 @@ fun LanguageScreen(sharedPresenter: SharedPresenter) {
     val currentLanguage by sharedPresenter.ltSettings.collectAsStateWithLifecycle()
     val availableLanguages = sharedPresenter.AVAILABLE_LANGUAGES
 
-    LaunchedEffect(Unit) {
-        snackbarHostState.showSnackbar(
-            message = "Select your preferred language",
-            duration = SnackbarDuration.Short
-        )
-    }
-
     Scaffold(snackbarHost = { SnackbarHost(hostState = snackbarHostState) { data -> LTSnackbar(data) } },
         topBar = {
             TopAppBar(

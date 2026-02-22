@@ -59,10 +59,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import org.lifetrack.ltapp.R
 import org.lifetrack.ltapp.model.data.dclass.UIAppointmentStatus
 import org.lifetrack.ltapp.presenter.UserPresenter
 import org.lifetrack.ltapp.ui.components.appointscreen.AppointmentCard
@@ -89,7 +91,7 @@ fun AppointScreen(userPresenter: UserPresenter) {
             topBar = {
                 CenterAlignedTopAppBar(
                     title = {
-                        Text("Appointments", fontWeight = FontWeight.SemiBold)
+                        Text(stringResource(R.string.appointments), fontWeight = FontWeight.SemiBold)
                     },
                     navigationIcon = {
                         IconButton(onClick = { LTNavDispatch.navigateBack() }) {
@@ -112,7 +114,7 @@ fun AppointScreen(userPresenter: UserPresenter) {
                     ExtendedFloatingActionButton(
                         onClick = { isBookingExpanded.value = true },
                         icon = { Icon(Icons.Default.Add, null) },
-                        text = { Text("Book New") },
+                        text = { Text(stringResource(R.string.book_new)) },
                         containerColor = MaterialTheme.colorScheme.primary,
                         contentColor = MaterialTheme.colorScheme.onPrimary
                     )
